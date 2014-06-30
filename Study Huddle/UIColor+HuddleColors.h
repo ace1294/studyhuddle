@@ -20,6 +20,7 @@
 + (UIColor *)huddleSilver;
 + (UIColor *)huddleLightSilver;
 + (UIColor *)huddleCell;
++ (UIColor *)huddleDarkSilver;
 
 
 

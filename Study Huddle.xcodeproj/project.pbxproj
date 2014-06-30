@@ -138,8 +138,9 @@
 		96D955BF1960BBC000667581 /* SHStartUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955BE1960BBC000667581 /* SHStartUpViewController.m */; };
 		96D955C21960EAF100667581 /* ringOnline.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D955C01960EAF100667581 /* ringOnline.png */; };
 		96D955C31960EAF100667581 /* ringOnline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D955C11960EAF100667581 /* ringOnline@2x.png */; };
-		96D955C619610A9700667581 /* SHBlurViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955C519610A9700667581 /* SHBlurViewController.m */; };
 		96D955C919610B2A00667581 /* SHNewResourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955C819610B2A00667581 /* SHNewResourceViewController.m */; };
+		96D955D91961E4CB00667581 /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955D81961E4CB00667581 /* UIViewController+MJPopupViewController.m */; };
+		96D955DC1961E4E100667581 /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955DB1961E4E100667581 /* MJPopupBackgroundView.m */; };
 		96F0EDC8195BD79200B25DC1 /* cogwheel.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC7195BD79200B25DC1 /* cogwheel.png */; };
 		96F0EDCA195BD79900B25DC1 /* cogwheel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */; };
 		96F0EDDD195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */; };
@@ -351,10 +352,12 @@
 		96D955BE1960BBC000667581 /* SHStartUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHStartUpViewController.m; sourceTree = "<group>"; };
 		96D955C01960EAF100667581 /* ringOnline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ringOnline.png; sourceTree = "<group>"; };
 		96D955C11960EAF100667581 /* ringOnline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ringOnline@2x.png"; sourceTree = "<group>"; };
-		96D955C419610A9700667581 /* SHBlurViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHBlurViewController.h; sourceTree = "<group>"; };
-		96D955C519610A9700667581 /* SHBlurViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHBlurViewController.m; sourceTree = "<group>"; };
 		96D955C719610B2A00667581 /* SHNewResourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHNewResourceViewController.h; sourceTree = "<group>"; };
 		96D955C819610B2A00667581 /* SHNewResourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHNewResourceViewController.m; sourceTree = "<group>"; };
+		96D955D71961E4CB00667581 /* UIViewController+MJPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MJPopupViewController.h"; sourceTree = "<group>"; };
+		96D955D81961E4CB00667581 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
+		96D955DA1961E4E100667581 /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
+		96D955DB1961E4E100667581 /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
 		96F0EDC7195BD79200B25DC1 /* cogwheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cogwheel.png; sourceTree = "<group>"; };
 		96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cogwheel@2x.png"; sourceTree = "<group>"; };
 		96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Pods-Parse+NSCoding.xcconfig"; sourceTree = "<group>"; };
@@ -725,6 +728,7 @@
 				41AF336C194F65310008DF21 /* UIImagePickerController+Edit.m */,
 				96566E7B19451683006649C3 /* UIColor+HuddleColors.h */,
 				96566E7C19451683006649C3 /* UIColor+HuddleColors.m */,
+				96D955DD1961E4E700667581 /* Popup */,
 				96F0EDD8195C737200B25DC1 /* Parse+NSCoding */,
 			);
 			name = Categories;
@@ -906,10 +910,19 @@
 				96F429811955265000E74500 /* SHNewHuddleViewController.m */,
 				96D955C719610B2A00667581 /* SHNewResourceViewController.h */,
 				96D955C819610B2A00667581 /* SHNewResourceViewController.m */,
-				96D955C419610A9700667581 /* SHBlurViewController.h */,
-				96D955C519610A9700667581 /* SHBlurViewController.m */,
 			);
 			name = Create;
+			sourceTree = "<group>";
+		};
+		96D955DD1961E4E700667581 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				96D955DA1961E4E100667581 /* MJPopupBackgroundView.h */,
+				96D955DB1961E4E100667581 /* MJPopupBackgroundView.m */,
+				96D955D71961E4CB00667581 /* UIViewController+MJPopupViewController.h */,
+				96D955D81961E4CB00667581 /* UIViewController+MJPopupViewController.m */,
+			);
+			name = Popup;
 			sourceTree = "<group>";
 		};
 		96F0EDD7195C737200B25DC1 /* Support Files */ = {
@@ -1194,6 +1207,7 @@
 				9638161619594BF30069D477 /* SHHuddleSegmentViewController.m in Sources */,
 				96D955AA1960A0AF00667581 /* SHResourceViewController.m in Sources */,
 				41AF338919521ABD0008DF21 /* SHConstants.m in Sources */,
+				96D955DC1961E4E100667581 /* MJPopupBackgroundView.m in Sources */,
 				96368A7219452D0500E03E56 /* SHSignUpViewController.m in Sources */,
 				96F4297F1954F40A00E74500 /* SHBaseTextCell.m in Sources */,
 				96D955BF1960BBC000667581 /* SHStartUpViewController.m in Sources */,
@@ -1201,6 +1215,7 @@
 				41AF339E19521F140008DF21 /* SHHuddleCell.m in Sources */,
 				96381621195BB2BA0069D477 /* SHResourceCell.m in Sources */,
 				96CABDEC19535B4500971394 /* SHUtility.m in Sources */,
+				96D955D91961E4CB00667581 /* UIViewController+MJPopupViewController.m in Sources */,
 				41AF3350194CB1CF0008DF21 /* SHProfileHeaderViewController.m in Sources */,
 				96D9553B195C9A4B00667581 /* NSObject+Properties.m in Sources */,
 				96D955BC1960BBA800667581 /* SHVisitorProfileViewController.m in Sources */,
@@ -1209,7 +1224,6 @@
 				96F429A01956ACDC00E74500 /* SHPortraitView.m in Sources */,
 				96381626195BC5930069D477 /* SHHuddleViewController.m in Sources */,
 				96381632195BC62F0069D477 /* SHProfileSettingsController.m in Sources */,
-				96D955C619610A9700667581 /* SHBlurViewController.m in Sources */,
 				96F0EDDF195C737200B25DC1 /* Pods-Parse+NSCoding-dummy.m in Sources */,
 				41AF3377194F65FC0008DF21 /* SHProfilePortraitViewToBeDeleted.m in Sources */,
 			);

@@ -22,6 +22,9 @@
 #import "SHUtility.h"
 #import "SHStudentSearchViewController.h"
 #import "SHCategoryCell.h"
+#import "SHNewResourceViewController.h"
+#import "UIViewController+MJPopupViewController.h"
+
 
 @interface SHHuddleSegmentViewController () <SHBaseCellDelegate, SHAddCellDelegate, UINavigationControllerDelegate>
 
@@ -392,9 +395,15 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
     }
     
-    else if ([cell.typeIdentifier isEqual:SHResourceCellIdentifier] ) {
+    else if ([cell.typeIdentifier isEqual:SHCategoryCellIdentifier] ) {
         
         
+        SHNewResourceViewController *newResourceVC = [[SHNewResourceViewController alloc] init];
+        //newResourceVC.view.frame = CGRectMake(50.0, 0.0, 280, 245 + (([self.categoryDataArray count]+1)*35.0));
+        
+        [self presentPopupViewController:newResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
+        
+
     }
     
     
