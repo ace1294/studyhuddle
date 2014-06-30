@@ -1,18 +1,18 @@
 //
-//  SHProfileSegmentViewController.m
+//  SHResourceViewController.m
 //  Study Huddle
 //
-//  Created by Jason Dimitriou on 6/26/14.
+//  Created by Jason Dimitriou on 6/29/14.
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHProfileSegmentViewController.h"
+#import "SHResourceViewController.h"
 
-@interface SHProfileSegmentViewController ()
+@interface SHResourceViewController ()
 
 @end
 
-@implementation SHProfileSegmentViewController
+@implementation SHResourceViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

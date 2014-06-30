@@ -11,7 +11,10 @@
 #import "SHSignUpViewController.h"
 #import "SHProfileHeaderViewController.h"
 #import "SHAppDelegate.h"
+#import "UIColor+HuddleColors.h"
 
+#define logoWidth 200
+#define logoHeight 100
 
 @interface SHStartUpViewController ()
 
@@ -39,6 +42,19 @@
 {
     [super viewDidLoad];
     
+    //set up the background
+    //Background
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"MainBG.png"]]];
+    UIImageView* logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
+    [logo setFrame:CGRectMake(self.view.frame.size.width/2-logoWidth/2 , self.view.frame.size.height/2 - logoHeight/2, logoWidth, logoHeight)];
+    [self.view addSubview:logo];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]
+                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = CGPointMake(160, 240);
+    spinner.hidesWhenStopped = YES;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
     
 }
 

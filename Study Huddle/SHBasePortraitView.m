@@ -6,20 +6,20 @@
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHCreateHuddlePortraitView.h"
-#import "SHCreateHuddlePortraitViewController.h"
+#import "SHBasePortraitView.h"
+#import "SHBasePortraitViewController.h"
 #import "Student.h"
 
 #define imageScale 0.95
 
 
-@interface SHCreateHuddlePortraitView()
+@interface SHBasePortraitView()
 
 @property (nonatomic, strong) UIImageView *borderImageview;
 
 @end
 
-@implementation SHCreateHuddlePortraitView
+@implementation SHBasePortraitView
 
 
 - (id)initWithFrame:(CGRect)frame
@@ -31,7 +31,7 @@
     
    
     //set up the controller that will handle the stuff
-    SHCreateHuddlePortraitViewController *controller =[[SHCreateHuddlePortraitViewController alloc]init];
+    SHBasePortraitViewController *controller =[[SHBasePortraitViewController alloc]init];
     controller.portraitView = self;
     self.delegate = controller;
     

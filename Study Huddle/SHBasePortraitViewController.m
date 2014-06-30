@@ -6,12 +6,7 @@
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHCreateHuddlePortraitViewController.h"
-
-
-
-#import "SHPortraitViewBaseViewController.h"
-#import "SHPortraitViewBase.h"
+#import "SHBasePortraitViewController.h"
 #import "Student.h"
 #import "DZNPhotoPickerController.h"
 #import "UIImagePickerControllerExtended.h"
@@ -19,14 +14,14 @@
 #import "UIColor+HuddleColors.h"
 #import "SHUtility.h"
 
-@interface SHCreateHuddlePortraitViewController () <UIActionSheetDelegate, UINavigationControllerDelegate, UIPopoverControllerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate>
+@interface SHBasePortraitViewController () 
 
 
-@property UIImageView* imageView;
+
 
 @end
 
-@implementation SHCreateHuddlePortraitViewController
+@implementation SHBasePortraitViewController
 
 @synthesize imageView;
 
@@ -95,18 +90,7 @@
     [self.portraitView.owner presentViewController:picker animated:YES completion:NULL];
 }
 
--(void)takePictureAndPutInX:(UIImageView*)imageView
-{
-    
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.delegate = self;
-    picker.allowsEditing = YES;
-    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-    [self presentViewController:picker animated:YES completion:NULL];
-    NSLog(@"FINISHED TAKING PHOTO");
 
-}
 
 - (void)handleImagePicker:(UIImagePickerController *)picker withMediaInfo:(NSDictionary *)info
 {

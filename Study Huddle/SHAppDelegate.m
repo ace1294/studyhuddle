@@ -11,10 +11,10 @@
 #import "SHStartUpViewController.h"
 #import "Student.h"
 #import "UIColor+HuddleColors.h"
-#import "SHProfileViewController.h"
+#import "SHVisitorProfileViewController.h"
 #import "SHLoginViewController.h"
 #import "SHConstants.h"
-
+#import "SHProfileViewController.h"
 
 
 @interface SHAppDelegate()
@@ -146,7 +146,7 @@
 
 -(void)instantiateViews
 {
-    
+
     //profile
     self.profileController = [[SHProfileViewController alloc]init];
     self.profileNavigator = [[UINavigationController alloc] initWithRootViewController:self.profileController];
@@ -160,12 +160,19 @@
     [huddleQuery whereKey:@"huddleName" equalTo:@"King Slayers"];
     huddleObject = [[huddleQuery findObjects] objectAtIndex:0];
     
+    //for testing class page
+    PFQuery* classQuery = [PFQuery queryWithClassName:SHClassParseClass];
+    [classQuery whereKey:@"classShortName" equalTo:@"SPA 601"];
+    PFObject* classObject = [[classQuery findObjects]objectAtIndex:0];
+    
 
     
     self.searchController = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleObject]; //temporary for testing purposes
     self.searchNavigator = [[UINavigationController alloc] initWithRootViewController:self.searchController];
     self.searchNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.searchNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
+    
     
     //huddles
     self.huddlesController = [[SHHuddleViewController alloc]init];
@@ -174,7 +181,7 @@
     [self.huddlesNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
     //notification
-    self.notificationController = [[SHProfileViewController alloc]init];
+    self.notificationController = [[SHClassPageViewController alloc]initWithClass: classObject]; //temporary for testing
     self.notificationNavigator = [[UINavigationController alloc] initWithRootViewController:self.notificationController];
     self.notificationNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.notificationNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];

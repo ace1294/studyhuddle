@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SHCreateHuddlePortraitView : UIView
+@interface SHBasePortraitView : UIView
 
 @property (nonatomic, strong) id delegate;
 @property (nonatomic, strong) UIButton *profileButton;
 @property (nonatomic, strong) UIImageView *huddleImageView;
-@property (nonatomic, strong) UIViewController *owner;
+@property (nonatomic, strong) id owner;
 @property NSString* defaultImageName;
 
 - (void)didTapProfileButtonAction:(id)sender;

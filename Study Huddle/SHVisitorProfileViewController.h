@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "SHVisitorProfileSegmentViewController.h"
-#import "SHProfileHeaderViewController.h"
 #import "SHProfilePortraitView.h"
+#import "Student.h"
 
 @class Student;
 
-@interface SHProfileViewController : UIViewController
+@interface SHVisitorProfileViewController : UIViewController
 @property (strong,nonatomic) SHProfilePortraitView* profileImage;
 
 

@@ -10,7 +10,8 @@
 #import "SHProfileSettingsController.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
-#import "SHProfileSegmentViewController.h"
+#import "SHVisitorProfileViewController.h"
+#import "SHVisitorProfileSegmentViewController.h"
 
 
 #define profileImageWidth 100
@@ -44,10 +45,10 @@
 #define sideItemsFont [UIFont systemFontOfSize:7]
 
 
-@interface SHProfileViewController () <UIScrollViewDelegate>
+@interface SHVisitorProfileViewController () <UIScrollViewDelegate>
 
 
-@property (strong, nonatomic) SHProfileSegmentViewController *segmentController;
+@property (strong, nonatomic) SHVisitorProfileSegmentViewController *segmentController;
 @property UIView *segmentContainer;
 @property UIScrollView* scrollView;
 
@@ -55,19 +56,18 @@
 
 @property (nonatomic, strong) UILabel* fullNameLabel;
 @property (nonatomic, strong) UILabel* majorLabel;
-@property (nonatomic, strong) UILabel* hoursStudiedLabel;
 @property (nonatomic, strong) UILabel* collegeLabel;
-@property (nonatomic,strong) UILabel* startStudyingLabel;
+@property (nonatomic,strong) UILabel* inviteToStudyLabel;
 
-@property (nonatomic,strong) UIButton* startStudyingButton;
-@property BOOL isStudying;
+@property (nonatomic,strong) UIButton* inviteToStudyButton;
+@property (nonatomic,strong) UIButton* inviteToHuddleButton;
 
-@property (nonatomic,strong) NSDate* lastStart;
+
 
 
 @end
 
-@implementation SHProfileViewController
+@implementation SHVisitorProfileViewController
 
 
 - (id)init
@@ -109,8 +109,8 @@
 {
     [super viewDidLoad];
     
-
-   
+    
+    
     
     //important coordinates
     float centerX = self.view.bounds.origin.x + self.view.bounds.size.width/2;
@@ -123,7 +123,7 @@
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
     
- 
+    
     
     
     //set up portrait view
@@ -151,39 +151,32 @@
     float leftMidPoint = leftPictureEdge/2-sideItemDiameters/2;
     float rightMidPoint = rightPictureEdge + leftMidPoint;
     float midYPoint = profileFrame.origin.y + profileFrame.size.height/2 - sideItemDiameters/2;
-    self.startStudyingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.startStudyingButton addTarget:self action:@selector(setStudy) forControlEvents:UIControlEventTouchUpInside];
-    [self.startStudyingButton setFrame:CGRectMake(leftMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
-    [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
-   //[self.startStudyingButton setBackgroundColor:[UIColor yellowColor]];
-    self.startStudyingLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.startStudyingButton.frame.origin.x + self.startStudyingButton.frame.size.width/2 - sideLabelsWidth/2, self.startStudyingButton.frame.origin.y + self.startStudyingButton.frame.size.height + sideItemLabelsVerticalOffsetFromCircle, sideLabelsWidth, sideLabelHeight)];
-    self.startStudyingLabel.text = @"START STUDYING";
-    [self.startStudyingLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.startStudyingLabel setFont:sideItemsFont];
-   // [self.startStudyingLabel setBackgroundColor:[UIColor redColor]];
-    [self.view addSubview:self.startStudyingLabel];
+    //invite to study button setup
+    self.inviteToStudyButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.inviteToStudyButton addTarget:self action:@selector(inviteToStudyPressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.inviteToStudyButton setFrame:CGRectMake(leftMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
+    [self.inviteToStudyButton setImage:[UIImage imageNamed:@"inviteToStudy.png"] forState:UIControlStateNormal];
+    //[self.startStudyingButton setBackgroundColor:[UIColor yellowColor]];
+    self.inviteToStudyLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.inviteToStudyButton.frame.origin.x + self.inviteToStudyButton.frame.size.width/2 - sideLabelsWidth/2, self.inviteToStudyButton.frame.origin.y + self.inviteToStudyButton.frame.size.height + sideItemLabelsVerticalOffsetFromCircle, sideLabelsWidth, sideLabelHeight)];
+    self.inviteToStudyLabel.text = @"INVITE TO STUDY";
+    [self.inviteToStudyLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.inviteToStudyLabel setFont:sideItemsFont];
+    // [self.startStudyingLabel setBackgroundColor:[UIColor redColor]];
+    [self.view addSubview:self.inviteToStudyLabel];
+    //invite to Huddle button setup
+    self.inviteToHuddleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.inviteToHuddleButton addTarget:self action:@selector(inviteToHuddlePressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.inviteToHuddleButton setFrame:CGRectMake(rightMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
+    [self.inviteToHuddleButton setImage:[UIImage imageNamed:@"inviteToHuddle.png"] forState:UIControlStateNormal];
 
     
-    UIImageView* hoursStudiedCircle = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"hoursStudying.png"]];
-    [hoursStudiedCircle setFrame:CGRectMake(rightMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
-    [self.view addSubview:hoursStudiedCircle];
-    
-    //a label to display the #hours studied
-    self.hoursStudiedLabel = [[UILabel alloc]initWithFrame:CGRectMake(hoursStudiedCircle.frame.origin.x + hoursStudiedCircle.frame.size.width/2 - hoursStudiedLabelWidth/2, hoursStudiedCircle.frame.origin.y + hoursStudiedCircle.frame.size.height/2 - hoursStudiedLabelHeight/2, hoursStudiedLabelWidth, hoursStudiedLabelHeight)];
-    double secondsStudied = [self.profStudent.hoursStudied doubleValue];
-    int hoursStudied = secondsStudied/3600;
-    self.hoursStudiedLabel.text = [NSString stringWithFormat:@"%d",hoursStudied];
-    [self.hoursStudiedLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.hoursStudiedLabel setTextColor:[UIColor grayColor]];
-    [self.view addSubview:self.hoursStudiedLabel];
-    
-    UILabel* hoursStudiedBelowLabel =[[UILabel alloc]initWithFrame:CGRectMake(hoursStudiedCircle.frame.origin.x+ hoursStudiedCircle.frame.size.width/2 - sideLabelsWidth/2, hoursStudiedCircle.frame.origin.y + hoursStudiedCircle.frame.size.height + sideItemLabelsVerticalOffsetFromCircle, sideLabelsWidth, sideLabelHeight)];
-    hoursStudiedBelowLabel.text = @"HOURS STUDIED";
-    [hoursStudiedBelowLabel setTextAlignment:NSTextAlignmentCenter];
-    [hoursStudiedBelowLabel setFont:sideItemsFont];
+    UILabel* inviteToHuddleLabel =[[UILabel alloc]initWithFrame:CGRectMake(self.inviteToHuddleButton.frame.origin.x+ self.inviteToHuddleButton.frame.size.width/2 - sideLabelsWidth/2, self.inviteToHuddleButton.frame.origin.y + self.inviteToHuddleButton.frame.size.height + sideItemLabelsVerticalOffsetFromCircle, sideLabelsWidth, sideLabelHeight)];
+    inviteToHuddleLabel.text = @"INVITE TO HUDDLE";
+    [inviteToHuddleLabel setTextAlignment:NSTextAlignmentCenter];
+    [inviteToHuddleLabel setFont:sideItemsFont];
     //[self.startStudyingLabel setBackgroundColor:[UIColor redColor]];
-    [self.view addSubview:hoursStudiedBelowLabel];
-
+    [self.view addSubview:inviteToHuddleLabel];
+    
     
     //set up scroll view
     CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, self.view.bounds.size.height-self.navigationController.navigationBar.frame.size.height);
@@ -201,7 +194,7 @@
     //set up segmented view
     self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.scrollView.bounds.origin.y + topPartSize, self.view.frame.size.width, self.view.frame.size.height*10)];
     self.segmentContainer.backgroundColor = [UIColor clearColor];
-    self.segmentController = [[SHProfileSegmentViewController alloc]initWithStudent:(Student *)self.profStudent];
+    self.segmentController = [[SHVisitorProfileSegmentViewController alloc]initWithStudent:(Student *)self.profStudent];
     
     [self addChildViewController:self.segmentController];
     self.segmentController.view.frame = self.segmentContainer.bounds;
@@ -211,55 +204,35 @@
     self.segmentController.owner = self;
     [self.scrollView addSubview:self.segmentContainer];
     self.segmentController.parentScrollView = self.scrollView;
-
+    
     
     self.profileImage = [[SHProfilePortraitView alloc]initWithFrame:profileFrame];
     self.profileImage.owner = self;
+    self.profileImage.isClickable = NO;
     [self.profileImage setStudent:self.profStudent];
     
-    //add it in the right order
-    //[self.view addSubview:extendedBG];
-    
+ 
     
     [self.view addSubview:self.scrollView];
     [self.view addSubview:self.profileImage];
-    [self.view addSubview:self.startStudyingButton];
+    [self.view addSubview:self.inviteToHuddleButton];
+    [self.view addSubview:self.inviteToStudyButton];
+
     
-    //get the last study date
-    self.lastStart = self.profStudent[@"lastStart"];
-    
-    
-  
-    
-    //set timer
-    [NSTimer scheduledTimerWithTimeInterval:60
-                                     target:self
-                                   selector:@selector(updateHoursStudied)
-                                   userInfo:nil
-                                    repeats:YES];
-    
+
     
 }
 
--(void)updateHoursStudied
+-(void)inviteToStudyPressed
 {
-
-    NSDate* date = [NSDate date];
-    NSTimeInterval diff = [date timeIntervalSinceDate:self.lastStart];
-    if(self.isStudying)
-    {
-        self.lastStart = date;
-        NSString* hoursPrevStudied = self.profStudent.hoursStudied;
-        double previousTimeStudied = [hoursPrevStudied doubleValue];
-        double secondsStudied = diff + previousTimeStudied;
-        int hoursStudied = secondsStudied/3600;
-        self.hoursStudiedLabel.text = [NSString stringWithFormat:@"%d",hoursStudied];
-
-        self.profStudent.hoursStudied = [NSString stringWithFormat:@"%f",(diff+previousTimeStudied)];
-        [self.profStudent saveInBackground];
-    }
-    
+    NSLog(@"inviteToStudyPressed");
 }
+
+-(void)inviteToHuddlePressed
+{
+    NSLog(@"inviteToHuddlePressed");
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -267,50 +240,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self setNavigationBarItems];
-    self.isStudying = [self.profStudent[@"isStudying"] boolValue];
-    //update the studying button
-    if(self.isStudying)
-    {
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
-        [self.startStudyingLabel setTextColor:[UIColor redColor]];
-        self.startStudyingLabel.text = @"STOP STUDYING";
-    }
-    else
-    {
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
-        [self.startStudyingLabel setTextColor:[UIColor greenColor]];
-        self.startStudyingLabel.text = @"START STUDYING";
-    }
-}
-
--(void)setStudy
-{
-    if(self.isStudying)
-    {
-        //the user will stop their studying session
-        self.profStudent[@"isStudying"] = [NSNumber numberWithBool:NO];
-        self.isStudying =   NO;
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
-        [self.startStudyingLabel setTextColor:[UIColor greenColor]];
-        self.startStudyingLabel.text = @"START STUDYING";
-    }
-    else
-    {
-        //the user will start studying
-        self.lastStart = [NSDate date];
-        self.profStudent[@"lastStudyDate"] = self.lastStart;
-        self.profStudent[@"isStudying"] =[NSNumber numberWithBool:YES];
-        self.isStudying = YES;
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
-        [self.startStudyingLabel setTextColor:[UIColor redColor]];
-         self.startStudyingLabel.text = @"STOP STUDYING";
-    }
-    
-    [self.profStudent saveInBackground];
-}
 
 
 
@@ -324,12 +253,13 @@
     if(scrollView.contentOffset.y>distanceFromBottomToPortrait)
     {
         [self.view bringSubviewToFront:self.scrollView];
-       
+        
     }
     else
     {
         [self.view bringSubviewToFront:self.profileImage];
-        [self.view bringSubviewToFront:self.startStudyingButton];
+        [self.view bringSubviewToFront:self.inviteToStudyButton];
+        [self.view bringSubviewToFront:self.inviteToHuddleButton];
     }
     
     
@@ -347,24 +277,11 @@
         NSLog(@"it moved down!!");
         //[self.segmentController loadStudentData];
     }
-
-}
-
--(void) settingsPressed
-{
-    SHProfileSettingsController* settingsController = [[SHProfileSettingsController alloc]init];
-    [self.navigationController pushViewController:settingsController animated:YES];
-}
-
--(void)setNavigationBarItems
-{
-
-    UIImage* cogWheelImg = [UIImage imageNamed:@"cogwheel.png"];
-    UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc]initWithImage:cogWheelImg landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(settingsPressed)];
-    settingsButton.tintColor = [UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem = settingsButton;
     
 }
+
+
+
 
 
 

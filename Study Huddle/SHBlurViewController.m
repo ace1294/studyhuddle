@@ -1,18 +1,18 @@
 //
-//  SHProfileSegmentViewController.m
+//  SHBlurViewController.m
 //  Study Huddle
 //
-//  Created by Jason Dimitriou on 6/26/14.
+//  Created by Jason Dimitriou on 6/29/14.
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHProfileSegmentViewController.h"
+#import "SHBlurViewController.h"
 
-@interface SHProfileSegmentViewController ()
+@interface SHBlurViewController ()
 
 @end
 
-@implementation SHProfileSegmentViewController
+@implementation SHBlurViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
