@@ -7,14 +7,14 @@
 //
 
 #import "SHNewHuddleViewController.h"
-#import "SHProfilePortraitView.h"
+#import "SHProfilePortraitViewToBeDeleted.h"
 #import "UIColor+HuddleColors.h"
 #import "UITextField+Extend.h"
 #import "SHStudentSearchViewController.h"
 #import "SHConstants.h"
 #import "SHStudentCell.h"
 #import <QuartzCore/QuartzCore.h>
-#import "SHCreateHuddlePortraitView.h"
+#import "SHBasePortraitView.h"
 
 
 
@@ -27,7 +27,7 @@
 @property (strong, nonatomic) NSMutableDictionary *classObjects; //Class Objects, Class Name Keys
 
 //New Huddle properties
-@property (strong, nonatomic) SHCreateHuddlePortraitView *huddlePortrait;
+@property (strong, nonatomic) SHBasePortraitView *huddlePortrait;
 @property (nonatomic, strong) NSString* className;
 @property (strong, nonatomic) NSMutableArray *huddleMembers;
 @property (strong, nonatomic) UITextField *huddleName;
@@ -93,7 +93,7 @@
         //Huddle Image
         float centerX = self.view.bounds.origin.x + self.view.bounds.size.width/2;
         
-        self.huddlePortrait = [[SHCreateHuddlePortraitView alloc]initWithFrame:CGRectMake(centerX-(portraitDim/2), portraitY, portraitDim, portraitDim)];
+        self.huddlePortrait = [[SHBasePortraitView alloc]initWithFrame:CGRectMake(centerX-(portraitDim/2), portraitY, portraitDim, portraitDim)];
         [self.huddlePortrait setBackgroundColor:[UIColor clearColor]];
         [self.huddlePortrait setOpaque:YES];
         self.huddlePortrait.owner = self;
@@ -276,14 +276,7 @@
     }
 }
 
-- (void)didTapSearchClass:(id)sender
-{
-    NSLog(@"SEARCH TAPPED");
-    
-    //SHSearchViewController *search = [[SHSearchViewController alloc] init];
-    
-    //[self.navigationController pushViewController:search animated:YES];
-}
+
 
 #pragma mark - UITextField Delegate Methods
 
@@ -319,6 +312,8 @@
     if (indexPath.row == 0)
     {
         self.searchVC = [[SHStudentSearchViewController alloc]init];
+        self.searchVC.type = @"NewHuddle";
+        
         self.searchVC.navigationController.delegate = self;
         [self.navigationController pushViewController:self.searchVC animated:YES];
     }
@@ -387,6 +382,8 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
+    NSLog(@"HEREREREREEE");
+    
     if(self.searchVC.addedMember)
     {
         [self.navigationController.navigationBar setHidden:NO];

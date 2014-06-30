@@ -52,6 +52,8 @@
 
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+    
     CGSize titleSize = [self.titleButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
                                                                       options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
                                                                    attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:16]}
@@ -75,7 +77,7 @@
     NSDictionary *arialDict = [NSDictionary dictionaryWithObject: [UIFont fontWithName:@"Arial" size:12] forKey:NSFontAttributeName];
     NSDictionary *arialBoldDict = [NSDictionary dictionaryWithObject:[UIFont fontWithName:@"Arial-BoldMT" size:12] forKey:NSFontAttributeName];
     
-    NSMutableAttributedString *classesString = [SHUtility listOfClasses:[aStudy relationForKey:SHStudyClassesKey] attributes:arialBoldDict];
+    NSMutableAttributedString *classesString = [SHUtility listOfClasses:[aStudy objectForKey:SHStudyClassesKey] attributes:arialBoldDict];
     [self.titleButton setAttributedTitle:classesString forState:UIControlStateNormal];
     
     NSDate *studyDate = [aStudy objectForKey:SHStudyDateKey];

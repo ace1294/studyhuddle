@@ -8,7 +8,7 @@
 
 #import "SHPortraitViewBase.h"
 
-@interface SHProfilePortraitView : SHPortraitViewBase
+@interface SHProfilePortraitViewToBeDeleted : SHPortraitViewBase
 
 
 @end

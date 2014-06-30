@@ -89,7 +89,7 @@
     UIImage* defaultImage = [UIImage imageNamed:@"placeholderProfPic.png"];
     
     
-    self.profileImage = [[SHProfilePortraitView alloc]initWithImage:defaultImage andFrame:CGRectMake(centerX - profileImageWidth/2 , profileImageVerticalOffsetFromTop, profileImageWidth, profileImageHeight)  ];
+    self.profileImage = [[SHProfilePortraitViewToBeDeleted alloc]initWithImage:defaultImage andFrame:CGRectMake(centerX - profileImageWidth/2 , profileImageVerticalOffsetFromTop, profileImageWidth, profileImageHeight)  ];
     
    // self.profileImage = [[SHPageImageView alloc]initWithFrame:CGRectMake(centerX - profileImageWidth/2 , profileImageVerticalOffsetFromTop, profileImageWidth, profileImageHeight)];
     self.profileImage.owner = self;

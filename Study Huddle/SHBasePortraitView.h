@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIImageView *huddleImageView;
 @property (nonatomic, strong) id owner;
 @property NSString* defaultImageName;
+@property BOOL isClickable;
 
 - (void)didTapProfileButtonAction:(id)sender;
 

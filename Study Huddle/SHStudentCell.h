@@ -16,6 +16,7 @@
 @property (nonatomic, strong) id delegate;
 @property (nonatomic, strong) PFObject *student;
 - (void)setStudent:(PFObject *)aStudent;
+- (void)setOnline;
 
 @end
 

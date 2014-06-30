@@ -45,6 +45,11 @@
     [self.profileButton setHidden:TRUE];
 }
 
+- (void)setGreen
+{
+    self.borderImageview.image = [UIImage imageNamed:@"ringOnline.png"];
+}
+
 #pragma mark - UIView
 
 - (void)layoutSubviews {

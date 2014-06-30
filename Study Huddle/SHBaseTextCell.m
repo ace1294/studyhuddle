@@ -8,12 +8,11 @@
 
 #import "SHBaseTextCell.h"
 #import "UIColor+HuddleColors.h"
+#import "SHConstants.h"
 
 @interface SHBaseTextCell ()
 
 
-
-- (void)didTapTitleButtonAction:(id)sender;
 
 @end
 
@@ -49,6 +48,13 @@
         [self.titleButton addTarget:self action:@selector(didTapTitleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.mainView addSubview:self.titleButton];
         
+        self.arrowButton = [[UIButton alloc]init];
+        [self.arrowButton setImage:[UIImage imageNamed:@"Right_Pointing_Arrow@2x.png"] forState:UIControlStateNormal];
+        [self.arrowButton setImage:[UIImage imageNamed:@"Right_Pointing_Arrow@2x.png"] forState:UIControlStateHighlighted];
+        [self.arrowButton setBackgroundColor:[UIColor clearColor]];
+        //[arrowButton addTarget:self action:@selector(didTapArrowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.mainView addSubview:self.arrowButton];
+        
         [self.mainView setBackgroundColor:[UIColor huddleCell]];
         [self.contentView addSubview:self.mainView];
     }
@@ -63,6 +69,8 @@
     
     
     [self.titleButton setFrame:CGRectMake(10.0, 10.0, 200.0, 40.0)];
+
+    [self.arrowButton setFrame:CGRectMake(arrowX, arrowY, arrowDimX, arrowDimY)];
 }
 
 - (void)didTapTitleButtonAction:(id)sender

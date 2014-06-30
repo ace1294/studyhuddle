@@ -16,7 +16,6 @@
 @property (nonatomic, strong) UILabel *teacherNameLabel;
 @property (nonatomic, strong) UILabel *teacherEmailLabel;
 @property (nonatomic, strong) UILabel *classRoomLabel;
-@property (nonatomic, strong) UIButton *arrowButton;
 
 - (void)didTapArrowButtonAction:(id)sender;
 
@@ -61,12 +60,7 @@
         [self.classRoomLabel setText:@"GDC 4.302"];
         [self.mainView addSubview:self.classRoomLabel];
         
-        self.arrowButton = [[UIButton alloc]init];
-        [self.arrowButton setImage:[UIImage imageNamed:@"Right_Pointing_Arrow@2x.png"] forState:UIControlStateNormal];
-        [self.arrowButton setImage:[UIImage imageNamed:@"Right_Pointing_Arrow@2x.png"] forState:UIControlStateHighlighted];
-        [self.arrowButton setBackgroundColor:[UIColor clearColor]];
-        //[arrowButton addTarget:self action:@selector(didTapArrowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.mainView addSubview:self.arrowButton];
+
         
         [self.contentView addSubview:self.mainView];
     }
@@ -96,7 +90,7 @@
 
     [self.teacherEmailLabel setFrame:CGRectMake(classTitleX, self.teacherNameLabel.frame.origin.y + self.teacherNameLabel.frame.size.height + vertElemSpacing, 2*labelSize.width, labelSize.height*1.1)];
     
-    [self.arrowButton setFrame:CGRectMake(arrowX, arrowY, arrowDimX, arrowDimY)];
+
     
     
 }

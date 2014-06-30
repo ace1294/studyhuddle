@@ -7,7 +7,16 @@
 //
 
 #import "SHBaseTextCell.h"
+#import <Parse/Parse.h>
 
 @interface SHCategoryCell : SHBaseTextCell
 
+@property  (strong, nonatomic) NSString *category;
+
+- (void)setCategory:(NSString *)aCategory withHuddle:(PFObject *)huddle;
+
 @end
+
+
+#define categoryTitleX titleX
+#define categoryTitleY titleY

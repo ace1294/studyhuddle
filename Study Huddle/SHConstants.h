@@ -14,7 +14,7 @@ extern NSString *const SHHSRequestParseClass;
 extern NSString *const SHSHRequestParseClass;
 extern NSString *const SHSSRequestParseClass;
 extern NSString *const SHStudyParseClass;
-extern NSString *const SHResourcesParseClass;
+extern NSString *const SHResourceParseClass;
 
 
 //Cells
@@ -25,6 +25,7 @@ extern NSString *const SHStudyCellIdentifier;
 extern NSString *const SHAddCellIdentifier;
 extern NSString *const SHStudentCellIdentifier;
 extern NSString *const SHResourceCellIdentifier;
+extern NSString *const SHCategoryCellIdentifier;
 
 //Class
 extern NSString *const SHClassFullNameKey;
@@ -33,6 +34,8 @@ extern NSString *const SHClassTeacherKey;
 extern NSString *const SHClassEmailKey;
 extern NSString *const SHClassRoomKey;
 extern NSString *const SHClassUniqueName;
+extern NSString *const SHClassStudentsKey;
+extern NSString *const SHClassHuddlesKey;
 
 //Huddle
 extern NSString *const SHHuddleNameKey;
@@ -42,6 +45,8 @@ extern NSString *const SHHuddleStatusKey;
 extern NSString *const SHHuddleUniqueName;
 extern NSString *const SHHuddleStudyKey;
 extern NSString *const SHHuddleResourcesKey;
+extern NSString *const SHHuddleImageKey;
+extern NSString *const SHHuddleStudyingKey;
 
 //Student
 extern NSString *const SHStudentNameKey;
@@ -51,6 +56,8 @@ extern NSString *const SHStudentImageKey;
 extern NSString *const SHStudentLowerNameKey;
 extern NSString *const SHStudentHuddlesKey;
 extern NSString *const SHStudentStudyKey;
+extern NSString *const SHStudentStudyingKey;
+extern NSString *const SHStudentOnlineFriendsKey;
 
 //Study
 extern NSString *const SHStudyClassesKey;
@@ -58,9 +65,10 @@ extern NSString *const SHStudyDateKey;
 extern NSString *const SHStudyUniqueName;
 
 //Resources
-extern NSString *const SHRequestOwnerKey;
-extern NSString *const SHRequestNameKey;
-extern NSString *const SHRequestCategoryImageKey;
+extern NSString *const SHResourceOwnerKey;
+extern NSString *const SHResourceCreatorKey;
+extern NSString *const SHResourceNameKey;
+extern NSString *const SHResourceCategoryKey;
 
 
 

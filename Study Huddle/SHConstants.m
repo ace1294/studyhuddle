@@ -18,7 +18,7 @@ NSString *const SHHSRequestParseClass = @"HSRequests";
 NSString *const SHSHRequestParseClass = @"SHRequests";
 NSString *const SHSSRequestParseClass = @"SSRequests";
 NSString *const SHStudyParseClass = @"Study";
-NSString *const SHResourcesParseClass = @"Resources";
+NSString *const SHResourceParseClass = @"Resources";
 
 //Cells
 NSString *const SHHuddleCellIdentifier = @"HuddleCell";
@@ -28,6 +28,7 @@ NSString *const SHStudyCellIdentifier = @"StudyCell";
 NSString *const SHAddCellIdentifier = @"AddCell";
 NSString *const SHStudentCellIdentifier = @"StudentCell";
 NSString *const SHResourceCellIdentifier = @"ResourceCell";
+NSString *const SHCategoryCellIdentifier = @"CategoryCell";
 
 
 
@@ -38,7 +39,8 @@ NSString *const SHClassTeacherKey = @"teacherName";
 NSString *const SHClassEmailKey = @"teacherEmail";
 NSString *const SHClassRoomKey = @"classRoom";
 NSString *const SHClassUniqueName = @"uniqueName";
-
+NSString *const SHClassStudentsKey = @"students";
+NSString *const SHClassHuddlesKey = @"huddles";
 
 //Huddle
 NSString *const SHHuddleNameKey = @"huddleName";
@@ -48,6 +50,8 @@ NSString *const SHHuddleStatusKey = @"huddleStatus";
 NSString *const SHHuddleUniqueName = @"uniqueName";
 NSString *const SHHuddleStudyKey = @"study";
 NSString *const SHHuddleResourcesKey = @"resources";
+NSString *const SHHuddleImageKey = @"huddleImage";
+NSString *const SHHuddleStudyingKey = @"isStudying";
 
 //Student
 NSString *const SHStudentNameKey = @"fullName";
@@ -57,6 +61,8 @@ NSString *const SHStudentImageKey = @"userImage";
 NSString *const SHStudentLowerNameKey = @"lowerName";
 NSString *const SHStudentHuddlesKey = @"huddles";
 NSString *const SHStudentStudyKey = @"study";
+NSString *const SHStudentOnlineFriendsKey = @"online";
+NSString *const SHStudentStudyingKey = @"isStudying";
 
 //Study
 NSString *const SHStudyClassesKey = @"classes";
@@ -64,6 +70,8 @@ NSString *const SHStudyDateKey = @"date";
 NSString *const SHStudyUniqueName  = @"uniqueName";
 
 //Resources
-NSString *const SHRequestOwnerKey = @"owner";
-NSString *const SHRequestNameKey = @"name";
-NSString *const SHRequestCategoryImageKey = @"categoryImage";
+NSString *const SHResourceOwnerKey = @"owner";
+NSString *const SHResourceCreatorKey = @"creater";
+NSString *const SHResourceNameKey = @"name";
+NSString *const SHResourceCategoryKey = @"category";
+

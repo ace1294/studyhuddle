@@ -18,5 +18,5 @@
 
 @end
 
-#define resourceTitleX cellPortraitX+cellPortraitDim+horiElemSpacing
+#define resourceTitleX titleX
 #define resourceTitleY titleY

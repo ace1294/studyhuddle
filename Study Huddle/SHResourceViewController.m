@@ -10,15 +10,29 @@
 
 @interface SHResourceViewController ()
 
+@property (strong, nonatomic) PFObject *resource;
+
+@property (strong, nonatomic) UILabel *headerHuddleLabel;
+@property (strong, nonatomic) UILabel *headerTitleLabel;
+@property (strong, nonatomic) UILabel *memberLabel;
+@property (strong, nonatomic) UILabel *categoryLabel;
+@property (strong, nonatomic) UILabel *descriptionLabel;
+//@property (strong, nonatomic) UILabel 
+//@property (strong, nonatomic) UILabel
+//@property (strong, nonatomic) UILabel
+
 @end
 
 @implementation SHResourceViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithResource:(PFObject *)aResource
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
-        // Custom initialization
+        _resource = aResource;
+        
+        
+        
     }
     return self;
 }
@@ -29,21 +43,6 @@
     // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

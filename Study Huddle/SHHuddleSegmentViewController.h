@@ -10,12 +10,14 @@
 #import "DZNSegmentedControl.h"
 #import <Parse/Parse.h>
 @class Student;
+@class SHIndividualHuddleviewController;
 
 @interface SHHuddleSegmentViewController : UIViewController <DZNSegmentedControlDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) DZNSegmentedControl *control;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic,strong) UIScrollView* parentScrollView;
+@property (nonatomic, strong) SHIndividualHuddleviewController *owner;
 
 - (id)initWithHuddle:(PFObject *)aHuddle;
 

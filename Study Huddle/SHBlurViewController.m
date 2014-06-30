@@ -10,40 +10,42 @@
 
 @interface SHBlurViewController ()
 
+@property (nonatomic, strong) UINavigationBar *lenderBar;
+
 @end
 
 @implementation SHBlurViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor clearColor];
+    self.lenderBar = [[UINavigationBar alloc] initWithFrame:self.view.bounds];
+    self.lenderBar.barStyle = UIBarStyleDefault;
+    [self.view.layer insertSublayer:self.lenderBar.layer atIndex:0];
+    
+    UIInterpolatingMotionEffect *centerX = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+    centerX.maximumRelativeValue = @20;
+    centerX.minimumRelativeValue = @-20;
+    
+    UIInterpolatingMotionEffect *centerY = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+    centerY.maximumRelativeValue = @20;
+    centerY.minimumRelativeValue = @-20;
+    
+    UIMotionEffectGroup *effectGroup = [UIMotionEffectGroup new];
+    effectGroup.motionEffects = @[centerX, centerY];
+    [self.view addMotionEffect:effectGroup];
+    
 }
 
-- (void)didReceiveMemoryWarning
+- (void)updateViewConstraints
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super updateViewConstraints];
+    //Hackity hack?
+    self.lenderBar.frame = self.view.bounds;
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

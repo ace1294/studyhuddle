@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Student.h"
-#import "SHProfilePortraitView.h"
+#import "SHProfilePortraitViewToBeDeleted.h"
 
 @interface SHPageHeaderViewController : UIViewController
 
@@ -19,7 +19,7 @@
 @property UILabel* rightLabel;
 @property UILabel* nameLabel;
 
-@property SHProfilePortraitView* profileImage;
+@property SHProfilePortraitViewToBeDeleted* profileImage;
 
 
 @property UIButton* editProfileButton;

@@ -11,13 +11,16 @@
 
 @interface SHAddCell : SHBaseTextCell
 
+@property (nonatomic, strong) NSString *typeIdentifier;
+
 - (void)didTapAddButtonAction:(id)sender;
+- (void)setAdd:(NSString *)addTitle identifier:(NSString *)cellID;
 
 @end
 
 //Title
 #define addTitleX 80.0
-#define addTitleY 20.0
+#define addTitleY 25.0
 //#define nameMaxWidth 320.f-titleX-80.0f
 
 //Add
@@ -35,6 +38,6 @@
  Sent to the delegate when a user button is tapped
  @param aUser the PFUser of the user that was tapped
  */
-- (void)didTapAddButton;
+- (void)didTapAddButton:(SHAddCell *)cell;
 
 @end

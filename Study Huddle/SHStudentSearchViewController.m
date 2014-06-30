@@ -35,7 +35,7 @@
         
         self.objectsPerPage = 10;
         
-        
+        self.type = [[NSString alloc]init];
     }
     return self;
 }
@@ -100,7 +100,12 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    if ([self.type isEqual:@"NewHuddle"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if([self.type isEqual:@"NewMember"]){
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 
@@ -115,9 +120,6 @@
     }
 }
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 1;
-//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -164,8 +166,17 @@
     
     
     self.addedMember = object;
+    if ([self.type isEqual:@"NewHuddle"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else if([self.type isEqual:@"NewMember"]){
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"AddMemberDismissed"
+                                                            object:nil
+                                                          userInfo:nil];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
     
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath

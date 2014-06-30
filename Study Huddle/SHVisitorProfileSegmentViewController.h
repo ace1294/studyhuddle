@@ -9,15 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "DZNSegmentedControl.h"
 #import <Parse/Parse.h>
-@class SHProfileViewController;
+@class SHVisitorProfileViewController;
 @class Student;
 
-@interface SHProfileSegmentViewController : UIViewController <DZNSegmentedControlDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface SHVisitorProfileSegmentViewController : UIViewController <DZNSegmentedControlDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) DZNSegmentedControl *control;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic,strong) UIScrollView* parentScrollView;
-@property (nonatomic, strong) SHProfileViewController *owner;
+@property (nonatomic, strong) SHVisitorProfileViewController *owner;
 
 
 

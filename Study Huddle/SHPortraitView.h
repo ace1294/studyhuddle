@@ -16,5 +16,6 @@
 
 - (void)setFile:(PFFile *)file;
 - (void)hideButton;
+- (void)setGreen;
 
 @end

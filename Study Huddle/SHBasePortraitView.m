@@ -70,6 +70,7 @@
 
 - (void)didTapProfileButtonAction:(id)sender
 {
+    if(!self.isClickable) return;
     NSLog(@"Profile button tapped SHCreateHuddlePortraitView");
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(didTapProfileButton:)])

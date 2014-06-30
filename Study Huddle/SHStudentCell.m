@@ -8,7 +8,7 @@
 
 #import "SHStudentCell.h"
 #import "UIColor+HuddleColors.h"
-#import "SHProfilePortraitView.h"
+#import "SHProfilePortraitViewToBeDeleted.h"
 #import "SHUtility.h"
 #import "Student.h"
 #import "SHPortraitView.h"
@@ -18,7 +18,6 @@
 @property (nonatomic, strong) SHPortraitView *portrait;
 @property (nonatomic, strong) UILabel *classesLabel;
 @property (nonatomic, strong) UILabel *majorLabel;
-@property (nonatomic, strong) UIButton *arrowButton;
 
 @end
 
@@ -36,6 +35,7 @@
         self.portrait = [[SHPortraitView alloc]initWithFrame:CGRectMake(cellPortraitX, cellPortraitY, cellPortraitDim, cellPortraitDim)];
         [self.portrait setBackgroundColor:[UIColor clearColor]];
         [self.portrait setOpaque:YES];
+        [self.portrait.profileButton addTarget:self action:@selector(didTapTitleButtonAction:) forControlEvents:UIControlEventTouchDragInside];
         [self.mainView addSubview:self.portrait];
         
         //Classes
@@ -57,13 +57,6 @@
         [self.majorLabel setLineBreakMode:NSLineBreakByWordWrapping];
         [self.majorLabel setBackgroundColor:[UIColor clearColor]];
         [self.mainView addSubview:self.majorLabel];
-        
-        self.arrowButton = [[UIButton alloc]init];
-        [self.arrowButton setImage:[UIImage imageNamed:@"Right_Pointing_Arrow@2x.png"] forState:UIControlStateNormal];
-        [self.arrowButton setImage:[UIImage imageNamed:@"Right_Pointing_Arrow@2x.png"] forState:UIControlStateHighlighted];
-        [self.arrowButton setBackgroundColor:[UIColor clearColor]];
-        //[arrowButton addTarget:self action:@selector(didTapArrowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.mainView addSubview:self.arrowButton];
         
 
         
@@ -96,15 +89,15 @@
     
     [self.majorLabel setFrame:CGRectMake(studentTitleX, self.classesLabel.frame.origin.y+self.classesLabel.frame.size.height, 2*labelSize.width, labelSize.height)];
     
-    [self.arrowButton setFrame:CGRectMake(arrowX, arrowY, arrowDimX, arrowDimY)];
-    
 }
 
 - (void)setStudent:(PFObject *)aStudent
 {
-    //_student = aStudent;
+    _student = aStudent;
+    
     
     PFFile* imageFile = aStudent[SHStudentImageKey];
+
     
     [self.portrait setFile:imageFile];
     
@@ -113,7 +106,7 @@
     //[self.titleButton setTitle:[student objectForKey:SHStudentNameKey] forState:UIControlStateHighlighted];
     
     NSDictionary *arialDict = [NSDictionary dictionaryWithObject: [UIFont fontWithName:@"Arial" size:12] forKey:NSFontAttributeName];
-    NSMutableAttributedString *classesString = [SHUtility listOfClasses:[aStudent relationForKey:SHStudentClassesKey] attributes:arialDict];
+    NSMutableAttributedString *classesString = [SHUtility listOfClasses:[aStudent objectForKey:SHStudentClassesKey] attributes:arialDict];
     
     NSDictionary *arialBoldDict = [NSDictionary dictionaryWithObject:[UIFont fontWithName:@"Arial-BoldMT" size:12] forKey:NSFontAttributeName];
     NSMutableAttributedString *classesTitleString = [[NSMutableAttributedString alloc]initWithString:@"Classes: " attributes:arialBoldDict];
@@ -127,6 +120,11 @@
     [majorTitleString appendAttributedString:majorString];
     self.majorLabel.attributedText = majorTitleString;
     
+}
+
+- (void)setOnline
+{
+    [self.portrait setGreen];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

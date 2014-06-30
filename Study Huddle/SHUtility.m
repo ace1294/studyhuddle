@@ -9,6 +9,7 @@
 #import "SHUtility.h"
 #import "SHConstants.h"
 #import <Parse/Parse.h>
+#import "Student.h"
 
 @implementation SHUtility
 
@@ -24,6 +25,8 @@
     for(int i = 0; (i < 3 && i < [members count]); i++)
     {
         student = members[i];
+        
+        [student fetchIfNeeded];
         
         fullName = student[SHStudentNameKey];
         
@@ -44,11 +47,8 @@
     return listOfNames;
 }
 
-+ (NSMutableAttributedString *)listOfClasses:(PFRelation *)classes attributes:(NSDictionary *)attr
++ (NSMutableAttributedString *)listOfClasses:(NSArray *)classObjects attributes:(NSDictionary *)attr
 {
-    PFQuery *classesQuery = [classes query];
-    classesQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
-    NSArray *classObjects = [classesQuery findObjects];
     PFObject *class;
 
     NSMutableAttributedString *listOfClasses = [[NSMutableAttributedString alloc]init];
@@ -89,6 +89,52 @@
 
     
     return finalImage;
+}
+
++(BOOL)studentInArray:(NSArray *)list student:(Student *)student
+{
+    
+    
+    for(PFObject *object in list)
+    {
+        if ([[object objectId] isEqual:[student objectId]]) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
++(NSInteger)resourcesInCategory:(NSString *)category inHuddle:(PFObject *)huddle
+{
+    PFQuery *resourceQuery = [PFQuery queryWithClassName:SHResourceParseClass];
+    
+    [resourceQuery whereKey:SHResourceOwnerKey equalTo:[PFObject objectWithoutDataWithClassName:SHHuddleParseClass objectId:[huddle objectId]]];
+    [resourceQuery whereKey:SHResourceCategoryKey equalTo:category];
+    
+    return [resourceQuery countObjects];
+}
+
++ (void)separateOnlineOfflineData:(NSMutableDictionary *)data forOnlineKey:(NSString *)onlineKey;
+{
+    NSArray *both = [data objectForKey:@"both"];
+    NSMutableArray *online = [[NSMutableArray alloc]init];
+    NSMutableArray *offline = [[NSMutableArray alloc]init];
+    
+    for(PFObject *object in both)
+    {
+        [object fetchIfNeeded];
+        if([object[onlineKey]boolValue]){
+            [online addObject:object];
+        }
+        else{
+            [offline addObject:object];
+        }
+    }
+    
+    [data setObject:online forKey:@"online"];
+    [data setObject:offline forKey:@"offline"];
+    
 }
 
 

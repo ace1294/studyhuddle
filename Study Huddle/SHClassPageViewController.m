@@ -54,7 +54,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    [self.classObj fetchIfNeeded];
+    
     
     //important coordinates
     float centerX = self.view.bounds.origin.x + self.view.bounds.size.width/2;
@@ -89,7 +90,7 @@
     self.segmentContainer.backgroundColor = [UIColor whiteColor];
     [self.segmentContainer addSubview:self.segmentController.view];
     [self.segmentController didMoveToParentViewController:self];
-    //self.segmentController.owner = self;
+    self.segmentController.owner = self;
     [self.scrollView addSubview:self.segmentContainer];
     self.segmentController.parentScrollView = self.scrollView;
     

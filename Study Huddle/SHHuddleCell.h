@@ -18,6 +18,7 @@
 @property (nonatomic, strong) PFObject *huddle;
 
 - (void)setHuddle:(PFObject *)aHuddle;
+- (void)setOnline;
 
 @end
 

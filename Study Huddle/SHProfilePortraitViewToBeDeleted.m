@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHProfilePortraitView.h"
+#import "SHProfilePortraitViewToBeDeleted.h"
 #import "Student.h"
 
-@implementation SHProfilePortraitView
+@implementation SHProfilePortraitViewToBeDeleted
 
 - (id)initWithFrame:(CGRect)frame
 {

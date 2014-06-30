@@ -16,8 +16,14 @@
 #import "SHStudentCell.h"
 #import "SHStudyCell.h"
 #import "SHResourceCell.h"
+#import "SHVisitorProfileViewController.h"
+#import "SHProfileViewController.h"
+#import "SHIndividualHuddleviewController.h"
+#import "SHUtility.h"
+#import "SHStudentSearchViewController.h"
+#import "SHCategoryCell.h"
 
-@interface SHHuddleSegmentViewController ()
+@interface SHHuddleSegmentViewController () <SHBaseCellDelegate, SHAddCellDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 
@@ -32,9 +38,13 @@
 @property (strong, nonatomic) NSMutableDictionary *segmentData;
 @property (strong, nonatomic) NSMutableArray *membersDataArray;
 @property (strong, nonatomic) NSMutableArray *threadDataArray;
-@property (strong, nonatomic) NSMutableArray *resourcesDataArray;
+@property (strong, nonatomic) NSMutableArray *categoryDataArray;
 
 @property (strong, nonatomic) NSMutableArray *encapsulatingDataArray;
+
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+
+@property (strong, nonatomic) SHStudentSearchViewController *searchVC;
 
 @end
 
@@ -45,6 +55,7 @@ static NSString* const MembersDiskKey = @"membersArray";
 static NSString* const ResourcesDiskKey = @"resourcesKey";
 
 @synthesize CellIdentifier;
+@synthesize refreshControl;
 
 -(id)initWithHuddle:(PFObject *)aHuddle
 {
@@ -59,9 +70,14 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
         self.segmentData = [[NSMutableDictionary alloc]init];
         
-        self.segMenu = [[NSArray alloc]initWithObjects:@"MEMBERS", @"CHAT", @"RESOURCES", nil];
+        self.segMenu = [[NSArray alloc]initWithObjects:@"MEMBERS", @"RESOURCES", @"CHAT", nil];
         
         self.docsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        self.docsPath = [self.docsPath stringByAppendingPathComponent:@"huddleSegment"];
+        
+        
+        
+        
     }
     return self;
 }
@@ -84,11 +100,22 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     self.tableView.dataSource = self;
     
+    self.membersDataArray = [[NSMutableArray alloc]init];
+    self.categoryDataArray = [[NSMutableArray alloc]init];
+    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.membersDataArray, self.categoryDataArray,  nil];
+    
+    [self loadHuddleData];
+        
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    refreshControl = [[UIRefreshControl alloc]init];
+    [self.tableView addSubview:refreshControl];
+    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     
     //Tableview
     CGRect tableViewFrame = CGRectMake(tableViewX, tableViewY, tableViewDimX, tableViewDimY);
@@ -101,36 +128,41 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     //Set segment menu titles
     [self.segCellIdentifiers setObject:SHStudentCellIdentifier forKey:[@"Members" uppercaseString]];
     [self.segCellIdentifiers setObject:@"UITableViewCell" forKey:[@"Chat" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$
-    [self.segCellIdentifiers setObject:SHResourceCellIdentifier forKey:[@"Resources" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ // NEED TO REGISTER CELLS AS WELL
+    [self.segCellIdentifiers setObject:SHCategoryCellIdentifier forKey:[@"Resources" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ // NEED TO REGISTER CELLS AS WELL
     
     //Segment
     [self.view addSubview:self.control];
     
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
     [self.tableView registerClass:[SHAddCell class] forCellReuseIdentifier:SHAddCellIdentifier];
-    [self.tableView registerClass:[SHResourceCell class] forCellReuseIdentifier:SHResourceCellIdentifier];
+    [self.tableView registerClass:[SHCategoryCell class] forCellReuseIdentifier:SHCategoryCellIdentifier];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     
-    self.membersDataArray = [[NSMutableArray alloc]init];
-    self.resourcesDataArray = [[NSMutableArray alloc]init];
-    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.resourcesDataArray, self.membersDataArray, nil];
     
-    if(self.segHuddle[SHHuddleNameKey]){
-        [self loadHuddleData];
-    }
-    
-    
-        
+}
 
+- (void)refreshTable {
+    //TODO: refresh your data
+    [refreshControl endRefreshing];
+    [self loadHuddleData];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    if(self.segHuddle[SHHuddleNameKey]){
-        [self loadHuddleData];
-    }
+
+    
+//    if(self.segHuddle[SHHuddleNameKey]){
+//        
+//        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
+//        {
+//            [self loadDataFromDisk];
+//            return;
+//        }
+//        [self loadHuddleData];
+//    }
     
 }
 
@@ -146,10 +178,10 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     [self.segHuddle fetch];
     
-    NSArray *resources = [self.segHuddle objectForKey:SHHuddleResourcesKey];
+    NSArray *resourceCategories = [self.segHuddle objectForKey:SHHuddleResourcesKey];
     
-    [self.resourcesDataArray removeAllObjects];
-    [self.resourcesDataArray addObjectsFromArray:resources];
+    [self.categoryDataArray removeAllObjects];
+    [self.categoryDataArray addObjectsFromArray:resourceCategories];
     
     NSArray *members = [self.segHuddle objectForKey:SHHuddleMembersKey];
     
@@ -160,6 +192,8 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     [self.tableView reloadData];
     
+    [self saveDataToDisk];
+    
     return loadError;
 }
 
@@ -169,8 +203,8 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     NSLog(@"SAVING TO DISK");
     
     [self.segmentData setObject:self.membersDataArray forKey:MembersDiskKey];
-    [self.segmentData setObject:self.resourcesDataArray forKey:ResourcesDiskKey];
-    //[self.segmentData setObject:self.huddlesDataArray forKey:HuddlesDiskKey];
+    [self.segmentData setObject:self.categoryDataArray forKey:ResourcesDiskKey];
+    //[self.segmentData setObject:self.chatDataArray forKey:ChatDiskKey];
     
     [NSKeyedArchiver archiveRootObject:self.segmentData toFile:self.docsPath];
     
@@ -183,7 +217,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     self.segmentData = [NSKeyedUnarchiver unarchiveObjectWithFile:self.docsPath];
     
     self.membersDataArray = [self.segmentData objectForKey:MembersDiskKey];
-    self.resourcesDataArray = [self.segmentData objectForKey:ResourcesDiskKey];
+    self.categoryDataArray = [self.segmentData objectForKey:ResourcesDiskKey];
 }
 
 
@@ -242,9 +276,12 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 {
     NSInteger addCell = 0;
 
-    
-    if([self.membersDataArray containsObject:[Student currentUser]] && [[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"MEMBERS"])
-        addCell = 1;
+    if([SHUtility studentInArray:self.membersDataArray student:[Student currentUser]]){
+        if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"MEMBERS"] || [[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"RESOURCES"]){
+            addCell = 1;
+        }
+        
+    }
     
     
     return self.currentRowsToDisplay + addCell;
@@ -254,22 +291,29 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 {
     CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
 
-    if ([CellIdentifier isEqual:SHStudentCellIdentifier] && indexPath.row == self.currentRowsToDisplay)
+    
+    if (indexPath.row == self.currentRowsToDisplay && ([CellIdentifier isEqual:SHStudentCellIdentifier] || [CellIdentifier isEqual:SHCategoryCellIdentifier]))
     {
         SHAddCell *cell = [tableView dequeueReusableCellWithIdentifier:SHAddCellIdentifier];
-        //cell.titleButton.titleLabel.text = @"Add Huddle";
         cell.delegate = self;
-        
+        if ([CellIdentifier isEqual:SHStudentCellIdentifier])
+            [cell setAdd:@"Add Member" identifier:SHStudentCellIdentifier];
+        else if([CellIdentifier isEqual:SHCategoryCellIdentifier])
+            [cell setAdd:@"Add Resource" identifier:SHCategoryCellIdentifier];
+            
+            
         [cell layoutIfNeeded];
         
         return cell;
+    
     }
     else if([CellIdentifier isEqual:SHStudentCellIdentifier])
     {
         PFObject *studentObject = [self.membersDataArray objectAtIndex:(int)indexPath.row];
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell.delegate = self;
         
-        [studentObject fetchIfNeeded];
+        [studentObject fetch];
         
         [cell setStudent:studentObject];
         
@@ -277,14 +321,13 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
         return cell;
     }
-    else if([CellIdentifier isEqual:SHResourceCellIdentifier])
+    else if([CellIdentifier isEqual:SHCategoryCellIdentifier])
     {
-        PFObject *resourceObject = [self.resourcesDataArray objectAtIndex:(int)indexPath.row];
-        SHResourceCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        NSString *categoryName = [self.categoryDataArray objectAtIndex:(int)indexPath.row];
+        SHCategoryCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        [resourceObject fetchIfNeeded];
         
-        [cell setResource:resourceObject];
+        [cell setCategory:categoryName withHuddle:self.segHuddle];
         
         [cell layoutIfNeeded];
         
@@ -305,6 +348,74 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     return nil;
     
+}
+
+- (void)didTapTitleCell:(SHBaseTextCell *)cell
+{
+    if ([cell isKindOfClass:[SHStudentCell class]] ) {
+        SHStudentCell *studentCell = (SHStudentCell *)cell;
+        
+        if([studentCell.student isEqual:[Student currentUser]])
+        {
+            SHProfileViewController *profileVC = [[SHProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
+            
+            [self.owner.navigationController pushViewController:profileVC animated:YES];
+        }
+        else{
+            SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
+            
+            [self.owner.navigationController pushViewController:visitorVC animated:YES];
+        }
+        
+
+        
+        
+        
+    }
+}
+
+-(void)didTapAddButton:(SHAddCell *)cell
+{
+    
+    if ([cell.typeIdentifier isEqual:SHStudentCellIdentifier] ) {
+        
+        self.searchVC = [[SHStudentSearchViewController alloc]init];
+        self.searchVC.navigationController.delegate = self;
+        self.searchVC.type = @"NewMember";
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didDismissWithNewMember)
+                                                     name:@"AddMemberDismissed"
+                                                   object:nil];
+        
+        [self.owner presentViewController:self.searchVC animated:YES completion:nil];
+        
+    }
+    
+    else if ([cell.typeIdentifier isEqual:SHResourceCellIdentifier] ) {
+        
+        
+    }
+    
+    
+}
+
+#pragma mark - UINavigationControllerDelegate
+
+- (void)didDismissWithNewMember
+{
+    
+    if(self.searchVC.addedMember)
+    {
+        [self.navigationController.navigationBar setHidden:NO];
+        [self.membersDataArray addObject:self.searchVC.addedMember];
+        
+        [self.segHuddle addObject:self.searchVC.addedMember forKey:SHHuddleMembersKey];
+        
+        [self.segHuddle save];
+        
+        [self.tableView reloadData];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

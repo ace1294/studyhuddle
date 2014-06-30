@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHProfileSegmentViewController.h"
+#import "SHVisitorProfileSegmentViewController.h"
 #import "UIColor+HuddleColors.h"
 #import "SHHuddleCell.h"
 #import "SHClassCell.h"
@@ -20,10 +20,10 @@
 #import "PFACL+NSCoding.h"
 #import "PFFile+NSCoding.h"
 #import "PFObject+NSCoding.h"
-#import "SHProfileViewController.h"
+#import "SHVisitorProfileViewController.h"
 #import "SHIndividualHuddleviewController.h"
 
-@interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
+@interface SHVisitorProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) Student *segStudent;
@@ -42,11 +42,14 @@
 
 @property (strong, nonatomic) NSMutableArray *encapsulatingDataArray;
 
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+
 @end
 
-@implementation SHProfileSegmentViewController
+@implementation SHVisitorProfileSegmentViewController
 
 @synthesize CellIdentifier;
+@synthesize refreshControl;
 
 
 
@@ -69,7 +72,8 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
         
         self.segMenu = [[NSArray alloc]initWithObjects:@"STUDY", @"CLASSES", @"HUDDLES", nil];
         self.docsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        self.docsPath = [self.docsPath stringByAppendingPathComponent:@"profileSegment"];
+        self.docsPath = [self.docsPath stringByAppendingPathComponent:@"visitorProfileSegment"];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     }
     
     return self;
@@ -93,11 +97,19 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     
     self.tableView.dataSource = self;
     
+    self.StudyingDataArray = [[NSMutableArray alloc]init];
+    self.ClassesDataArray = [[NSMutableArray alloc]init];
+    self.HuddlesDataArray = [[NSMutableArray alloc]init];
+    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.studyingDataArray,self.classesDataArray,self.huddlesDataArray, nil];
+
+    [self loadStudentData];
+    
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 
     //Tableview
     CGRect tableViewFrame = CGRectMake(tableViewX, tableViewY, tableViewDimX, tableViewDimY);
@@ -117,21 +129,20 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
 
     [self.tableView registerClass:[SHHuddleCell class] forCellReuseIdentifier:SHHuddleCellIdentifier];
     [self.tableView registerClass:[SHClassCell class] forCellReuseIdentifier:SHClassCellIdentifier];
-    [self.tableView registerClass:[SHAddCell class] forCellReuseIdentifier:SHAddCellIdentifier];
     [self.tableView registerClass:[SHStudyCell class] forCellReuseIdentifier:SHStudyCellIdentifier];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     
-    self.StudyingDataArray = [[NSMutableArray alloc]init];
-    self.ClassesDataArray = [[NSMutableArray alloc]init];
-    self.HuddlesDataArray = [[NSMutableArray alloc]init];
-    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.studyingDataArray,self.classesDataArray,self.huddlesDataArray, nil];
-    
-    if ([self.segStudent username]) {
-        [self loadStudentData];
-    }
+
     
 
     
+}
+
+- (void)refreshTable {
+    //TODO: refresh your data
+    [refreshControl endRefreshing];
+    [self loadStudentData];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -142,12 +153,13 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     {
         if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
         {
-           [self loadDataFromDisk];
-           return;
+            [self loadDataFromDisk];
+            return;
         }
         
         [self loadStudentData];
     }
+    
 }
 
 - (void)setStudent:(Student *)aSegStudent
@@ -165,28 +177,23 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     
     //Study Data
     NSArray *studying = [self.segStudent objectForKey:SHStudentStudyKey];
-    
     [self.studyingDataArray removeAllObjects];
     [self.studyingDataArray addObjectsFromArray:studying];
     
     //Classes Data
-    PFRelation *classes = [self.segStudent relationForKey:SHStudentClassesKey];
-    PFQuery *query = [classes query];
-    query.cachePolicy = kPFCachePolicyCacheElseNetwork;
-    
+    NSArray *classes = [self.segStudent objectForKey:SHStudentClassesKey];
     [self.classesDataArray removeAllObjects];
-    [self.classesDataArray addObjectsFromArray:[query findObjects]];
+    [self.classesDataArray addObjectsFromArray:classes];
     
     //Huddle Data
     NSArray *huddles = self.segStudent[SHStudentHuddlesKey];
-    
     [self.huddlesDataArray removeAllObjects];
     [self.huddlesDataArray addObjectsFromArray:huddles];
 
     
     [self.tableView reloadData];
     
-    //[self saveDataToDisk];
+    [self saveDataToDisk];
     
     return loadError;
 }
@@ -273,32 +280,15 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger addCell = 0;
     
-    if([self.segStudent isEqual:[Student currentUser]] && [[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
-        addCell = 1;
-    
-    
-    
-    return self.currentRowsToDisplay + addCell;
+    return self.currentRowsToDisplay;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
 
-    if ([self.segStudent isEqual:[Student currentUser]] && [CellIdentifier isEqual:SHHuddleCellIdentifier] && indexPath.row == self.currentRowsToDisplay)
-    {
-        SHAddCell *cell = [tableView dequeueReusableCellWithIdentifier:SHAddCellIdentifier];
-        //cell.titleButton.titleLabel.text = @"Add Huddle";
-        cell.delegate = self;
-        
-        [cell layoutIfNeeded];
-        
-        return cell;
-        
-    }
-    else if([CellIdentifier isEqual:SHHuddleCellIdentifier])
+    if([CellIdentifier isEqual:SHHuddleCellIdentifier])
     {
         PFObject* huddleObject = [self.huddlesDataArray objectAtIndex:(int)indexPath.row];
         SHHuddleCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -387,6 +377,7 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
         
         
         SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleCell.huddle];
+        NSLog(@"HEREHUDDDLle");
         
         [self.owner.navigationController pushViewController:huddleVC animated:YES];
         
@@ -396,7 +387,9 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView.contentOffset.y<0) {
+        NSLog(@"it moved down");
         [self.parentScrollView setScrollEnabled:YES];
+        
     }
     
 }
