@@ -16,6 +16,8 @@
 		41365D63196211100057B8C9 /* SHNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41365D62196211100057B8C9 /* SHNotificationViewController.m */; };
 		41365D661962169A0057B8C9 /* SHNotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41365D651962169A0057B8C9 /* SHNotificationCell.m */; };
 		41365D6C19621B090057B8C9 /* SHNotificationSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41365D6B19621B090057B8C9 /* SHNotificationSegmentViewController.m */; };
+		41A1937219637AA40038AAA2 /* AUISelectiveBordersLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A1937119637AA40038AAA2 /* AUISelectiveBordersLayer.m */; };
+		41A1937419637AA90038AAA2 /* UIView+AUISelectiveBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A1937319637AA90038AAA2 /* UIView+AUISelectiveBorder.m */; };
 		41AF332C194A99700008DF21 /* Offline_Ring.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF3328194A99700008DF21 /* Offline_Ring.png */; };
 		41AF332D194A99700008DF21 /* Offline_Ring@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF3329194A99700008DF21 /* Offline_Ring@2x.png */; };
 		41AF332E194A99700008DF21 /* Online_Ring.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF332A194A99700008DF21 /* Online_Ring.png */; };
@@ -193,6 +195,10 @@
 		41365D651962169A0057B8C9 /* SHNotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHNotificationCell.m; sourceTree = "<group>"; };
 		41365D6A19621B090057B8C9 /* SHNotificationSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHNotificationSegmentViewController.h; sourceTree = "<group>"; };
 		41365D6B19621B090057B8C9 /* SHNotificationSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHNotificationSegmentViewController.m; sourceTree = "<group>"; };
+		41A1937019637A9E0038AAA2 /* AUISelectiveBordersLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AUISelectiveBordersLayer.h; sourceTree = "<group>"; };
+		41A1937119637AA40038AAA2 /* AUISelectiveBordersLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUISelectiveBordersLayer.m; sourceTree = "<group>"; };
+		41A1937319637AA90038AAA2 /* UIView+AUISelectiveBorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AUISelectiveBorder.m"; sourceTree = "<group>"; };
+		41A1937519637AAE0038AAA2 /* UIView+AUISelectiveBorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+AUISelectiveBorder.h"; sourceTree = "<group>"; };
 		41AF3328194A99700008DF21 /* Offline_Ring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Offline_Ring.png; sourceTree = "<group>"; };
 		41AF3329194A99700008DF21 /* Offline_Ring@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offline_Ring@2x.png"; sourceTree = "<group>"; };
 		41AF332A194A99700008DF21 /* Online_Ring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Online_Ring.png; sourceTree = "<group>"; };
@@ -436,6 +442,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		41A1936F19637A7C0038AAA2 /* Borders */ = {
+			isa = PBXGroup;
+			children = (
+				41A1937019637A9E0038AAA2 /* AUISelectiveBordersLayer.h */,
+				41A1937119637AA40038AAA2 /* AUISelectiveBordersLayer.m */,
+				41A1937519637AAE0038AAA2 /* UIView+AUISelectiveBorder.h */,
+				41A1937319637AA90038AAA2 /* UIView+AUISelectiveBorder.m */,
+			);
+			name = Borders;
+			sourceTree = "<group>";
+		};
 		41AF32DF194A77C60008DF21 /* HuddleClasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -745,6 +762,7 @@
 				41AF336C194F65310008DF21 /* UIImagePickerController+Edit.m */,
 				96566E7B19451683006649C3 /* UIColor+HuddleColors.h */,
 				96566E7C19451683006649C3 /* UIColor+HuddleColors.m */,
+				41A1936F19637A7C0038AAA2 /* Borders */,
 				96D955DD1961E4E700667581 /* Popup */,
 				96F0EDD8195C737200B25DC1 /* Parse+NSCoding */,
 			);
@@ -1217,11 +1235,13 @@
 				9638162F195BC6140069D477 /* SHPushNotificationsSetting.m in Sources */,
 				41365D661962169A0057B8C9 /* SHNotificationCell.m in Sources */,
 				96D95540195CD2CA00667581 /* SHProfileSegmentViewController.m in Sources */,
+				41A1937219637AA40038AAA2 /* AUISelectiveBordersLayer.m in Sources */,
 				96CABE6B1953A0A300971394 /* SHStudentCell.m in Sources */,
 				41AF339B19521E290008DF21 /* SHClassCell.m in Sources */,
 				41365D5A196207610057B8C9 /* PFACL+NSCoding.m in Sources */,
 				41AF3381195119560008DF21 /* SHUserSettingsViewController.m in Sources */,
 				96D955C919610B2A00667581 /* SHNewResourceViewController.m in Sources */,
+				41A1937419637AA90038AAA2 /* UIView+AUISelectiveBorder.m in Sources */,
 				41365D5B196207610057B8C9 /* PFFile+NSCoding.m in Sources */,
 				96CBFA4D194CEA8C008B10CE /* SHAddCell.m in Sources */,
 				96D955B61960BBA000667581 /* SHAppDelegate.m in Sources */,
