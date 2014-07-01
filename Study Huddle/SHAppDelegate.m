@@ -181,7 +181,7 @@
     [self.huddlesNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
     //notification
-    self.notificationController = [[SHClassPageViewController alloc]initWithClass: classObject]; //temporary for testing
+    self.notificationController = [[SHNotificationViewController alloc]initWithStudent:(Student*)[PFUser currentUser]]; 
     self.notificationNavigator = [[UINavigationController alloc] initWithRootViewController:self.notificationController];
     self.notificationNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.notificationNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];

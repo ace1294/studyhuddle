@@ -8,16 +8,23 @@
 
 #import "SHClassPageViewController.h"
 #import "SHClassSegmentViewController.h"
+#import "SHConstants.h"
 
-#define topPartSize 170
+#define topPartSize 100
+#define classNameWidth 500
+#define classNameHeight 200
+#define classNameFont [UIFont boldSystemFontOfSize:35]
+#define classNameColor [UIColor grayColor]
 
 
-@interface SHClassPageViewController ()
+@interface SHClassPageViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic,strong) PFObject* classObj;
 @property (nonatomic,strong) SHClassSegmentViewController* segmentController;
 @property (nonatomic,strong) UIView* segmentContainer;
 @property (nonatomic,strong) UIScrollView* scrollView;
+
+@property UILabel* classNameLabel;
 
 @end
 
@@ -38,7 +45,7 @@
     if (self) {
         self.classObj = aClass;
         
-        self.title = @"Class";
+        self.title = @"CLASS";
         self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
         
         
@@ -67,6 +74,14 @@
     UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"background.png"]];
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
+    
+    //set up the big class name label
+    self.classNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - classNameWidth/2,bottomOfNavBar + topPartSize/2 - classNameHeight/2,classNameWidth,classNameHeight)];
+    self.classNameLabel.text = self.classObj[SHClassFullNameKey];
+    [self.classNameLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.classNameLabel setFont:classNameFont];
+    [self.classNameLabel setTextColor:classNameColor];
+    [self.view addSubview:self.classNameLabel];
     
     //set up scroll view
     CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, self.view.bounds.size.height-self.navigationController.navigationBar.frame.size.height);

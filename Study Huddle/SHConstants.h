@@ -20,6 +20,7 @@ extern NSString *const SHResourceParseClass;
 //Cells
 extern NSString *const SHHuddleCellIdentifier;
 extern NSString *const SHRequestCellIdentifier;
+extern NSString *const SHNotificationCellIdentifier;
 extern NSString *const SHClassCellIdentifier;
 extern NSString *const SHStudyCellIdentifier;
 extern NSString *const SHAddCellIdentifier;
@@ -58,6 +59,8 @@ extern NSString *const SHStudentHuddlesKey;
 extern NSString *const SHStudentStudyKey;
 extern NSString *const SHStudentStudyingKey;
 extern NSString *const SHStudentOnlineFriendsKey;
+extern NSString *const SHStudentRequestsKey;
+extern NSString *const SHStudentNotificationsKey;
 
 //Study
 extern NSString *const SHStudyClassesKey;
@@ -69,6 +72,10 @@ extern NSString *const SHResourceOwnerKey;
 extern NSString *const SHResourceCreatorKey;
 extern NSString *const SHResourceNameKey;
 extern NSString *const SHResourceCategoryKey;
+
+//Notifications
+extern NSString* const SHNotificationTitle;
+extern NSString* const SHNotificationSubTitle;
 
 
 
