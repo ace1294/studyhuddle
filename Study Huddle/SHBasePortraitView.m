@@ -28,7 +28,7 @@
     self = [super initWithFrame:frame];
     
     self.backgroundColor = [UIColor clearColor];
-    
+    self.isClickable = YES;
    
     //set up the controller that will handle the stuff
     SHBasePortraitViewController *controller =[[SHBasePortraitViewController alloc]init];
