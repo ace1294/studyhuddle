@@ -50,6 +50,12 @@
     self.borderImageview.image = [UIImage imageNamed:@"ringOnline.png"];
 }
 
+- (void)setCamera
+{
+    //[self.borderImageview setHidden:YES];
+    self.profileImageView.image = [UIImage imageNamed:@"resourceCamera.png"];
+}
+
 #pragma mark - UIView
 
 - (void)layoutSubviews {
@@ -59,6 +65,7 @@
     self.profileImageView.frame = CGRectMake( 0.0f, 0.0f, self.frame.size.width - 2.0f, self.frame.size.height - 2.0f);
     self.borderImageview.frame = CGRectMake( 0.0f, 0.0f, self.frame.size.width, self.frame.size.height);
     self.profileButton.frame = CGRectMake( 0.0f, 0.0f, self.frame.size.width, self.frame.size.height);
+    
 }
 
 
