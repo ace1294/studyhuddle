@@ -19,28 +19,32 @@
 
 
 #define newResourceWidth 270
-#define headerHeight 35.0
+#define headerHeight 30.0
 #define headerWidth 200.0
 
-#define fieldHeight 35.0
-#define fieldWidth 240.0
+#define fieldX horiViewSpacing+horiElemSpacing+documentWidth
+#define fieldHeight 30.0
+#define fieldWidth newResourceWidth-105
 
+#define descriptionWidth 240.0
 #define descriptionHeight 100.0
 
-#define addPictureButtonDimX 50.0
-#define addPictureButtonDimY 50.0
+#define documentY aboutHeaderY+headerHeight
+#define documentWidth 70.0
+#define documentHeight 80.0
 
 #define horiViewSpacing 15.0
 
-#define buttonX 15.0
-#define buttonY 300.0
+#define buttonX horiViewSpacing
+#define buttonY categoryHeaderY+headerHeight
 #define buttonWidth 120.0
 #define buttonHeight 30.0
 
-#define aboutHeaderY 55.0
-#define descriptionHeaderY 190.0
-#define categoryHeaderY 315.0
+#define aboutHeaderY 30.0
+#define descriptionHeaderY 140.0
+#define categoryHeaderY 275.0
 
-#define resourceTitleY aboutHeaderY+vertElemSpacing
-#define resourceLinkY resourceTitleY+fieldHeight
-#define selectPictureY resourceLinkY+fieldHeight
+#define resourceNameY documentY+10.0
+#define resourceLinkY resourceNameY+fieldHeight+vertElemSpacing
+
+#define descriptionY descriptionHeaderY+headerHeight

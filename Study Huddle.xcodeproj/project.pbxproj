@@ -148,6 +148,7 @@
 		96D955C919610B2A00667581 /* SHNewResourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955C819610B2A00667581 /* SHNewResourceViewController.m */; };
 		96D955D91961E4CB00667581 /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955D81961E4CB00667581 /* UIViewController+MJPopupViewController.m */; };
 		96D955DC1961E4E100667581 /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955DB1961E4E100667581 /* MJPopupBackgroundView.m */; };
+		96D955F21964A0DA00667581 /* SHDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955F11964A0DA00667581 /* SHDocumentView.m */; };
 		96F0EDC8195BD79200B25DC1 /* cogwheel.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC7195BD79200B25DC1 /* cogwheel.png */; };
 		96F0EDCA195BD79900B25DC1 /* cogwheel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */; };
 		96F0EDDD195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */; };
@@ -377,6 +378,8 @@
 		96D955D81961E4CB00667581 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
 		96D955DA1961E4E100667581 /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
 		96D955DB1961E4E100667581 /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
+		96D955F01964A0DA00667581 /* SHDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHDocumentView.h; sourceTree = "<group>"; };
+		96D955F11964A0DA00667581 /* SHDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHDocumentView.m; sourceTree = "<group>"; };
 		96F0EDC7195BD79200B25DC1 /* cogwheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cogwheel.png; sourceTree = "<group>"; };
 		96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cogwheel@2x.png"; sourceTree = "<group>"; };
 		96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Pods-Parse+NSCoding.xcconfig"; sourceTree = "<group>"; };
@@ -492,6 +495,8 @@
 				41AF3375194F65FC0008DF21 /* SHProfilePortraitViewToBeDeleted.m */,
 				96F429A21956ACEE00E74500 /* SHPortraitView.h */,
 				96F4299F1956ACDC00E74500 /* SHPortraitView.m */,
+				96D955F01964A0DA00667581 /* SHDocumentView.h */,
+				96D955F11964A0DA00667581 /* SHDocumentView.m */,
 			);
 			name = Portraits;
 			sourceTree = "<group>";
@@ -1265,6 +1270,7 @@
 				96D955D91961E4CB00667581 /* UIViewController+MJPopupViewController.m in Sources */,
 				41AF3350194CB1CF0008DF21 /* SHProfileHeaderViewController.m in Sources */,
 				96D955BC1960BBA800667581 /* SHVisitorProfileViewController.m in Sources */,
+				96D955F21964A0DA00667581 /* SHDocumentView.m in Sources */,
 				41AF3376194F65FC0008DF21 /* SHPortraitViewBase.m in Sources */,
 				96D955B81960BBA000667581 /* SHIndividualHuddleviewController.m in Sources */,
 				96F429A01956ACDC00E74500 /* SHPortraitView.m in Sources */,

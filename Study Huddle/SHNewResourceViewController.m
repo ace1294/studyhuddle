@@ -21,6 +21,8 @@
 @property (strong, nonatomic) UILabel *categoryHeaderLabel;
 
 @property (strong, nonatomic) UITextField *resourceTitleField;
+@property (strong, nonatomic) UITextField *resourceLinkField;
+@property (strong, nonatomic) UILabel *pictureLabel;
 @property (strong, nonatomic) SHPortraitView *resourcePortrait;
 @property (strong, nonatomic) UITextView *descriptionTextView;
 
@@ -47,7 +49,7 @@ float modalFrameHeight;
     if (self) {
         _huddle = aHuddle;
         
-        modalFrameHeight = 500;
+        modalFrameHeight = 380;
         
         self.view.clipsToBounds = YES;
         [self.view setBackgroundColor:[UIColor colorWithWhite:.9 alpha:1]];
@@ -95,7 +97,7 @@ float modalFrameHeight;
     [self.aboutHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:14]];
     [self.aboutHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.aboutHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    self.aboutHeaderLabel.textAlignment = NSTextAlignmentCenter;
+    self.aboutHeaderLabel.textAlignment = NSTextAlignmentLeft;
     self.aboutHeaderLabel.text = @"ABOUT";
     [self.view addSubview:self.aboutHeaderLabel];
     
@@ -104,8 +106,8 @@ float modalFrameHeight;
     [self.descriptionHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:14]];
     [self.descriptionHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.descriptionHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    self.descriptionHeaderLabel.textAlignment = NSTextAlignmentCenter;
-    self.descriptionHeaderLabel.text = @"Description";
+    self.descriptionHeaderLabel.textAlignment = NSTextAlignmentLeft;
+    self.descriptionHeaderLabel.text = @"DESCRIPTION";
     [self.view addSubview:self.descriptionHeaderLabel];
 
     //Category Header
@@ -113,24 +115,45 @@ float modalFrameHeight;
     [self.categoryHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:14]];
     [self.categoryHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.categoryHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    self.categoryHeaderLabel.textAlignment = NSTextAlignmentCenter;
-    self.categoryHeaderLabel.text = @"Select Category";
+    self.categoryHeaderLabel.textAlignment = NSTextAlignmentLeft;
+    self.categoryHeaderLabel.text = @"SELECT CATEGORY";
     [self.view addSubview:self.categoryHeaderLabel];
 }
 
 -(void)initFields
 {
     //Resource Title
-    self.resourceTitleField = [[UITextField alloc] initWithFrame:CGRectMake(horiViewSpacing, resourceTitleY, fieldWidth, fieldHeight)];
+    self.resourceTitleField = [[UITextField alloc] initWithFrame:CGRectMake(fieldX, resourceNameY, fieldWidth, fieldHeight)];
     [self.resourceTitleField setFont:[UIFont fontWithName:@"Arial" size:14]];
-    //[self setMaskTo:self.resourceTitleField byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight];
+    self.resourceTitleField.layer.cornerRadius = 3;
     [self.resourceTitleField setBackgroundColor:[UIColor whiteColor]];
     [self.resourceTitleField setPlaceholder:@"Resource Name"];
-    self.resourceTitleField.layer.sublayerTransform = CATransform3DMakeTranslation(70, 0,0);    //inse
+    UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    [self.resourceTitleField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.resourceTitleField setLeftView:spacerView];
     [self.view addSubview:self.resourceTitleField];
     
+    //Resource Link
+    self.resourceLinkField = [[UITextField alloc] initWithFrame:CGRectMake(fieldX, resourceLinkY, fieldWidth, fieldHeight)];
+    [self.resourceLinkField setFont:[UIFont fontWithName:@"Arial" size:14]];
+    [self.resourceLinkField setBackgroundColor:[UIColor whiteColor]];
+    self.resourceLinkField.layer.cornerRadius = 3;
+    [self.resourceLinkField setPlaceholder:@"Resource Link"];
+    UIView *spacerview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    [self.resourceLinkField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.resourceLinkField setLeftView:spacerview];
+    [self.view addSubview:self.resourceLinkField];
+    
+    //Resource Picture Background
+    self.pictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, documentY, documentWidth, documentHeight)];
+    [self.pictureLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:14]];
+    [self.pictureLabel setBackgroundColor:[UIColor whiteColor]];
+    [self.pictureLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    self.pictureLabel.textAlignment = NSTextAlignmentLeft;
+    [self.view addSubview:self.pictureLabel];
+    
     //Description Text View
-    //self.descriptionTextView = [[UITextView alloc]initWithFrame:CGRectMake(horiViewSpacing, headers*sectionHeaderHeight+sections*sectionHeight, newResourceWidth-2*horiViewSpacing, descriptionHeight)];
+    self.descriptionTextView = [[UITextView alloc]initWithFrame:CGRectMake(horiViewSpacing, descriptionY, descriptionWidth, descriptionHeight)];
     self.descriptionTextView.layer.cornerRadius = 2;
     [self.view addSubview:self.descriptionTextView];
 }
@@ -147,7 +170,7 @@ float modalFrameHeight;
     
     
     //Create
-    self.createButton = [[UIButton alloc]initWithFrame:CGRectMake(230.0, vertBorderSpacing, 45.0, 30.0)];
+    //self.createButton = [[UIButton alloc]initWithFrame:CGRectMake(230.0, vertBorderSpacing, 45.0, 30.0)];
     [self.createButton setTitle:@"Create" forState:UIControlStateNormal];
     [self.createButton setBackgroundColor:[UIColor huddleOrange]];
     self.createButton.layer.cornerRadius = 3;
@@ -161,7 +184,7 @@ float modalFrameHeight;
     [self.view addSubview:self.createButton];
     
     //Create
-    self.cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(horiBorderSpacing, vertBorderSpacing, 45.0, 30.0)];
+    //self.cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(horiBorderSpacing, vertBorderSpacing, 45.0, 30.0)];
     [self.cancelButton setBackgroundColor:[UIColor huddleOrange]];
     self.cancelButton.layer.cornerRadius = 3;
     self.cancelButton.imageView.image = [UIImage imageNamed:@"X_cancelbtn@2x.png"];
