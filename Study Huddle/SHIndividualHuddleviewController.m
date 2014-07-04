@@ -56,6 +56,7 @@
 
 @property (nonatomic,strong) UIButton* startStudyingButton;
 @property BOOL isStudying;
+@property int initialSection;
 
 @property (nonatomic,strong) NSDate* lastStart;
 
@@ -83,12 +84,19 @@
         self.title = @"Huddle";
         self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
         
-        
+        self.initialSection = 1;
         //set up the navigation options
         //settings button
         
         
     }
+    return self;
+}
+
+-(id)initWithHuddle:(PFObject *)aHuddle andInitialSection:(int)section
+{
+    self = [self initWithHuddle:aHuddle];
+    self.initialSection = section;
     return self;
 }
 
@@ -116,10 +124,9 @@
     //float middleHeight = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
     
     //background
-    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"background.png"]];
+    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shBackground.png"]];
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
-    
     
     
     
@@ -191,7 +198,7 @@
     //set up segmented view
     self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.scrollView.bounds.origin.y + topPartSize, self.view.frame.size.width, self.view.frame.size.height*10)];
     self.segmentContainer.backgroundColor = [UIColor clearColor];
-    self.segmentController = [[SHHuddleSegmentViewController alloc]initWithHuddle:self.indvHuddle];
+    self.segmentController = [[SHHuddleSegmentViewController alloc]initWithHuddle:self.indvHuddle andInitialSection:self.initialSection];
     
     [self addChildViewController:self.segmentController];
     self.segmentController.view.frame = self.segmentContainer.bounds;
@@ -304,9 +311,11 @@
 }
 
 
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    
+    DZNSegmentedControl* control = self.segmentController.control;
+    
     
     float distanceFromBottomToPortrait = topPartSize - (profileImageVerticalOffsetFromTop + self.profileImage.frame.size.height);
     
@@ -323,20 +332,20 @@
         [self.view bringSubviewToFront:self.startStudyingButton];
     }
     
+    float distanceFromSegmentToTop = distanceFromBottomToPortrait + self.profileImage.frame.size.height + profileImageVerticalOffsetFromTop;
     
-    if(self.scrollView.contentOffset.y > distanceFromBottomToPortrait + self.profileImage.frame.size.height + profileImageVerticalOffsetFromTop )
+    if(self.scrollView.contentOffset.y > distanceFromSegmentToTop )
     {
-        NSLog(@"its at the top");
-        [self.segmentController.tableView setScrollEnabled:YES];
-        [self.scrollView setContentOffset:CGPointMake(0, distanceFromBottomToPortrait + self.profileImage.frame.size.height + profileImageVerticalOffsetFromTop)];
-        [self.scrollView setScrollEnabled:NO];
-        //[self.scrollView setBounces:NO];
+        float distanceMoved = scrollView.contentOffset.y - distanceFromSegmentToTop;
+        CGRect rect = control.frame;
+        rect.origin.y=distanceMoved;
+        [control setFrame:rect];
     }
-    
-    if(self.scrollView.contentOffset.y<0)
+    else
     {
-        NSLog(@"it moved down!!");
-        //[self.segmentController loadStudentData];
+        CGRect rect = control.frame;
+        rect.origin.y=0;
+        [control setFrame:rect];
     }
     
 }

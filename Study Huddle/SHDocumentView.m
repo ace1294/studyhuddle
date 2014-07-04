@@ -28,7 +28,7 @@
     
     
     //set up the huddle image
-    CGRect huddlePicFrame = CGRectMake(self.bounds.origin.x+(1-imageScale)/2*self.bounds.size.width, self.bounds.origin.y+(1-imageScale)/2*self.bounds.size.height, self.bounds.size.width*imageScale, self.bounds.size.height*imageScale);
+    /*CGRect huddlePicFrame = CGRectMake(self.bounds.origin.x+(1-imageScale)/2*self.bounds.size.width, self.bounds.origin.y+(1-imageScale)/2*self.bounds.size.height, self.bounds.size.width*imageScale, self.bounds.size.height*imageScale);
     self.documentImageView = [[PFImageView alloc] initWithFrame:huddlePicFrame];
     self.documentImageView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.documentImageView];
@@ -48,7 +48,7 @@
         self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ringBehindProfPic@2x.png"]];
     }
     self.borderImageview.frame = self.bounds;
-    [self addSubview:self.borderImageview];
+    [self addSubview:self.borderImageview];*/
     
     
     

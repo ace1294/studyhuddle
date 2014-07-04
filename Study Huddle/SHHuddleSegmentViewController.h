@@ -20,7 +20,7 @@
 @property (nonatomic, strong) SHIndividualHuddleviewController *owner;
 
 - (id)initWithHuddle:(PFObject *)aHuddle;
-
+-(id)initWithHuddle:(PFObject *)aHuddle andInitialSection:(int)section;
 - (void)setHuddle:(PFObject *)aHuddle;
 - (BOOL)loadHuddleData;
 

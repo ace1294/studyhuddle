@@ -12,5 +12,6 @@
 @interface SHNotificationCell : SHBaseTextCell
 
 - (void)setNotification:(PFObject *)aNotification;
+-(PFObject*)getNotificationObj;
 
 @end

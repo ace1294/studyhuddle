@@ -27,6 +27,8 @@ extern NSString *const SHAddCellIdentifier;
 extern NSString *const SHStudentCellIdentifier;
 extern NSString *const SHResourceCellIdentifier;
 extern NSString *const SHCategoryCellIdentifier;
+extern NSString *const SHChatCellIdentifier;
+extern NSString *const SHThreadCellIdentifier;
 
 //Class
 extern NSString *const SHClassFullNameKey;
@@ -48,6 +50,7 @@ extern NSString *const SHHuddleStudyKey;
 extern NSString *const SHHuddleResourcesKey;
 extern NSString *const SHHuddleImageKey;
 extern NSString *const SHHuddleStudyingKey;
+extern NSString *const SHHuddleChatEntriesKey;
 
 //Student
 extern NSString *const SHStudentNameKey;
@@ -76,9 +79,26 @@ extern NSString *const SHResourceCategoryKey;
 //Notifications
 extern NSString* const SHNotificationTitle;
 extern NSString* const SHNotificationSubTitle;
+extern NSString* const SHNotificationHuddleResource;
+extern NSString* const SHNotificationNewMember;
+extern NSString* const SHNotificationAnswer;
+extern NSString* const SHNotificationHuddleStartedStudying;
+extern NSString* const SHNotificationHuddleKey;
+extern NSString* const SHNotificationStudentKey;
+extern NSString* const SHNotificationClassKey;
+extern NSString* const SHNotificationTypeKey;
+extern NSString* const SHNotificationReadKey;
+extern NSString* const SHNotificationDateKey;
 
+//Chat Entry
+extern NSString* const SHChatEntryCategoryKey;
+extern NSString* const SHChatEntryThreadsKey;
 
-
+//Thread
+extern NSString* const SHThreadCreator;
+extern NSString* const SHThreadQuestion;
+extern NSString* const SHThreadReplies;
+extern NSString* const SHThreadMoreInfo;
 
 //Segment Attributes
 #define segmentFont [UIFont fontWithName:@"Arial" size:14]

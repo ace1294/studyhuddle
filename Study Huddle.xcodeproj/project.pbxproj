@@ -18,6 +18,10 @@
 		41365D6C19621B090057B8C9 /* SHNotificationSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41365D6B19621B090057B8C9 /* SHNotificationSegmentViewController.m */; };
 		41A1937219637AA40038AAA2 /* AUISelectiveBordersLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A1937119637AA40038AAA2 /* AUISelectiveBordersLayer.m */; };
 		41A1937419637AA90038AAA2 /* UIView+AUISelectiveBorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A1937319637AA90038AAA2 /* UIView+AUISelectiveBorder.m */; };
+		41A1943B19662FB80038AAA2 /* SHChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A1943A19662FB80038AAA2 /* SHChatCell.m */; };
+		41A1943E196672170038AAA2 /* SHChatEntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A1943D196672170038AAA2 /* SHChatEntryViewController.m */; };
+		41A19441196673BB0038AAA2 /* SHChatEntrySegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A19440196673BB0038AAA2 /* SHChatEntrySegmentViewController.m */; };
+		41A194441966759F0038AAA2 /* SHThreadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A194431966759F0038AAA2 /* SHThreadCell.m */; };
 		41AF332C194A99700008DF21 /* Offline_Ring.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF3328194A99700008DF21 /* Offline_Ring.png */; };
 		41AF332D194A99700008DF21 /* Offline_Ring@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF3329194A99700008DF21 /* Offline_Ring@2x.png */; };
 		41AF332E194A99700008DF21 /* Online_Ring.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF332A194A99700008DF21 /* Online_Ring.png */; };
@@ -200,6 +204,14 @@
 		41A1937119637AA40038AAA2 /* AUISelectiveBordersLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AUISelectiveBordersLayer.m; sourceTree = "<group>"; };
 		41A1937319637AA90038AAA2 /* UIView+AUISelectiveBorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AUISelectiveBorder.m"; sourceTree = "<group>"; };
 		41A1937519637AAE0038AAA2 /* UIView+AUISelectiveBorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+AUISelectiveBorder.h"; sourceTree = "<group>"; };
+		41A1943919662FB80038AAA2 /* SHChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHChatCell.h; sourceTree = "<group>"; };
+		41A1943A19662FB80038AAA2 /* SHChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHChatCell.m; sourceTree = "<group>"; };
+		41A1943C196672170038AAA2 /* SHChatEntryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHChatEntryViewController.h; sourceTree = "<group>"; };
+		41A1943D196672170038AAA2 /* SHChatEntryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHChatEntryViewController.m; sourceTree = "<group>"; };
+		41A1943F196673BB0038AAA2 /* SHChatEntrySegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHChatEntrySegmentViewController.h; sourceTree = "<group>"; };
+		41A19440196673BB0038AAA2 /* SHChatEntrySegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHChatEntrySegmentViewController.m; sourceTree = "<group>"; };
+		41A194421966759F0038AAA2 /* SHThreadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHThreadCell.h; sourceTree = "<group>"; };
+		41A194431966759F0038AAA2 /* SHThreadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHThreadCell.m; sourceTree = "<group>"; };
 		41AF3328194A99700008DF21 /* Offline_Ring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Offline_Ring.png; sourceTree = "<group>"; };
 		41AF3329194A99700008DF21 /* Offline_Ring@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Offline_Ring@2x.png"; sourceTree = "<group>"; };
 		41AF332A194A99700008DF21 /* Online_Ring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Online_Ring.png; sourceTree = "<group>"; };
@@ -413,17 +425,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96566E69194511BC006649C3 /* AudioToolbox.framework in Frameworks */,
+				96566E631945115B006649C3 /* CFNetwork.framework in Frameworks */,
+				96566E651945116C006649C3 /* CoreLocation.framework in Frameworks */,
+				96566E611945114E006649C3 /* MobileCoreServices.framework in Frameworks */,
+				96566E5B1945113B006649C3 /* Security.framework in Frameworks */,
 				96566E811945180A006649C3 /* Accounts.framework in Frameworks */,
 				96566E7F194517FB006649C3 /* Social.framework in Frameworks */,
 				96566E6B194511D6006649C3 /* StoreKit.framework in Frameworks */,
-				96566E69194511BC006649C3 /* AudioToolbox.framework in Frameworks */,
 				96566E67194511B1006649C3 /* SystemConfiguration.framework in Frameworks */,
-				96566E651945116C006649C3 /* CoreLocation.framework in Frameworks */,
-				96566E631945115B006649C3 /* CFNetwork.framework in Frameworks */,
-				96566E611945114E006649C3 /* MobileCoreServices.framework in Frameworks */,
 				96566E5F19451149006649C3 /* libz.dylib in Frameworks */,
 				96566E5D19451143006649C3 /* QuartzCore.framework in Frameworks */,
-				96566E5B1945113B006649C3 /* Security.framework in Frameworks */,
 				96566E591945110D006649C3 /* Parse.framework in Frameworks */,
 				96566E2C194510F6006649C3 /* CoreGraphics.framework in Frameworks */,
 				96566E2E194510F6006649C3 /* UIKit.framework in Frameworks */,
@@ -668,6 +680,8 @@
 				96D955B11960BBA000667581 /* SHClassPageViewController.m */,
 				41365D61196211100057B8C9 /* SHNotificationViewController.h */,
 				41365D62196211100057B8C9 /* SHNotificationViewController.m */,
+				41A1943C196672170038AAA2 /* SHChatEntryViewController.h */,
+				41A1943D196672170038AAA2 /* SHChatEntryViewController.m */,
 				96D955B21960BBA000667581 /* SHIndividualHuddleviewController.h */,
 				96D955B31960BBA000667581 /* SHIndividualHuddleviewController.m */,
 				96D955BA1960BBA800667581 /* SHVisitorProfileViewController.h */,
@@ -817,6 +831,10 @@
 				96CBFA49194CE878008B10CE /* SHRequestCell.m */,
 				96CBFA4B194CEA8C008B10CE /* SHAddCell.h */,
 				96CBFA4C194CEA8C008B10CE /* SHAddCell.m */,
+				41A1943919662FB80038AAA2 /* SHChatCell.h */,
+				41A1943A19662FB80038AAA2 /* SHChatCell.m */,
+				41A194421966759F0038AAA2 /* SHThreadCell.h */,
+				41A194431966759F0038AAA2 /* SHThreadCell.m */,
 				41365D641962169A0057B8C9 /* SHNotificationCell.h */,
 				41365D651962169A0057B8C9 /* SHNotificationCell.m */,
 			);
@@ -836,6 +854,8 @@
 				96D955AC1960A76400667581 /* SHClassSegmentViewController.m */,
 				41365D6A19621B090057B8C9 /* SHNotificationSegmentViewController.h */,
 				41365D6B19621B090057B8C9 /* SHNotificationSegmentViewController.m */,
+				41A1943F196673BB0038AAA2 /* SHChatEntrySegmentViewController.h */,
+				41A19440196673BB0038AAA2 /* SHChatEntrySegmentViewController.m */,
 			);
 			name = "Segment Controllers";
 			sourceTree = "<group>";
@@ -1058,7 +1078,7 @@
 				ORGANIZATIONNAME = StudyHuddle;
 				TargetAttributes = {
 					96566E25194510F6006649C3 = {
-						DevelopmentTeam = 4QYMAFJ88B;
+						DevelopmentTeam = 2X9H6LLE5Q;
 					};
 					96566E40194510F6006649C3 = {
 						TestTargetID = 96566E25194510F6006649C3;
@@ -1217,11 +1237,13 @@
 			files = (
 				41365D5C196207610057B8C9 /* PFObject+NSCoding.m in Sources */,
 				96F429AB1957E7B400E74500 /* SHVisitorProfileSegmentViewController.m in Sources */,
+				41A1943B19662FB80038AAA2 /* SHChatCell.m in Sources */,
 				96381639195BC6B90069D477 /* Student.m in Sources */,
 				96D95592195F3F0900667581 /* SHBasePortraitView.m in Sources */,
 				41365D6C19621B090057B8C9 /* SHNotificationSegmentViewController.m in Sources */,
 				96381635195BC6530069D477 /* SHVisibilitySetting.m in Sources */,
 				96F4297C1954F2A200E74500 /* SHStudyCell.m in Sources */,
+				41A1943E196672170038AAA2 /* SHChatEntryViewController.m in Sources */,
 				41AF3371194F65CD0008DF21 /* SHPortraitViewBaseViewController.m in Sources */,
 				96D955B71960BBA000667581 /* SHClassPageViewController.m in Sources */,
 				96D955A6196085A600667581 /* SHCategoryCell.m in Sources */,
@@ -1236,7 +1258,9 @@
 				96F42985195527CA00E74500 /* UITextField+Extend.m in Sources */,
 				96566E7619451478006649C3 /* SHLoginViewController.m in Sources */,
 				96D95594195F3F0900667581 /* SHProfilePortraitView.m in Sources */,
+				41A194441966759F0038AAA2 /* SHThreadCell.m in Sources */,
 				96D9559B195F3F5300667581 /* SHBasePortraitViewController.m in Sources */,
+				41A19441196673BB0038AAA2 /* SHChatEntrySegmentViewController.m in Sources */,
 				9638162F195BC6140069D477 /* SHPushNotificationsSetting.m in Sources */,
 				41365D661962169A0057B8C9 /* SHNotificationCell.m in Sources */,
 				96D95540195CD2CA00667581 /* SHProfileSegmentViewController.m in Sources */,

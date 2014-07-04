@@ -15,6 +15,7 @@
 #import "Student.h"
 #import "SHStudentCell.h"
 #import "SHStudyCell.h"
+#import "SHChatCell.h"
 #import "SHResourceCell.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHProfileViewController.h"
@@ -24,6 +25,7 @@
 #import "SHCategoryCell.h"
 #import "SHNewResourceViewController.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "SHChatEntryViewController.h"
 
 
 @interface SHHuddleSegmentViewController () <SHBaseCellDelegate, SHAddCellDelegate, UINavigationControllerDelegate>
@@ -40,12 +42,13 @@
 
 @property (strong, nonatomic) NSMutableDictionary *segmentData;
 @property (strong, nonatomic) NSMutableArray *membersDataArray;
-@property (strong, nonatomic) NSMutableArray *threadDataArray;
+@property (strong, nonatomic) NSMutableArray *chatEntryDataArray;
 @property (strong, nonatomic) NSMutableArray *categoryDataArray;
 
 @property (strong, nonatomic) NSMutableArray *encapsulatingDataArray;
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
+@property int initialSection;
 
 @property (strong, nonatomic) SHStudentSearchViewController *searchVC;
 
@@ -66,7 +69,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     if(self)
     {
         _segHuddle = aHuddle;
-        
+        self.initialSection = 1;
         CellIdentifier = [[NSString alloc]init];
         
         self.segCellIdentifiers = [[NSMutableDictionary alloc]init];
@@ -82,6 +85,13 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
         
     }
+    return self;
+}
+
+-(id)initWithHuddle:(PFObject *)aHuddle andInitialSection:(int)section
+{
+    self = [self initWithHuddle:aHuddle];
+    self.initialSection = section;
     return self;
 }
 
@@ -105,7 +115,8 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     self.membersDataArray = [[NSMutableArray alloc]init];
     self.categoryDataArray = [[NSMutableArray alloc]init];
-    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.membersDataArray, self.categoryDataArray,  nil];
+    self.chatEntryDataArray = [[NSMutableArray alloc]init];
+    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.membersDataArray, self.categoryDataArray, self.chatEntryDataArray, nil];
     
     [self loadHuddleData];
         
@@ -130,7 +141,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     //Set segment menu titles
     [self.segCellIdentifiers setObject:SHStudentCellIdentifier forKey:[@"Members" uppercaseString]];
-    [self.segCellIdentifiers setObject:@"UITableViewCell" forKey:[@"Chat" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$
+    [self.segCellIdentifiers setObject:SHChatCellIdentifier forKey:[@"Chat" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$
     [self.segCellIdentifiers setObject:SHCategoryCellIdentifier forKey:[@"Resources" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ // NEED TO REGISTER CELLS AS WELL
     
     //Segment
@@ -139,7 +150,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
     [self.tableView registerClass:[SHAddCell class] forCellReuseIdentifier:SHAddCellIdentifier];
     [self.tableView registerClass:[SHCategoryCell class] forCellReuseIdentifier:SHCategoryCellIdentifier];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+    [self.tableView registerClass:[SHChatCell class] forCellReuseIdentifier:SHChatCellIdentifier];
     
     
 }
@@ -191,11 +202,31 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     [self.membersDataArray removeAllObjects];
     [self.membersDataArray addObjectsFromArray:members];
     
-    //Chat
+    
+    NSArray *chatEntries = [self.segHuddle objectForKey:SHHuddleChatEntriesKey];
+    
+    [self.chatEntryDataArray removeAllObjects];
+    [self.chatEntryDataArray addObjectsFromArray:chatEntries];
+    
+    
     
     [self.tableView reloadData];
     
-    [self saveDataToDisk];
+    //[self saveDataToDisk];
+    
+    switch (self.initialSection) {
+        case 0:
+            self.currentRowsToDisplay = self.membersDataArray.count;
+            break;
+        case 1:
+            self.currentRowsToDisplay = self.categoryDataArray.count;
+            break;
+        case 2:
+            self.currentRowsToDisplay = self.chatEntryDataArray.count;
+            break;
+        default:
+            break;
+    }
     
     return loadError;
 }
@@ -234,7 +265,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     {
         _control = [[DZNSegmentedControl alloc] initWithItems:self.segMenu];
         _control.delegate = self;
-        _control.selectedSegmentIndex = 1;
+        _control.selectedSegmentIndex = self.initialSection;
         _control.inverseTitles = NO;
         _control.tintColor = [UIColor huddleOrange];
         _control.hairlineColor = [UIColor grayColor];
@@ -282,6 +313,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     if([SHUtility studentInArray:self.membersDataArray student:[Student currentUser]]){
         if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"MEMBERS"] || [[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"RESOURCES"]){
             addCell = 1;
+            NSLog(@"added cell");
         }
         
     }
@@ -306,7 +338,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
             
             
         [cell layoutIfNeeded];
-        
+        NSLog(@"baby got kush");
         return cell;
     
     }
@@ -326,7 +358,8 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     }
     else if([CellIdentifier isEqual:SHCategoryCellIdentifier])
     {
-        NSString *categoryName = [self.categoryDataArray objectAtIndex:(int)indexPath.row];
+        int index = (int)indexPath.row;
+        NSString *categoryName = [self.categoryDataArray objectAtIndex:index];
         SHCategoryCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         
@@ -336,11 +369,17 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
         return cell;
     }
-    else if([CellIdentifier isEqual:@"UITableViewCell"])
+    else if([CellIdentifier isEqual:SHChatCellIdentifier])
     {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        PFObject *chatEntryObj = [self.chatEntryDataArray objectAtIndex:(int)indexPath.row];
+        SHChatCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell.delegate = self;
         
-        cell.textLabel.text = @"Chat";
+        [chatEntryObj fetch];
+        
+        [cell setChatEntry:chatEntryObj];
+        
+        [cell layoutIfNeeded];
         
         return cell;
     }
@@ -369,11 +408,14 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
             
             [self.owner.navigationController pushViewController:visitorVC animated:YES];
         }
-        
 
-        
-        
-        
+    }
+    else if([cell isKindOfClass:[SHChatCell class]])
+    {
+        PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
+        NSLog(@"chatEntryObj: , %@",chatEntryObj);
+        SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
+        [self.owner.navigationController pushViewController:chatEntryVC animated:YES];
     }
 }
 

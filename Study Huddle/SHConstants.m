@@ -30,6 +30,8 @@ NSString *const SHAddCellIdentifier = @"AddCell";
 NSString *const SHStudentCellIdentifier = @"StudentCell";
 NSString *const SHResourceCellIdentifier = @"ResourceCell";
 NSString *const SHCategoryCellIdentifier = @"CategoryCell";
+NSString *const SHChatCellIdentifier = @"ChatCell";
+NSString *const SHThreadCellIdentifier = @"ThreadCell";
 
 
 
@@ -53,6 +55,7 @@ NSString *const SHHuddleStudyKey = @"study";
 NSString *const SHHuddleResourcesKey = @"resources";
 NSString *const SHHuddleImageKey = @"huddleImage";
 NSString *const SHHuddleStudyingKey = @"isStudying";
+NSString *const SHHuddleChatEntriesKey = @"chatEntries";
 
 //Student
 NSString *const SHStudentNameKey = @"fullName";
@@ -85,3 +88,27 @@ NSString *const SHRequestSubTitle = @"subTitle";
 //Notifications
 NSString* const SHNotificationTitle = @"title";
 NSString* const SHNotificationSubTitle = @"subTitle";
+NSString* const SHNotificationHuddleResource = @"huddleResource";
+NSString* const SHNotificationNewMember = @"huddleNewMember";
+NSString* const SHNotificationAnswer = @"answerToQuestion";
+NSString* const SHNotificationHuddleStartedStudying = @"huddleStartsStudying";
+NSString* const SHNotificationHuddleKey = @"huddle";
+NSString* const SHNotificationStudentKey = @"student";
+NSString* const SHNotificationClassKey = @"class";
+NSString* const SHNotificationTypeKey = @"type";
+NSString* const SHNotificationReadKey = @"read";
+NSString* const SHNotificationDateKey = @"createdAt";
+
+//Thread
+NSString* const SHThreadCreator = @"creator";
+NSString* const SHThreadQuestion = @"question";
+NSString* const SHThreadReplies = @"replies";
+NSString* const SHThreadMoreInfo = @"moreInfo";
+
+//Reply
+NSString* const SHReplyCreator = @"creator";
+NSString* const SHReplyAnswer = @"answer";
+
+//Chat Entry
+NSString* const SHChatEntryCategoryKey = @"category";
+NSString* const SHChatEntryThreadsKey = @"threads";

@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHNotificationCell.h"
+#import "SHChatCell.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
 
-@interface SHNotificationCell ()
+@interface SHChatCell ()
 
 @property (nonatomic, strong) UILabel *infoLabel;
-@property (nonatomic,strong) PFObject* notificationObj;
+@property (nonatomic,strong) PFObject* chatEntryObj;
 
 @end
 
-@implementation SHNotificationCell
+@implementation SHChatCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -47,9 +47,9 @@
     [self.titleButton setFrame:CGRectMake(titleX, titleY, titleSize.width, titleSize.height)];
     
     CGSize labelSize = [self.infoLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-                                                                 options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                              attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:12]}
-                                                                 context:nil].size;
+                                                         options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                      attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:12]}
+                                                         context:nil].size;
     
     [self.infoLabel setFrame:CGRectMake(titleX, titleY+self.titleButton.frame.size.height, labelSize.width, labelSize.height)];
     
@@ -58,32 +58,28 @@
     self.arrowButton.frame = arrowFrame;
     
     
-
+    
     
 }
 
-- (void)setNotification:(PFObject *)aNotification
+- (void)setChatEntry:(PFObject *)aChatEntry
 {
-    self.notificationObj = aNotification;
+    self.chatEntryObj = aChatEntry;
     
     //Title Button
-    [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitle] forState:UIControlStateNormal];
-    [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitle] forState:UIControlStateHighlighted];
+    [self.titleButton setTitle:[aChatEntry objectForKey:SHChatEntryCategoryKey] forState:UIControlStateNormal];
+    [self.titleButton setTitle:[aChatEntry objectForKey:SHChatEntryCategoryKey] forState:UIControlStateHighlighted];
     
-    [self.infoLabel setText:[aNotification objectForKey:SHNotificationSubTitle]];
-    if([aNotification[SHNotificationReadKey] boolValue])
-    {
-        [self.titleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [self.infoLabel setTintColor:[UIColor grayColor]];
-    }
+    [self.infoLabel setText:@"something cool will go here"];
+   
     
     
     [self layoutSubviews];
 }
 
--(PFObject*)getNotificationObj
+-(PFObject*)getChatEntryObj
 {
-    return self.notificationObj;
+    return self.chatEntryObj;
 }
 
 @end

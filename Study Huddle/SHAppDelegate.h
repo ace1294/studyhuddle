@@ -12,6 +12,7 @@
 #import "SHClassPageViewController.h"
 #import "SHNotificationViewController.h"
 
+
 @class SHProfileViewController;
 
 @interface SHAppDelegate : UIResponder <UIApplicationDelegate>

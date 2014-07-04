@@ -27,6 +27,7 @@
 #import "SHIndividualHuddleviewController.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHClassPageViewController.h"
+#import "SHIndividualHuddleviewController.h"
 
 @interface SHNotificationSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
 
@@ -146,14 +147,17 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     if ([self.segStudent username])
     {
-        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
-        {
-            [self loadDataFromDisk];
-            return;
-        }
+//        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
+//        {
+//            [self loadDataFromDisk];
+//            return;
+//        }
         
         [self loadStudentData];
     }
+    
+    self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:self.control.selectedSegmentIndex]count];
+    [self.tableView reloadData];
 }
 
 - (void)setStudent:(Student *)aSegStudent
@@ -175,8 +179,32 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     NSArray *notifications = [self.segStudent objectForKey:SHStudentNotificationsKey];
     NSLog(@"notifications: %@",notifications);
     
+
+    
+    //sort them based on date created
+    NSArray *sortedArray;
+    sortedArray = [notifications sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        [a fetchIfNeeded];
+        [b fetchIfNeeded];
+     
+    
+        PFObject* firstNotification = (PFObject*)a;
+        
+        NSDate* first = [firstNotification createdAt];
+    
+        
+        PFObject* secondNotification = (PFObject*)b;
+        NSDate* second = [secondNotification createdAt];
+      
+        
+   
+        return [second compare:first];
+       
+    }];
+    
     [self.notificationsDataArray removeAllObjects];
-    [self.notificationsDataArray addObjectsFromArray:notifications];
+    [self.notificationsDataArray addObjectsFromArray:sortedArray];
+
     
     
     [self.control setCount:[NSNumber numberWithInt:self.notificationsDataArray.count] forSegmentAtIndex:0];
@@ -193,7 +221,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
     [self.tableView reloadData];
     
-    [self saveDataToDisk];
+    //[self saveDataToDisk];
     
     return loadError;
 }
@@ -329,6 +357,32 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
 - (void)didTapTitleCell:(SHBaseTextCell *)cell
 {
+   if ([cell isKindOfClass:[SHNotificationCell class]] )
+   {
+       SHNotificationCell* notificationCell = (SHNotificationCell*)cell;
+       PFObject* notificationObject = [notificationCell getNotificationObj];
+       
+       //check the type of notification
+       if([notificationObject[SHNotificationTypeKey] isEqualToString:SHNotificationNewMember])
+       {
+           PFObject* huddleObject = notificationObject[SHNotificationHuddleKey];
+           [huddleObject fetchIfNeeded];
+           SHIndividualHuddleviewController* newHuddleView = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleObject andInitialSection:0];
+           
+           [self.navigationController pushViewController:newHuddleView animated:YES];
+       }
+       else if([notificationObject[SHNotificationTypeKey] isEqualToString:SHNotificationHuddleStartedStudying])
+       {
+           PFObject* huddleObject = notificationObject[SHNotificationHuddleKey];
+           [huddleObject fetchIfNeeded];
+           SHIndividualHuddleviewController* indvHuddle = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleObject];
+           
+           [self.navigationController pushViewController:indvHuddle animated:NO];
+       }
+       
+
+   }
+    
     
 }
 

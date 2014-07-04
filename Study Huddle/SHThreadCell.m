@@ -6,18 +6,19 @@
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHNotificationCell.h"
+#import "SHThreadCell.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
+#import "Student.h"
 
-@interface SHNotificationCell ()
+@interface SHThreadCell ()
 
 @property (nonatomic, strong) UILabel *infoLabel;
-@property (nonatomic,strong) PFObject* notificationObj;
+@property (nonatomic,strong) PFObject* threadObject;
 
 @end
 
-@implementation SHNotificationCell
+@implementation SHThreadCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -47,9 +48,9 @@
     [self.titleButton setFrame:CGRectMake(titleX, titleY, titleSize.width, titleSize.height)];
     
     CGSize labelSize = [self.infoLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-                                                                 options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                              attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:12]}
-                                                                 context:nil].size;
+                                                         options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                      attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:12]}
+                                                         context:nil].size;
     
     [self.infoLabel setFrame:CGRectMake(titleX, titleY+self.titleButton.frame.size.height, labelSize.width, labelSize.height)];
     
@@ -58,32 +59,30 @@
     self.arrowButton.frame = arrowFrame;
     
     
-
+    
     
 }
 
-- (void)setNotification:(PFObject *)aNotification
+- (void)setThread:(PFObject *)aThread
 {
-    self.notificationObj = aNotification;
+    self.threadObject = aThread;
     
     //Title Button
-    [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitle] forState:UIControlStateNormal];
-    [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitle] forState:UIControlStateHighlighted];
+    [self.titleButton setTitle:[aThread objectForKey:SHThreadQuestion] forState:UIControlStateNormal];
+    [self.titleButton setTitle:[aThread objectForKey:SHThreadQuestion] forState:UIControlStateHighlighted];
     
-    [self.infoLabel setText:[aNotification objectForKey:SHNotificationSubTitle]];
-    if([aNotification[SHNotificationReadKey] boolValue])
-    {
-        [self.titleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [self.infoLabel setTintColor:[UIColor grayColor]];
-    }
+    Student* student = [aThread objectForKey:SHThreadCreator];
+    [student fetchIfNeeded];
+    [self.infoLabel setText:student.fullName];
+    
     
     
     [self layoutSubviews];
 }
 
--(PFObject*)getNotificationObj
+-(PFObject*)getThread
 {
-    return self.notificationObj;
+    return self.threadObject;
 }
 
 @end
