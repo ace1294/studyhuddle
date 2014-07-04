@@ -41,7 +41,6 @@
     PFFile* imageFile = [huddle objectForKey:@"huddleImage"];
     UIImage* huddleImage = [UIImage imageWithData:[imageFile getData]];
     self.huddleImageView.image = huddleImage;
-    NSLog(@"huddle that will be passed to controllerL %@",huddle);
     [self.delegate setHuddle:huddle];
     
 }

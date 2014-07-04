@@ -74,9 +74,12 @@ NSString *const SHStudyUniqueName  = @"uniqueName";
 
 //Resources
 NSString *const SHResourceOwnerKey = @"owner";
-NSString *const SHResourceCreatorKey = @"creater";
-NSString *const SHResourceNameKey = @"name";
+NSString *const SHResourceCreatorKey = @"creator";
+NSString *const SHResourceNameKey = @"title";
 NSString *const SHResourceCategoryKey = @"category";
+NSString *const SHResourceDescriptionKey = @"description";
+NSString *const SHResourceLinkKey = @"link";
+NSString *const SHResourceFileKey = @"file";
 
 //Requests
 NSString *const SHRequestTitle = @"title";

@@ -84,7 +84,6 @@
 
 -(void)setStudent:(PFObject *)student
 {
-    NSLog(@"huddle to be passed: %@",student);
     self.portraitStudent = student;
 }
 

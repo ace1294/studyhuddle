@@ -12,8 +12,13 @@
 #import "SHPortraitView.h"
 #import "UIViewController+MJPopupViewController.h"
 #import "UIView+AUISelectiveBorder.h"
+#import "SHDocumentView.h"
+#import "SHHuddleButtons.h"
+#import "Student.h"
 
-@interface SHNewResourceViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface SHNewResourceViewController () <UITextFieldDelegate, SHHuddleButtonsDelegate, UITextViewDelegate>
+
+- (void)heightOfButtons:(CGFloat)height;
 
 @property (strong, nonatomic) UILabel *createResourceHeaderLabel;
 @property (strong, nonatomic) UILabel *aboutHeaderLabel;
@@ -22,7 +27,7 @@
 
 @property (strong, nonatomic) UITextField *resourceTitleField;
 @property (strong, nonatomic) UITextField *resourceLinkField;
-@property (strong, nonatomic) UILabel *pictureLabel;
+@property (strong, nonatomic) SHDocumentView *documentView;
 @property (strong, nonatomic) SHPortraitView *resourcePortrait;
 @property (strong, nonatomic) UITextView *descriptionTextView;
 
@@ -32,36 +37,48 @@
 
 @property (strong, nonatomic) PFObject *huddle;
 @property (strong, nonatomic) NSMutableArray *categories;
-@property (strong, nonatomic) NSMutableDictionary *categoryButtons;
+
+@property (strong, nonatomic) SHHuddleButtons *categoryButtons;
+
+//@property (strong, nonatomic) NSMutableDictionary *categoryButtons;
+@property (strong, nonatomic) UITextField *addCategoryField;
+@property (strong, nonatomic) NSString *selectedCategory;
+
+@property (strong, nonatomic) NSDate *time;
 
 
 @property BOOL pictureSet;
+@property BOOL addCategorySet;
 
 @end
 
 @implementation SHNewResourceViewController
 
-float modalFrameHeight;
+
 
 - (id)initWithHuddle:(PFObject *)aHuddle
 {
     self = [super init];
     if (self) {
         _huddle = aHuddle;
+        self.categories = aHuddle[SHHuddleResourcesKey];
         
-        modalFrameHeight = 380;
+        self.modalFrameHeight = categoryHeaderY+headerHeight+vertViewSpacing;
         
         self.view.clipsToBounds = YES;
         [self.view setBackgroundColor:[UIColor colorWithWhite:.9 alpha:1]];
         self.view.layer.cornerRadius = 3;
-        [self.view setFrame:CGRectMake(0.0, 0.0, 270.0, modalFrameHeight)];
+        [self.view setFrame:CGRectMake(0.0, 0.0, newResourceWidth, self.modalFrameHeight)];
+        self.addCategorySet = false;
         
         
         [self initHeaders];
         [self initFields];
         [self initButtons];
-        [self initCategories];
-        
+        CGRect initialButton = CGRectMake(buttonX, buttonY, huddleButtonWidth, huddleButtonHeight);
+        self.categoryButtons = [[SHHuddleButtons alloc] initWithFrame:initialButton items:self.categories addButton:@"New Category"];
+        self.categoryButtons.delegate = self;
+        [self.categoryButtons setViewController:self];
         
 
         
@@ -76,7 +93,7 @@ float modalFrameHeight;
 {
     [super viewWillAppear:animated];
     
-    [self setCategoryButtonFrames];
+    self.documentView.root = self.owner;
 }
 
 - (void)initHeaders
@@ -98,7 +115,7 @@ float modalFrameHeight;
     [self.aboutHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.aboutHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
     self.aboutHeaderLabel.textAlignment = NSTextAlignmentLeft;
-    self.aboutHeaderLabel.text = @"ABOUT";
+    self.aboutHeaderLabel.text = @"About";
     [self.view addSubview:self.aboutHeaderLabel];
     
     //Description Header
@@ -107,7 +124,7 @@ float modalFrameHeight;
     [self.descriptionHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.descriptionHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
     self.descriptionHeaderLabel.textAlignment = NSTextAlignmentLeft;
-    self.descriptionHeaderLabel.text = @"DESCRIPTION";
+    self.descriptionHeaderLabel.text = @"Description";
     [self.view addSubview:self.descriptionHeaderLabel];
 
     //Category Header
@@ -116,7 +133,7 @@ float modalFrameHeight;
     [self.categoryHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.categoryHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
     self.categoryHeaderLabel.textAlignment = NSTextAlignmentLeft;
-    self.categoryHeaderLabel.text = @"SELECT CATEGORY";
+    self.categoryHeaderLabel.text = @"Select Category";
     [self.view addSubview:self.categoryHeaderLabel];
 }
 
@@ -144,39 +161,45 @@ float modalFrameHeight;
     [self.resourceLinkField setLeftView:spacerview];
     [self.view addSubview:self.resourceLinkField];
     
-    //Resource Picture Background
-    self.pictureLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, documentY, documentWidth, documentHeight)];
-    [self.pictureLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:14]];
-    [self.pictureLabel setBackgroundColor:[UIColor whiteColor]];
-    [self.pictureLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    self.pictureLabel.textAlignment = NSTextAlignmentLeft;
-    [self.view addSubview:self.pictureLabel];
-    
     //Description Text View
     self.descriptionTextView = [[UITextView alloc]initWithFrame:CGRectMake(horiViewSpacing, descriptionY, descriptionWidth, descriptionHeight)];
     self.descriptionTextView.layer.cornerRadius = 2;
+    self.descriptionTextView.delegate = self;
     [self.view addSubview:self.descriptionTextView];
+    
+    //New Category
+    //Resource Link
+    self.addCategoryField = [[UITextField alloc] initWithFrame:CGRectMake(fieldX, resourceLinkY, fieldWidth, fieldHeight)];
+    [self.addCategoryField setFont:[UIFont fontWithName:@"Arial" size:14]];
+    [self.addCategoryField setBackgroundColor:[UIColor clearColor]];
+    self.addCategoryField.layer.cornerRadius = 3;
+    [self.addCategoryField setPlaceholder:@"New Category"];
+    UIView *cspacerview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    [self.addCategoryField setLeftViewMode:UITextFieldViewModeAlways];
+    [self.addCategoryField setLeftView:cspacerview];
+    self.addCategoryField.alpha = 0;
+    self.addCategoryField.userInteractionEnabled = FALSE;
+    self.addCategoryField.delegate = self;
+    [self.view addSubview:self.addCategoryField];
 }
 
 - (void)initButtons
 {
-    //Add Picture
-    //self.resourcePortrait = [[SHPortraitView alloc] initWithFrame:CGRectMake(horiViewSpacing, sectionHeight+vertBorderSpacing, addPictureButtonDimX, addPictureButtonDimY)];
-    [self.resourcePortrait setBackgroundColor:[UIColor clearColor]];
-    [self.resourcePortrait setOpaque:YES];
-    [self.resourcePortrait.profileButton addTarget:self action:@selector(choosePicture:) forControlEvents:UIControlEventTouchDragInside];
-    [self.resourcePortrait setCamera];
-    [self.view addSubview:self.resourcePortrait];
+    //Document
+    self.documentView = [[SHDocumentView alloc] initWithFrame:CGRectMake(horiViewSpacing, documentY, documentWidth, documentHeight)];
+    self.documentView.owner = self;
+   
+    [self.view addSubview:self.documentView];
     
     
     //Create
-    //self.createButton = [[UIButton alloc]initWithFrame:CGRectMake(230.0, vertBorderSpacing, 45.0, 30.0)];
-    [self.createButton setTitle:@"Create" forState:UIControlStateNormal];
-    [self.createButton setBackgroundColor:[UIColor huddleOrange]];
+    self.createButton = [[UIButton alloc]initWithFrame:CGRectMake(225.0, vertElemSpacing/2, 40.0, headerHeight-vertElemSpacing)];
+    [self.createButton setTitle:@"Save" forState:UIControlStateNormal];
+    [self.createButton setBackgroundColor:[UIColor whiteColor]];
     self.createButton.layer.cornerRadius = 3;
     [self.createButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:14]];
-    [self.createButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.createButton addTarget:self action:@selector(choosePicture:) forControlEvents:UIControlEventTouchUpInside];
+    [self.createButton setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
+    [self.createButton addTarget:self action:@selector(create) forControlEvents:UIControlEventTouchUpInside];
     //Border
     [[self.createButton  layer] setBorderWidth:1.0f];
     [[self.createButton  layer] setBorderColor:[UIColor whiteColor].CGColor];
@@ -184,109 +207,19 @@ float modalFrameHeight;
     [self.view addSubview:self.createButton];
     
     //Create
-    //self.cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(horiBorderSpacing, vertBorderSpacing, 45.0, 30.0)];
+    self.cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(horiElemSpacing, vertElemSpacing/2, 45.0, headerHeight-vertElemSpacing)];
     [self.cancelButton setBackgroundColor:[UIColor huddleOrange]];
     self.cancelButton.layer.cornerRadius = 3;
-    self.cancelButton.imageView.image = [UIImage imageNamed:@"X_cancelbtn@2x.png"];
+    [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [self.cancelButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:14]];
+    [self.cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.cancelButton];
     
 }
 
-- (void)initCategories
-{
-    self.categories = [self.huddle objectForKey:SHHuddleResourcesKey];
-    self.categoryButtons = [[NSMutableDictionary alloc]init];
-    NSString *category;
-    
-    for(int i = 0; i < [self.categories count] +1; i++)
-    {
-        
-        
-        UIButton *button = [[UIButton alloc]init];
-        [self.categoryButtons setObject:button forKey:[NSNumber numberWithInt:i]];
-        
-        button.tag = i;
-        [button.titleLabel setFont:[UIFont fontWithName:@"Arial" size:14]];
-        [button setBackgroundColor:[UIColor whiteColor]];
-        [button setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
-        
-        if(i == [self.categories count]){
-            [button setTitle:@"New Category" forState:UIControlStateNormal];
-        }
-        else{
-            category = self.categories[i];
-            [button setTitle:category forState:UIControlStateNormal];
-        }
-        
-        [button addTarget:self action:@selector(categoryPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.view addSubview:button];
-    }
-    
-}
 
-- (void)setCategoryButtonFrames
-{
-    int i = 0;
-    
-    for(NSNumber *tag in self.categoryButtons)
-    {
-        UIButton *button = [self.categoryButtons objectForKey:tag];
-        //Long button on buttom
-        if((([tag intValue]+1) == [self.categoryButtons count]) && ([self.categoryButtons count]%2 == 1)){
-            [button setFrame:CGRectMake(buttonX,buttonY+buttonHeight*(i/2), buttonWidth*2, buttonHeight)];
-            [self setMaskTo:button byRoundingCorners:UIRectCornerBottomRight|UIRectCornerBottomLeft];
-            continue;
-        }
-        
-        button.clipsToBounds = YES;
-        [button setFrame:CGRectMake(buttonX+buttonWidth*(i%2),buttonY+buttonHeight*(i/2), buttonWidth, buttonHeight)];
-        
-        if(i == 0){
-            [self setMaskTo:button byRoundingCorners:UIRectCornerTopLeft];
-        }
-        else if (i == 1)
-            [self setMaskTo:button byRoundingCorners:UIRectCornerTopRight];
-        
-        if((i+1) == [self.categoryButtons count]-1 && i!=1)
-            [self setMaskTo:button byRoundingCorners:UIRectCornerBottomLeft];
-        else if((i+1) == [self.categoryButtons count])
-            [self setMaskTo:button byRoundingCorners:UIRectCornerBottomRight];
-        else{
-            if(i%2 == 0)
-                button.selectiveBorderFlag = AUISelectiveBordersFlagBottom | AUISelectiveBordersFlagRight;
-            else
-                button.selectiveBorderFlag = AUISelectiveBordersFlagBottom;
-            button.selectiveBordersColor = [UIColor colorWithWhite:.9 alpha:1];
-            button.selectiveBordersWidth = 1.0;
-            
-        }
-        i++;
-    }
-    
 
-}
-
-- (void)categoryPressed:(id)sender
-{
-//    int buttonNumber = [sender tag];
-//    UIButton *selectedButton = [self.categoryButtons objectForKey:[NSNumber numberWithInt:buttonNumber]];
-//    
-//    self.className = selectedButton.titleLabel.text;
-//    
-//    [selectedButton setBackgroundColor:[UIColor huddleOrange]];
-//    [selectedButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    
-//    for(NSNumber *tag in self.classButtons)
-//    {
-//        if(tag == [NSNumber numberWithInt:buttonNumber])
-//            continue;
-//        UIButton *button = [self.classButtons objectForKey:tag];
-//        [button setBackgroundColor:[UIColor whiteColor]];
-//        [button setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
-//    }
-}
 
 - (void)viewDidLoad
 {
@@ -314,20 +247,94 @@ float modalFrameHeight;
     view.layer.mask = shape;
 }
 
+//- (void)textFieldDidBeginEditing:(UITextField *)textField
+//{
+//    [self animateTextField: textField up: YES];
+//}
+//
+//
+//- (void)textFieldDidEndEditing:(UITextField *)textField
+//{
+//    [self animateTextField: textField up: NO];
+//}
+//
+//-(BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//    [self animateTextField: textField up: NO];
+//    
+//    [self resignFirstResponder];
+//    
+//    return true;
+//}
 
+//- (void) animateTextField: (UITextField*) textField up: (BOOL) up
+//{
+//    const int movementDistance = 110; // tweak as needed
+//    const float movementDuration = 0.3f; // tweak as needed
+//    
+//    int movement = (up ? -movementDistance : movementDistance);
+//    
+//    [UIView beginAnimations: @"anim" context: nil];
+//    [UIView setAnimationBeginsFromCurrentState: YES];
+//    [UIView setAnimationDuration: movementDuration];
+//    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+//    [UIView commitAnimations];
+//    
+//    textField.userInteractionEnabled = NO;
+//    
+//    self.selectedCategory = textField.text;
+//    
+//    UIButton *button = [self.categoryButtons objectForKey: [NSNumber numberWithInt:([self.categoryButtons count]-1)]];
+//                        
+//    button.titleLabel.text = self.selectedCategory;
+//    
+//    [self.huddle addObject:self.selectedCategory forKey:SHHuddleResourcesKey];
+//    //[self.huddle saveInBackground];
+//}
 
+#pragma mark - Text View Delegate
 
-
-
-
-
-- (void)choosePicture:(id)sender
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    if ([text isEqual:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+
+- (void)create
+{
+    NSLog(@"CRESTRING");
+    
+    PFObject *newResource = [PFObject objectWithClassName:SHResourceParseClass];
+    newResource[SHResourceNameKey] = self.resourceTitleField.text;
+    newResource[SHResourceOwnerKey] = self.huddle;
+    newResource[SHResourceCreatorKey] = [Student currentUser];
+    newResource[SHResourceCategoryKey] = self.categoryButtons.selectedButton;
+    newResource[SHResourceDescriptionKey] = self.descriptionTextView.text;
+    newResource[SHResourceLinkKey] = self.resourceLinkField.text;
+    
+    NSData *fileData = UIImageJPEGRepresentation(self.documentView.documentImageView.image, 1.0f);
+    newResource[SHResourceFileKey] = [PFFile fileWithData:fileData];
+    
+    [newResource saveInBackground];
+    
+    if(self.categoryButtons.addButtonSet){
+        [self.huddle addObject:self.categoryButtons.selectedButton forKey:SHHuddleResourcesKey];
+        [self.huddle saveInBackground];
+    }
+    
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
     
 }
 
 - (void)cancel
 {
+    NSLog(@"CANCELLING");
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
 

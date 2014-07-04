@@ -48,6 +48,7 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @property (strong, nonatomic) SHStudentSearchViewController *searchVC;
+@property (strong, nonatomic) SHNewResourceViewController *addResourceVC;
 
 @end
 
@@ -78,8 +79,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         self.docsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         self.docsPath = [self.docsPath stringByAppendingPathComponent:@"huddleSegment"];
         
-        
-        
+
         
     }
     return self;
@@ -398,15 +398,24 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     else if ([cell.typeIdentifier isEqual:SHCategoryCellIdentifier] ) {
         
         
-        SHNewResourceViewController *newResourceVC = [[SHNewResourceViewController alloc] initWithHuddle:self.segHuddle];
-        //newResourceVC.view.frame = CGRectMake(50.0, 0.0, 280, 245 + (([self.categoryDataArray count]+1)*35.0));
+        self.addResourceVC = [[SHNewResourceViewController alloc] initWithHuddle:self.segHuddle];
+        self.addResourceVC.owner = self;
         
-        [self presentPopupViewController:newResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
+
+        
+        [self presentPopupViewController:self.addResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
         
 
     }
     
     
+}
+
+
+- (void)presentNewResource
+{
+    NSLog(@"IN THE SEGEMENTNTNTNTJDSHF$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    [self presentPopupViewController:self.addResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 #pragma mark - UINavigationControllerDelegate

@@ -43,16 +43,13 @@
     NSData* imageData = UIImageJPEGRepresentation(newImage, 1.0f);
     PFFile *imageFile = [PFFile fileWithData:imageData];
     self.portraitHuddle[@"huddleImage"] = imageFile;
-    
-    NSLog(@"huddle: %@",self.portraitHuddle);
-    NSLog(@"about to save to parse!!!!!!!!!!!!!!!!!1111");
+
     [self.portraitHuddle saveInBackground];
     
 }
 
 -(void)setHuddle: (PFObject*)huddle;
 {
-    NSLog(@"huddle to be passed: %@",huddle);
     self.portraitHuddle = huddle;
 }
 

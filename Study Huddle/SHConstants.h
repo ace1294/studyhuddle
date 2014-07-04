@@ -72,12 +72,16 @@ extern NSString *const SHResourceOwnerKey;
 extern NSString *const SHResourceCreatorKey;
 extern NSString *const SHResourceNameKey;
 extern NSString *const SHResourceCategoryKey;
+extern NSString *const SHResourceDescriptionKey;
+extern NSString *const SHResourceLinkKey;
+extern NSString *const SHResourceFileKey;
 
 //Notifications
 extern NSString* const SHNotificationTitle;
 extern NSString* const SHNotificationSubTitle;
 
 
+#define newResourceWidth 270
 
 
 //Segment Attributes
