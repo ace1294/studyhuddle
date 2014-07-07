@@ -12,15 +12,20 @@
 
 @interface SHUtility : NSObject
 
++ (void)fetchObjectsInArray:(NSArray *)objects;
+
 + (NSMutableAttributedString *)listOfMemberNames:(NSArray *)members attributes:(NSDictionary *)attr;
 + (NSMutableAttributedString *)listOfClasses:(NSArray *)classObjects attributes:(NSDictionary *)attr;
 +(UIImage *)getRoundedRectImageFromImage :(UIImage *)image onReferenceView :(UIImageView*)imageView withCornerRadius :(float)cornerRadius;
 
 +(BOOL)studentInArray:(NSArray *)list student:(Student *)student;
 
-+(NSInteger)resourcesInCategory:(NSString *)category inHuddle:(PFObject *)huddle;
-
 + (void)separateOnlineOfflineData:(NSMutableDictionary *)data forOnlineKey:(NSString *)onlineKey;
+
++ (NSMutableArray *)categoryNamesForCategoryObjects:(NSArray *)categories;
+
+
++(void)setMaskTo:(UIView*)view byRoundingCorners:(UIRectCorner)corners;
 
 
 @end

@@ -64,7 +64,7 @@
     
 }
 
-- (void)setCategory:(NSString *)aCategory withHuddle:(PFObject *)huddle
+- (void)setCategory:(PFObject *)aCategory
 {
     _category = aCategory;
     
@@ -72,9 +72,9 @@
     NSDictionary *arialDict = [NSDictionary dictionaryWithObject: [UIFont fontWithName:@"Arial" size:12] forKey:NSFontAttributeName];
     NSDictionary *arialBoldDict = [NSDictionary dictionaryWithObject:[UIFont fontWithName:@"Arial-BoldMT" size:12] forKey:NSFontAttributeName];
     
-    [self.titleButton setTitle:aCategory forState:UIControlStateNormal];
+    [self.titleButton setTitle:[aCategory objectForKey:SHCategoryNameKey] forState:UIControlStateNormal];
     
-    NSInteger resourceCount = [SHUtility resourcesInCategory:aCategory inHuddle:huddle];
+    NSInteger resourceCount = [[aCategory objectForKey:SHCategoryResourcesKey] count];
     
     NSMutableAttributedString *categoryInfoString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld Resources", (long)resourceCount] attributes:arialDict];
     NSMutableAttributedString *categoryInfoTitleString = [[NSMutableAttributedString alloc]initWithString:@"Info: " attributes:arialBoldDict];

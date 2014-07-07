@@ -141,13 +141,14 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     [[self.studentData objectForKey:@"both"] removeAllObjects];
     [self.studentData setObject:students forKey:@"both"];
     [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
+    [SHUtility fetchObjectsInArray:[self.studentData objectForKey:@"both"]];
     
     //Huddle Data
     NSArray *huddles = [self.segClass objectForKey:SHClassHuddlesKey];
     [[self.huddlesData objectForKey:@"both"] removeAllObjects];
     [self.huddlesData setObject:huddles forKey:@"both"];
     [SHUtility separateOnlineOfflineData:self.huddlesData forOnlineKey:SHHuddleStudyingKey];
-    
+    [SHUtility fetchObjectsInArray:[self.huddlesData objectForKey:@"both"]];
     
     //Chat
     

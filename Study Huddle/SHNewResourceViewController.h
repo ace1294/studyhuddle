@@ -7,13 +7,14 @@
 //
 
 #import <Parse/Parse.h>
+#import "SHModalViewController.h"
 #import "SHConstants.h"
 
 
-@interface SHNewResourceViewController : UIViewController
+@interface SHNewResourceViewController : SHModalViewController
 
 @property (strong, nonatomic) id owner;
-@property float modalFrameHeight;
+
 
 
 - (id)initWithHuddle:(PFObject *)aHuddle;
@@ -28,7 +29,7 @@
 
 #define fieldX horiViewSpacing+horiElemSpacing+documentWidth
 #define fieldHeight 30.0
-#define fieldWidth newResourceWidth-105
+#define fieldWidth modalWidth-105
 
 #define descriptionWidth 240.0
 #define descriptionHeight 100.0
@@ -37,8 +38,7 @@
 #define documentWidth 70.0
 #define documentHeight 80.0
 
-#define horiViewSpacing 15.0
-#define vertViewSpacing 15.0
+
 
 #define buttonX horiViewSpacing
 #define buttonY categoryHeaderY+headerHeight

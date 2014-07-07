@@ -15,12 +15,12 @@
 #import "SHDocumentView.h"
 #import "SHHuddleButtons.h"
 #import "Student.h"
+#import "SHUtility.h"
 
-@interface SHNewResourceViewController () <UITextFieldDelegate, SHHuddleButtonsDelegate, UITextViewDelegate>
+@interface SHNewResourceViewController () <UITextFieldDelegate, SHHuddleButtonsDelegate, UITextViewDelegate, SHModalViewControllerDelegate>
 
 - (void)heightOfButtons:(CGFloat)height;
 
-@property (strong, nonatomic) UILabel *createResourceHeaderLabel;
 @property (strong, nonatomic) UILabel *aboutHeaderLabel;
 @property (strong, nonatomic) UILabel *descriptionHeaderLabel;
 @property (strong, nonatomic) UILabel *categoryHeaderLabel;
@@ -31,12 +31,11 @@
 @property (strong, nonatomic) SHPortraitView *resourcePortrait;
 @property (strong, nonatomic) UITextView *descriptionTextView;
 
-@property (strong, nonatomic) UIButton *createButton;
-@property (strong, nonatomic) UIButton *cancelButton;
 
 
 @property (strong, nonatomic) PFObject *huddle;
 @property (strong, nonatomic) NSMutableArray *categories;
+@property (strong, nonatomic) NSMutableArray *categoryNames;
 
 @property (strong, nonatomic) SHHuddleButtons *categoryButtons;
 
@@ -61,14 +60,12 @@
     self = [super init];
     if (self) {
         _huddle = aHuddle;
-        self.categories = aHuddle[SHHuddleResourcesKey];
+        self.categories = aHuddle[SHHuddleResourceCategoriesKey];
+        self.categoryNames = [SHUtility categoryNamesForCategoryObjects:self.categories];
         
         self.modalFrameHeight = categoryHeaderY+headerHeight+vertViewSpacing;
         
-        self.view.clipsToBounds = YES;
-        [self.view setBackgroundColor:[UIColor colorWithWhite:.9 alpha:1]];
-        self.view.layer.cornerRadius = 3;
-        [self.view setFrame:CGRectMake(0.0, 0.0, newResourceWidth, self.modalFrameHeight)];
+        [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         self.addCategorySet = false;
         
         
@@ -76,7 +73,7 @@
         [self initFields];
         [self initButtons];
         CGRect initialButton = CGRectMake(buttonX, buttonY, huddleButtonWidth, huddleButtonHeight);
-        self.categoryButtons = [[SHHuddleButtons alloc] initWithFrame:initialButton items:self.categories addButton:@"New Category"];
+        self.categoryButtons = [[SHHuddleButtons alloc] initWithFrame:initialButton items:self.categoryNames addButton:@"New Category"];
         self.categoryButtons.delegate = self;
         [self.categoryButtons setViewController:self];
         
@@ -99,15 +96,7 @@
 - (void)initHeaders
 {
     //Resource Header
-    self.createResourceHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, newResourceWidth, headerHeight)];
-    [self.createResourceHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT"size:14]];
-    [self.createResourceHeaderLabel setTextColor:[UIColor whiteColor]];
-    [self.createResourceHeaderLabel setBackgroundColor:[UIColor huddleOrange]];
-    [self.createResourceHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    self.createResourceHeaderLabel.textAlignment = NSTextAlignmentCenter;
-    [self setMaskTo:self.createResourceHeaderLabel byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight];
-    self.createResourceHeaderLabel.text = @"New Resource";
-    [self.view addSubview:self.createResourceHeaderLabel];
+    self.headerLabel.text = @"New Resource";
 
     //Description Header
     self.aboutHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, aboutHeaderY, headerWidth, headerHeight)];
@@ -193,18 +182,6 @@
     
     
     //Create
-    self.createButton = [[UIButton alloc]initWithFrame:CGRectMake(225.0, vertElemSpacing/2, 40.0, headerHeight-vertElemSpacing)];
-    [self.createButton setTitle:@"Save" forState:UIControlStateNormal];
-    [self.createButton setBackgroundColor:[UIColor whiteColor]];
-    self.createButton.layer.cornerRadius = 3;
-    [self.createButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:14]];
-    [self.createButton setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
-    [self.createButton addTarget:self action:@selector(create) forControlEvents:UIControlEventTouchUpInside];
-    //Border
-    [[self.createButton  layer] setBorderWidth:1.0f];
-    [[self.createButton  layer] setBorderColor:[UIColor whiteColor].CGColor];
-    
-    [self.view addSubview:self.createButton];
     
     //Create
     self.cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(horiElemSpacing, vertElemSpacing/2, 45.0, headerHeight-vertElemSpacing)];
@@ -304,29 +281,48 @@
     return YES;
 }
 
+- (void)didTapContinue
+{
+    [self create];
+}
 
+- (void)didTapCancel
+{
+    [self cancel];
+}
 
 - (void)create
 {
-    NSLog(@"CRESTRING");
-    
     PFObject *newResource = [PFObject objectWithClassName:SHResourceParseClass];
     newResource[SHResourceNameKey] = self.resourceTitleField.text;
-    newResource[SHResourceOwnerKey] = self.huddle;
+    newResource[SHResourceHuddleKey] = self.huddle;
     newResource[SHResourceCreatorKey] = [Student currentUser];
-    newResource[SHResourceCategoryKey] = self.categoryButtons.selectedButton;
     newResource[SHResourceDescriptionKey] = self.descriptionTextView.text;
     newResource[SHResourceLinkKey] = self.resourceLinkField.text;
-    
     NSData *fileData = UIImageJPEGRepresentation(self.documentView.documentImageView.image, 1.0f);
     newResource[SHResourceFileKey] = [PFFile fileWithData:fileData];
     
-    [newResource saveInBackground];
-    
     if(self.categoryButtons.addButtonSet){
-        [self.huddle addObject:self.categoryButtons.selectedButton forKey:SHHuddleResourcesKey];
+        PFObject *newCategory = [PFObject objectWithClassName:SHCategoryParseClass];
+        
+        newCategory[SHCategoryNameKey] = self.categoryButtons.selectedButton;
+        newCategory[SHCategoryHuddleKey] = self.huddle;
+        newCategory[SHCategoryResourcesKey] = @[newResource];
+        newResource[SHResourceCategoryKey] = newCategory;
+        
+        [self.huddle addObject:newCategory forKey:SHHuddleResourceCategoriesKey];
         [self.huddle saveInBackground];
     }
+    else{
+        PFQuery *categoryQuery = [PFQuery queryWithClassName:SHCategoryParseClass];
+        [categoryQuery whereKey:SHCategoryNameKey equalTo:self.selectedCategory];
+        [categoryQuery whereKey:SHCategoryHuddleKey equalTo:self.huddle];
+        NSArray *cateogory = [categoryQuery findObjects];
+        
+        newResource[SHResourceCategoryKey] = cateogory[0];
+    }
+    
+    [newResource saveInBackground];
     
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
     

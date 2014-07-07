@@ -55,6 +55,17 @@
         //[arrowButton addTarget:self action:@selector(didTapArrowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.mainView addSubview:self.arrowButton];
         
+        
+//        //Members
+//        self.descriptionLabel = [[UILabel alloc] init];
+//        [self.descriptionLabel setFont:[UIFont fontWithName:@"Arial" size:12]];
+//        [self.descriptionLabel setTextColor:[UIColor huddleSilver]];
+//        [self.descriptionLabel setNumberOfLines:0];
+//        [self.descriptionLabel sizeToFit];
+//        [self.descriptionLabel setLineBreakMode:NSLineBreakByWordWrapping];
+//        [self.descriptionLabel setBackgroundColor:[UIColor clearColor]];
+//        [self.mainView addSubview:self.descriptionLabel];
+        
         [self.mainView setBackgroundColor:[UIColor huddleCell]];
         [self.contentView addSubview:self.mainView];
     }

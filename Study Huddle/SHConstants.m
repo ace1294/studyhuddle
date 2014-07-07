@@ -19,8 +19,10 @@ NSString *const SHSHRequestParseClass = @"SHRequests";
 NSString *const SHSSRequestParseClass = @"SSRequests";
 NSString *const SHStudyParseClass = @"Study";
 NSString *const SHResourceParseClass = @"Resources";
+NSString *const SHCategoryParseClass = @"Category";
 
 //Cells
+NSString *const SHBaseCellIdentifier = @"BaseCell";
 NSString *const SHHuddleCellIdentifier = @"HuddleCell";
 NSString *const SHRequestCellIdentifier = @"RequestCell";
 NSString *const SHNotificationCellIdentifier = @"NotificationCell";
@@ -52,7 +54,7 @@ NSString *const SHHuddleClassKey = @"huddleClass";
 NSString *const SHHuddleStatusKey = @"huddleStatus";
 NSString *const SHHuddleUniqueName = @"uniqueName";
 NSString *const SHHuddleStudyKey = @"study";
-NSString *const SHHuddleResourcesKey = @"resources";
+NSString *const SHHuddleResourceCategoriesKey = @"resourceCategories";
 NSString *const SHHuddleImageKey = @"huddleImage";
 NSString *const SHHuddleStudyingKey = @"isStudying";
 NSString *const SHHuddleChatEntriesKey = @"chatEntries";
@@ -76,13 +78,18 @@ NSString *const SHStudyDateKey = @"date";
 NSString *const SHStudyUniqueName  = @"uniqueName";
 
 //Resources
-NSString *const SHResourceOwnerKey = @"owner";
+NSString *const SHResourceHuddleKey = @"huddle";
 NSString *const SHResourceCreatorKey = @"creator";
 NSString *const SHResourceNameKey = @"title";
 NSString *const SHResourceCategoryKey = @"category";
 NSString *const SHResourceDescriptionKey = @"description";
 NSString *const SHResourceLinkKey = @"link";
 NSString *const SHResourceFileKey = @"file";
+
+//Cateogry
+NSString *const SHCategoryNameKey = @"name";
+NSString *const SHCategoryHuddleKey = @"huddle";
+NSString *const SHCategoryResourcesKey = @"resources";
 
 //Requests
 NSString *const SHRequestTitle = @"title";

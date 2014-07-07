@@ -22,6 +22,7 @@
 #import "PFObject+NSCoding.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHIndividualHuddleviewController.h"
+#import "SHUtility.h"
 
 @interface SHVisitorProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
 
@@ -179,17 +180,20 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     NSArray *studying = [self.segStudent objectForKey:SHStudentStudyKey];
     [self.studyingDataArray removeAllObjects];
     [self.studyingDataArray addObjectsFromArray:studying];
+    [SHUtility fetchObjectsInArray:self.studyingDataArray];
     
     //Classes Data
     NSArray *classes = [self.segStudent objectForKey:SHStudentClassesKey];
     [self.classesDataArray removeAllObjects];
     [self.classesDataArray addObjectsFromArray:classes];
+    [SHUtility fetchObjectsInArray:self.classesDataArray];
     
     //Huddle Data
     NSArray *huddles = self.segStudent[SHStudentHuddlesKey];
     [self.huddlesDataArray removeAllObjects];
     [self.huddlesDataArray addObjectsFromArray:huddles];
-
+    [SHUtility fetchObjectsInArray:self.huddlesDataArray];
+    
     
     [self.tableView reloadData];
     

@@ -23,6 +23,7 @@
 #import "SHProfileViewController.h"
 #import "SHIndividualHuddleviewController.h"
 #import "SHVisitorProfileViewController.h"
+#import "SHUtility.h"
 #import "SHClassPageViewController.h"
 
 @interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
@@ -164,18 +165,13 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 {
     BOOL loadError = true;
     
-    NSLog(@"Loading student Data");
-    
-    //[self.segStudent fetch];
-    
     
     //Study Data
     NSArray *studying = [self.segStudent objectForKey:SHStudentStudyKey];
     
     [self.studyingDataArray removeAllObjects];
     [self.studyingDataArray addObjectsFromArray:studying];
-    
-    NSLog(@"%@", self.studyingDataArray);
+    [SHUtility fetchObjectsInArray:self.studyingDataArray];
     
     //Classes Data
     NSArray *classes = [self.segStudent objectForKey:SHStudentClassesKey];
@@ -183,17 +179,19 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     
     [self.classesDataArray removeAllObjects];
     [self.classesDataArray addObjectsFromArray:classes];
+    [SHUtility fetchObjectsInArray:self.classesDataArray];
     
     //Huddle Data
     NSArray *onlineStudents = [self.segStudent objectForKey:SHStudentOnlineFriendsKey];
     
     [self.onlineDataArray removeAllObjects];
     [self.onlineDataArray addObjectsFromArray:onlineStudents];
+    [SHUtility fetchObjectsInArray:self.onlineDataArray];
     
     
     [self.tableView reloadData];
     
-    [self saveDataToDisk];
+    //[self saveDataToDisk];
     
     return loadError;
 }
