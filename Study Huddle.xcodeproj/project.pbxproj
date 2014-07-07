@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		410261141968B5D2006F2CBF /* SHThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 410261131968B5D2006F2CBF /* SHThreadViewController.m */; };
+		410261171968BEC0006F2CBF /* SHQuestionBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 410261161968BEC0006F2CBF /* SHQuestionBubble.m */; };
+		4102611A196A09BC006F2CBF /* SHReplyBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 41026119196A09BC006F2CBF /* SHReplyBubble.m */; };
 		41365D59196207610057B8C9 /* NSObject+Properties.m in Sources */ = {isa = PBXBuildFile; fileRef = 41365D52196207610057B8C9 /* NSObject+Properties.m */; };
 		41365D5A196207610057B8C9 /* PFACL+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 41365D54196207610057B8C9 /* PFACL+NSCoding.m */; };
 		41365D5B196207610057B8C9 /* PFFile+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 41365D56196207610057B8C9 /* PFFile+NSCoding.m */; };
@@ -153,6 +156,13 @@
 		96D955D91961E4CB00667581 /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955D81961E4CB00667581 /* UIViewController+MJPopupViewController.m */; };
 		96D955DC1961E4E100667581 /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955DB1961E4E100667581 /* MJPopupBackgroundView.m */; };
 		96D955F21964A0DA00667581 /* SHDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955F11964A0DA00667581 /* SHDocumentView.m */; };
+		96D955F51964A59F00667581 /* SHDocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955F41964A59F00667581 /* SHDocumentViewController.m */; };
+		96D955F81964AEC500667581 /* newDocBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D955F61964AEC500667581 /* newDocBlue.png */; };
+		96D955F91964AEC500667581 /* newDocBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D955F71964AEC500667581 /* newDocBlue@2x.png */; };
+		96D955FC1965AD3500667581 /* SHHuddleButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955FB1965AD3500667581 /* SHHuddleButtons.m */; };
+		96D956091965E2BC00667581 /* UIButton+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D956081965E2BC00667581 /* UIButton+Addition.m */; };
+		96D9560C1965EF2900667581 /* modalGreyPlus.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D9560A1965EF2900667581 /* modalGreyPlus.png */; };
+		96D9560D1965EF2900667581 /* modalGreyPlus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D9560B1965EF2900667581 /* modalGreyPlus@2x.png */; };
 		96F0EDC8195BD79200B25DC1 /* cogwheel.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC7195BD79200B25DC1 /* cogwheel.png */; };
 		96F0EDCA195BD79900B25DC1 /* cogwheel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */; };
 		96F0EDDD195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */; };
@@ -184,6 +194,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		410261121968B5D2006F2CBF /* SHThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHThreadViewController.h; sourceTree = "<group>"; };
+		410261131968B5D2006F2CBF /* SHThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHThreadViewController.m; sourceTree = "<group>"; };
+		410261151968BEC0006F2CBF /* SHQuestionBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHQuestionBubble.h; sourceTree = "<group>"; };
+		410261161968BEC0006F2CBF /* SHQuestionBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHQuestionBubble.m; sourceTree = "<group>"; };
+		41026118196A09BC006F2CBF /* SHReplyBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHReplyBubble.h; sourceTree = "<group>"; };
+		41026119196A09BC006F2CBF /* SHReplyBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHReplyBubble.m; sourceTree = "<group>"; };
 		41365D51196207610057B8C9 /* NSObject+Properties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Properties.h"; sourceTree = "<group>"; };
 		41365D52196207610057B8C9 /* NSObject+Properties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Properties.m"; sourceTree = "<group>"; };
 		41365D53196207610057B8C9 /* PFACL+NSCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PFACL+NSCoding.h"; sourceTree = "<group>"; };
@@ -392,6 +408,16 @@
 		96D955DB1961E4E100667581 /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
 		96D955F01964A0DA00667581 /* SHDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHDocumentView.h; sourceTree = "<group>"; };
 		96D955F11964A0DA00667581 /* SHDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHDocumentView.m; sourceTree = "<group>"; };
+		96D955F31964A59F00667581 /* SHDocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHDocumentViewController.h; sourceTree = "<group>"; };
+		96D955F41964A59F00667581 /* SHDocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHDocumentViewController.m; sourceTree = "<group>"; };
+		96D955F61964AEC500667581 /* newDocBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newDocBlue.png; sourceTree = "<group>"; };
+		96D955F71964AEC500667581 /* newDocBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newDocBlue@2x.png"; sourceTree = "<group>"; };
+		96D955FA1965AD3500667581 /* SHHuddleButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleButtons.h; sourceTree = "<group>"; };
+		96D955FB1965AD3500667581 /* SHHuddleButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleButtons.m; sourceTree = "<group>"; };
+		96D956071965E2BC00667581 /* UIButton+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Addition.h"; sourceTree = "<group>"; };
+		96D956081965E2BC00667581 /* UIButton+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Addition.m"; sourceTree = "<group>"; };
+		96D9560A1965EF2900667581 /* modalGreyPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = modalGreyPlus.png; sourceTree = "<group>"; };
+		96D9560B1965EF2900667581 /* modalGreyPlus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "modalGreyPlus@2x.png"; sourceTree = "<group>"; };
 		96F0EDC7195BD79200B25DC1 /* cogwheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cogwheel.png; sourceTree = "<group>"; };
 		96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cogwheel@2x.png"; sourceTree = "<group>"; };
 		96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Pods-Parse+NSCoding.xcconfig"; sourceTree = "<group>"; };
@@ -539,6 +565,8 @@
 				96D9559A195F3F5300667581 /* SHProfilePortraitViewController.m */,
 				41AF336F194F65CD0008DF21 /* SHPortraitViewBaseViewController.h */,
 				41AF3370194F65CD0008DF21 /* SHPortraitViewBaseViewController.m */,
+				96D955F31964A59F00667581 /* SHDocumentViewController.h */,
+				96D955F41964A59F00667581 /* SHDocumentViewController.m */,
 			);
 			name = Portraits;
 			sourceTree = "<group>";
@@ -557,6 +585,8 @@
 		41AF33B119538FD00008DF21 /* tabBarItems */ = {
 			isa = PBXGroup;
 			children = (
+				96D9560A1965EF2900667581 /* modalGreyPlus.png */,
+				96D9560B1965EF2900667581 /* modalGreyPlus@2x.png */,
 				96D955C01960EAF100667581 /* ringOnline.png */,
 				96D955C11960EAF100667581 /* ringOnline@2x.png */,
 				96F0EDC7195BD79200B25DC1 /* cogwheel.png */,
@@ -690,6 +720,12 @@
 				96D955B51960BBA000667581 /* SHProfileViewController.m */,
 				96381627195BC59A0069D477 /* SHHuddleViewController.h */,
 				96381625195BC5930069D477 /* SHHuddleViewController.m */,
+				410261121968B5D2006F2CBF /* SHThreadViewController.h */,
+				410261131968B5D2006F2CBF /* SHThreadViewController.m */,
+				410261151968BEC0006F2CBF /* SHQuestionBubble.h */,
+				410261161968BEC0006F2CBF /* SHQuestionBubble.m */,
+				41026118196A09BC006F2CBF /* SHReplyBubble.h */,
+				41026119196A09BC006F2CBF /* SHReplyBubble.m */,
 				96566E7A1945166E006649C3 /* Categories */,
 				96CBFA3B194CC1A9008B10CE /* Views */,
 				41AF32E3194A7C000008DF21 /* Controllers */,
@@ -738,6 +774,8 @@
 		96566E6C19451271006649C3 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				96D955F61964AEC500667581 /* newDocBlue.png */,
+				96D955F71964AEC500667581 /* newDocBlue@2x.png */,
 				41365D5D19620C580057B8C9 /* shBackground.png */,
 				41365D5E19620C580057B8C9 /* shBackground@2x.png */,
 				96D95559195F3E7C00667581 /* Profile */,
@@ -773,6 +811,8 @@
 		96566E7A1945166E006649C3 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				96D956071965E2BC00667581 /* UIButton+Addition.h */,
+				96D956081965E2BC00667581 /* UIButton+Addition.m */,
 				96F42983195527CA00E74500 /* UITextField+Extend.h */,
 				96F42984195527CA00E74500 /* UITextField+Extend.m */,
 				41AF3369194F65310008DF21 /* UIImagePickerController+Block.h */,
@@ -804,6 +844,7 @@
 		96CBFA3B194CC1A9008B10CE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				96D956031965C5A500667581 /* Buttons */,
 				41AF3378194F66040008DF21 /* Portraits */,
 				96CBFA3C194CC1AF008B10CE /* Cells */,
 			);
@@ -989,6 +1030,15 @@
 			name = Popup;
 			sourceTree = "<group>";
 		};
+		96D956031965C5A500667581 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				96D955FA1965AD3500667581 /* SHHuddleButtons.h */,
+				96D955FB1965AD3500667581 /* SHHuddleButtons.m */,
+			);
+			name = Buttons;
+			sourceTree = "<group>";
+		};
 		96F0EDD7195C737200B25DC1 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -1118,6 +1168,7 @@
 				41365D5F19620C580057B8C9 /* shBackground.png in Resources */,
 				96F429A619575D3800E74500 /* SearchTab@2x.png in Resources */,
 				96D9557D195F3E7C00667581 /* blankProfPic@2x.png in Resources */,
+				96D955F81964AEC500667581 /* newDocBlue.png in Resources */,
 				41AF333D194B5AF70008DF21 /* ringBehindProfPic.png in Resources */,
 				96D9557F195F3E7C00667581 /* hoursStudying@2x.png in Resources */,
 				41AF33B71953AB260008DF21 /* iconHome@2x.png in Resources */,
@@ -1132,6 +1183,7 @@
 				96F0EDC8195BD79200B25DC1 /* cogwheel.png in Resources */,
 				41AF337E194F67F70008DF21 /* backgroundPattern@2x.png in Resources */,
 				41AF332F194A99700008DF21 /* Online_Ring@2x.png in Resources */,
+				96D9560D1965EF2900667581 /* modalGreyPlus@2x.png in Resources */,
 				41AF332D194A99700008DF21 /* Offline_Ring@2x.png in Resources */,
 				96F42987195528D300E74500 /* backgroundSolid@2x.png in Resources */,
 				9638164B195BD06C0069D477 /* profile.png in Resources */,
@@ -1149,6 +1201,7 @@
 				41AF337C194F67ED0008DF21 /* placeholderProfPic.png in Resources */,
 				96CBFA59194D2E78008B10CE /* plusSign@2x.png in Resources */,
 				96D95589195F3E7C00667581 /* startStudying@2x.png in Resources */,
+				96D955F91964AEC500667581 /* newDocBlue@2x.png in Resources */,
 				96D95582195F3E7C00667581 /* inviteToStudy.png in Resources */,
 				96F429B31957ECBB00E74500 /* notification@2x.png in Resources */,
 				41AF33A919538FC10008DF21 /* huddleActive@2x.png in Resources */,
@@ -1166,6 +1219,7 @@
 				96D95579195F3E7C00667581 /* advanceArrow@2x.png in Resources */,
 				96D9558A195F3E7C00667581 /* stopStudying.png in Resources */,
 				41AF337A194F67E10008DF21 /* placeholderProfPic@2x.png in Resources */,
+				96D9560C1965EF2900667581 /* modalGreyPlus.png in Resources */,
 				41AF333E194B5AF70008DF21 /* ringBehindProfPic@2x.png in Resources */,
 				41365D6019620C580057B8C9 /* shBackground@2x.png in Resources */,
 				9638164C195BD06C0069D477 /* profile@2x.png in Resources */,
@@ -1236,6 +1290,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41365D5C196207610057B8C9 /* PFObject+NSCoding.m in Sources */,
+				410261141968B5D2006F2CBF /* SHThreadViewController.m in Sources */,
 				96F429AB1957E7B400E74500 /* SHVisitorProfileSegmentViewController.m in Sources */,
 				41A1943B19662FB80038AAA2 /* SHChatCell.m in Sources */,
 				96381639195BC6B90069D477 /* Student.m in Sources */,
@@ -1246,13 +1301,16 @@
 				41A1943E196672170038AAA2 /* SHChatEntryViewController.m in Sources */,
 				41AF3371194F65CD0008DF21 /* SHPortraitViewBaseViewController.m in Sources */,
 				96D955B71960BBA000667581 /* SHClassPageViewController.m in Sources */,
+				4102611A196A09BC006F2CBF /* SHReplyBubble.m in Sources */,
 				96D955A6196085A600667581 /* SHCategoryCell.m in Sources */,
 				96CBFA4A194CE878008B10CE /* SHRequestCell.m in Sources */,
 				96D95593195F3F0900667581 /* SHHuddlePortraitView.m in Sources */,
 				41AF336E194F65310008DF21 /* UIImagePickerController+Edit.m in Sources */,
 				96D9559D195F3F5300667581 /* SHProfilePortraitViewController.m in Sources */,
+				96D955F51964A59F00667581 /* SHDocumentViewController.m in Sources */,
 				96D955B91960BBA000667581 /* SHProfileViewController.m in Sources */,
 				96D955AD1960A76400667581 /* SHClassSegmentViewController.m in Sources */,
+				96D956091965E2BC00667581 /* UIButton+Addition.m in Sources */,
 				96F4299D195632C900E74500 /* SHStudentSearchViewController.m in Sources */,
 				41AF3348194CAA570008DF21 /* SHPageHeaderViewController.m in Sources */,
 				96F42985195527CA00E74500 /* UITextField+Extend.m in Sources */,
@@ -1298,9 +1356,11 @@
 				41AF3376194F65FC0008DF21 /* SHPortraitViewBase.m in Sources */,
 				96D955B81960BBA000667581 /* SHIndividualHuddleviewController.m in Sources */,
 				96F429A01956ACDC00E74500 /* SHPortraitView.m in Sources */,
+				410261171968BEC0006F2CBF /* SHQuestionBubble.m in Sources */,
 				96381626195BC5930069D477 /* SHHuddleViewController.m in Sources */,
 				96381632195BC62F0069D477 /* SHProfileSettingsController.m in Sources */,
 				96F0EDDF195C737200B25DC1 /* Pods-Parse+NSCoding-dummy.m in Sources */,
+				96D955FC1965AD3500667581 /* SHHuddleButtons.m in Sources */,
 				41AF3377194F65FC0008DF21 /* SHProfilePortraitViewToBeDeleted.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -75,6 +75,9 @@ extern NSString *const SHResourceOwnerKey;
 extern NSString *const SHResourceCreatorKey;
 extern NSString *const SHResourceNameKey;
 extern NSString *const SHResourceCategoryKey;
+extern NSString *const SHResourceDescriptionKey;
+extern NSString *const SHResourceLinkKey;
+extern NSString *const SHResourceFileKey;
 
 //Notifications
 extern NSString* const SHNotificationTitle;
@@ -95,10 +98,25 @@ extern NSString* const SHChatEntryCategoryKey;
 extern NSString* const SHChatEntryThreadsKey;
 
 //Thread
+extern NSString* const SHThreadTitle;
 extern NSString* const SHThreadCreator;
-extern NSString* const SHThreadQuestion;
-extern NSString* const SHThreadReplies;
-extern NSString* const SHThreadMoreInfo;
+extern NSString* const SHThreadQuestions;
+
+//Question
+extern NSString* const SHQuestionCreator;
+extern NSString* const SHQuestionReplies;
+extern NSString* const SHQuestionQuestion;
+extern NSString* const SHQuestionClassName;
+
+//Reply
+extern NSString* const SHReplyCreator;
+extern NSString* const SHReplyAnswer;
+extern NSString* const SHReplyClassName;
+
+
+
+#define newResourceWidth 270
+
 
 //Segment Attributes
 #define segmentFont [UIFont fontWithName:@"Arial" size:14]

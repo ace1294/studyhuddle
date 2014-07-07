@@ -43,8 +43,7 @@
         self.huddleImageView.image = [SHUtility getRoundedRectImageFromImage:profileImage onReferenceView:self.huddleImageView withCornerRadius:self.huddleImageView.frame.size.width/2];
     else
         self.huddleImageView.image = [UIImage imageNamed:@"blankProfPic.png"];
-    
-    NSLog(@"huddle that will be passed to controllerL %@",student);
+
     [self.delegate setStudent:student];
     
 }

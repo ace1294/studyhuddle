@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic,strong) PFObject* threadObject;
 
+
 @end
 
 @implementation SHThreadCell
@@ -68,8 +69,8 @@
     self.threadObject = aThread;
     
     //Title Button
-    [self.titleButton setTitle:[aThread objectForKey:SHThreadQuestion] forState:UIControlStateNormal];
-    [self.titleButton setTitle:[aThread objectForKey:SHThreadQuestion] forState:UIControlStateHighlighted];
+    [self.titleButton setTitle:[aThread objectForKey:SHThreadTitle] forState:UIControlStateNormal];
+    [self.titleButton setTitle:[aThread objectForKey:SHThreadTitle] forState:UIControlStateHighlighted];
     
     Student* student = [aThread objectForKey:SHThreadCreator];
     [student fetchIfNeeded];

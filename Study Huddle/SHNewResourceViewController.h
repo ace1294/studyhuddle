@@ -12,13 +12,17 @@
 
 @interface SHNewResourceViewController : UIViewController
 
+@property (strong, nonatomic) id owner;
+@property float modalFrameHeight;
+
+
 - (id)initWithHuddle:(PFObject *)aHuddle;
 
 @end
 
 
 
-#define newResourceWidth 270
+
 #define headerHeight 30.0
 #define headerWidth 200.0
 
@@ -34,11 +38,12 @@
 #define documentHeight 80.0
 
 #define horiViewSpacing 15.0
+#define vertViewSpacing 15.0
 
 #define buttonX horiViewSpacing
 #define buttonY categoryHeaderY+headerHeight
-#define buttonWidth 120.0
-#define buttonHeight 30.0
+#define huddleButtonWidth 120.0
+#define huddleButtonHeight 30.0
 
 #define aboutHeaderY 30.0
 #define descriptionHeaderY 140.0

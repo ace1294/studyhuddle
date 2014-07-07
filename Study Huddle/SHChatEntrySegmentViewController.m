@@ -28,6 +28,7 @@
 #import "SHVisitorProfileViewController.h"
 #import "SHClassPageViewController.h"
 #import "SHIndividualHuddleviewController.h"
+#import "SHThreadViewController.h"
 
 @interface SHChatEntrySegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
 
@@ -293,8 +294,11 @@
 
 - (void)didTapTitleCell:(SHBaseTextCell *)cell
 {
+    SHThreadCell *threadCell = (SHThreadCell*)cell;
+    SHThreadViewController* thread = [[SHThreadViewController alloc]initWithThread:[threadCell getThread]];
+    thread.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:thread animated:YES];
     
-
     
 }
 
