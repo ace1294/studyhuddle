@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) UIView *mainView;
 @property (nonatomic, strong) UIButton *titleButton;
+//@property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) UIButton *arrowButton;
 
 - (void)didTapTitleButtonAction:(id)sender;

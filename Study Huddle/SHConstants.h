@@ -15,9 +15,10 @@ extern NSString *const SHSHRequestParseClass;
 extern NSString *const SHSSRequestParseClass;
 extern NSString *const SHStudyParseClass;
 extern NSString *const SHResourceParseClass;
-
+extern NSString *const SHCategoryParseClass;
 
 //Cells
+extern NSString *const SHBaseCellIdentifier;
 extern NSString *const SHHuddleCellIdentifier;
 extern NSString *const SHRequestCellIdentifier;
 extern NSString *const SHNotificationCellIdentifier;
@@ -45,7 +46,7 @@ extern NSString *const SHHuddleClassKey;
 extern NSString *const SHHuddleStatusKey;
 extern NSString *const SHHuddleUniqueName;
 extern NSString *const SHHuddleStudyKey;
-extern NSString *const SHHuddleResourcesKey;
+extern NSString *const SHHuddleResourceCategoriesKey;
 extern NSString *const SHHuddleImageKey;
 extern NSString *const SHHuddleStudyingKey;
 
@@ -68,7 +69,7 @@ extern NSString *const SHStudyDateKey;
 extern NSString *const SHStudyUniqueName;
 
 //Resources
-extern NSString *const SHResourceOwnerKey;
+extern NSString *const SHResourceHuddleKey;
 extern NSString *const SHResourceCreatorKey;
 extern NSString *const SHResourceNameKey;
 extern NSString *const SHResourceCategoryKey;
@@ -76,12 +77,17 @@ extern NSString *const SHResourceDescriptionKey;
 extern NSString *const SHResourceLinkKey;
 extern NSString *const SHResourceFileKey;
 
+//Cateogry
+extern NSString *const SHCategoryNameKey;
+extern NSString *const SHCategoryHuddleKey;
+extern NSString *const SHCategoryResourcesKey;
+
 //Notifications
 extern NSString* const SHNotificationTitle;
 extern NSString* const SHNotificationSubTitle;
 
 
-#define newResourceWidth 270
+#define modalWidth 270
 
 
 //Segment Attributes
@@ -97,6 +103,8 @@ extern NSString* const SHNotificationSubTitle;
 #define tableViewDimX 320.0
 #define tableViewDimY 800
 
+#define headerHeight 25.0
+#define headerWidth 200.0
 
 
 #define maxWidth 320.0
@@ -112,6 +120,9 @@ extern NSString* const SHNotificationSubTitle;
 //Cell layout
 #define vertBorderSpacing 6.0f
 #define vertElemSpacing 5.0f
+
+#define horiViewSpacing 15.0
+#define vertViewSpacing 15.0
 
 #define horiBorderSpacing 5.0f
 #define horiBorderSpacingBottom 7.0f

@@ -11,9 +11,9 @@
 
 @interface SHCategoryCell : SHBaseTextCell
 
-@property  (strong, nonatomic) NSString *category;
+@property  (strong, nonatomic) PFObject *category;
 
-- (void)setCategory:(NSString *)aCategory withHuddle:(PFObject *)huddle;
+- (void)setCategory:(PFObject *)aCategory;
 
 @end
 

@@ -270,7 +270,7 @@ NSString *addButtonString;
     
     vc.modalFrameHeight += height;
     
-    [vc.view setFrame:CGRectMake(0.0, 0.0, newResourceWidth, vc.modalFrameHeight)];
+    [vc.view setFrame:CGRectMake(0.0, 0.0, modalWidth, vc.modalFrameHeight)];
     
     
 
@@ -351,7 +351,7 @@ NSString *addButtonString;
     
     originY = originY -(viewLengthen/2);
     
-    CGRect viewFrame = CGRectMake(originX, originY, newResourceWidth, vc.modalFrameHeight);
+    CGRect viewFrame = CGRectMake(originX, originY, modalWidth, vc.modalFrameHeight);
     
     [UIView animateWithDuration:0.5f animations:^{
         vc.view.frame = CGRectOffset(viewFrame, 0, -viewLengthen/2);

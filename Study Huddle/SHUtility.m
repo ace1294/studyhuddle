@@ -13,6 +13,14 @@
 
 @implementation SHUtility
 
++ (void)fetchObjectsInArray:(NSArray *)objects
+{
+    for(PFObject *object in objects)
+        [object fetchIfNeeded];
+    
+    return;
+}
+
 + (NSMutableAttributedString *)listOfMemberNames:(NSArray *)members attributes:(NSDictionary *)attr
 {
     NSString *fullName;
@@ -105,15 +113,7 @@
     return false;
 }
 
-+(NSInteger)resourcesInCategory:(NSString *)category inHuddle:(PFObject *)huddle
-{
-    PFQuery *resourceQuery = [PFQuery queryWithClassName:SHResourceParseClass];
-    
-    [resourceQuery whereKey:SHResourceOwnerKey equalTo:[PFObject objectWithoutDataWithClassName:SHHuddleParseClass objectId:[huddle objectId]]];
-    [resourceQuery whereKey:SHResourceCategoryKey equalTo:category];
-    
-    return [resourceQuery countObjects];
-}
+
 
 + (void)separateOnlineOfflineData:(NSMutableDictionary *)data forOnlineKey:(NSString *)onlineKey;
 {
@@ -137,6 +137,28 @@
     
 }
 
++ (NSMutableArray *)categoryNamesForCategoryObjects:(NSArray *)categories
+{
+    NSMutableArray *categoryNames = [[NSMutableArray alloc]init];
+    
+    for(PFObject *category in categories){
+        [category fetchIfNeeded];
+        [categoryNames addObject:category[SHCategoryNameKey]];
+    }
+    
+    return categoryNames;
+}
+
+
++(void) setMaskTo:(UIView*)view byRoundingCorners:(UIRectCorner)corners
+{
+    UIBezierPath* rounded = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:corners cornerRadii:CGSizeMake(3.0, 3.0)];
+    
+    CAShapeLayer* shape = [[CAShapeLayer alloc] init];
+    [shape setPath:rounded.CGPath];
+    
+    view.layer.mask = shape;
+}
 
 
 

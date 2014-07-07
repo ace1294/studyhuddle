@@ -24,6 +24,7 @@
 #import "SHCategoryCell.h"
 #import "SHNewResourceViewController.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "SHResourceListViewController.h"
 
 
 @interface SHHuddleSegmentViewController () <SHBaseCellDelegate, SHAddCellDelegate, UINavigationControllerDelegate>
@@ -41,7 +42,7 @@
 @property (strong, nonatomic) NSMutableDictionary *segmentData;
 @property (strong, nonatomic) NSMutableArray *membersDataArray;
 @property (strong, nonatomic) NSMutableArray *threadDataArray;
-@property (strong, nonatomic) NSMutableArray *categoryDataArray;
+@property (strong, nonatomic) NSMutableArray *resourceCategoriesDataArray;
 
 @property (strong, nonatomic) NSMutableArray *encapsulatingDataArray;
 
@@ -104,8 +105,8 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     self.tableView.dataSource = self;
     
     self.membersDataArray = [[NSMutableArray alloc]init];
-    self.categoryDataArray = [[NSMutableArray alloc]init];
-    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.membersDataArray, self.categoryDataArray,  nil];
+    self.resourceCategoriesDataArray = [[NSMutableArray alloc]init];
+    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.membersDataArray, self.resourceCategoriesDataArray,  nil];
     
     [self loadHuddleData];
         
@@ -181,24 +182,29 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     [self.segHuddle fetch];
     
-    NSArray *resourceCategories = [self.segHuddle objectForKey:SHHuddleResourcesKey];
+    NSArray *resourceCategories = [self.segHuddle objectForKey:SHHuddleResourceCategoriesKey];
     
-    [self.categoryDataArray removeAllObjects];
-    [self.categoryDataArray addObjectsFromArray:resourceCategories];
+    [self.resourceCategoriesDataArray removeAllObjects];
+    [self.resourceCategoriesDataArray addObjectsFromArray:resourceCategories];
+    [SHUtility fetchObjectsInArray:self.resourceCategoriesDataArray];
     
     NSArray *members = [self.segHuddle objectForKey:SHHuddleMembersKey];
     
     [self.membersDataArray removeAllObjects];
     [self.membersDataArray addObjectsFromArray:members];
+    [SHUtility fetchObjectsInArray:self.membersDataArray];
     
     //Chat
     
     [self.tableView reloadData];
     
-    [self saveDataToDisk];
+    //[self saveDataToDisk];
     
     return loadError;
 }
+
+
+
 
 - (void)saveDataToDisk
 {
@@ -206,7 +212,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     NSLog(@"SAVING TO DISK");
     
     [self.segmentData setObject:self.membersDataArray forKey:MembersDiskKey];
-    [self.segmentData setObject:self.categoryDataArray forKey:ResourcesDiskKey];
+    [self.segmentData setObject:self.resourceCategoriesDataArray forKey:ResourcesDiskKey];
     //[self.segmentData setObject:self.chatDataArray forKey:ChatDiskKey];
     
     [NSKeyedArchiver archiveRootObject:self.segmentData toFile:self.docsPath];
@@ -220,7 +226,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     self.segmentData = [NSKeyedUnarchiver unarchiveObjectWithFile:self.docsPath];
     
     self.membersDataArray = [self.segmentData objectForKey:MembersDiskKey];
-    self.categoryDataArray = [self.segmentData objectForKey:ResourcesDiskKey];
+    self.resourceCategoriesDataArray = [self.segmentData objectForKey:ResourcesDiskKey];
 }
 
 
@@ -326,11 +332,14 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     }
     else if([CellIdentifier isEqual:SHCategoryCellIdentifier])
     {
-        NSString *categoryName = [self.categoryDataArray objectAtIndex:(int)indexPath.row];
+        PFObject *categoryObject = [self.resourceCategoriesDataArray objectAtIndex:(int)indexPath.row];
         SHCategoryCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
+        cell.delegate = self;
         
-        [cell setCategory:categoryName withHuddle:self.segHuddle];
+        [categoryObject fetch];
+        
+        [cell setCategory:categoryObject];
         
         [cell layoutIfNeeded];
         
@@ -370,11 +379,19 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
             [self.owner.navigationController pushViewController:visitorVC animated:YES];
         }
         
-
+    }
+    if ([cell isKindOfClass:[SHCategoryCell class]] ) {
         
         
+        SHCategoryCell *categoryCell = (SHCategoryCell *)cell;
+        
+        SHResourceListViewController *resourceListVC = [[SHResourceListViewController alloc] initWithResourceCategory:categoryCell.category];
+        
+        
+        [self.owner.navigationController pushViewController:resourceListVC animated:YES];
         
     }
+    
 }
 
 -(void)didTapAddButton:(SHAddCell *)cell
@@ -433,6 +450,9 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         [self.segHuddle save];
         
         [self.tableView reloadData];
+        
+        //PFObject *request = [PFObject objectWithClassName:]
+        
     }
 }
 
