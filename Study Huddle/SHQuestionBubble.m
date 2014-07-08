@@ -8,15 +8,16 @@
 
 #import "SHQuestionBubble.h"
 #import "SHConstants.h"
+#import "UIColor+HuddleColors.h"
 
 #define titleHeight 40
 #define titleWidth 250
-#define horizontalOffest 10
+#define horizontalOffest 20
 
 #define contentWidth 250
 
 
-#define replyHeight 40
+#define replyHeight 25
 #define replyWidth 250
 
 #define charWidth 12
@@ -79,13 +80,15 @@
 
 -(void)doLayoutWith:(NSString*)title andContent: (NSString*)content
 {
-    self.backgroundColor = [UIColor yellowColor];
+    self.backgroundColor = [UIColor lightGrayColor];
     
     float width = self.frame.size.width;
     
-    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, 0, width, titleHeight)];
-    self.titleLabel.backgroundColor = [UIColor orangeColor];
+    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, 0, width-horizontalOffest, titleHeight)];
+    self.titleLabel.backgroundColor = [UIColor whiteColor];
     self.titleLabel.text = title;
+    self.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    self.titleLabel.textColor = [UIColor huddleSilver];
     [self.titleLabel setTextAlignment:NSTextAlignmentLeft];
     [self addSubview:self.titleLabel];
     
@@ -97,9 +100,11 @@
     float contentCalcHeight = numLines*lineHeight;
     
     
-    self.contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height, width, contentCalcHeight)];
-    self.contentLabel.backgroundColor = [UIColor purpleColor];
+    self.contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height, width-horizontalOffest, contentCalcHeight)];
+    self.contentLabel.backgroundColor = [UIColor whiteColor];
     self.contentLabel.text = content;
+    self.contentLabel.font = [UIFont systemFontOfSize:12];
+    self.contentLabel.textColor = [UIColor huddleSilver];
     [self.contentLabel setTextAlignment:NSTextAlignmentLeft];
     [self.contentLabel setNumberOfLines:0];
     
@@ -111,12 +116,23 @@
     
     //reply button
     self.replyButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.replyButton.frame = CGRectMake(horizontalOffest, self.contentLabel.frame.origin.y+self.contentLabel.frame.size.height, width, replyHeight);
-    self.replyButton.titleLabel.text = @"Reply";
-    [self.replyButton.titleLabel setTextAlignment:NSTextAlignmentLeft];
-    self.replyButton.backgroundColor = [UIColor blueColor];
+    self.replyButton.frame = CGRectMake(0, self.contentLabel.frame.origin.y+self.contentLabel.frame.size.height, width, replyHeight);
+    [self.replyButton setTitle:@"      REPLY" forState:UIControlStateNormal];
+    [self.replyButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
+    [self.replyButton setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
+    [self.replyButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    self.replyButton.backgroundColor = [UIColor whiteColor];
+    [self.replyButton.layer setBorderColor:[UIColor grayColor].CGColor];
+    [self.replyButton.layer setBorderWidth:1.0];
     [self addSubview:self.replyButton];
     [self.replyButton addTarget:self action:@selector(replyTapped) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    //make a frame around it
+    [self.layer setBorderWidth:1.0];
+    self.backgroundColor = [UIColor whiteColor];
+    [self.layer setBorderColor:[UIColor grayColor].CGColor];
+    
 }
 
 -(void)replyTapped

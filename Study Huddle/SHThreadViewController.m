@@ -10,13 +10,16 @@
 #import "SHConstants.h"
 #import "SHQuestionBubble.h"
 #import "SHReplyBubble.h"
+#import "UIColor+HuddleColors.h"
 
 #define questionHorizontalOffset 10
 #define repliesHorizontalOffset 30
 #define bubbleWidth 300
 #define firstBubbleStartY 30
-#define verticalOffsetBetweenBubbles 40
+#define verticalOffsetBetweenBubbles 5
 #define replyTextFieldHeight 40
+#define keyboardHeight 210
+#define animationLength 0.2f
 
 @interface SHThreadViewController ()<UITextFieldDelegate,SHQuestionBubbleDelegate>
 
@@ -61,11 +64,11 @@
     
     //that scroll view
     CGRect scrollViewFrame = self.view.frame;
-    scrollViewFrame.size.height -= (replyTextFieldHeight + 100);
+    scrollViewFrame.size.height -= (replyTextFieldHeight);
     self.scrollView = [[UIScrollView alloc]initWithFrame:scrollViewFrame];
     [self.view addSubview:self.scrollView];
     self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 99999);
-    self.scrollView.backgroundColor = [UIColor grayColor];
+    self.scrollView.backgroundColor = [UIColor huddleLightSilver];
     
     //that reply text field
     self.replyTextField = [[UITextField alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height-replyTextFieldHeight, self.view.frame.size.width, replyTextFieldHeight)];
@@ -104,7 +107,7 @@
         NSMutableArray* replies = questionObject[SHQuestionReplies];
         for (PFObject* replyObject in replies) {
             
-            SHReplyBubble* replyBubble = [[SHReplyBubble alloc] initWithReply:replyObject andFrame:CGRectMake(repliesHorizontalOffset, lastBubbleY, bubbleWidth                                                                                , 100)];
+            SHReplyBubble* replyBubble = [[SHReplyBubble alloc] initWithReply:replyObject andFrame:CGRectMake(repliesHorizontalOffset, lastBubbleY, bubbleWidth - (repliesHorizontalOffset - questionHorizontalOffset), 100)];
             [self.scrollView addSubview:replyBubble];
             
             lastBubbleY = replyBubble.frame.origin.y + replyBubble.frame.size.height + verticalOffsetBetweenBubbles;
@@ -163,16 +166,16 @@
 
 - (void)moveUp: (BOOL) up
 {
-    const int movementDistance = -220; // tweak as needed
+    const int movementDistance = -keyboardHeight; // tweak as needed
     
     
     if(up){
-        [UIView animateWithDuration:0.1f animations:^{
+        [UIView animateWithDuration:animationLength animations:^{
            self.replyTextField.frame = CGRectOffset(self.initialFrame, 0, movementDistance);
         }];
     }
     else{
-        [UIView animateWithDuration:0.1f animations:^{
+        [UIView animateWithDuration:animationLength animations:^{
             self.replyTextField.frame = self.initialFrame;
         }];
     }
@@ -190,11 +193,14 @@
     PFObject* newReplyObject = [PFObject objectWithClassName:SHReplyClassName];
     newReplyObject[SHReplyCreator] = creator;
     newReplyObject[SHReplyAnswer] = answer;
+    [newReplyObject saveInBackground];
     
     //append it to the questions array
     [questionObject fetchIfNeeded];
     NSMutableArray* replies = questionObject[SHQuestionReplies];
     [replies addObject:newReplyObject];
+    questionObject[SHQuestionReplies] = replies;
+    [questionObject saveInBackground];
     [self updateReplies];
     
 }
