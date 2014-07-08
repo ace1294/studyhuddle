@@ -22,7 +22,9 @@
 @property (strong, nonatomic) NSString *addButtonPlaceHolder;
 
 @property (strong, nonatomic) NSString *selectedButton;
+@property (strong, nonatomic) NSMutableArray *selectedButtons;
 
+@property BOOL multipleSelection;
 @property BOOL addButtonSet;
 
 - (id)initWithFrame:(CGRect)frame items:(NSArray *)buttonList addButton:(NSString *) addString;

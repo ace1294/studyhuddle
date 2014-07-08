@@ -137,16 +137,16 @@
     
 }
 
-+ (NSMutableArray *)categoryNamesForCategoryObjects:(NSArray *)categories
++ (NSMutableArray *)namesForObjects:(NSArray *)objects withKey:(NSString *)key
 {
-    NSMutableArray *categoryNames = [[NSMutableArray alloc]init];
+    NSMutableArray *names = [[NSMutableArray alloc]init];
     
-    for(PFObject *category in categories){
-        [category fetchIfNeeded];
-        [categoryNames addObject:category[SHCategoryNameKey]];
+    for(PFObject *object in objects){
+        [object fetchIfNeeded];
+        [names addObject:object[key]];
     }
     
-    return categoryNames;
+    return names;
 }
 
 

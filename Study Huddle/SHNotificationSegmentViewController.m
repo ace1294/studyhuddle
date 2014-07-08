@@ -81,9 +81,9 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
 + (void)load
 {
-    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor whiteColor]];
+    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor clearColor]];
     [[DZNSegmentedControl appearance] setTintColor:[UIColor huddleOrange]];
-    [[DZNSegmentedControl appearance] setHairlineColor:[UIColor purpleColor]];
+    [[DZNSegmentedControl appearance] setHairlineColor:[UIColor huddleSilver]];
     
     [[DZNSegmentedControl appearance] setFont:segmentFont];
     [[DZNSegmentedControl appearance] setSelectionIndicatorHeight:2.5];
@@ -117,7 +117,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    [self.tableView setBackgroundColor:[UIColor huddleCell]];
+    [self.tableView setBackgroundColor:[UIColor whiteColor]];
     //self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
     self.tableView.contentInset = UIEdgeInsetsMake(-100, 0, 0, 0);
 

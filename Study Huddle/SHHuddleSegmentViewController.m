@@ -102,9 +102,9 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 
 + (void)load
 {
-    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor whiteColor]];
+    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor clearColor]];
     [[DZNSegmentedControl appearance] setTintColor:[UIColor huddleOrange]];
-    [[DZNSegmentedControl appearance] setHairlineColor:[UIColor purpleColor]];
+    [[DZNSegmentedControl appearance] setHairlineColor:[UIColor huddleSilver]];
     
     [[DZNSegmentedControl appearance] setFont:segmentFont];
     [[DZNSegmentedControl appearance] setSelectionIndicatorHeight:2.5];
@@ -142,7 +142,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    [self.tableView setBackgroundColor:[UIColor huddleCell]];
+    [self.tableView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:self.tableView];
     
     //Set segment menu titles
@@ -308,7 +308,10 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return SHHuddleCellHeight;
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"MEMBERS"])
+        return SHHuddleCellHeight;
+    else
+        return SHClassCellHeight;
 }
 
 #pragma mark - UITableViewDataSource Methods

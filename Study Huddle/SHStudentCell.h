@@ -23,7 +23,7 @@
 
 //Title
 #define studentTitleX cellPortraitX+cellPortraitDim+horiElemSpacing
-#define studentTitleY titleY
+#define studentTitleY vertViewSpacing
 
 
 

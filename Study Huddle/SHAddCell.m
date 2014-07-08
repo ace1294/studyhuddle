@@ -31,9 +31,7 @@
     if (self) {
         
         [self.titleButton addTarget:self action:@selector(didTapAddButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.titleButton.titleLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:20]];
-        [self.titleButton setTitle:@"Add Class" forState:UIControlStateNormal];
-        
+        [self.titleButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:21]];
         
         //Avatar Button
         self.addButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -52,34 +50,27 @@
 }
 
 - (void)layoutSubviews {
-    [super layoutSubviews];
     
     CGSize titleSize = [self.titleButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
                                                                       options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:16]}
+                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial" size:21]}
                                                                       context:nil].size;
     
     [self.titleButton setFrame:CGRectMake(addTitleX, addTitleY, titleSize.width, titleSize.height)];
     
-    [self.addButton setFrame:CGRectMake(addTitleX + self.titleButton.frame.size.width +vertBorderSpacing +vertBorderSpacing, addTitleY, addDim, addDim)];
-    
+    [self.addButton setFrame:CGRectMake(self.titleButton.frame.origin.x + self.titleButton.frame.size.width +vertViewSpacing, 10.0, addDim, addDim)];
     
     
 }
 
 - (void)setAdd:(NSString *)addTitle identifier:(NSString *)cellID
 {
-    CGSize titleSize = [self.titleButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-                                                                      options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:16]}
-                                                                      context:nil].size;
-    
-    [self.titleButton setTitle:addTitle forState:UIControlStateNormal];
-    [self.titleButton setFrame:CGRectMake(addTitleX, addTitleY, titleSize.width, titleSize.height)];
-    
-    [self.addButton setFrame:CGRectMake(addTitleX + self.titleButton.frame.size.width +vertBorderSpacing +vertBorderSpacing, addTitleY, addDim, addDim)];
+    [self.titleButton setTitle:[addTitle uppercaseString] forState:UIControlStateNormal];
 
     self.typeIdentifier = cellID;
+    
+    [self layoutSubviews];
+    
 }
 
 #pragma mark - Delegate Methods

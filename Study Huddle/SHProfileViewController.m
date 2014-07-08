@@ -11,6 +11,8 @@
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
 #import "SHProfileSegmentViewController.h"
+#import "SHStartStudyingViewController.h"
+#import "UIViewController+MJPopupViewController.h"
 
 
 #define profileImageWidth 100
@@ -59,6 +61,9 @@
 @property (nonatomic, strong) UILabel* collegeLabel;
 @property (nonatomic,strong) UILabel* startStudyingLabel;
 
+@property (nonatomic, strong) SHStartStudyingViewController *startStudyingVC;
+@property (nonatomic, strong) PFObject *study;
+
 @property (nonatomic,strong) UIButton* startStudyingButton;
 @property BOOL isStudying;
 
@@ -70,14 +75,6 @@
 @end
 
 @implementation SHProfileViewController
-
-
-- (id)init
-{
-    self = [self initWithStudent:(Student *)[Student user]];
-    
-    return self;
-}
 
 - (id)initWithStudent:(Student *)aStudent
 {
@@ -293,15 +290,27 @@
     if(self.isStudying)
     {
         //the user will stop their studying session
-        self.profStudent[@"isStudying"] = [NSNumber numberWithBool:NO];
+        self.profStudent[@"isStudying"] = [NSNumber numberWithBool:false];
         self.isStudying =   NO;
         [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
         self.startStudyingLabel.text = @"START STUDYING";
+        
+        [self.study fetchIfNeeded];
+        self.study[SHStudyOnline] = [NSNumber numberWithBool:false];
+        self.study[SHStudyEndKey] = [NSDate date];
+        [self.study saveInBackground];
+        
+        [self.segmentController.tableView reloadData];
     }
     else
     {
         //the user will start studying
+        self.study = [PFObject objectWithClassName:SHStudyParseClass];
+        self.startStudyingVC = [[SHStartStudyingViewController alloc]initWithStudent:[Student currentUser] studyObject:self.study];
+        self.startStudyingVC.delegate = self.segmentController;
+        [self presentPopupViewController:self.startStudyingVC animationType:MJPopupViewAnimationSlideBottomBottom];
+        
         self.lastStart = [NSDate date];
         self.profStudent[@"lastStudyDate"] = self.lastStart;
         self.profStudent[@"isStudying"] =[NSNumber numberWithBool:YES];
@@ -370,6 +379,7 @@
     self.navigationItem.rightBarButtonItem = settingsButton;
     
 }
+
 
 
 

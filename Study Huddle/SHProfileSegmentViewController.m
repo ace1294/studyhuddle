@@ -25,8 +25,9 @@
 #import "SHVisitorProfileViewController.h"
 #import "SHUtility.h"
 #import "SHClassPageViewController.h"
+#import "SHStartStudyingViewController.h"
 
-@interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
+@interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate, SHStartStudyingDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) Student *segStudent;
@@ -68,7 +69,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
         
         self.segmentData = [[NSMutableDictionary alloc]init];
         
-        self.segMenu = [[NSArray alloc]initWithObjects:@"STUDY HABITS", @"CLASSES", @"ONLINE", nil];
+        self.segMenu = [[NSArray alloc]initWithObjects:@"STUDY LOG", @"CLASSES", @"ONLINE", nil];
         self.docsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         self.docsPath = [self.docsPath stringByAppendingPathComponent:@"profileSegment"];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
@@ -79,9 +80,9 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 
 + (void)load
 {
-    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor whiteColor]];
+    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor clearColor]];
     [[DZNSegmentedControl appearance] setTintColor:[UIColor huddleOrange]];
-    [[DZNSegmentedControl appearance] setHairlineColor:[UIColor purpleColor]];
+    [[DZNSegmentedControl appearance] setHairlineColor:[UIColor huddleSilver]];
     
     [[DZNSegmentedControl appearance] setFont:segmentFont];
     [[DZNSegmentedControl appearance] setSelectionIndicatorHeight:2.5];
@@ -116,11 +117,11 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    [self.tableView setBackgroundColor:[UIColor huddleCell]];
+    [self.tableView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:self.tableView];
     
     //Set segment menu titles
-    [self.segCellIdentifiers setObject:SHStudyCellIdentifier forKey:[@"Study Habits" uppercaseString]];
+    [self.segCellIdentifiers setObject:SHStudyCellIdentifier forKey:[@"Study Log" uppercaseString]];
     [self.segCellIdentifiers setObject:SHClassCellIdentifier forKey:[@"Classes" uppercaseString]];
     [self.segCellIdentifiers setObject:SHStudentCellIdentifier forKey:[@"Online" uppercaseString]];
     
@@ -136,23 +137,23 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     
 
     
-    
+    [self loadStudentData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    if ([self.segStudent username])
-    {
-        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
-        {
-            [self loadDataFromDisk];
-            return;
-        }
-        
-        [self loadStudentData];
-    }
+//    
+//    if ([self.segStudent username])
+//    {
+//        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
+//        {
+//            [self loadDataFromDisk];
+//            return;
+//        }
+//        
+//        [self loadStudentData];
+//    }
 }
 
 - (void)setStudent:(Student *)aSegStudent
@@ -262,10 +263,10 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    //    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
-    return SHHuddleCellHeight;
-    //    else
-    //        return SHClassCellHeight;
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"ONLINE"])
+        return SHHuddleCellHeight;
+    else
+        return SHClassCellHeight;
     
 }
 
@@ -295,7 +296,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     if ([self.segStudent isEqual:[Student currentUser]] && [CellIdentifier isEqual:SHClassCellIdentifier] && indexPath.row == self.currentRowsToDisplay)
     {
         SHAddCell *cell = [tableView dequeueReusableCellWithIdentifier:SHAddCellIdentifier];
-        //cell.titleButton.titleLabel.text = @"Add Huddle";
+        [cell setAdd:@"Add Class" identifier:SHClassCellIdentifier];
         cell.delegate = self;
         
         [cell layoutIfNeeded];
@@ -402,6 +403,15 @@ static NSString* const OnlineDiskKey = @"onlineKey";
         [self.parentScrollView setScrollEnabled:YES];
     }
     
+}
+
+#pragma mark - StartStudying Delegate
+
+- (void)startedStudying:(PFObject *)study
+{
+    [self.studyingDataArray addObject:study];
+    
+    [self.tableView reloadData];
 }
 
 

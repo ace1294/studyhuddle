@@ -17,13 +17,29 @@
 @property (strong, nonatomic) UIButton *cancelButton;
 @property float modalFrameHeight;
 
+@property (strong, nonatomic) UIFont *headerFont;
+@property (strong, nonatomic) UIFont *buttonFont;
+
+- (void)cancelAction;
+
 @end
 
 
 @protocol SHModalViewControllerDelegate <NSObject>
-@optional
 
-- (void)didTapContinue;
-- (void)didTapCancel;
 
 @end
+
+
+#define firstHeader 40.0
+#define modalHeaderHeight 35.0
+
+#define huddleButtonWidth 120.0
+#define huddleButtonHeight 30.0
+
+#define continueX 225.0
+
+
+#define modalButtonWidth 40.0
+#define modalButtonHeight 20.0
+#define modalButtonY (modalHeaderHeight-modalButtonHeight)/2

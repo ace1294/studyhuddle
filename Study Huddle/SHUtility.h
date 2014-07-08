@@ -22,7 +22,7 @@
 
 + (void)separateOnlineOfflineData:(NSMutableDictionary *)data forOnlineKey:(NSString *)onlineKey;
 
-+ (NSMutableArray *)categoryNamesForCategoryObjects:(NSArray *)categories;
++ (NSMutableArray *)namesForObjects:(NSArray *)objects withKey:(NSString *)key;
 
 
 +(void)setMaskTo:(UIView*)view byRoundingCorners:(UIRectCorner)corners;

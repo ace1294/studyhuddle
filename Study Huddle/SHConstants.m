@@ -74,8 +74,10 @@ NSString *const SHStudentNotificationsKey = @"notifications";
 
 //Study
 NSString *const SHStudyClassesKey = @"classes";
-NSString *const SHStudyDateKey = @"date";
+NSString *const SHStudyStartKey = @"start";
+NSString *const SHStudyEndKey = @"end";
 NSString *const SHStudyUniqueName  = @"uniqueName";
+NSString *const SHStudyOnline = @"online";
 
 //Resources
 NSString *const SHResourceHuddleKey = @"huddle";

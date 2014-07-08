@@ -68,7 +68,6 @@
     
     //Title Button
     [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitle] forState:UIControlStateNormal];
-    [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitle] forState:UIControlStateHighlighted];
     
     [self.infoLabel setText:[aNotification objectForKey:SHNotificationSubTitle]];
     if([aNotification[SHNotificationReadKey] boolValue])

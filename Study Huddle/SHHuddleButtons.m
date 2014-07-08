@@ -8,10 +8,10 @@
 
 #import "SHHuddleButtons.h"
 #import "UIColor+HuddleColors.h"
-#import "UIButton+Addition.h"
 #import "UIView+AUISelectiveBorder.h"
 #import "SHConstants.h"
-#import "SHNewResourceViewController.h"
+#import "SHModalViewController.h"
+#import "UIImage+Color.h"
 
 @interface SHHuddleButtons () <UITextFieldDelegate>
 
@@ -29,6 +29,7 @@
 
 @end
 
+CGFloat initialHeight;
 CGRect initialFrame;
 CGFloat initialButtonX;
 CGFloat initialButtonY;
@@ -66,11 +67,11 @@ NSString *addButtonString;
         self.selectedTextColor = [UIColor whiteColor];
         self.selectedBackgroundColor = [UIColor huddleOrange];
         self.borderColor = [UIColor colorWithWhite:.9 alpha:1];
-        self.textFont = [UIFont fontWithName:@"Arial" size:14];
+        self.textFont = [UIFont fontWithName:@"Arial" size:12];
         self.headerFont = [UIFont fontWithName:@"Arial-BoldMT"size:14];
         self.addButtonPlaceHolder = @"Name";
         
-        
+        self.selectedButtons = [[NSMutableArray alloc]init];
         
     }
     return self;
@@ -79,13 +80,20 @@ NSString *addButtonString;
 - (void)setViewController:(UIViewController *)viewController
 {
     _viewController = viewController;
+    initialHeight = viewController.view.frame.size.height;
+    
     
     [self initButtons];
     
     [self setButtonFrames];
     
     totalButtonsHeight = (buttonHeight*([self.buttonTitles count]/2))+(buttonHeight*([self.buttonTitles count]%2));
-    [self expandViewForHeight:totalButtonsHeight];
+    
+    if (vertViewSpacing+initialButtonY+totalButtonsHeight > initialHeight) {
+        [self expandViewForHeight:(vertViewSpacing+initialButtonY+totalButtonsHeight-initialHeight)];
+    }
+    
+    
 }
 
 
@@ -103,13 +111,12 @@ NSString *addButtonString;
 
         button.tag = i;
         [button.titleLabel setFont:self.textFont];
-        [button setBackgroundColor:self.backgroundColor];
         [button setTitleColor:self.textColor forState:UIControlStateNormal];
         [button setTitleColor:self.selectedTextColor forState:UIControlStateHighlighted];
         [button setTitleColor:self.selectedTextColor forState:UIControlStateSelected];
-        [button setBackgroundColor:self.backgroundColor forState:UIControlStateNormal];
-        [button setBackgroundColor:self.selectedBackgroundColor forState:UIControlStateHighlighted];
-        [button setBackgroundColor:self.selectedBackgroundColor forState:UIControlStateSelected];
+        [button setBackgroundImage:[UIImage imageWithColor:self.backgroundColor] forState:UIControlStateNormal];
+        [button setBackgroundImage:[UIImage imageWithColor:self.selectedBackgroundColor] forState:UIControlStateSelected];
+        [button setBackgroundImage:[UIImage imageWithColor:self.selectedBackgroundColor] forState:UIControlStateHighlighted];
         [button setTitle:buttonTitle forState:UIControlStateNormal];
 
         [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -173,12 +180,11 @@ NSString *addButtonString;
 
 - (void)buttonPressed:(id)sender
 {
-    UIButton *button = [self.buttons objectForKey:[NSNumber numberWithInt:[self.buttons count]-1]];
+    UIButton *button = [self.buttons objectForKey:[NSNumber numberWithInteger:[self.buttons count]-1]];
     
     if(addingNewButton){
         addingNewButton = !addingNewButton;
         button.selected = NO;
-        [button setState:UIControlStateNormal];
         [self expandUp:addingNewButton];
         
         [self dismissAddField];
@@ -186,24 +192,33 @@ NSString *addButtonString;
     }
     
     
-    int buttonNumber = [sender tag];
+    NSInteger buttonNumber = [sender tag];
 
-    UIButton *selectedButton = [self.buttons objectForKey:[NSNumber numberWithInt:buttonNumber]];
+    UIButton *selectedButton = (UIButton *)sender;
 
     self.selectedButton = selectedButton.titleLabel.text;
+    
+    if (!self.multipleSelection) {
+        for(NSNumber *tag in self.buttons)
+        {
+            UIButton *button = [self.buttons objectForKey:tag];
 
-    for(NSNumber *tag in self.buttons)
-    {
-        UIButton *button = [self.buttons objectForKey:tag];
-
-        if(tag == [NSNumber numberWithInt:buttonNumber]){
-            button.selected = YES;
-            continue;
+            if(tag == [NSNumber numberWithInteger:buttonNumber]){
+                button.selected = YES;
+                continue;
+            }
+            button.selected = NO;
         }
+    }
+    else{
         
-        [button setState:UIControlStateNormal];
-        button.selected = NO;
-        button.highlighted = NO;
+        if ([self.selectedButtons containsObject:self.selectedButton]) {
+            [self.selectedButtons removeObject:self.selectedButton];
+            selectedButton.selected = NO;
+        }else{
+            [self.selectedButtons addObject:self.selectedButton];
+            selectedButton.selected = YES;
+        }
     }
 
 }
@@ -221,9 +236,7 @@ NSString *addButtonString;
     if(addingNewButton){
         addingNewButton = !addingNewButton;
         button.selected = NO;
-        [button setState:UIControlStateNormal];
         [self expandUp:addingNewButton];
-        
         [self dismissAddField];
         
         return;
@@ -266,7 +279,7 @@ NSString *addButtonString;
 
 - (void)expandViewForHeight:(CGFloat)height
 {
-    SHNewResourceViewController *vc=  (SHNewResourceViewController *)self.viewController;
+    SHModalViewController *vc =  (SHModalViewController *)self.viewController;
     
     vc.modalFrameHeight += height;
     
@@ -307,7 +320,7 @@ NSString *addButtonString;
 {
     [self animateTextField: textField up: NO];
     
-    UIButton *button = [self.buttons objectForKey:[NSNumber numberWithInt:[self.buttons count]-1]];
+    UIButton *button = [self.buttons objectForKey:[NSNumber numberWithInteger:[self.buttons count]-1]];
 
     [textField resignFirstResponder];
     
@@ -319,7 +332,6 @@ NSString *addButtonString;
     }
     else{
         button.selected = NO;
-        [button setState:UIControlStateNormal];
     }
     
     
@@ -340,7 +352,7 @@ NSString *addButtonString;
     if(!up)
         [self dismissAddField];
     
-    SHNewResourceViewController *vc=  (SHNewResourceViewController *)self.viewController;
+    SHModalViewController *vc=  (SHModalViewController *)self.viewController;
     
     CGFloat viewLengthen = (up ? buttonHeight*2 : -buttonHeight*2);
     

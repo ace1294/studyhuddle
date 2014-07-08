@@ -61,7 +61,7 @@
     if (self) {
         _huddle = aHuddle;
         self.categories = aHuddle[SHHuddleResourceCategoriesKey];
-        self.categoryNames = [SHUtility categoryNamesForCategoryObjects:self.categories];
+        self.categoryNames = [SHUtility namesForObjects:self.categories withKey:SHCategoryNameKey];
         
         self.modalFrameHeight = categoryHeaderY+headerHeight+vertViewSpacing;
         

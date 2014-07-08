@@ -42,10 +42,9 @@
 
 #define buttonX horiViewSpacing
 #define buttonY categoryHeaderY+headerHeight
-#define huddleButtonWidth 120.0
-#define huddleButtonHeight 30.0
 
-#define aboutHeaderY 30.0
+
+#define aboutHeaderY firstHeader
 #define descriptionHeaderY 140.0
 #define categoryHeaderY 275.0
 

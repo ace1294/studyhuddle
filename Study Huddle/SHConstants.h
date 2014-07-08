@@ -68,8 +68,10 @@ extern NSString *const SHStudentNotificationsKey;
 
 //Study
 extern NSString *const SHStudyClassesKey;
-extern NSString *const SHStudyDateKey;
+extern NSString *const SHStudyStartKey;
+extern NSString *const SHStudyEndKey;
 extern NSString *const SHStudyUniqueName;
+extern NSString *const SHStudyOnline;
 
 //Resources
 extern NSString *const SHResourceHuddleKey;
@@ -150,9 +152,10 @@ extern NSString* const SHReplyClassName;
 #define SHStudyCellHeight 50.0
 #define SHAddCellHeight 50.0
 #define SHStudentCellHeight 70.0
+#define SHChatCellHeight 50.0
 
 //Cell layout
-#define vertBorderSpacing 6.0f
+#define vertBorderSpacing 10.0f
 #define vertElemSpacing 5.0f
 
 #define horiViewSpacing 15.0
@@ -174,7 +177,7 @@ extern NSString* const SHReplyClassName;
 //Arrow
 #define arrowX 295.0f
 #define arrowY 25.0
-#define arrowDimX 15.0f
+#define arrowDimX 10.0f
 #define arrowDimY 20.0
 
 //Portait

@@ -14,8 +14,13 @@
 
 @property (nonatomic, strong) UIView *mainView;
 @property (nonatomic, strong) UIButton *titleButton;
-//@property (nonatomic, strong) UILabel *descriptionLabel;
+@property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) UIButton *arrowButton;
+
+@property (nonatomic, strong) UIFont *titleFont;
+@property (nonatomic, strong) UIFont *descriptionFont;
+@property (nonatomic, strong) NSDictionary *titleDict;
+@property (nonatomic, strong) NSDictionary *descriptionDict;
 
 - (void)didTapTitleButtonAction:(id)sender;
 
@@ -28,3 +33,6 @@
 - (void)didTapTitleCell:(SHBaseTextCell *)cell;
 
 @end
+
+
+#define descriptionLabelY vertViewSpacing+23.0

@@ -7,7 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+#import "SHModalViewController.h"
+#import "SHConstants.h"
 
-@interface SHStartStudyingViewController : UIViewController
+@interface SHStartStudyingViewController : SHModalViewController
+
+- (id)initWithStudent:(PFObject *)aStudent studyObject:(PFObject *)aStudy;
 
 @end
+
+
+@protocol SHStartStudyingDelegate <NSObject>
+
+- (void)startedStudying:(PFObject *)study;
+
+@end
+
+
+#define privacyHeaderY firstHeader
+
+#define subjectHeaderY huddleButtonHeight*2+vertElemSpacing+privacyHeaderY+headerHeight

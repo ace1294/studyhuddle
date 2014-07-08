@@ -13,7 +13,6 @@
 
 @interface SHThreadCell ()
 
-@property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic,strong) PFObject* threadObject;
 
 
@@ -25,56 +24,21 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        //Members
-        self.infoLabel = [[UILabel alloc] init];
-        [self.infoLabel setFont:[UIFont fontWithName:@"Arial" size:12]];
-        [self.infoLabel setTextColor:[UIColor huddleSilver]];
-        [self.infoLabel setNumberOfLines:0];
-        [self.infoLabel sizeToFit];
-        [self.infoLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [self.infoLabel setBackgroundColor:[UIColor clearColor]];
-        [self.mainView addSubview:self.infoLabel];
     }
     return self;
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    CGSize titleSize = [self.titleButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-                                                                      options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:16]}
-                                                                      context:nil].size;
-    [self.titleButton setFrame:CGRectMake(titleX, titleY, titleSize.width, titleSize.height)];
-    
-    CGSize labelSize = [self.infoLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-                                                         options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                      attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:12]}
-                                                         context:nil].size;
-    
-    [self.infoLabel setFrame:CGRectMake(titleX, titleY+self.titleButton.frame.size.height, labelSize.width, labelSize.height)];
-    
-    CGRect arrowFrame = self.arrowButton.frame;
-    arrowFrame.origin.y = self.frame.size.height/2-arrowFrame.size.height/2;
-    self.arrowButton.frame = arrowFrame;
-    
-    
-    
-    
-}
 
 - (void)setThread:(PFObject *)aThread
 {
-    self.threadObject = aThread;
+    _threadObject = aThread;
     
     //Title Button
     [self.titleButton setTitle:[aThread objectForKey:SHThreadTitle] forState:UIControlStateNormal];
-    [self.titleButton setTitle:[aThread objectForKey:SHThreadTitle] forState:UIControlStateHighlighted];
     
     Student* student = [aThread objectForKey:SHThreadCreator];
     [student fetchIfNeeded];
-    [self.infoLabel setText:student.fullName];
+    [self.descriptionLabel setText:student.fullName];
     
     
     

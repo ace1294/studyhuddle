@@ -25,7 +25,8 @@
 
 //Title
 #define huddleTitleX cellPortraitX+cellPortraitDim+horiElemSpacing
-#define huddleTitleY titleY
+#define huddleTitleY vertViewSpacing
+
 
 
 

@@ -15,11 +15,7 @@
 
 @interface SHHuddleCell ()
 
-@property (nonatomic, strong) UILabel *statusLabel;
 @property (nonatomic, strong) SHPortraitView *portrait;
-
-
-- (void)didTapStudyButtonAction:(id)sender;
 
 @end
 
@@ -39,51 +35,31 @@
         [self.portrait setOpaque:YES];
         [self.portrait.profileButton addTarget:self action:@selector(didTapTitleButtonAction:) forControlEvents:UIControlEventTouchDragInside];
         [self.mainView addSubview:self.portrait];
-        
-        //Status
-        self.statusLabel = [[UILabel alloc] init];
-        [self.statusLabel setFont:[UIFont fontWithName:@"Arial" size:12]];
-        [self.statusLabel setTextColor:[UIColor huddleSilver]];
-        [self.statusLabel setNumberOfLines:0];
-        [self.statusLabel sizeToFit];
-        [self.statusLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [self.statusLabel setBackgroundColor:[UIColor clearColor]];
-        [self.mainView addSubview:self.statusLabel];
-        
 
-        
-        [self.contentView addSubview:self.mainView];
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    
-    [self.portrait setFrame:CGRectMake(cellPortraitX, cellPortraitY, cellPortraitDim, cellPortraitDim)];
-    
-    
-    
+- (void) layoutSubviews
+{
     CGSize titleSize = [self.titleButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-                                                            options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                         attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:16]}
-                                                            context:nil].size;
+                                                                      options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial" size:18]}
+                                                                      context:nil].size;
+    
+    
     
     [self.titleButton setFrame:CGRectMake(huddleTitleX, huddleTitleY, titleSize.width, titleSize.height)];
     
-
-    CGSize labelSize = [self.statusLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
+    CGSize descriptionSize = [self.descriptionLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
                                                                       options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial-BoldMT" size:12]}
+                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial" size:14]}
                                                                       context:nil].size;
-    
-
-    
-    [self.statusLabel setFrame:CGRectMake(huddleTitleX, huddleTitleY+self.titleButton.frame.size.height, labelSize.width, labelSize.height)];
-    
-    
+    CGFloat descriptionY = self.titleButton.frame.origin.y+self.titleButton.frame.size.height;
+    [self.descriptionLabel setFrame:CGRectMake(huddleTitleX, descriptionY, descriptionSize.width, descriptionSize.height)];
 }
+
+
 
 - (void)setHuddle:(PFObject *)aHuddle {
     
@@ -94,10 +70,6 @@
     [self.portrait setFile:imageFile];
 
     [self.titleButton setTitle:[aHuddle objectForKey:SHHuddleNameKey] forState:UIControlStateNormal];
-    [self.titleButton setTitle:[aHuddle objectForKey:SHHuddleNameKey] forState:UIControlStateHighlighted];
-    
-    NSDictionary *arialDict = [NSDictionary dictionaryWithObject: [UIFont fontWithName:@"Arial" size:12] forKey:NSFontAttributeName];
-    NSDictionary *arialBoldDict = [NSDictionary dictionaryWithObject:[UIFont fontWithName:@"Arial-BoldMT" size:12] forKey:NSFontAttributeName];
     
     NSString *status = [[NSString alloc]init];
     
@@ -106,11 +78,13 @@
     else
         status  = @"Closed";
     
-    NSMutableAttributedString *statusString = [[NSMutableAttributedString alloc] initWithString:status  attributes: arialDict];
-    NSMutableAttributedString *statusTitleString = [[NSMutableAttributedString alloc]initWithString:@"Status: " attributes:arialBoldDict];
+    NSMutableAttributedString *statusString = [[NSMutableAttributedString alloc] initWithString:status  attributes: self.descriptionDict];
+    NSMutableAttributedString *statusTitleString = [[NSMutableAttributedString alloc]initWithString:@"Status: " attributes:self.descriptionDict];
     
     [statusTitleString appendAttributedString:statusString];
-    self.statusLabel.attributedText = statusTitleString;
+    self.descriptionLabel.attributedText = statusTitleString;
+    
+    [self layoutSubviews];
     
 }
 

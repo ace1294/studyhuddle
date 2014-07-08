@@ -66,7 +66,7 @@ static void * const keypath = (void*)&keypath;
 {
     UIView *sourceView = [self topView];
     UIView *popupView = [sourceView viewWithTag:kMJPopupViewTag];
-    UIView *overlayView = [sourceView viewWithTag:kMJOverlayViewTag];
+    UIView *overlayView = [sourceView.superview viewWithTag:kMJOverlayViewTag];
     
     switch (animationType) {
         case MJPopupViewAnimationSlideBottomTop:
@@ -309,6 +309,7 @@ static void * const keypath = (void*)&keypath;
             [self setDismissedCallback:nil];
         }
     }];
+    
 }
 
 #pragma mark --- Fade

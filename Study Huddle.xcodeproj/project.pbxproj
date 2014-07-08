@@ -160,13 +160,13 @@
 		96D955F81964AEC500667581 /* newDocBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D955F61964AEC500667581 /* newDocBlue.png */; };
 		96D955F91964AEC500667581 /* newDocBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D955F71964AEC500667581 /* newDocBlue@2x.png */; };
 		96D955FC1965AD3500667581 /* SHHuddleButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955FB1965AD3500667581 /* SHHuddleButtons.m */; };
-		96D956091965E2BC00667581 /* UIButton+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D956081965E2BC00667581 /* UIButton+Addition.m */; };
 		96D9560C1965EF2900667581 /* modalGreyPlus.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D9560A1965EF2900667581 /* modalGreyPlus.png */; };
 		96D9560D1965EF2900667581 /* modalGreyPlus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D9560B1965EF2900667581 /* modalGreyPlus@2x.png */; };
 		96D956101969BDF500667581 /* SHResourceListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9560F1969BDF500667581 /* SHResourceListViewController.m */; };
 		96D956131969E10500667581 /* SHIndividualResourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D956121969E10500667581 /* SHIndividualResourceViewController.m */; };
 		96D95616196A345900667581 /* SHStartStudyingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D95615196A345900667581 /* SHStartStudyingViewController.m */; };
 		96D95619196A34B800667581 /* SHModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D95618196A34B800667581 /* SHModalViewController.m */; };
+		96D9561C196B467000667581 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9561B196B467000667581 /* UIImage+Color.m */; };
 		96F0EDC8195BD79200B25DC1 /* cogwheel.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC7195BD79200B25DC1 /* cogwheel.png */; };
 		96F0EDCA195BD79900B25DC1 /* cogwheel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */; };
 		96F0EDDD195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */; };
@@ -418,8 +418,6 @@
 		96D955F71964AEC500667581 /* newDocBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "newDocBlue@2x.png"; sourceTree = "<group>"; };
 		96D955FA1965AD3500667581 /* SHHuddleButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleButtons.h; sourceTree = "<group>"; };
 		96D955FB1965AD3500667581 /* SHHuddleButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleButtons.m; sourceTree = "<group>"; };
-		96D956071965E2BC00667581 /* UIButton+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Addition.h"; sourceTree = "<group>"; };
-		96D956081965E2BC00667581 /* UIButton+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Addition.m"; sourceTree = "<group>"; };
 		96D9560A1965EF2900667581 /* modalGreyPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = modalGreyPlus.png; sourceTree = "<group>"; };
 		96D9560B1965EF2900667581 /* modalGreyPlus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "modalGreyPlus@2x.png"; sourceTree = "<group>"; };
 		96D9560E1969BDF500667581 /* SHResourceListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHResourceListViewController.h; sourceTree = "<group>"; };
@@ -430,6 +428,8 @@
 		96D95615196A345900667581 /* SHStartStudyingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHStartStudyingViewController.m; sourceTree = "<group>"; };
 		96D95617196A34B800667581 /* SHModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHModalViewController.h; sourceTree = "<group>"; };
 		96D95618196A34B800667581 /* SHModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHModalViewController.m; sourceTree = "<group>"; };
+		96D9561A196B467000667581 /* UIImage+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
+		96D9561B196B467000667581 /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
 		96F0EDC7195BD79200B25DC1 /* cogwheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cogwheel.png; sourceTree = "<group>"; };
 		96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cogwheel@2x.png"; sourceTree = "<group>"; };
 		96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Pods-Parse+NSCoding.xcconfig"; sourceTree = "<group>"; };
@@ -827,8 +827,8 @@
 		96566E7A1945166E006649C3 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				96D956071965E2BC00667581 /* UIButton+Addition.h */,
-				96D956081965E2BC00667581 /* UIButton+Addition.m */,
+				96D9561A196B467000667581 /* UIImage+Color.h */,
+				96D9561B196B467000667581 /* UIImage+Color.m */,
 				96F42983195527CA00E74500 /* UITextField+Extend.h */,
 				96F42984195527CA00E74500 /* UITextField+Extend.m */,
 				41AF3369194F65310008DF21 /* UIImagePickerController+Block.h */,
@@ -1148,7 +1148,7 @@
 				ORGANIZATIONNAME = StudyHuddle;
 				TargetAttributes = {
 					96566E25194510F6006649C3 = {
-						DevelopmentTeam = 2X9H6LLE5Q;
+						DevelopmentTeam = 4QYMAFJ88B;
 					};
 					96566E40194510F6006649C3 = {
 						TestTargetID = 96566E25194510F6006649C3;
@@ -1330,7 +1330,6 @@
 				96D955F51964A59F00667581 /* SHDocumentViewController.m in Sources */,
 				96D955B91960BBA000667581 /* SHProfileViewController.m in Sources */,
 				96D955AD1960A76400667581 /* SHClassSegmentViewController.m in Sources */,
-				96D956091965E2BC00667581 /* UIButton+Addition.m in Sources */,
 				96F4299D195632C900E74500 /* SHStudentSearchViewController.m in Sources */,
 				96D956101969BDF500667581 /* SHResourceListViewController.m in Sources */,
 				41AF3348194CAA570008DF21 /* SHPageHeaderViewController.m in Sources */,
@@ -1340,6 +1339,7 @@
 				41A194441966759F0038AAA2 /* SHThreadCell.m in Sources */,
 				96D9559B195F3F5300667581 /* SHBasePortraitViewController.m in Sources */,
 				41A19441196673BB0038AAA2 /* SHChatEntrySegmentViewController.m in Sources */,
+				96D9561C196B467000667581 /* UIImage+Color.m in Sources */,
 				9638162F195BC6140069D477 /* SHPushNotificationsSetting.m in Sources */,
 				41365D661962169A0057B8C9 /* SHNotificationCell.m in Sources */,
 				96D95540195CD2CA00667581 /* SHProfileSegmentViewController.m in Sources */,

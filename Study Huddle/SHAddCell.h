@@ -19,8 +19,8 @@
 @end
 
 //Title
-#define addTitleX 80.0
-#define addTitleY 25.0
+#define addTitleX 60.0
+#define addTitleY 15.0
 //#define nameMaxWidth 320.f-titleX-80.0f
 
 //Add

@@ -8,6 +8,7 @@
 
 #import "SHModalViewController.h"
 #import "UIColor+HuddleColors.h"
+#import "UIViewController+MJPopupViewController.h"
 #import "SHUtility.h"
 
 @interface SHModalViewController ()
@@ -28,7 +29,11 @@
         [self.view setBackgroundColor:[UIColor colorWithWhite:.9 alpha:1]];
         self.view.layer.cornerRadius = 3;
         
+        self.buttonFont = [UIFont fontWithName:@"Arial" size:12];
+        self.headerFont = [UIFont fontWithName:@"Arial-BoldMT" size:12];
+        
         [self initHeader];
+        [self initButtons];
     }
     return self;
 }
@@ -50,7 +55,7 @@
 - (void)initHeader
 {
     //Header
-    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, modalWidth, headerHeight)];
+    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, modalWidth, modalHeaderHeight)];
     [self.headerLabel setFont:[UIFont fontWithName:@"Arial-BoldMT"size:14]];
     [self.headerLabel setTextColor:[UIColor whiteColor]];
     [self.headerLabel setBackgroundColor:[UIColor huddleOrange]];
@@ -65,26 +70,22 @@
 - (void)initButtons
 {
     //Create
-    self.continueButton = [[UIButton alloc]initWithFrame:CGRectMake(225.0, vertElemSpacing/2, 40.0, headerHeight-vertElemSpacing)];
-    [self.continueButton setTitle:@"Continue" forState:UIControlStateNormal];
+    self.continueButton = [[UIButton alloc]initWithFrame:CGRectMake(continueX, modalButtonY, modalButtonWidth, modalButtonHeight)];
+    [self.continueButton setTitle:@"Start" forState:UIControlStateNormal];
     [self.continueButton setBackgroundColor:[UIColor whiteColor]];
     self.continueButton.layer.cornerRadius = 3;
-    [self.continueButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:14]];
-    [self.continueButton setTitleColor:[UIColor huddleBlue] forState:UIControlStateNormal];
+    [self.continueButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:10]];
+    [self.continueButton setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
     [self.continueButton addTarget:self action:@selector(continueAction) forControlEvents:UIControlEventTouchUpInside];
-    //Border
-//    [[self.continueButton  layer] setBorderWidth:1.0f];
-//    [[self.continueButton  layer] setBorderColor:[UIColor whiteColor].CGColor];
-    
     [self.view addSubview:self.continueButton];
     
     //Create
-    self.cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(horiElemSpacing, vertElemSpacing/2, 45.0, headerHeight-vertElemSpacing)];
+    self.cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(horiElemSpacing, modalButtonY, modalButtonWidth, modalButtonHeight)];
     [self.cancelButton setBackgroundColor:[UIColor whiteColor]];
     self.cancelButton.layer.cornerRadius = 3;
     [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [self.cancelButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:14]];
-    [self.cancelButton setTitleColor:[UIColor huddleBlue] forState:UIControlStateNormal];
+    [self.cancelButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:10]];
+    [self.cancelButton setTitleColor:[UIColor huddleSilver] forState:UIControlStateNormal];
     [self.cancelButton addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.cancelButton];
     
@@ -92,17 +93,12 @@
 
 - (void)continueAction
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapContinue)])
-    {
-        [self.delegate didTapContinue];
-    }
+    //
 }
 
 - (void)cancelAction
 {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapCancel)])
-    {
-        [self.delegate didTapCancel];
-    }
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+    
 }
 @end

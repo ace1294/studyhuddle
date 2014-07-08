@@ -48,6 +48,7 @@
     _colors = [NSMutableDictionary new];
     
     _initializing = NO;
+    
 }
 
 - (id)init

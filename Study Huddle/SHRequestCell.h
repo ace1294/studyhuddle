@@ -11,21 +11,16 @@
 
 @interface SHRequestCell : SHBaseTextCell
 
-@property (nonatomic, strong) id delegate;
-- (void)didTapAcceptButtonAction:(id)sender;
-- (void)didTapDenyButtonAction:(id)sender;
+@property (strong, nonatomic) PFObject *request;
+- (void)setRequest:(PFObject *)aRequest;
 
 @end
 
 #define acceptX 245.0
-#define acceptY 16.0
-#define acceptDimX 30.0
-#define acceptDimY 20.0
+#define requestButtonY 15.0
+#define requestButtonWidth 40.0
 
-#define denyX acceptX+acceptDimX+horiElemSpacing
-#define denyY 16.0
-#define denyDimX acceptDimX-10.0
-#define denyDimY acceptDimY
+#define denyX acceptX+requestButtonWidth+horiElemSpacing
 
 @protocol SHRequestCellDelegate <NSObject>
 @optional
@@ -34,7 +29,7 @@
  Sent to the delegate when the activity button is tapped
  @param activity the PFObject of the activity that was tapped
  */
-- (void)cell:(SHRequestCell *)cellView didTapAcceptButton:(PFObject *)requestStudy;
-- (void)cell:(SHRequestCell *)cellView didTapDenyButton:(PFObject *)requestStudy;
+- (void)didTapAcceptCell:(SHRequestCell *)cell;
+- (void)didTapDenyCell:(SHRequestCell *)cell;
 
 @end
