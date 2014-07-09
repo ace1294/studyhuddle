@@ -297,7 +297,7 @@
         self.startStudyingLabel.text = @"START STUDYING";
         
         [self.study fetchIfNeeded];
-        self.study[SHStudyOnline] = [NSNumber numberWithBool:false];
+        self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:false];
         self.study[SHStudyEndKey] = [NSDate date];
         [self.study saveInBackground];
         
@@ -313,7 +313,7 @@
         
         self.lastStart = [NSDate date];
         self.profStudent[@"lastStudyDate"] = self.lastStart;
-        self.profStudent[@"isStudying"] =[NSNumber numberWithBool:YES];
+        self.profStudent[@"isStudying"] =[NSNumber numberWithBool:true];
         self.isStudying = YES;
         [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor redColor]];

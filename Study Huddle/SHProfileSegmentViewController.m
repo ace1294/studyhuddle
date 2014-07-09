@@ -26,6 +26,7 @@
 #import "SHUtility.h"
 #import "SHClassPageViewController.h"
 #import "SHStartStudyingViewController.h"
+#import "SHStudyViewController.h"
 
 @interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate, SHStartStudyingDelegate>
 
@@ -152,7 +153,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 //            return;
 //        }
 //        
-//        [self loadStudentData];
+        [self loadStudentData];
 //    }
 }
 
@@ -165,7 +166,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 - (BOOL)loadStudentData
 {
     BOOL loadError = true;
-    
+    [self.segStudent fetch];
     
     //Study Data
     NSArray *studying = [self.segStudent objectForKey:SHStudentStudyKey];
@@ -173,6 +174,10 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     [self.studyingDataArray removeAllObjects];
     [self.studyingDataArray addObjectsFromArray:studying];
     [SHUtility fetchObjectsInArray:self.studyingDataArray];
+    
+    [self.studyingDataArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2){
+        return [[obj2 objectForKey:SHStudyStartKey] compare:[obj1 objectForKey:SHStudyStartKey]];
+    }];
     
     //Classes Data
     NSArray *classes = [self.segStudent objectForKey:SHStudentClassesKey];
@@ -297,8 +302,8 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     {
         SHAddCell *cell = [tableView dequeueReusableCellWithIdentifier:SHAddCellIdentifier];
         [cell setAdd:@"Add Class" identifier:SHClassCellIdentifier];
-        cell.delegate = self;
         
+        cell.delegate = self;
         [cell layoutIfNeeded];
         
         return cell;
@@ -310,7 +315,6 @@ static NSString* const OnlineDiskKey = @"onlineKey";
         
         PFObject* studentObject = [self.onlineDataArray objectAtIndex:(int)indexPath.row];
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
         cell.delegate = self;
         
         [studentObject fetchIfNeeded];
@@ -335,13 +339,10 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     {
         PFObject *studyObject = [self.studyingDataArray objectAtIndex:(int)indexPath.row];
         SHStudyCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
         cell.delegate = self;
         
         [studyObject fetchIfNeeded];
-        
         [cell setStudy:studyObject];
-        
         [cell layoutIfNeeded];
         
         return cell;
@@ -395,6 +396,14 @@ static NSString* const OnlineDiskKey = @"onlineKey";
         [self.owner.navigationController pushViewController:classVC animated:YES];
         
     }
+    else if ([cell isKindOfClass:[SHStudyCell class]] ){
+        
+        SHStudyCell *studyCell = (SHStudyCell *)cell;
+        
+        SHStudyViewController *studyVC = [[SHStudyViewController alloc]initWithStudy:studyCell.study];
+        
+        [self.owner.navigationController pushViewController:studyVC animated:YES];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -409,7 +418,11 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 
 - (void)startedStudying:(PFObject *)study
 {
-    [self.studyingDataArray addObject:study];
+    [self.studyingDataArray insertObject:study atIndex:0];
+    
+    self.currentRowsToDisplay = [self.studyingDataArray count];
+    
+    [self tableView:self.tableView numberOfRowsInSection:0];
     
     [self.tableView reloadData];
 }

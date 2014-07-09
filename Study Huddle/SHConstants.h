@@ -65,13 +65,12 @@ extern NSString *const SHStudentStudyingKey;
 extern NSString *const SHStudentOnlineFriendsKey;
 extern NSString *const SHStudentRequestsKey;
 extern NSString *const SHStudentNotificationsKey;
-
 //Study
 extern NSString *const SHStudyClassesKey;
 extern NSString *const SHStudyStartKey;
 extern NSString *const SHStudyEndKey;
-extern NSString *const SHStudyUniqueName;
-extern NSString *const SHStudyOnline;
+extern NSString *const SHStudyOnlineKey;
+extern NSString *const SHStudyDescriptionKey;
 
 //Resources
 extern NSString *const SHResourceHuddleKey;

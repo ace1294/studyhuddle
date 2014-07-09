@@ -23,9 +23,12 @@
 {
     _study = aStudy;
     
-    if([aStudy[SHStudyOnline] boolValue]){
+    //[aStudy fetchIfNeeded];
+    
+    if([aStudy[SHStudyOnlineKey] boolValue])
         [self.mainView setBackgroundColor:[UIColor huddleOrangeAlpha]];
-    }
+    else
+        [self.mainView setBackgroundColor:[UIColor whiteColor]];
     
     NSDate *studyDate = [aStudy objectForKey:SHStudyStartKey];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];

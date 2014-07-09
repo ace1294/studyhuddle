@@ -57,7 +57,7 @@
 {
     
     self.titleHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, nameHeaderY, headerWidth, headerHeight)];
-    [self.titleHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT"size:16]];
+    [self.titleHeaderLabel setFont:[UIFont fontWithName:@"Arial"size:16]];
     [self.titleHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.titleHeaderLabel setBackgroundColor:[UIColor whiteColor]];
     [self.titleHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
@@ -66,7 +66,7 @@
     [self.view addSubview:self.titleHeaderLabel];
     
     self.linkHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, linkHeaderY, headerWidth, headerHeight)];
-    [self.linkHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT"size:16]];
+    [self.linkHeaderLabel setFont:[UIFont fontWithName:@"Arial"size:16]];
     [self.linkHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.linkHeaderLabel setBackgroundColor:[UIColor whiteColor]];
     [self.linkHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
@@ -75,7 +75,7 @@
     [self.view addSubview:self.linkHeaderLabel];
     
     self.descriptionHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, descrHeaderY, headerWidth, headerHeight)];
-    [self.descriptionHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT"size:16]];
+    [self.descriptionHeaderLabel setFont:[UIFont fontWithName:@"Arial"size:16]];
     [self.descriptionHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.descriptionHeaderLabel setBackgroundColor:[UIColor whiteColor]];
     [self.descriptionHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];

@@ -87,13 +87,13 @@
 
 - (void)continueAction
 {
-    self.study = [PFObject objectWithClassName:SHStudyParseClass];
+    //self.study = [PFObject objectWithClassName:SHStudyParseClass];
     self.study[SHStudyStartKey] = [NSDate date];
     
     PFQuery *classes = [PFQuery queryWithClassName:SHClassParseClass];
     [classes whereKey:SHClassShortNameKey containedIn:self.subjectButtons.selectedButtons];
     self.study[SHStudyClassesKey] = [classes findObjects];
-    self.study[SHStudyOnline] = [NSNumber numberWithBool:true];
+    self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
     
     
     [self.student addObject:self.study forKey:SHStudentStudyKey];
