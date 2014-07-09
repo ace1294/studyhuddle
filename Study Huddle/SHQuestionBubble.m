@@ -17,12 +17,16 @@
 #define contentWidth 250
 
 
-#define replyHeight 25
-#define replyWidth 250
+#define buttonsHeight 20
+#define buttonsWidth 80
 
 #define charWidth 12
 #define lineHeight 23
 
+#define roundness 3.0f
+
+#define sideButtonOffsetFromRightEdge 20
+#define spaceBetweenTextAndLine 3
 
 @interface SHQuestionBubble()
 
@@ -31,7 +35,6 @@
 @property UILabel* contentLabel;
 @property UIButton* replyButton;
 @property PFObject* questionObject;
-
 @property PFObject* parent;
 
 @end
@@ -84,60 +87,78 @@
     
     float width = self.frame.size.width;
     
-    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, 0, width-horizontalOffest, titleHeight)];
+    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, 0, width-horizontalOffest-roundness, titleHeight)];
     self.titleLabel.backgroundColor = [UIColor whiteColor];
     self.titleLabel.text = title;
     self.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     self.titleLabel.textColor = [UIColor huddleSilver];
     [self.titleLabel setTextAlignment:NSTextAlignmentLeft];
     [self addSubview:self.titleLabel];
+    self.titleLabel.layer.cornerRadius = roundness;
+    
+    
+    //the edit button/replyButton
+    PFUser* creator = self.questionObject[SHReplyCreator];
+    PFUser* currentUser = [PFUser currentUser];
+    CGRect editFrame = CGRectMake(width-sideButtonOffsetFromRightEdge - buttonsWidth, self.titleLabel.frame.origin.y, buttonsWidth, buttonsHeight);
+    UIButton* editButton = [[UIButton alloc]initWithFrame:editFrame];
+    editButton.backgroundColor = [UIColor whiteColor];
+    [editButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
+    [editButton setTitleColor:[UIColor huddleBlue] forState:UIControlStateNormal];
+    [editButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [self addSubview:editButton];
+    
+    BOOL shouldSeeEditButton = ([[currentUser objectId] isEqual:[creator objectId]]);
+    if(shouldSeeEditButton)
+    {
+        [editButton setTitle:@"EDIT POST" forState:UIControlStateNormal];
+        [editButton addTarget:self action:@selector(editTapped) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else
+    {
+        [editButton setTitle:@"REPLY TO POST" forState:UIControlStateNormal];
+        [editButton addTarget:self action:@selector(replyTapped) forControlEvents:UIControlEventTouchUpInside];
+    }
+
     
     
     //calculate the height the contentLabel will take up
     int textLength = content.length;
-    float charsPerLine = width/charWidth;
+    float charsPerLine = (width-horizontalOffest-roundness)/charWidth;
     float numLines = ceil(textLength/charsPerLine);
     float contentCalcHeight = numLines*lineHeight;
     
     
-    self.contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height, width-horizontalOffest, contentCalcHeight)];
+    self.contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height, width-horizontalOffest-roundness, contentCalcHeight)];
     self.contentLabel.backgroundColor = [UIColor whiteColor];
     self.contentLabel.text = content;
     self.contentLabel.font = [UIFont systemFontOfSize:12];
     self.contentLabel.textColor = [UIColor huddleSilver];
     [self.contentLabel setTextAlignment:NSTextAlignmentLeft];
     [self.contentLabel setNumberOfLines:0];
+    self.contentLabel.layer.cornerRadius = roundness;
+    
     
     //adjust the views size
     CGRect frame = self.frame;
-    frame.size.height = titleHeight + contentCalcHeight + replyHeight;
+    frame.size.height = titleHeight + contentCalcHeight + buttonsHeight + spaceBetweenTextAndLine;
     self.frame = frame;
     [self addSubview:self.contentLabel];
     
-    //reply button
-    self.replyButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.replyButton.frame = CGRectMake(0, self.contentLabel.frame.origin.y+self.contentLabel.frame.size.height, width, replyHeight);
-    [self.replyButton setTitle:@"      REPLY" forState:UIControlStateNormal];
-    [self.replyButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
-    [self.replyButton setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
-    [self.replyButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-    self.replyButton.backgroundColor = [UIColor whiteColor];
-    [self.replyButton.layer setBorderColor:[UIColor grayColor].CGColor];
-    [self.replyButton.layer setBorderWidth:1.0];
-    [self addSubview:self.replyButton];
-    [self.replyButton addTarget:self action:@selector(replyTapped) forControlEvents:UIControlEventTouchUpInside];
-    
-    
     //make a frame around it
-    [self.layer setBorderWidth:1.0];
     self.backgroundColor = [UIColor whiteColor];
-    [self.layer setBorderColor:[UIColor grayColor].CGColor];
+    self.layer.cornerRadius = roundness;
     
 }
 
 -(void)replyTapped
 {
     [self.delegate didTapReply:self.questionObject];
+}
+
+-(void)editTapped
+{
+    
 }
 
 /*

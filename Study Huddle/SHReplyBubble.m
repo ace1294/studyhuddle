@@ -18,7 +18,7 @@
 
 
 #define buttonsHeight 20
-#define buttonsWidth 50
+#define buttonsWidth 80
 
 #define charWidth 4
 #define lineHeight 15
@@ -28,14 +28,15 @@
 #define lineThickness 2
 #define spaceBetweenTextAndLine 3
 
+#define sideButtonOffsetFromRightEdge 20
+
+
 
 @interface SHReplyBubble()
 
 @property UILabel* titleLabel;
 @property UILabel* userLabel;
 @property UILabel* contentLabel;
-@property UIButton* replyButton;
-@property UIButton* editButton;
 @property PFObject* replyObject;
 @property PFObject* parent;
 
@@ -98,12 +99,35 @@
     [self addSubview:self.titleLabel];
     self.titleLabel.layer.cornerRadius = roundness;
     
+    //the edit button (if its the current user)
+    PFUser* creator = self.replyObject[SHReplyCreator];
+    PFUser* currentUser = [PFUser currentUser];
+    
+    BOOL shouldSeeEditButton = ([[currentUser objectId] isEqual:[creator objectId]]);
+    if(shouldSeeEditButton)
+    {
+        
+        CGRect editFrame = CGRectMake(width-sideButtonOffsetFromRightEdge - buttonsWidth, self.titleLabel.frame.origin.y, buttonsWidth, buttonsHeight);
+        UIButton* editButton = [[UIButton alloc]initWithFrame:editFrame];
+        [editButton setTitle:@"EDIT POST" forState:UIControlStateNormal];
+        [editButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
+        [editButton setTitleColor:[UIColor huddleBlue] forState:UIControlStateNormal];
+        [editButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        editButton.backgroundColor = [UIColor whiteColor];
+        [self addSubview:editButton];
+        [editButton addTarget:self action:@selector(replyTapped) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        
+    }
+    
     
     //calculate the height the contentLabel will take up
     int textLength = content.length;
     float charsPerLine = (width-horizontalOffest-roundness)/charWidth;
     float numLines = ceil(textLength/charsPerLine);
     float contentCalcHeight = numLines*lineHeight;
+    
     
     
     self.contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height, width-horizontalOffest-roundness, contentCalcHeight)];
@@ -118,47 +142,14 @@
     
     //adjust the views size
     CGRect frame = self.frame;
-    frame.size.height = titleHeight + contentCalcHeight + buttonsHeight + lineThickness + spaceBetweenTextAndLine;
+    frame.size.height = titleHeight + contentCalcHeight + buttonsHeight + spaceBetweenTextAndLine;
     self.frame = frame;
     [self addSubview:self.contentLabel];
     
     //make a frame around it
-    //[self.layer setBorderWidth:1.0];
     self.backgroundColor = [UIColor whiteColor];
     self.layer.cornerRadius = roundness;
-    //[self.layer setBorderColor:[UIColor grayColor].CGColor];
     
-    //add a line
-    UIView* lineView = [[UIView alloc]initWithFrame:CGRectMake(0, self.contentLabel.frame.origin.y + self.contentLabel.frame.size.height + spaceBetweenTextAndLine, self.frame.size.width,lineThickness)];
-    lineView.backgroundColor = [UIColor huddleLightSilver];
-    [self addSubview:lineView];
-    
-    
-    //edit button
-    self.editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    self.editButton.frame = CGRectMake(horizontalOffest, self.contentLabel.frame.origin.y+self.contentLabel.frame.size.height + lineThickness + spaceBetweenTextAndLine, buttonsWidth, buttonsHeight);
-    [self.editButton setTitle:@"EDIT" forState:UIControlStateNormal];
-    [self.editButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
-    [self.editButton setTitleColor:[UIColor huddleBlue] forState:UIControlStateNormal];
-    [self.editButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-    self.editButton.backgroundColor = [UIColor whiteColor];
-    //[self.editButton.layer setBorderColor:[UIColor grayColor].CGColor];
-    //[self.editButton.layer setBorderWidth:1.0];
-    [self addSubview:self.editButton];
-    [self.editButton addTarget:self action:@selector(replyTapped) forControlEvents:UIControlEventTouchUpInside];
-    
- 
-    
-    
-    
-    //reply button im leaving this just in case we change our minds
-//    self.replyButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    self.replyButton.frame = CGRectMake(horizontalOffest, self.contentLabel.frame.origin.y+self.contentLabel.frame.size.height, width, replyHeight);
-//    self.replyButton.titleLabel.text = @"Reply";
-//    [self.replyButton.titleLabel setTextAlignment:NSTextAlignmentLeft];
-//    self.replyButton.backgroundColor = [UIColor blueColor];
-//    //[self addSubview:self.replyButton];
-//    [self.replyButton addTarget:self action:@selector(replyTapped) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void)replyTapped
