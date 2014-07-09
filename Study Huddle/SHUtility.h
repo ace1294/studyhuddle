@@ -26,6 +26,6 @@
 
 
 +(void)setMaskTo:(UIView*)view byRoundingCorners:(UIRectCorner)corners;
-
++ (void) moveView: (UIView*)view distance: (CGFloat)distance andDuration: (float) duration;
 
 @end

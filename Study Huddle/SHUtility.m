@@ -160,6 +160,14 @@
     view.layer.mask = shape;
 }
 
++ (void) moveView: (UIView*)view distance: (CGFloat)distance andDuration: (float) duration
+{
+    
+    [UIView animateWithDuration:duration animations:^{
+        view.frame = CGRectOffset(view.frame, 0, distance);
+    }];
+    
+}
 
 
 @end

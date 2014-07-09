@@ -62,6 +62,7 @@
 		41AF33B71953AB260008DF21 /* iconHome@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33B61953AB260008DF21 /* iconHome@2x.png */; };
 		41AF33B91953B99F0008DF21 /* Option1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33B81953B99F0008DF21 /* Option1@2x.png */; };
 		41AF33BB1953B9A60008DF21 /* Option2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33BA1953B9A60008DF21 /* Option2@2x.png */; };
+		41CD3AB3196CB206004AD6F0 /* SHTextBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB2196CB206004AD6F0 /* SHTextBar.m */; };
 		96368A7219452D0500E03E56 /* SHSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96368A7119452D0500E03E56 /* SHSignUpViewController.m */; };
 		96368A7719455C2A00E03E56 /* X_cancelbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96368A7619455C2A00E03E56 /* X_cancelbtn@2x.png */; };
 		9638161619594BF30069D477 /* SHHuddleSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638161519594BF30069D477 /* SHHuddleSegmentViewController.m */; };
@@ -280,6 +281,8 @@
 		41AF33B61953AB260008DF21 /* iconHome@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconHome@2x.png"; sourceTree = "<group>"; };
 		41AF33B81953B99F0008DF21 /* Option1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Option1@2x.png"; sourceTree = "<group>"; };
 		41AF33BA1953B9A60008DF21 /* Option2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Option2@2x.png"; sourceTree = "<group>"; };
+		41CD3AB1196CB206004AD6F0 /* SHTextBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHTextBar.h; sourceTree = "<group>"; };
+		41CD3AB2196CB206004AD6F0 /* SHTextBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHTextBar.m; sourceTree = "<group>"; };
 		722FD8B7A2114808AD83CFDE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96368A7019452D0500E03E56 /* SHSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSignUpViewController.h; sourceTree = "<group>"; };
 		96368A7119452D0500E03E56 /* SHSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSignUpViewController.m; sourceTree = "<group>"; };
@@ -743,6 +746,8 @@
 				96381625195BC5930069D477 /* SHHuddleViewController.m */,
 				410261121968B5D2006F2CBF /* SHThreadViewController.h */,
 				410261131968B5D2006F2CBF /* SHThreadViewController.m */,
+				41CD3AB1196CB206004AD6F0 /* SHTextBar.h */,
+				41CD3AB2196CB206004AD6F0 /* SHTextBar.m */,
 				410261151968BEC0006F2CBF /* SHQuestionBubble.h */,
 				410261161968BEC0006F2CBF /* SHQuestionBubble.m */,
 				41026118196A09BC006F2CBF /* SHReplyBubble.h */,
@@ -1341,6 +1346,7 @@
 				96F42985195527CA00E74500 /* UITextField+Extend.m in Sources */,
 				96566E7619451478006649C3 /* SHLoginViewController.m in Sources */,
 				96D95594195F3F0900667581 /* SHProfilePortraitView.m in Sources */,
+				41CD3AB3196CB206004AD6F0 /* SHTextBar.m in Sources */,
 				41A194441966759F0038AAA2 /* SHThreadCell.m in Sources */,
 				96D9559B195F3F5300667581 /* SHBasePortraitViewController.m in Sources */,
 				41A19441196673BB0038AAA2 /* SHChatEntrySegmentViewController.m in Sources */,
