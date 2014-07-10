@@ -93,20 +93,20 @@
     self.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     self.titleLabel.textColor = [UIColor huddleSilver];
     [self.titleLabel setTextAlignment:NSTextAlignmentLeft];
-    [self addSubview:self.titleLabel];
     self.titleLabel.layer.cornerRadius = roundness;
     
     
     //the edit button/replyButton
     PFUser* creator = self.questionObject[SHReplyCreator];
     PFUser* currentUser = [PFUser currentUser];
-    CGRect editFrame = CGRectMake(width-sideButtonOffsetFromRightEdge - buttonsWidth, self.titleLabel.frame.origin.y, buttonsWidth, buttonsHeight);
-    UIButton* editButton = [[UIButton alloc]initWithFrame:editFrame];
+    CGRect editFrame = CGRectMake(width-sideButtonOffsetFromRightEdge - buttonsWidth, self.titleLabel.frame.origin.y + (titleHeight - buttonsHeight)/2, buttonsWidth, buttonsHeight);
+    UIButton* editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    editButton.frame = editFrame;
     editButton.backgroundColor = [UIColor whiteColor];
     [editButton.titleLabel setFont:[UIFont systemFontOfSize:10]];
     [editButton setTitleColor:[UIColor huddleBlue] forState:UIControlStateNormal];
-    [editButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-    [self addSubview:editButton];
+    [editButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+    
     
     BOOL shouldSeeEditButton = ([[currentUser objectId] isEqual:[creator objectId]]);
     if(shouldSeeEditButton)
@@ -120,30 +120,30 @@
         [editButton addTarget:self action:@selector(replyTapped) forControlEvents:UIControlEventTouchUpInside];
     }
 
+
     
-    
-    //calculate the height the contentLabel will take up
-    int textLength = content.length;
-    float charsPerLine = (width-horizontalOffest-roundness)/charWidth;
-    float numLines = ceil(textLength/charsPerLine);
-    float contentCalcHeight = numLines*lineHeight;
-    
-    
-    self.contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height, width-horizontalOffest-roundness, contentCalcHeight)];
+    self.contentLabel = [[UILabel alloc]init];
+    //self.contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height, width-horizontalOffest-roundness, contentCalcHeight)];
     self.contentLabel.backgroundColor = [UIColor whiteColor];
     self.contentLabel.text = content;
-    self.contentLabel.font = [UIFont systemFontOfSize:12];
+    CGSize descriptionSize = [self.contentLabel.text boundingRectWithSize:CGSizeMake(width-horizontalOffest-roundness, CGFLOAT_MAX) options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    self.contentLabel.font = [UIFont systemFontOfSize:14];
     self.contentLabel.textColor = [UIColor huddleSilver];
     [self.contentLabel setTextAlignment:NSTextAlignmentLeft];
     [self.contentLabel setNumberOfLines:0];
     self.contentLabel.layer.cornerRadius = roundness;
+    self.contentLabel.frame = CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height-2, width-horizontalOffest-roundness, descriptionSize.height);
+
     
     
     //adjust the views size
     CGRect frame = self.frame;
-    frame.size.height = titleHeight + contentCalcHeight + buttonsHeight + spaceBetweenTextAndLine;
+    frame.size.height = titleHeight + descriptionSize.height + buttonsHeight + spaceBetweenTextAndLine;
     self.frame = frame;
     [self addSubview:self.contentLabel];
+    [self addSubview:self.titleLabel];
+    [self addSubview:editButton];
+
     
     //make a frame around it
     self.backgroundColor = [UIColor whiteColor];
@@ -158,7 +158,7 @@
 
 -(void)editTapped
 {
-    
+    [self.delegate didTapEdit:self.questionObject];
 }
 
 /*

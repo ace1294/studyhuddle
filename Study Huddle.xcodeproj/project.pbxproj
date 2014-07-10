@@ -63,6 +63,8 @@
 		41AF33B91953B99F0008DF21 /* Option1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33B81953B99F0008DF21 /* Option1@2x.png */; };
 		41AF33BB1953B9A60008DF21 /* Option2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33BA1953B9A60008DF21 /* Option2@2x.png */; };
 		41CD3AB3196CB206004AD6F0 /* SHTextBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB2196CB206004AD6F0 /* SHTextBar.m */; };
+		41CD3AB8196DB018004AD6F0 /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB5196DB018004AD6F0 /* HPGrowingTextView.m */; };
+		41CD3AB9196DB018004AD6F0 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */; };
 		96368A7219452D0500E03E56 /* SHSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96368A7119452D0500E03E56 /* SHSignUpViewController.m */; };
 		96368A7719455C2A00E03E56 /* X_cancelbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96368A7619455C2A00E03E56 /* X_cancelbtn@2x.png */; };
 		9638161619594BF30069D477 /* SHHuddleSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638161519594BF30069D477 /* SHHuddleSegmentViewController.m */; };
@@ -285,6 +287,10 @@
 		41AF33BA1953B9A60008DF21 /* Option2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Option2@2x.png"; sourceTree = "<group>"; };
 		41CD3AB1196CB206004AD6F0 /* SHTextBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHTextBar.h; sourceTree = "<group>"; };
 		41CD3AB2196CB206004AD6F0 /* SHTextBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHTextBar.m; sourceTree = "<group>"; };
+		41CD3AB4196DB018004AD6F0 /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
+		41CD3AB5196DB018004AD6F0 /* HPGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPGrowingTextView.m; sourceTree = "<group>"; };
+		41CD3AB6196DB018004AD6F0 /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
+		41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
 		722FD8B7A2114808AD83CFDE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96368A7019452D0500E03E56 /* SHSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSignUpViewController.h; sourceTree = "<group>"; };
 		96368A7119452D0500E03E56 /* SHSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSignUpViewController.m; sourceTree = "<group>"; };
@@ -766,6 +772,10 @@
 				96CABDEB19535B4500971394 /* SHUtility.m */,
 				41AF338A19521ACA0008DF21 /* SHConstants.h */,
 				41AF338819521ABD0008DF21 /* SHConstants.m */,
+				41CD3AB4196DB018004AD6F0 /* HPGrowingTextView.h */,
+				41CD3AB5196DB018004AD6F0 /* HPGrowingTextView.m */,
+				41CD3AB6196DB018004AD6F0 /* HPTextViewInternal.h */,
+				41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */,
 				96566E3B194510F6006649C3 /* Images.xcassets */,
 				96566E6C19451271006649C3 /* Assets */,
 				96566E30194510F6006649C3 /* Supporting Files */,
@@ -1176,7 +1186,7 @@
 				ORGANIZATIONNAME = StudyHuddle;
 				TargetAttributes = {
 					96566E25194510F6006649C3 = {
-						DevelopmentTeam = 4QYMAFJ88B;
+						DevelopmentTeam = 2X9H6LLE5Q;
 					};
 					96566E40194510F6006649C3 = {
 						TestTargetID = 96566E25194510F6006649C3;
@@ -1341,6 +1351,7 @@
 				410261141968B5D2006F2CBF /* SHThreadViewController.m in Sources */,
 				96F429AB1957E7B400E74500 /* SHVisitorProfileSegmentViewController.m in Sources */,
 				41A1943B19662FB80038AAA2 /* SHChatCell.m in Sources */,
+				41CD3AB9196DB018004AD6F0 /* HPTextViewInternal.m in Sources */,
 				96381639195BC6B90069D477 /* Student.m in Sources */,
 				96D95592195F3F0900667581 /* SHBasePortraitView.m in Sources */,
 				41365D6C19621B090057B8C9 /* SHNotificationSegmentViewController.m in Sources */,
@@ -1353,6 +1364,7 @@
 				96D955A6196085A600667581 /* SHCategoryCell.m in Sources */,
 				96CBFA4A194CE878008B10CE /* SHRequestCell.m in Sources */,
 				96D95593195F3F0900667581 /* SHHuddlePortraitView.m in Sources */,
+				41CD3AB8196DB018004AD6F0 /* HPGrowingTextView.m in Sources */,
 				41AF336E194F65310008DF21 /* UIImagePickerController+Edit.m in Sources */,
 				96D9559D195F3F5300667581 /* SHProfilePortraitViewController.m in Sources */,
 				96D955F51964A59F00667581 /* SHDocumentViewController.m in Sources */,

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HPGrowingTextView.h"
 
 @interface SHTextBar : UIView
-@property (nonatomic,strong) UITextField* textField;
+@property (nonatomic,strong) HPGrowingTextView* textField;
 @property (nonatomic,strong) UIButton* postButton;
 @property (nonatomic,strong) UIButton* imageButton;
 

@@ -139,3 +139,9 @@ NSString* const SHReplyClassName = @"Reply";
 //Chat Entry
 NSString* const SHChatEntryCategoryKey = @"category";
 NSString* const SHChatEntryThreadsKey = @"threads";
+
+//Constants for chat feature
+int const SHEditingQuestion = 0;
+int const SHReplying = 1;
+int const SHQuestioning = 2;
+int const SHEditingReply = 3;

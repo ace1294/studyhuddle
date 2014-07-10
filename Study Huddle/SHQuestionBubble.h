@@ -13,6 +13,7 @@
 @optional
 
 - (void)didTapReply:(PFObject *)questionObject;
+- (void)didTapEdit:(PFObject*)questionObject;
 
 @end
 
