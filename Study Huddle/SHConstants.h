@@ -121,6 +121,11 @@ extern NSString* const SHReplyCreator;
 extern NSString* const SHReplyAnswer;
 extern NSString* const SHReplyClassName;
 
+//Constants for chat feature
+extern int const SHEditingQuestion;
+extern int const SHReplying;
+extern int const SHQuestioning;
+extern int const SHEditingReply;
 
 
 #define modalWidth 270

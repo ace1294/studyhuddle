@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+@protocol SHReplyBubbleDelegate <NSObject>
+@optional
+-(void)didTapEditReply: (PFObject*)replyObject;
+@end
 
 @interface SHReplyBubble : UIView
 
@@ -15,12 +19,9 @@
 -(id)initWithFrame:(CGRect)frame andTitle:(NSString*) title andContent: (NSString*)content andParent:(PFObject*)parent;
 -(id)initWithReply: (PFObject*)replyObject andFrame: (CGRect)frame;
 
-@end
-
-@protocol SHReplyBubbleDelegate <NSObject>
-@optional
-
-- (void)didTapReply:(PFObject *)questionObject;
+@property (nonatomic,strong) id <SHReplyBubbleDelegate> delegate;
 
 @end
+
+
 

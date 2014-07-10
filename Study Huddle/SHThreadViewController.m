@@ -19,11 +19,10 @@
 #define bubbleWidth 300
 #define firstBubbleStartY 30
 #define verticalOffsetBetweenBubbles 10
-#define replyTextFieldHeight 40
-#define keyboardHeight 220
-#define animationLength 0.2f
+#define replyTextFieldHeight 60
+#define animationLength 0.225f
 
-@interface SHThreadViewController ()<UITextFieldDelegate,SHQuestionBubbleDelegate>
+@interface SHThreadViewController ()<UITextFieldDelegate,SHQuestionBubbleDelegate,SHReplyBubbleDelegate,UIScrollViewDelegate,HPGrowingTextViewDelegate>
 
 @property UIScrollView* scrollView;
 
@@ -36,11 +35,40 @@
 @property (strong,nonatomic) PFObject* relevantQuestionObject;
 @property (strong,nonatomic) PFObject* relevantReplyObject;
 
-@property BOOL isPostingNewQuestion;
+@property int state; //editing or replying or answering
+@property BOOL canUpdate; //so when pulling the bar down, it only updates the replies once
 
 @end
 
 @implementation SHThreadViewController
+
+
+
+- (void)registerForKeyboardNotifications {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+    
+}
+
+- (void)deregisterFromKeyboardNotifications
+{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardDidHideNotification
+                                                  object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,12 +91,25 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self registerForKeyboardNotifications];
+    [self updateLayout];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self deregisterFromKeyboardNotifications];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.isPostingNewQuestion = YES; //by default when the user hits post, it will be posted as a question instead of a reply
+    self.state = SHQuestioning;
     
     //that scroll view
     CGRect scrollViewFrame = self.view.frame;
@@ -77,9 +118,17 @@
     [self.view addSubview:self.scrollView];
     self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 99999);
     self.scrollView.backgroundColor = [UIColor huddleLightSilver];
+    self.scrollView.delegate = self;
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPressedOutside:)];
     [self.scrollView addGestureRecognizer:gestureRecognizer];
+    
+    [NSTimer scheduledTimerWithTimeInterval:30
+                                     target:self
+                                   selector:@selector(refreshAll)
+                                   userInfo:nil
+                                    repeats:YES];
+
     
 
     
@@ -100,23 +149,61 @@
     self.textBar.textField.delegate = self;
     [self.textBar.postButton addTarget:self action:@selector(postTextInTextView) forControlEvents:UIControlEventTouchUpInside];
  
-    [self updateReplies];
+    [self updateLayout];
     
 
 }
 
--(void)updateReplies
+-(void)refreshAll
 {
+    //[self updateAllFromParse];
+    [self.threadObject fetchIfNeeded];
+    [self.threadObject refresh];
+    [self updateLayout];
+}
+
+-(void)updateAllFromParse
+{
+    [self.threadObject refreshInBackgroundWithTarget:self selector:@selector(updateQuestions)];
+}
+
+-(void)updateQuestions
+{
+    NSMutableArray* questions = self.threadObject[SHThreadQuestions];
+    for (PFObject* questionObject in questions) {
+        [questionObject refreshInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            [self updateReplyWithQuestion:object];
+        }];
+    }
+}
+
+-(void)updateReplyWithQuestion: (PFObject*) questionObject
+{
+    NSMutableArray* replies = questionObject[SHQuestionReplies];
+    for (PFObject* replyObject in replies) {
+        
+        [replyObject refresh];
+    }
+}
+
+
+-(void)updateLayout
+{
+    NSLog(@"updateREplies called");
     for(UIView *subview in [self.scrollView subviews])
     {
         [subview removeFromSuperview];
     }
+    
+    [self.threadObject fetchIfNeeded];
     
     NSMutableArray* questions = self.threadObject[SHThreadQuestions];
     
     float lastBubbleY = firstBubbleStartY;
     for (PFObject* questionObject in questions)
     {
+        [questionObject fetchIfNeeded];
+        [questionObject refresh];
         SHQuestionBubble* bubble = [[SHQuestionBubble alloc] initWithQuestion:questionObject andFrame:CGRectMake(questionHorizontalOffset, lastBubbleY, bubbleWidth, 100)];
         bubble.delegate = self;
         [self.scrollView addSubview:bubble];
@@ -126,7 +213,10 @@
         NSMutableArray* replies = questionObject[SHQuestionReplies];
         for (PFObject* replyObject in replies) {
             
+            [replyObject fetchIfNeeded];
+            [replyObject refresh];
             SHReplyBubble* replyBubble = [[SHReplyBubble alloc] initWithReply:replyObject andFrame:CGRectMake(repliesHorizontalOffset, lastBubbleY, bubbleWidth - (repliesHorizontalOffset - questionHorizontalOffset), 100)];
+            replyBubble.delegate = self;
             [self.scrollView addSubview:replyBubble];
             
             lastBubbleY = replyBubble.frame.origin.y + replyBubble.frame.size.height + verticalOffsetBetweenBubbles;
@@ -140,8 +230,8 @@
 -(void)postTextInTextView
 {
     
-    NSLog(@"postTextInTextView called");
-    if(self.isPostingNewQuestion)
+    
+    if(self.state == SHQuestioning)
     {
         //make a new question object
         PFObject* creator = [PFUser currentUser];
@@ -149,16 +239,15 @@
         PFObject* newQuestionObject = [PFObject objectWithClassName:SHQuestionClassName];
         newQuestionObject[SHQuestionCreator] = creator;
         newQuestionObject[SHQuestionQuestion] = question;
-        [newQuestionObject saveInBackground];
+        [newQuestionObject save];
         
         //add it to the threads list
-         NSMutableArray* questions = self.threadObject[SHThreadQuestions];
+        NSMutableArray* questions = [[NSMutableArray alloc]initWithArray:self.threadObject[SHThreadQuestions]];
         [questions addObject:newQuestionObject];
         self.threadObject[SHThreadQuestions] = questions;
-        [self.threadObject saveInBackground];
-        [self updateReplies];
+        [self.threadObject save];
     }
-    else
+    else if(self.state == SHReplying)
     {
         //make a new reply object
         PFObject* creator = [PFUser currentUser];
@@ -166,18 +255,33 @@
         PFObject* newReplyObject = [PFObject objectWithClassName:SHReplyClassName];
         newReplyObject[SHReplyCreator] = creator;
         newReplyObject[SHReplyAnswer] = answer;
-        [newReplyObject saveInBackground];
+        [newReplyObject save];
         
         //append it to the questions array
         [self.relevantQuestionObject fetchIfNeeded];
-        NSMutableArray* replies = self.relevantQuestionObject[SHQuestionReplies];
+        NSMutableArray* replies = [[NSMutableArray alloc]initWithArray: self.relevantQuestionObject[SHQuestionReplies]];
         [replies addObject:newReplyObject];
         self.relevantQuestionObject[SHQuestionReplies] = replies;
-        [self.relevantQuestionObject saveInBackground];
-        [self updateReplies];
+        [self.relevantQuestionObject save];
+        self.relevantQuestionObject = nil;
+    }
+    else if(self.state == SHEditingQuestion)
+    {
+        NSString* editedText = self.textBar.textField.text;
+        self.relevantQuestionObject[SHQuestionQuestion] = editedText;
+        [self.relevantQuestionObject save];
+    }
+    else if(self.state == SHEditingReply)
+    {
+        NSString* editedText = self.textBar.textField.text;
+        self.relevantReplyObject[SHReplyAnswer] = editedText;
+        [self.relevantReplyObject save];
     }
     
-    self.isPostingNewQuestion = YES;
+    self.state = SHQuestioning;
+    [self.textBar.textField resignFirstResponder];
+    self.textBar.textField.text = @"";
+    [self updateLayout];
 
 }
 
@@ -193,7 +297,7 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    [SHUtility moveView:self.textBar distance:-keyboardHeight andDuration:0.3];
+    //[SHUtility moveView:self.textBar distance:-keyboardHeight andDuration:0.3];
     return YES;
 }
 
@@ -211,7 +315,7 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [SHUtility moveView:self.textBar distance:keyboardHeight andDuration:0.3];
+    //[SHUtility moveView:self.textBar distance:keyboardHeight andDuration:0.3];
     [textField resignFirstResponder];
     return YES;
 }
@@ -222,7 +326,7 @@
 -(void) userPressedOutside:(id) sender
 {
     [self.textBar.textField resignFirstResponder];
-    [SHUtility moveView:self.textBar distance:keyboardHeight andDuration:0.3];
+    //[SHUtility moveView:self.textBar distance:keyboardHeight andDuration:0.3];
 }
 
 
@@ -230,12 +334,31 @@
 
 -(void)didTapReply:(PFObject *)questionObject
 {
-    NSLog(@"question object: %@",questionObject);
-    
+ 
     [self.textBar.textField becomeFirstResponder];
-    self.isPostingNewQuestion = NO; //he is posting a reply
+    self.state = SHReplying;
     self.relevantQuestionObject = questionObject;
     
+}
+
+-(void)didTapEdit:(PFObject *)questionObject
+{
+    [self.textBar.textField becomeFirstResponder];
+    [questionObject fetchIfNeeded];
+    self.textBar.textField.text = questionObject[SHQuestionQuestion];
+    self.state = SHEditingQuestion;
+    self.relevantQuestionObject = questionObject;
+    
+}
+
+-(void)didTapEditReply:(PFObject *)replyObject
+{
+    NSLog(@"baby got kush 2");
+    self.relevantReplyObject = replyObject;
+    [replyObject fetchIfNeeded];
+    [self.textBar.textField becomeFirstResponder];
+    self.textBar.textField.text = replyObject[SHReplyAnswer];
+    self.state = SHEditingReply;
 }
 
 
@@ -246,11 +369,60 @@
     if ([self.textBar.textField isFirstResponder] && [touch view] != self.textBar) {
         [self.textBar.textField resignFirstResponder];
         
-        [SHUtility moveView:self.textBar distance:keyboardHeight andDuration:0.3];
-        
     }
     [super touchesBegan:touches withEvent:event];
 }
+
+- (void)keyboardWasShown:(NSNotification *)notification
+{
+    
+    NSDictionary* info = [notification userInfo];
+    NSNumber *duration = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    [SHUtility moveView:self.textBar distance:-keyboardSize.height andDuration:[duration doubleValue]];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification *)notification {
+    
+    NSDictionary* info = [notification userInfo];
+    NSNumber *duration = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    [SHUtility moveView:self.textBar distance:keyboardSize.height andDuration:[duration doubleValue]];
+
+    
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+
+    
+    if(scrollView.contentOffset.y<0)
+    {
+    
+        if(self.canUpdate)
+        {
+            self.canUpdate = NO;
+            [self refreshAll];
+        }
+        
+    }
+    else
+    {
+        self.canUpdate = YES;
+    }
+    
+}
+
+- (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
+{
+    float diff = (growingTextView.frame.size.height - height);
+    
+	CGRect r = self.textBar.frame;
+    r.size.height -= diff;
+    r.origin.y += diff;
+	self.textBar.frame = r;
+}
+
 
 /*
 #pragma mark - Navigation
