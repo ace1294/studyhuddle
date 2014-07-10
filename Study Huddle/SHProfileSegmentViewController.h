@@ -12,7 +12,7 @@
 @class SHProfileViewController;
 @class Student;
 
-@interface SHProfileSegmentViewController : UIViewController <DZNSegmentedControlDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface SHProfileSegmentViewController : UIViewController <DZNSegmentedControlDelegate, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) DZNSegmentedControl *control;
 @property (nonatomic, retain) UITableView *tableView;

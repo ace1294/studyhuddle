@@ -11,7 +11,7 @@
 #import "SHEditStudyViewController.h"
 #import "UIViewController+MJPopupViewController.h"
 
-@interface SHStudyViewController ()
+@interface SHStudyViewController () <SHModalViewControllerDelegate>
 
 //Headers
 @property (strong, nonatomic) UILabel *dateHeaderLabel;
@@ -27,6 +27,7 @@
 
 //Edit
 @property (strong, nonatomic) UIBarButtonItem *editButton;
+@property (strong, nonatomic) SHEditStudyViewController *editVC;
 
 @end
 
@@ -53,7 +54,7 @@
         
         [self initHeaders];
         [self initContent];
-        //[self setFrames];
+        [self setFrames];
     }
     return self;
 }
@@ -155,7 +156,7 @@
     
     self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, descriptionY, contentWidth, 200.0)];
     [self.descriptionLabel setFont:[UIFont fontWithName:@"Arial"size:14]];
-    [self.descriptionLabel setTextColor:[UIColor huddleSilver]];
+    [self.descriptionLabel setTextColor:[UIColor huddleOrange]];
     [self.descriptionLabel setBackgroundColor:[UIColor clearColor]];
     [self.descriptionLabel setLineBreakMode:NSLineBreakByWordWrapping];
     self.descriptionLabel.textAlignment = NSTextAlignmentLeft;
@@ -171,16 +172,41 @@
     self.navigationItem.rightBarButtonItem = self.editButton;
 }
 
+- (void)setFrames
+{
+    CGSize subjectSize = [self.subjectLabel.text boundingRectWithSize:CGSizeMake(contentWidth, CGFLOAT_MAX)
+                                                                      options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial" size:14]}
+                                                                      context:nil].size;
+    [self.descriptionLabel setFrame:CGRectMake(horiViewSpacing, subjectY, subjectSize.width, subjectSize.height)];
+    
+    CGSize descriptionSize = [self.descriptionLabel.text boundingRectWithSize:CGSizeMake(contentWidth, CGFLOAT_MAX)
+                                                                      options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial" size:14]}
+                                                                      context:nil].size;
+    [self.descriptionLabel setFrame:CGRectMake(horiViewSpacing, descriptionY, descriptionSize.width, descriptionSize.height)];
+}
+
 - (void)editButtonAction
 {
-    SHEditStudyViewController *editVC = [[SHEditStudyViewController alloc] initWithStudy:self.study];
+    self.editVC = [[SHEditStudyViewController alloc] initWithStudy:self.study];
+    self.editVC.delegate = self;
+    self.editVC.descriptionTextView.text = self.study[SHStudyDescriptionKey];
     
-    [self presentPopupViewController:editVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
-        self.subjectLabel.text = [self stringFromClassesArray:self.study[SHStudyClassesKey]];
-        
-    }];
+    [self presentPopupViewController:self.editVC animationType:MJPopupViewAnimationSlideBottomBottom];
     
+
+}
+
+
+#pragma mark - Popup delegate methods
+
+- (void)continueTapped
+{
+    self.descriptionLabel.text = self.editVC.descriptionTextView.text;
+    self.subjectLabel.text = [self.editVC.subjectButtons.selectedButtons componentsJoinedByString:@", "];
     
+    [self setFrames];
 }
 
 

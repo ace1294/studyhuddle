@@ -14,9 +14,7 @@
 NSString *const SHHuddleParseClass = @"Huddles";
 NSString *const SHClassParseClass = @"Classes";
 NSString *const SHStudentParseClass = @"_User";
-NSString *const SHHSRequestParseClass = @"HSRequests";
-NSString *const SHSHRequestParseClass = @"SHRequests";
-NSString *const SHSSRequestParseClass = @"SSRequests";
+NSString *const SHRequestParseClass = @"Requests";
 NSString *const SHStudyParseClass = @"Study";
 NSString *const SHResourceParseClass = @"Resources";
 NSString *const SHCategoryParseClass = @"Category";
@@ -34,8 +32,6 @@ NSString *const SHResourceCellIdentifier = @"ResourceCell";
 NSString *const SHCategoryCellIdentifier = @"CategoryCell";
 NSString *const SHChatCellIdentifier = @"ChatCell";
 NSString *const SHThreadCellIdentifier = @"ThreadCell";
-
-
 
 //Class
 NSString *const SHClassFullNameKey = @"classFullName";
@@ -95,8 +91,20 @@ NSString *const SHCategoryHuddleKey = @"huddle";
 NSString *const SHCategoryResourcesKey = @"resources";
 
 //Requests
-NSString *const SHRequestTitle = @"title";
-NSString *const SHRequestSubTitle = @"subTitle";
+NSString *const SHRequestHuddleKey = @"huddle";
+NSString *const SHRequestTypeKey = @"type";
+NSString *const SHRequestStudent1Key = @"student1";
+NSString *const SHRequestStudent2Key = @"student2";
+NSString *const SHRequestLocationKey = @"location";
+NSString *const SHRequestTimeKey = @"time";
+NSString *const SHRequestDescriptionKey = @"description";
+
+
+//Request Types
+NSString *const SHRequestSSInviteStudy = @"SSInviteStudy";
+NSString *const SHRequestSHJoin = @"SHJoin";
+NSString *const SHRequestHSJoin = @"HSJoin";
+NSString *const SHRequestHSInviteStudy = @"HSInviteStudy";
 
 //Notifications
 NSString* const SHNotificationTitle = @"title";

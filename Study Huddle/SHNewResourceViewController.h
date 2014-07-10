@@ -13,8 +13,6 @@
 
 @interface SHNewResourceViewController : SHModalViewController
 
-@property (strong, nonatomic) id owner;
-
 
 
 - (id)initWithHuddle:(PFObject *)aHuddle;

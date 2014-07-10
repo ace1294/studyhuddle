@@ -143,7 +143,6 @@
 		96D9559C195F3F5300667581 /* SHHuddlePortraitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D95598195F3F5300667581 /* SHHuddlePortraitViewController.m */; };
 		96D9559D195F3F5300667581 /* SHProfilePortraitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9559A195F3F5300667581 /* SHProfilePortraitViewController.m */; };
 		96D955A6196085A600667581 /* SHCategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955A5196085A600667581 /* SHCategoryCell.m */; };
-		96D955AA1960A0AF00667581 /* SHResourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955A91960A0AF00667581 /* SHResourceViewController.m */; };
 		96D955AD1960A76400667581 /* SHClassSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955AC1960A76400667581 /* SHClassSegmentViewController.m */; };
 		96D955B61960BBA000667581 /* SHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955AF1960BBA000667581 /* SHAppDelegate.m */; };
 		96D955B71960BBA000667581 /* SHClassPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955B11960BBA000667581 /* SHClassPageViewController.m */; };
@@ -170,6 +169,8 @@
 		96D9561C196B467000667581 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9561B196B467000667581 /* UIImage+Color.m */; };
 		96D9561F196CCA0300667581 /* SHStudyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9561E196CCA0300667581 /* SHStudyViewController.m */; };
 		96D95623196DD17C00667581 /* SHEditStudyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D95622196DD17C00667581 /* SHEditStudyViewController.m */; };
+		96D95626196F06B200667581 /* SHStudyInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D95625196F06B200667581 /* SHStudyInviteViewController.m */; };
+		96D95629196F4FBC00667581 /* SHHuddleInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D95628196F4FBC00667581 /* SHHuddleInviteViewController.m */; };
 		96F0EDC8195BD79200B25DC1 /* cogwheel.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC7195BD79200B25DC1 /* cogwheel.png */; };
 		96F0EDCA195BD79900B25DC1 /* cogwheel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */; };
 		96F0EDDD195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */; };
@@ -391,8 +392,6 @@
 		96D9559A195F3F5300667581 /* SHProfilePortraitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHProfilePortraitViewController.m; sourceTree = "<group>"; };
 		96D955A4196085A600667581 /* SHCategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHCategoryCell.h; sourceTree = "<group>"; };
 		96D955A5196085A600667581 /* SHCategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHCategoryCell.m; sourceTree = "<group>"; };
-		96D955A81960A0AF00667581 /* SHResourceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHResourceViewController.h; sourceTree = "<group>"; };
-		96D955A91960A0AF00667581 /* SHResourceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHResourceViewController.m; sourceTree = "<group>"; };
 		96D955AB1960A76400667581 /* SHClassSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHClassSegmentViewController.h; sourceTree = "<group>"; };
 		96D955AC1960A76400667581 /* SHClassSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHClassSegmentViewController.m; sourceTree = "<group>"; };
 		96D955AE1960BBA000667581 /* SHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHAppDelegate.h; sourceTree = "<group>"; };
@@ -439,6 +438,10 @@
 		96D9561E196CCA0300667581 /* SHStudyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHStudyViewController.m; sourceTree = "<group>"; };
 		96D95621196DD17C00667581 /* SHEditStudyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHEditStudyViewController.h; sourceTree = "<group>"; };
 		96D95622196DD17C00667581 /* SHEditStudyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHEditStudyViewController.m; sourceTree = "<group>"; };
+		96D95624196F06B200667581 /* SHStudyInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHStudyInviteViewController.h; sourceTree = "<group>"; };
+		96D95625196F06B200667581 /* SHStudyInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHStudyInviteViewController.m; sourceTree = "<group>"; };
+		96D95627196F4FBC00667581 /* SHHuddleInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleInviteViewController.h; sourceTree = "<group>"; };
+		96D95628196F4FBC00667581 /* SHHuddleInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleInviteViewController.m; sourceTree = "<group>"; };
 		96F0EDC7195BD79200B25DC1 /* cogwheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cogwheel.png; sourceTree = "<group>"; };
 		96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cogwheel@2x.png"; sourceTree = "<group>"; };
 		96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Pods-Parse+NSCoding.xcconfig"; sourceTree = "<group>"; };
@@ -531,6 +534,8 @@
 				96D95618196A34B800667581 /* SHModalViewController.m */,
 				96F429801955265000E74500 /* SHNewHuddleViewController.h */,
 				96F429811955265000E74500 /* SHNewHuddleViewController.m */,
+				96D95627196F4FBC00667581 /* SHHuddleInviteViewController.h */,
+				96D95628196F4FBC00667581 /* SHHuddleInviteViewController.m */,
 				96D95620196DD17000667581 /* Study */,
 				96D955A71960A02D00667581 /* Resource */,
 				96F4299E195632CD00E74500 /* Search */,
@@ -1037,8 +1042,6 @@
 		96D955A71960A02D00667581 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				96D955A81960A0AF00667581 /* SHResourceViewController.h */,
-				96D955A91960A0AF00667581 /* SHResourceViewController.m */,
 				96D955C719610B2A00667581 /* SHNewResourceViewController.h */,
 				96D955C819610B2A00667581 /* SHNewResourceViewController.m */,
 				96D9560E1969BDF500667581 /* SHResourceListViewController.h */,
@@ -1078,6 +1081,8 @@
 				96D9561E196CCA0300667581 /* SHStudyViewController.m */,
 				96D95621196DD17C00667581 /* SHEditStudyViewController.h */,
 				96D95622196DD17C00667581 /* SHEditStudyViewController.m */,
+				96D95624196F06B200667581 /* SHStudyInviteViewController.h */,
+				96D95625196F06B200667581 /* SHStudyInviteViewController.m */,
 			);
 			name = Study;
 			sourceTree = "<group>";
@@ -1354,6 +1359,7 @@
 				96D955B91960BBA000667581 /* SHProfileViewController.m in Sources */,
 				96D955AD1960A76400667581 /* SHClassSegmentViewController.m in Sources */,
 				96F4299D195632C900E74500 /* SHStudentSearchViewController.m in Sources */,
+				96D95626196F06B200667581 /* SHStudyInviteViewController.m in Sources */,
 				96D956101969BDF500667581 /* SHResourceListViewController.m in Sources */,
 				41AF3348194CAA570008DF21 /* SHPageHeaderViewController.m in Sources */,
 				96F42985195527CA00E74500 /* UITextField+Extend.m in Sources */,
@@ -1375,6 +1381,7 @@
 				41AF3381195119560008DF21 /* SHUserSettingsViewController.m in Sources */,
 				96D955C919610B2A00667581 /* SHNewResourceViewController.m in Sources */,
 				41A1937419637AA90038AAA2 /* UIView+AUISelectiveBorder.m in Sources */,
+				96D95629196F4FBC00667581 /* SHHuddleInviteViewController.m in Sources */,
 				41365D5B196207610057B8C9 /* PFFile+NSCoding.m in Sources */,
 				96CBFA4D194CEA8C008B10CE /* SHAddCell.m in Sources */,
 				96D955B61960BBA000667581 /* SHAppDelegate.m in Sources */,
@@ -1384,7 +1391,6 @@
 				96D9559C195F3F5300667581 /* SHHuddlePortraitViewController.m in Sources */,
 				96566E36194510F6006649C3 /* main.m in Sources */,
 				9638161619594BF30069D477 /* SHHuddleSegmentViewController.m in Sources */,
-				96D955AA1960A0AF00667581 /* SHResourceViewController.m in Sources */,
 				41365D63196211100057B8C9 /* SHNotificationViewController.m in Sources */,
 				41AF338919521ABD0008DF21 /* SHConstants.m in Sources */,
 				96D955DC1961E4E100667581 /* MJPopupBackgroundView.m in Sources */,

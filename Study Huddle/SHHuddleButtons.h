@@ -28,6 +28,7 @@
 @property BOOL addButtonSet;
 
 - (id)initWithFrame:(CGRect)frame items:(NSArray *)buttonList addButton:(NSString *) addString;
+- (void)setInitialPressedButtons:(NSArray *)buttons;
 
 @end
 

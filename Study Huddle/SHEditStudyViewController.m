@@ -88,6 +88,7 @@
     self.subjectButtons.delegate = self;
     [self.subjectButtons setViewController:self];
     self.subjectButtons.multipleSelection = YES;
+    [self.subjectButtons setInitialPressedButtons:[SHUtility namesForObjects:self.study[SHStudyClassesKey] withKey:SHClassShortNameKey]];
     
     //Description Text View
     self.descriptionTextView = [[UITextView alloc]init];
@@ -120,9 +121,31 @@
     
     [self.study saveInBackground];
     
+    [self.delegate continueTapped];
+    
     [self cancelAction];
     
     
+}
+
+#pragma mark - Text View Delegate
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqual:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    [self moveUp:YES height:60.0];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    [self moveUp:NO height:60.0];
 }
 
 

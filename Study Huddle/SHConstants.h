@@ -10,9 +10,7 @@
 extern NSString *const SHHuddleParseClass;
 extern NSString *const SHStudentParseClass;
 extern NSString *const SHClassParseClass;
-extern NSString *const SHHSRequestParseClass;
-extern NSString *const SHSHRequestParseClass;
-extern NSString *const SHSSRequestParseClass;
+extern NSString *const SHRequestParseClass;
 extern NSString *const SHStudyParseClass;
 extern NSString *const SHResourceParseClass;
 extern NSString *const SHCategoryParseClass;
@@ -87,6 +85,21 @@ extern NSString *const SHCategoryNameKey;
 extern NSString *const SHCategoryHuddleKey;
 extern NSString *const SHCategoryResourcesKey;
 
+//Requests
+extern NSString *const SHRequestTypeKey;
+extern NSString *const SHRequestHuddleKey;
+extern NSString *const SHRequestStudent1Key;
+extern NSString *const SHRequestStudent2Key;
+extern NSString *const SHRequestLocationKey;
+extern NSString *const SHRequestTimeKey;
+extern NSString *const SHRequestDescriptionKey;
+
+//Request Types
+extern NSString *const SHRequestSSInviteStudy;
+extern NSString *const SHRequestSHJoin;
+extern NSString *const SHRequestHSJoin;
+extern NSString *const SHRequestHSInviteStudy;
+
 //Notifications
 extern NSString* const SHNotificationTitle;
 extern NSString* const SHNotificationSubTitle;
@@ -124,6 +137,7 @@ extern NSString* const SHReplyClassName;
 
 
 #define modalWidth 270
+#define textFieldHeight 30.0
 
 
 //Segment Attributes
@@ -139,7 +153,7 @@ extern NSString* const SHReplyClassName;
 #define tableViewDimX 320.0
 #define tableViewDimY 800
 
-#define headerHeight 30.0
+#define headerHeight 25.0
 #define headerWidth 200.0
 
 

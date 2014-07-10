@@ -414,6 +414,16 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     
 }
 
+#pragma mark - Navigation Dlegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    //Here for when the study page updates the classes
+    
+    [self.tableView reloadData];
+}
+
+
 #pragma mark - StartStudying Delegate
 
 - (void)startedStudying:(PFObject *)study

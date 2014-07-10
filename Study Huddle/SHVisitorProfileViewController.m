@@ -12,6 +12,9 @@
 #import "SHConstants.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHVisitorProfileSegmentViewController.h"
+#import "SHStudyInviteViewController.h"
+#import "SHHuddleInviteViewController.h"
+#import "UIViewController+MJPopupViewController.h"
 
 
 #define profileImageWidth 100
@@ -225,12 +228,17 @@
 
 -(void)inviteToStudyPressed
 {
-    NSLog(@"inviteToStudyPressed");
+    SHStudyInviteViewController *studyInviteVC = [[SHStudyInviteViewController alloc]initWithFromStudent:[Student currentUser] toStudent:self.profStudent];
+    studyInviteVC.owner = self;
+    
+    [self presentPopupViewController:studyInviteVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 -(void)inviteToHuddlePressed
 {
-    NSLog(@"inviteToHuddlePressed");
+    SHHuddleInviteViewController *huddleInviteVC = [[SHHuddleInviteViewController alloc]initWithToStudent:self.profStudent fromStudent:[Student currentUser]];
+    
+    [self presentPopupViewController:huddleInviteVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 

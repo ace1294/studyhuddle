@@ -18,6 +18,8 @@
 
 @end
 
+CGRect initialFrame;
+
 @implementation SHModalViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -101,4 +103,26 @@
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
     
 }
+
+- (void)moveUp: (BOOL)up height:(CGFloat)height
+{
+    const int movementDistance = height;
+    
+    int movement = (up ? -movementDistance : movementDistance);
+    
+    if(up){
+        initialFrame = self.view.frame;
+        [UIView animateWithDuration:0.5f animations:^{
+            self.view.frame = CGRectOffset(initialFrame, 0, movement);
+        }];
+    }
+    else{
+        [UIView animateWithDuration:0.5f animations:^{
+            self.view.frame = initialFrame;
+        }];
+    }
+    
+    
+}
+
 @end

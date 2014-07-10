@@ -398,6 +398,17 @@ NSString *addButtonString;
 
 #pragma mark - Helpers
 
+- (void)setInitialPressedButtons:(NSArray *)buttons
+{
+    for (NSNumber *tag in self.buttons) {
+        UIButton *button = [self.buttons objectForKey:tag];
+        if([buttons containsObject:button.titleLabel.text]){
+            button.selected = YES;
+        }
+    }
+    [self.selectedButtons addObjectsFromArray:buttons];
+}
+
 - (void)dismissAddField
 {
     addingNewButton = false;

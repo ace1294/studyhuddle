@@ -11,6 +11,7 @@
 
 @interface SHModalViewController : UIViewController
 
+@property (strong, nonatomic) UIViewController *owner;
 @property (strong, nonatomic) id delegate;
 @property (strong, nonatomic) UILabel *headerLabel;
 @property (strong, nonatomic) UIButton *continueButton;
@@ -21,12 +22,14 @@
 @property (strong, nonatomic) UIFont *buttonFont;
 
 - (void)cancelAction;
+- (void)moveUp: (BOOL)up height:(CGFloat)height;
 
 @end
 
 
 @protocol SHModalViewControllerDelegate <NSObject>
 
+- (void)continueTapped;
 
 @end
 
