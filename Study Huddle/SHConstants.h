@@ -71,6 +71,7 @@ extern NSString *const SHStudyStartKey;
 extern NSString *const SHStudyEndKey;
 extern NSString *const SHStudyOnlineKey;
 extern NSString *const SHStudyDescriptionKey;
+extern NSString *const SHStudyStudentKey;
 
 //Resources
 extern NSString *const SHResourceHuddleKey;
@@ -138,7 +139,7 @@ extern NSString* const SHReplyClassName;
 #define tableViewDimX 320.0
 #define tableViewDimY 800
 
-#define headerHeight 25.0
+#define headerHeight 30.0
 #define headerWidth 200.0
 
 

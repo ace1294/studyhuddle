@@ -43,3 +43,5 @@
 #define modalButtonWidth 40.0
 #define modalButtonHeight 20.0
 #define modalButtonY (modalHeaderHeight-modalButtonHeight)/2
+
+#define modalContentWidth 240.0

@@ -94,6 +94,7 @@
     [classes whereKey:SHClassShortNameKey containedIn:self.subjectButtons.selectedButtons];
     self.study[SHStudyClassesKey] = [classes findObjects];
     self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
+    self.study[SHStudyStudentKey] = self.student;
     
     
     [self.student addObject:self.study forKey:SHStudentStudyKey];

@@ -169,6 +169,7 @@
 		96D95619196A34B800667581 /* SHModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D95618196A34B800667581 /* SHModalViewController.m */; };
 		96D9561C196B467000667581 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9561B196B467000667581 /* UIImage+Color.m */; };
 		96D9561F196CCA0300667581 /* SHStudyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9561E196CCA0300667581 /* SHStudyViewController.m */; };
+		96D95623196DD17C00667581 /* SHEditStudyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D95622196DD17C00667581 /* SHEditStudyViewController.m */; };
 		96F0EDC8195BD79200B25DC1 /* cogwheel.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC7195BD79200B25DC1 /* cogwheel.png */; };
 		96F0EDCA195BD79900B25DC1 /* cogwheel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */; };
 		96F0EDDD195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */; };
@@ -436,6 +437,8 @@
 		96D9561B196B467000667581 /* UIImage+Color.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
 		96D9561D196CCA0300667581 /* SHStudyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHStudyViewController.h; sourceTree = "<group>"; };
 		96D9561E196CCA0300667581 /* SHStudyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHStudyViewController.m; sourceTree = "<group>"; };
+		96D95621196DD17C00667581 /* SHEditStudyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHEditStudyViewController.h; sourceTree = "<group>"; };
+		96D95622196DD17C00667581 /* SHEditStudyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHEditStudyViewController.m; sourceTree = "<group>"; };
 		96F0EDC7195BD79200B25DC1 /* cogwheel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cogwheel.png; sourceTree = "<group>"; };
 		96F0EDC9195BD79900B25DC1 /* cogwheel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cogwheel@2x.png"; sourceTree = "<group>"; };
 		96F0EDD3195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Pods-Parse+NSCoding.xcconfig"; sourceTree = "<group>"; };
@@ -526,12 +529,9 @@
 			children = (
 				96D95617196A34B800667581 /* SHModalViewController.h */,
 				96D95618196A34B800667581 /* SHModalViewController.m */,
-				96D95614196A345900667581 /* SHStartStudyingViewController.h */,
-				96D95615196A345900667581 /* SHStartStudyingViewController.m */,
 				96F429801955265000E74500 /* SHNewHuddleViewController.h */,
 				96F429811955265000E74500 /* SHNewHuddleViewController.m */,
-				96D9561D196CCA0300667581 /* SHStudyViewController.h */,
-				96D9561E196CCA0300667581 /* SHStudyViewController.m */,
+				96D95620196DD17000667581 /* Study */,
 				96D955A71960A02D00667581 /* Resource */,
 				96F4299E195632CD00E74500 /* Search */,
 				41AF33821951196C0008DF21 /* Settings */,
@@ -1069,6 +1069,19 @@
 			name = Buttons;
 			sourceTree = "<group>";
 		};
+		96D95620196DD17000667581 /* Study */ = {
+			isa = PBXGroup;
+			children = (
+				96D95614196A345900667581 /* SHStartStudyingViewController.h */,
+				96D95615196A345900667581 /* SHStartStudyingViewController.m */,
+				96D9561D196CCA0300667581 /* SHStudyViewController.h */,
+				96D9561E196CCA0300667581 /* SHStudyViewController.m */,
+				96D95621196DD17C00667581 /* SHEditStudyViewController.h */,
+				96D95622196DD17C00667581 /* SHEditStudyViewController.m */,
+			);
+			name = Study;
+			sourceTree = "<group>";
+		};
 		96F0EDD7195C737200B25DC1 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -1350,6 +1363,7 @@
 				41A194441966759F0038AAA2 /* SHThreadCell.m in Sources */,
 				96D9559B195F3F5300667581 /* SHBasePortraitViewController.m in Sources */,
 				41A19441196673BB0038AAA2 /* SHChatEntrySegmentViewController.m in Sources */,
+				96D95623196DD17C00667581 /* SHEditStudyViewController.m in Sources */,
 				96D9561C196B467000667581 /* UIImage+Color.m in Sources */,
 				9638162F195BC6140069D477 /* SHPushNotificationsSetting.m in Sources */,
 				41365D661962169A0057B8C9 /* SHNotificationCell.m in Sources */,

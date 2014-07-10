@@ -153,7 +153,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 //            return;
 //        }
 //        
-        [self loadStudentData];
+        //[self loadStudentData];
 //    }
 }
 

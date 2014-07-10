@@ -19,15 +19,3 @@
 @end
 
 
-#define dateHeaderY 70.0
-#define timeStudiedHeaderY 120.0
-#define subjectHeaderY 170.0
-#define descriptionHeaderY 220.0
-
-#define dateY dateHeaderY+headerHeight
-#define timeStudiedY timeStudiedHeaderY+headerHeight
-#define subjectY subjectHeaderY+headerHeight
-#define descriptionY descriptionHeaderY+headerHeight
-
-#define contentWidth 290.0
-#define contentHeight 25.0

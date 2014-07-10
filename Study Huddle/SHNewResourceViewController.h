@@ -24,14 +24,12 @@
 
 
 
-#define headerHeight 30.0
-#define headerWidth 200.0
 
 #define fieldX horiViewSpacing+horiElemSpacing+documentWidth
 #define fieldHeight 30.0
 #define fieldWidth modalWidth-105
 
-#define descriptionWidth 240.0
+#define descriptionWidth modalContentWidth
 #define descriptionHeight 100.0
 
 #define documentY aboutHeaderY+headerHeight
