@@ -48,7 +48,7 @@
 #define sideItemsFont [UIFont systemFontOfSize:7]
 
 
-@interface SHVisitorProfileViewController () <UIScrollViewDelegate>
+@interface SHVisitorProfileViewController () <UIScrollViewDelegate, SHModalViewControllerDelegate>
 
 
 @property (strong, nonatomic) SHVisitorProfileSegmentViewController *segmentController;
@@ -230,13 +230,19 @@
 {
     SHStudyInviteViewController *studyInviteVC = [[SHStudyInviteViewController alloc]initWithFromStudent:[Student currentUser] toStudent:self.profStudent];
     studyInviteVC.owner = self;
+    studyInviteVC.delegate = self;
     
-    [self presentPopupViewController:studyInviteVC animationType:MJPopupViewAnimationSlideBottomBottom];
+    [self presentPopupViewController:studyInviteVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
+        NSLog(@"HERHEHREHRHERHEHRL:KSJDFL:KJSDLFJSDF");
+    }];
+    
+    
 }
 
 -(void)inviteToHuddlePressed
 {
     SHHuddleInviteViewController *huddleInviteVC = [[SHHuddleInviteViewController alloc]initWithToStudent:self.profStudent fromStudent:[Student currentUser]];
+    huddleInviteVC.delegate = self;
     
     [self presentPopupViewController:huddleInviteVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
@@ -288,7 +294,12 @@
     
 }
 
+#pragma mark - Modal Delgate
 
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+}
 
 
 

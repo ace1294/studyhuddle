@@ -209,6 +209,11 @@
     [self setFrames];
 }
 
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+}
+
 
 #pragma mark - Helpers
 

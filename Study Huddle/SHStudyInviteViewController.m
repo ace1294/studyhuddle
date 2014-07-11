@@ -147,6 +147,7 @@
     //Description Text View
     self.descriptionTextView = [[UITextView alloc]initWithFrame:CGRectMake(horiViewSpacing, descriptionY, modalContentWidth, 100.0)];
     self.descriptionTextView.layer.cornerRadius = 2;
+    self.descriptionTextView.textColor = [UIColor huddleSilver];
     self.descriptionTextView.delegate = self;
     [self.view addSubview:self.descriptionTextView];
 }
@@ -157,7 +158,7 @@
 - (void)continueAction
 {
     self.request[SHRequestTimeKey] = self.timePicker.date;
-    self.request[SHRequestLocationKey] = self.locationTextField;
+    self.request[SHRequestLocationKey] = self.locationTextField.text;
     self.request[SHRequestDescriptionKey] = self.descriptionTextView.text;
     
     [self.request saveInBackground];

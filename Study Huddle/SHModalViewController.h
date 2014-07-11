@@ -30,6 +30,7 @@
 @protocol SHModalViewControllerDelegate <NSObject>
 
 - (void)continueTapped;
+- (void)cancelTapped;
 
 @end
 
