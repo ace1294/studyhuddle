@@ -81,15 +81,22 @@
     self = [super init];
     if (self) {
         _profStudent = aStudent;
-        
         self.title = @"Profile";
         self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+     
         
-        
-        //set up the navigation options
-        //settings button
-        
-        
+    }
+    return self;
+}
+
+-(id) init
+{
+    self = [super init];
+    if(self)
+    {
+        self.title = @"Profile";
+        self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+
     }
     return self;
 }
@@ -109,7 +116,7 @@
     [super viewDidLoad];
     
 
-   
+
     
     //important coordinates
     float centerX = self.view.bounds.origin.x + self.view.bounds.size.width/2;
