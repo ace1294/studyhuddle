@@ -29,7 +29,7 @@
 @implementation SHHuddleInviteViewController
 
 #define messageHeaderY firstHeader
-#define huddleHeaderY messageY+textFieldHeight
+#define huddleHeaderY messageY+100.0
 
 #define messageY messageHeaderY+headerHeight
 #define huddleY huddleHeaderY+headerHeight
@@ -87,12 +87,60 @@
 
 - (void)initContent
 {
+    //Description Text View
+    self.messageTextView = [[UITextView alloc]initWithFrame:CGRectMake(horiViewSpacing, messageY, modalContentWidth, 100.0)];
+    self.messageTextView.layer.cornerRadius = 2;
+    self.messageTextView.textColor = [UIColor huddleSilver];
+    self.messageTextView.delegate = self;
+    [self.view addSubview:self.messageTextView];
+
     CGRect initialFrame = CGRectMake(horiViewSpacing, huddleY, huddleButtonWidth, huddleButtonHeight);
     self.huddleButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:[SHUtility namesForObjects:self.student[SHStudentHuddlesKey] withKey:SHHuddleNameKey] addButton:nil];
     self.huddleButtons.viewController = self;
     self.huddleButtons.delegate = self;
     
     
+}
+
+#pragma mark - Super Class Methods
+
+- (void)continueAction
+{
+    self.request[SHRequestDescriptionKey] = self.messageTextView.text;
+    
+    PFQuery *huddleQuery = [PFQuery queryWithClassName:SHHuddleParseClass];
+    
+    if (!self.huddleButtons.selectedButton) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
+                                                        message: @"Must select a huddle."
+                                                       delegate: nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
+    [huddleQuery whereKey:SHHuddleNameKey equalTo:self.huddleButtons.selectedButton];
+    [huddleQuery whereKey:SHHuddleMembersKey equalTo:self.student];
+    self.request[SHRequestHuddleKey] = [huddleQuery findObjects][0];
+    
+    [self.request saveInBackground];
+    
+    //Set button as Invite Sent
+    
+    [self cancelAction];
+}
+
+
+#pragma mark - Text View Delegate
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqual:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
 }
 
 

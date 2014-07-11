@@ -100,7 +100,7 @@ CGRect initialFrame;
 
 - (void)cancelAction
 {
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+    [self.delegate cancelTapped];
     
 }
 
