@@ -61,7 +61,7 @@
     if (self) {
         _huddle = aHuddle;
         self.categories = aHuddle[SHHuddleResourceCategoriesKey];
-        self.categoryNames = [SHUtility namesForObjects:self.categories withKey:SHCategoryNameKey];
+        self.categoryNames = [SHUtility namesForObjects:self.categories withKey:SHResourceCategoryNameKey];
         
         self.modalFrameHeight = categoryHeaderY+headerHeight+vertViewSpacing;
         
@@ -303,20 +303,20 @@
     newResource[SHResourceFileKey] = [PFFile fileWithData:fileData];
     
     if(self.categoryButtons.addButtonSet){
-        PFObject *newCategory = [PFObject objectWithClassName:SHCategoryParseClass];
+        PFObject *newCategory = [PFObject objectWithClassName:SHResourceCategoryParseClass];
         
-        newCategory[SHCategoryNameKey] = self.categoryButtons.selectedButton;
-        newCategory[SHCategoryHuddleKey] = self.huddle;
-        newCategory[SHCategoryResourcesKey] = @[newResource];
+        newCategory[SHResourceCategoryNameKey] = self.categoryButtons.selectedButton;
+        newCategory[SHResourceCategoryHuddleKey] = self.huddle;
+        newCategory[SHResourceCategoryResourcesKey] = @[newResource];
         newResource[SHResourceCategoryKey] = newCategory;
         
         [self.huddle addObject:newCategory forKey:SHHuddleResourceCategoriesKey];
         [self.huddle saveInBackground];
     }
     else{
-        PFQuery *categoryQuery = [PFQuery queryWithClassName:SHCategoryParseClass];
-        [categoryQuery whereKey:SHCategoryNameKey equalTo:self.selectedCategory];
-        [categoryQuery whereKey:SHCategoryHuddleKey equalTo:self.huddle];
+        PFQuery *categoryQuery = [PFQuery queryWithClassName:SHResourceCategoryParseClass];
+        [categoryQuery whereKey:SHResourceCategoryNameKey equalTo:self.selectedCategory];
+        [categoryQuery whereKey:SHResourceCategoryHuddleKey equalTo:self.huddle];
         NSArray *cateogory = [categoryQuery findObjects];
         
         newResource[SHResourceCategoryKey] = cateogory[0];

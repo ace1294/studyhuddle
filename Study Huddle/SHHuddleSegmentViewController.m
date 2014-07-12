@@ -211,7 +211,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     [SHUtility fetchObjectsInArray:self.membersDataArray];
     
     
-    NSArray *chatEntries = [self.segHuddle objectForKey:SHHuddleChatEntriesKey];
+    NSArray *chatEntries = [self.segHuddle objectForKey:SHHuddleChatCategoriesKey];
     
     [self.chatEntryDataArray removeAllObjects];
     [self.chatEntryDataArray addObjectsFromArray:chatEntries];

@@ -7,10 +7,15 @@
 //
 
 #import "SHHuddleViewController.h"
+#import "SHHuddlePageCell.h"
+#import "SHConstants.h"
 
-@interface SHHuddleViewController ()
+@interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate>
 
-@property Student* student;
+@property (strong, nonatomic) Student* student;
+@property (strong, nonatomic) NSMutableArray *huddles;
+
+@property (strong, nonatomic) UITableView *tableView;
 
 @end
 
@@ -36,6 +41,7 @@
     self = [super init];
     if (self) {
         self.student = aStudent;
+        self.huddles = aStudent[SHStudentHuddlesKey];
         
         self.title = @"Huddles";
         self.tabBarItem.image = [UIImage imageNamed:@"huddles.png"];
@@ -50,6 +56,11 @@
         settingsButton.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = settingsButton;
         
+        self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        [self.view addSubview:self.tableView];
+        
         
     }
     return self;
@@ -63,24 +74,66 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
 
-- (void)didReceiveMemoryWarning
+
+#pragma mark - UITableViewDelegate Methods
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    PFObject *curHuddle = self.huddles[indexPath.row];
+    [curHuddle fetchIfNeeded];
+    
+    if ([[curHuddle objectForKey:SHHuddleMembersKey]count]>5) {
+        return SHHuddlePageCellHeight + 60;
+    }
+    
+    
+    
+    return SHHuddlePageCellHeight;
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - UITableViewDataSource Methods
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    return 1;
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.huddles count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SHHuddlePageCell *cell = [tableView dequeueReusableCellWithIdentifier:SHHuddlePageCellIdentifier];
+    
+    if(!cell)
+        cell = [[SHHuddlePageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SHHuddlePageCellIdentifier];
+    
+    cell.delegate = self;
+    PFObject *huddleObject = [self.huddles objectAtIndex:indexPath.row];
+    
+    [huddleObject fetchIfNeeded];
+     
+    [cell setHuddle:huddleObject];
+    
+    
+    
+    
+    return cell;
+    
+}
+
+- (void)didTapTitleCell:(SHHuddlePageCell *)cell
+{
+    if ([cell isKindOfClass:[SHHuddlePageCell class]] ) {
+    }
+    
+}
+
 
 @end

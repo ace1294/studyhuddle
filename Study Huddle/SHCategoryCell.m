@@ -27,9 +27,9 @@
     
     
     
-    [self.titleButton setTitle:[aCategory objectForKey:SHCategoryNameKey] forState:UIControlStateNormal];
+    [self.titleButton setTitle:[aCategory objectForKey:SHResourceCategoryNameKey] forState:UIControlStateNormal];
     
-    NSInteger resourceCount = [[aCategory objectForKey:SHCategoryResourcesKey] count];
+    NSInteger resourceCount = [[aCategory objectForKey:SHResourceCategoryResourcesKey] count];
     
     NSMutableAttributedString *categoryInfoString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld Resources", (long)resourceCount] attributes:self.descriptionDict];
     NSMutableAttributedString *categoryInfoTitleString = [[NSMutableAttributedString alloc]initWithString:@"Info: " attributes:self.descriptionDict];

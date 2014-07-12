@@ -34,7 +34,7 @@
     _chatEntryObj = aChatEntry;
     
     //Title Button
-    [self.titleButton setTitle:[aChatEntry objectForKey:SHChatEntryCategoryKey] forState:UIControlStateNormal];
+    [self.titleButton setTitle:[aChatEntry objectForKey:SHChatCategoryNameKey] forState:UIControlStateNormal];
     
     [self.descriptionLabel setText:@"something cool will go here"];
     

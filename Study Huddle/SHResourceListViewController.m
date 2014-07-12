@@ -31,13 +31,13 @@
     if (self) {
         _category = aCategory;
         
-        self.resources = [aCategory objectForKey:SHCategoryResourcesKey];
+        self.resources = [aCategory objectForKey:SHResourceCategoryResourcesKey];
         
         self.tableview = [[UITableView alloc] initWithFrame:self.view.frame];
         self.tableview.delegate = self;
         self.tableview.dataSource = self;
         
-        self.title = aCategory[SHCategoryNameKey];
+        self.title = aCategory[SHResourceCategoryNameKey];
         
         [self.view addSubview:self.tableview];
     }

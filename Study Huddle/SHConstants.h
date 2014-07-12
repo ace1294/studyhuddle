@@ -13,7 +13,10 @@ extern NSString *const SHClassParseClass;
 extern NSString *const SHRequestParseClass;
 extern NSString *const SHStudyParseClass;
 extern NSString *const SHResourceParseClass;
-extern NSString *const SHCategoryParseClass;
+extern NSString *const SHResourceCategoryParseClass;
+extern NSString *const SHChatCategoryParseClass;
+extern NSString *const SHThreadParseClass;
+extern NSString *const SHQuestionParseClass;
 
 //Cells
 extern NSString *const SHBaseCellIdentifier;
@@ -28,6 +31,7 @@ extern NSString *const SHResourceCellIdentifier;
 extern NSString *const SHCategoryCellIdentifier;
 extern NSString *const SHChatCellIdentifier;
 extern NSString *const SHThreadCellIdentifier;
+extern NSString *const SHHuddlePageCellIdentifier;
 
 //Class
 extern NSString *const SHClassFullNameKey;
@@ -49,7 +53,7 @@ extern NSString *const SHHuddleStudyKey;
 extern NSString *const SHHuddleResourceCategoriesKey;
 extern NSString *const SHHuddleImageKey;
 extern NSString *const SHHuddleStudyingKey;
-extern NSString *const SHHuddleChatEntriesKey;
+extern NSString *const SHHuddleChatCategoriesKey;
 
 //Student
 extern NSString *const SHStudentNameKey;
@@ -80,10 +84,10 @@ extern NSString *const SHResourceDescriptionKey;
 extern NSString *const SHResourceLinkKey;
 extern NSString *const SHResourceFileKey;
 
-//Cateogry
-extern NSString *const SHCategoryNameKey;
-extern NSString *const SHCategoryHuddleKey;
-extern NSString *const SHCategoryResourcesKey;
+//Resource Cateogry
+extern NSString *const SHResourceCategoryNameKey;
+extern NSString *const SHResourceCategoryHuddleKey;
+extern NSString *const SHResourceCategoryResourcesKey;
 
 //Requests
 extern NSString *const SHRequestTypeKey;
@@ -114,9 +118,9 @@ extern NSString* const SHNotificationTypeKey;
 extern NSString* const SHNotificationReadKey;
 extern NSString* const SHNotificationDateKey;
 
-//Chat Entry
-extern NSString* const SHChatEntryCategoryKey;
-extern NSString* const SHChatEntryThreadsKey;
+//Chat Category
+extern NSString* const SHChatCategoryNameKey;
+extern NSString* const SHChatCategoryThreadsKey;
 
 //Thread
 extern NSString* const SHThreadTitle;
@@ -172,6 +176,7 @@ extern int const SHEditingReply;
 #define SHAddCellHeight 50.0
 #define SHStudentCellHeight 70.0
 #define SHChatCellHeight 50.0
+#define SHHuddlePageCellHeight 190.0
 
 //Cell layout
 #define vertBorderSpacing 10.0f
@@ -180,7 +185,7 @@ extern int const SHEditingReply;
 #define horiViewSpacing 15.0
 #define vertViewSpacing 15.0
 
-#define horiBorderSpacing 5.0f
+#define horiBorderSpacing 10.0f
 #define horiBorderSpacingBottom 7.0f
 #define horiElemSpacing 5.0f
 
