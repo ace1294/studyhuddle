@@ -10,6 +10,14 @@
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
 #import "SHHuddleSegmentViewController.h"
+#import "SHNewQuestionViewController.h"
+#import "UIViewController+MJPopupViewController.h"
+#import "SHHuddleAddViewController.h"
+#import "FPPopoverController.h"
+#import "WYPopoverController.h"
+#import "SHNewResourceViewController.h"
+#import "SHStudentSearchViewController.h"
+
 
 
 #define profileImageWidth 100
@@ -41,7 +49,10 @@
 #define sideItemsFont [UIFont systemFontOfSize:7]
 
 
-@interface SHIndividualHuddleviewController () <UIScrollViewDelegate>
+@interface SHIndividualHuddleviewController () <UIScrollViewDelegate, SHModalViewControllerDelegate, WYPopoverControllerDelegate, SHHuddleAddDelegate>
+{
+    WYPopoverController* popoverController;
+}
 
 
 @property (strong, nonatomic) SHHuddleSegmentViewController *segmentController;
@@ -59,6 +70,8 @@
 @property int initialSection;
 
 @property (nonatomic,strong) NSDate* lastStart;
+
+@property (strong, nonatomic) UIBarButtonItem *addButton;
 
 
 @end
@@ -87,6 +100,13 @@
         self.initialSection = 1;
         //set up the navigation options
         //settings button
+        
+        //Edit Button
+        self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                   target:self
+                                                                                   action:@selector(addItem)];
+        
+        self.navigationItem.rightBarButtonItem = self.addButton;
         
         
     }
@@ -235,6 +255,17 @@
                                    userInfo:nil
                                     repeats:YES];
     
+    SHHuddleAddViewController *addVC = [[SHHuddleAddViewController alloc]init];
+    [addVC.view setFrame:CGRectMake(305, 55.0, 100.0, 200.0)];
+    addVC.preferredContentSize = CGSizeMake(120, 110);
+    addVC.delegate = self;
+    popoverController = [[WYPopoverController alloc]initWithContentViewController:addVC];
+    popoverController.delegate = self;
+    [WYPopoverController setDefaultTheme:[WYPopoverTheme theme]];
+    
+    WYPopoverBackgroundView *appearance = [WYPopoverBackgroundView appearance];
+    [appearance setTintColor:[UIColor huddleSilver]];
+    
     
 }
 
@@ -351,8 +382,72 @@
 }
 
 
+#pragma mark - Actions
+
+- (void)addItem
+{
+    [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
+}
+
+#pragma mark - Huddle Add Delegate Methods
+
+- (void)addMemberTapped
+{
+    
+}
+
+- (void)addResourceTapped
+{
+    SHNewResourceViewController *newResource = [[SHNewResourceViewController alloc]initWithHuddle:self.indvHuddle];
+    newResource.delegate = self;
+    
+    [popoverController dismissPopoverAnimated:YES completion:^{
+        [self presentPopupViewController:newResource animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
+            //
+        }];
+    }];
+    
+    
+    
+    
+}
+
+- (void)addThreadTapped
+{
+    SHNewQuestionViewController *createThreadVC = [[SHNewQuestionViewController alloc]initWithHuddle:self.indvHuddle];
+    createThreadVC.delegate = self;
+    
+    [popoverController dismissPopoverAnimated:YES completion:^{
+        [self presentPopupViewController:createThreadVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
+            //
+        }];
+    }];
+    
+    
+}
 
 
+
+#pragma mark - Popoover Delegate Methods
+
+- (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller
+{
+    return YES;
+}
+
+- (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller
+{
+    popoverController.delegate = nil;
+    popoverController = nil;
+}
+
+#pragma mark - Popup delegate methods
+
+
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+}
 
 
 

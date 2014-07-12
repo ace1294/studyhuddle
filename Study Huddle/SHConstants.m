@@ -17,7 +17,11 @@ NSString *const SHStudentParseClass = @"_User";
 NSString *const SHRequestParseClass = @"Requests";
 NSString *const SHStudyParseClass = @"Study";
 NSString *const SHResourceParseClass = @"Resources";
-NSString *const SHCategoryParseClass = @"Category";
+NSString *const SHResourceCategoryParseClass = @"ResourceCategory";
+NSString *const SHChatCategoryParseClass = @"ChatCategory";
+NSString *const SHThreadParseClass = @"Thread";
+NSString *const SHQuestionParseClass = @"Question";
+
 
 //Cells
 NSString *const SHBaseCellIdentifier = @"BaseCell";
@@ -32,6 +36,7 @@ NSString *const SHResourceCellIdentifier = @"ResourceCell";
 NSString *const SHCategoryCellIdentifier = @"CategoryCell";
 NSString *const SHChatCellIdentifier = @"ChatCell";
 NSString *const SHThreadCellIdentifier = @"ThreadCell";
+NSString *const SHHuddlePageCellIdentifier = @"HuddlePageCell";
 
 //Class
 NSString *const SHClassFullNameKey = @"classFullName";
@@ -53,7 +58,7 @@ NSString *const SHHuddleStudyKey = @"study";
 NSString *const SHHuddleResourceCategoriesKey = @"resourceCategories";
 NSString *const SHHuddleImageKey = @"huddleImage";
 NSString *const SHHuddleStudyingKey = @"isStudying";
-NSString *const SHHuddleChatEntriesKey = @"chatEntries";
+NSString *const SHHuddleChatCategoriesKey = @"chatCategories";
 
 //Student
 NSString *const SHStudentNameKey = @"fullName";
@@ -85,10 +90,10 @@ NSString *const SHResourceDescriptionKey = @"description";
 NSString *const SHResourceLinkKey = @"link";
 NSString *const SHResourceFileKey = @"file";
 
-//Cateogry
-NSString *const SHCategoryNameKey = @"name";
-NSString *const SHCategoryHuddleKey = @"huddle";
-NSString *const SHCategoryResourcesKey = @"resources";
+//Resource Cateogry
+NSString *const SHResourceCategoryNameKey = @"name";
+NSString *const SHResourceCategoryHuddleKey = @"huddle";
+NSString *const SHResourceCategoryResourcesKey = @"resources";
 
 //Requests
 NSString *const SHRequestHuddleKey = @"huddle";
@@ -137,8 +142,8 @@ NSString* const SHReplyAnswer = @"answer";
 NSString* const SHReplyClassName = @"Reply";
 
 //Chat Entry
-NSString* const SHChatEntryCategoryKey = @"category";
-NSString* const SHChatEntryThreadsKey = @"threads";
+NSString* const SHChatCategoryNameKey = @"category";
+NSString* const SHChatCategoryThreadsKey = @"threads";
 
 //Constants for chat feature
 int const SHEditingQuestion = 0;

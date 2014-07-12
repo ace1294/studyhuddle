@@ -9,14 +9,16 @@
 #import "SHChatEntryViewController.h"
 #import "SHChatEntrySegmentViewController.h"
 #import "SHConstants.h"
+#import "SHNewThreadViewController.h"
+#import "UIViewController+MJPopupViewController.h"
 
 
 
-@interface SHChatEntryViewController ()
+@interface SHChatEntryViewController () <SHModalViewControllerDelegate>
 
 @property (nonatomic,strong) SHChatEntrySegmentViewController* segmentController;
 @property (nonatomic,strong) UIView* segmentContainer;
-@property (nonatomic,strong) PFObject* chatEntryObject;
+@property (nonatomic,strong) PFObject* chatCategory;
 
 @end
 
@@ -35,11 +37,15 @@
 {
     self = [super init];
     if (self) {
-        self.chatEntryObject = aChatEntry;
+        self.chatCategory = aChatEntry;
         
-        self.title = aChatEntry[SHChatEntryCategoryKey];
+        self.title = aChatEntry[SHChatCategoryNameKey];
         
-
+        UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                   target:self
+                                                                                   action:@selector(addThread)];
+        
+        self.navigationItem.rightBarButtonItem = addButton;
         
         
     }
@@ -59,7 +65,7 @@
     self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(0, bottomOfNavBar+10, self.view.frame.size.width, self.view.frame.size.height)];
     self.segmentContainer.backgroundColor = [UIColor clearColor];
     
-    self.segmentController = [[SHChatEntrySegmentViewController alloc]initWithChatEntry:self.chatEntryObject];
+    self.segmentController = [[SHChatEntrySegmentViewController alloc]initWithChatEntry:self.chatCategory];
     [self addChildViewController:self.segmentController];
     
     self.segmentController.view.frame = self.segmentContainer.bounds;
@@ -93,21 +99,20 @@
     
 }
 
-- (void)didReceiveMemoryWarning
+- (void)addThread
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    SHNewThreadViewController *newThreadVC = [[SHNewThreadViewController alloc]initWithChatCategory:self.chatCategory];
+    newThreadVC.owner = self;
+    newThreadVC.delegate = self;
+    
+    [self presentPopupViewController:newThreadVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
+        //
+    }];
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+}
 
 @end

@@ -73,6 +73,8 @@
         self.segMenu = [[NSArray alloc]initWithObjects:@"QUESTIONS",nil];
         
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+        
+       
     }
     
     return self;
@@ -156,7 +158,7 @@
     BOOL loadError = true;
     
       //ChatEntry Data
-    NSArray *threads = [self.segChatEntry objectForKey:SHChatEntryThreadsKey];
+    NSArray *threads = [self.segChatEntry objectForKey:SHChatCategoryThreadsKey];
    
     
     
@@ -287,7 +289,6 @@
     
     return nil;
 }
-
 
 
 
