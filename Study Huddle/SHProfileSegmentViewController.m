@@ -113,12 +113,14 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor clearColor];
+    
     //Tableview
-    CGRect tableViewFrame = CGRectMake(tableViewX, tableViewY, tableViewDimX, tableViewDimY);
+    CGRect tableViewFrame = CGRectMake(tableViewX, tableViewY , tableViewDimX, tableViewDimY);
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    [self.tableView setBackgroundColor:[UIColor whiteColor]];
+    //[self.tableView setBackgroundColor:[UIColor clearColor]];
     [self.view addSubview:self.tableView];
     
     //Set segment menu titles
@@ -136,6 +138,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     
+    [self.tableView setScrollEnabled:NO];
 
     
     [self loadStudentData];
@@ -270,8 +273,10 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     
     if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"ONLINE"])
         return SHHuddleCellHeight;
-    else
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CLASSES"])
         return SHClassCellHeight;
+    else
+        return SHStudyCellHeight;
     
 }
 
@@ -408,9 +413,9 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y<0) {
-        [self.parentScrollView setScrollEnabled:YES];
-    }
+    //if (scrollView.contentOffset.y<0) {
+        //[self.parentScrollView setScrollEnabled:YES];
+   // }
     
 }
 
@@ -435,6 +440,29 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     [self tableView:self.tableView numberOfRowsInSection:0];
     
     [self.tableView reloadData];
+}
+
+-(float)getOccupatingHeight
+{
+    //check if its in study, classes or online
+    float cellHeight = 0;
+    switch (self.control.selectedSegmentIndex)
+    {
+        case 0:
+            cellHeight = SHStudyCellHeight;
+            break;
+        case 1:
+            cellHeight = SHClassCellHeight;
+            break;
+        case 2:
+            cellHeight = SHStudentCellHeight;
+            break;
+        default:
+            break;
+    }
+    
+    return cellHeight*self.currentRowsToDisplay;
+ 
 }
 
 

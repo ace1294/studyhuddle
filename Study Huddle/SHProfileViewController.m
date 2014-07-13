@@ -13,7 +13,7 @@
 #import "SHProfileSegmentViewController.h"
 #import "SHStartStudyingViewController.h"
 #import "UIViewController+MJPopupViewController.h"
-
+#import "SHUtility.h"
 
 #define profileImageWidth 100
 #define profileImageHeight 100
@@ -128,6 +128,7 @@
     UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shBackground.png"]];
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
+   
     
  
     
@@ -192,13 +193,14 @@
 
     
     //set up scroll view
-    CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, self.view.bounds.size.height-self.navigationController.navigationBar.frame.size.height);
+    float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
+    CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, viewableHeight);
     self.scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
-    //self.scrollView.backgroundColor = [UIColor redColor];
     self.scrollView.delegate = self;
     CGSize sViewContentSize = scrollViewFrame.size;
     float heightOfTop = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
-    sViewContentSize.height+=heightOfTop;
+    sViewContentSize.height+=(topPartSize);
+    //sViewContentSize.height+=999999;
     [self.scrollView setContentSize:sViewContentSize];
     [self.view addSubview:self.scrollView];
     
@@ -206,13 +208,13 @@
     
     //set up segmented view
     self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.scrollView.bounds.origin.y + topPartSize, self.view.frame.size.width, self.view.frame.size.height*10)];
-    self.segmentContainer.backgroundColor = [UIColor clearColor];
+    [self.segmentContainer setBackgroundColor:[UIColor blueColor]];
     self.segmentController = [[SHProfileSegmentViewController alloc]initWithStudent:(Student *)self.profStudent];
     [self.navigationController setDelegate:self.segmentController];
     
     [self addChildViewController:self.segmentController];
     self.segmentController.view.frame = self.segmentContainer.bounds;
-    self.segmentContainer.backgroundColor = [UIColor whiteColor];
+    self.segmentContainer.backgroundColor = [UIColor clearColor];
     [self.segmentContainer addSubview:self.segmentController.view];
     [self.segmentController didMoveToParentViewController:self];
     self.segmentController.owner = self;
@@ -337,10 +339,32 @@
 {
     
     DZNSegmentedControl* control = self.segmentController.control;
+    
+    
+    
+    float heightOfTable = [self.segmentController getOccupatingHeight];
+   
+    float distanceFromBottomToPortrait = topPartSize - (profileImageVerticalOffsetFromTop + self.profileImage.frame.size.height);
+    float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
 
     
-    float distanceFromBottomToPortrait = topPartSize - (profileImageVerticalOffsetFromTop + self.profileImage.frame.size.height);
     
+    float normalHeight = viewableHeight + topPartSize;
+    float extraDistance = (heightOfTable + control.frame.size.height)-viewableHeight;
+    NSLog(@"extraDistance: %f",extraDistance);
+    if(extraDistance > 0)
+    {
+        CGSize contentSize = scrollView.contentSize;
+        contentSize.height =extraDistance + normalHeight;
+        [self.scrollView setContentSize:contentSize];
+    }
+    else
+    {
+        CGSize contentSize = scrollView.contentSize;
+        contentSize.height = normalHeight;
+        [self.scrollView setContentSize:contentSize];
+    }
+
     
     
     if(scrollView.contentOffset.y>distanceFromBottomToPortrait)
@@ -362,6 +386,9 @@
         CGRect rect = control.frame;
         rect.origin.y=distanceMoved;
         [control setFrame:rect];
+        NSLog(@"its at the top");
+        //check to see if we should all the table to keep scrolling
+        
     }
     else
     {

@@ -27,5 +27,7 @@
 
 +(void)setMaskTo:(UIView*)view byRoundingCorners:(UIRectCorner)corners;
 + (void) moveView: (UIView*)view distance: (CGFloat)distance andDuration: (float) duration;
-
++ (UIImage*)imageWithImage:(UIImage*)image
+              scaledToSize:(CGSize)newSize;
++(UIImageView*) getScreenImageOfSize:(CGSize)size andView:(UIView*)view;
 @end

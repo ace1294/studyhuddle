@@ -62,6 +62,8 @@
 		41AF33B71953AB260008DF21 /* iconHome@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33B61953AB260008DF21 /* iconHome@2x.png */; };
 		41AF33B91953B99F0008DF21 /* Option1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33B81953B99F0008DF21 /* Option1@2x.png */; };
 		41AF33BB1953B9A60008DF21 /* Option2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33BA1953B9A60008DF21 /* Option2@2x.png */; };
+		41BD73381971E428006BEA9E /* selectPhotoBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 41BD73371971E428006BEA9E /* selectPhotoBtn.png */; };
+		41BD733A1971E42F006BEA9E /* selectPhotoBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41BD73391971E42F006BEA9E /* selectPhotoBtn@2x.png */; };
 		41CD3AB3196CB206004AD6F0 /* SHTextBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB2196CB206004AD6F0 /* SHTextBar.m */; };
 		41CD3AB8196DB018004AD6F0 /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB5196DB018004AD6F0 /* HPGrowingTextView.m */; };
 		41CD3AB9196DB018004AD6F0 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */; };
@@ -294,6 +296,8 @@
 		41AF33B61953AB260008DF21 /* iconHome@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconHome@2x.png"; sourceTree = "<group>"; };
 		41AF33B81953B99F0008DF21 /* Option1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Option1@2x.png"; sourceTree = "<group>"; };
 		41AF33BA1953B9A60008DF21 /* Option2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Option2@2x.png"; sourceTree = "<group>"; };
+		41BD73371971E428006BEA9E /* selectPhotoBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selectPhotoBtn.png; sourceTree = "<group>"; };
+		41BD73391971E42F006BEA9E /* selectPhotoBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selectPhotoBtn@2x.png"; sourceTree = "<group>"; };
 		41CD3AB1196CB206004AD6F0 /* SHTextBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHTextBar.h; sourceTree = "<group>"; };
 		41CD3AB2196CB206004AD6F0 /* SHTextBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHTextBar.m; sourceTree = "<group>"; };
 		41CD3AB4196DB018004AD6F0 /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
@@ -891,6 +895,8 @@
 		96566E6C19451271006649C3 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				41BD73391971E42F006BEA9E /* selectPhotoBtn@2x.png */,
+				41BD73371971E428006BEA9E /* selectPhotoBtn.png */,
 				96D955F61964AEC500667581 /* newDocBlue.png */,
 				96D955F71964AEC500667581 /* newDocBlue@2x.png */,
 				41365D5D19620C580057B8C9 /* shBackground.png */,
@@ -1305,6 +1311,7 @@
 				41365D5F19620C580057B8C9 /* shBackground.png in Resources */,
 				96F429A619575D3800E74500 /* SearchTab@2x.png in Resources */,
 				96D9557D195F3E7C00667581 /* blankProfPic@2x.png in Resources */,
+				41BD733A1971E42F006BEA9E /* selectPhotoBtn@2x.png in Resources */,
 				96D955F81964AEC500667581 /* newDocBlue.png in Resources */,
 				41AF333D194B5AF70008DF21 /* ringBehindProfPic.png in Resources */,
 				96D9557F195F3E7C00667581 /* hoursStudying@2x.png in Resources */,
@@ -1352,6 +1359,7 @@
 				96F0EDDE195C737200B25DC1 /* Pods-Parse+NSCoding-Private.xcconfig in Resources */,
 				96566E34194510F6006649C3 /* InfoPlist.strings in Resources */,
 				96D95578195F3E7C00667581 /* advanceArrow.png in Resources */,
+				41BD73381971E428006BEA9E /* selectPhotoBtn.png in Resources */,
 				41AF33AB19538FC10008DF21 /* notificationsActive@2x.png in Resources */,
 				96D95579195F3E7C00667581 /* advanceArrow@2x.png in Resources */,
 				96D9558A195F3E7C00667581 /* stopStudying.png in Resources */,

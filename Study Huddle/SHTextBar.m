@@ -30,9 +30,7 @@
        
         
         self.backgroundColor = [UIColor lightGrayColor];
-        
-        //add a gray background that will expand with the textView
-        
+                
         //math intensive shit about to take place
         CGFloat textFieldHeight = frame.size.height*textFieldHeightBigness;
         CGFloat textFieldWidth = frame.size.width*textFieldWidthBigness;
@@ -53,7 +51,7 @@
         [self addSubview:self.textField];
         
         //that button
-        CGFloat postButtonHeight = frame.size.height*textFieldHeightBigness;
+        CGFloat postButtonHeight = self.textField.frame.size.height;
         CGFloat postButtonWidth = frame.size.width*(1-textFieldWidthBigness)/2 * postButtonWidthBigness;
         CGFloat buttonSegmentWidth = frame.size.width - (self.textField.frame.size.width  + self.textField.frame.origin.x);
         CGFloat postButtonX = self.textField.frame.size.width  + self.textField.frame.origin.x + buttonSegmentWidth*(1-postButtonWidthBigness)/2;
@@ -67,6 +65,16 @@
         [self addSubview:self.postButton];
         [self.postButton setTitle:@"POST" forState:UIControlStateNormal];
         [self.postButton.layer setCornerRadius:3.0f];
+        
+        //that image button
+        CGFloat imagePhotoX = buttonSegmentWidth*(1-postButtonWidthBigness)/2;
+        self.imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.imageButton setImage:[UIImage imageNamed:@"selectPhotoBtn.png"] forState:UIControlStateNormal];
+        self.imageButton.frame =CGRectMake(imagePhotoX, postButtonY, postButtonWidth, postButtonHeight);
+        self.imageButton.backgroundColor = [UIColor whiteColor];
+        [self.imageButton.titleLabel setFont:[UIFont boldSystemFontOfSize:10]];
+        [self addSubview:self.imageButton];
+        [self.imageButton.layer setCornerRadius:3.0f];
 
         
         

@@ -161,6 +161,7 @@ extern int const SHEditingReply;
 #define tableViewY 35.0
 #define tableViewDimX 320.0
 #define tableViewDimY 800
+#define extraSpace 0 //this is to make it more smooth
 
 #define headerHeight 25.0
 #define headerWidth 200.0

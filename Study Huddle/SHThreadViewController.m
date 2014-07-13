@@ -22,7 +22,7 @@
 #define replyTextFieldHeight 60
 #define animationLength 0.225f
 
-@interface SHThreadViewController ()<UITextFieldDelegate,SHQuestionBubbleDelegate,SHReplyBubbleDelegate,UIScrollViewDelegate,HPGrowingTextViewDelegate>
+@interface SHThreadViewController ()<UITextFieldDelegate,SHQuestionBubbleDelegate,SHReplyBubbleDelegate,UIScrollViewDelegate,HPGrowingTextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property UIScrollView* scrollView;
 
@@ -148,6 +148,7 @@
     [self.view addSubview:self.textBar];
     self.textBar.textField.delegate = self;
     [self.textBar.postButton addTarget:self action:@selector(postTextInTextView) forControlEvents:UIControlEventTouchUpInside];
+    [self.textBar.imageButton addTarget:self action:@selector(takePictureCalled) forControlEvents:UIControlEventTouchUpInside];
  
     [self updateLayout];
     
@@ -226,6 +227,7 @@
     }
 
 }
+
 
 -(void)postTextInTextView
 {
@@ -421,6 +423,59 @@
     r.size.height -= diff;
     r.origin.y += diff;
 	self.textBar.frame = r;
+}
+
+#pragma mark - Taking photos
+-(void)takePictureCalled
+{
+    NSLog(@"TAKE PICTURE CALLED");
+    [self chooseFromLibrary];
+}
+
+
+-(void)takePhoto
+
+{
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        [imagePickerController setSourceType:UIImagePickerControllerSourceTypeCamera];
+    }
+    
+    // image picker needs a delegate,
+    [imagePickerController setDelegate:self];
+    
+    // Place image picker on the screen
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+    }
+
+
+
+-(void)chooseFromLibrary
+{
+    
+    UIImagePickerController *imagePickerController= [[UIImagePickerController alloc] init];
+    [imagePickerController setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    
+    // image picker needs a delegate so we can respond to its messages
+    [imagePickerController setDelegate:self];
+    
+    // Place image picker on the screen
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+    
+}
+
+//delegate methode will be called after picking photo either from camera or library
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    image = [SHUtility imageWithImage:image scaledToSize:CGSizeMake(100, 100)];
+    NSLog(@"image: %@",image);
+    UIImageView* imageView = [[UIImageView alloc]initWithImage:image];
+
+ 
 }
 
 
