@@ -140,8 +140,9 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     NSArray *students = [self.segClass objectForKey:SHClassStudentsKey];
     [[self.studentData objectForKey:@"both"] removeAllObjects];
     [self.studentData setObject:students forKey:@"both"];
-    [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
     [SHUtility fetchObjectsInArray:[self.studentData objectForKey:@"both"]];
+    [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
+    
     
     //Huddle Data
     NSArray *huddles = [self.segClass objectForKey:SHClassHuddlesKey];

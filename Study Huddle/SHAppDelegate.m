@@ -133,6 +133,7 @@
 {
     [self instantiateViews];
     self.tabBarController = [[UITabBarController alloc]init];
+    [[UITabBar appearance] setTintColor:[UIColor huddleOrange]];
     
     [self.profileController setStudent:(Student *)[Student currentUser]];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:self.profileNavigator, self.huddlesNavigator,self.searchNavigator,self.notificationNavigator ,nil];

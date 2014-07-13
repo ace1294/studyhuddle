@@ -16,6 +16,7 @@
 #import "SHHuddleButtons.h"
 #import "Student.h"
 #import "SHUtility.h"
+#import "SHModalViewController.h"
 
 @interface SHNewResourceViewController () <UITextFieldDelegate, SHHuddleButtonsDelegate, UITextViewDelegate, SHModalViewControllerDelegate>
 
@@ -72,15 +73,7 @@
         [self initHeaders];
         [self initFields];
         [self initButtons];
-        CGRect initialButton = CGRectMake(buttonX, buttonY, huddleButtonWidth, huddleButtonHeight);
-        self.categoryButtons = [[SHHuddleButtons alloc] initWithFrame:initialButton items:self.categoryNames addButton:@"New Category"];
-        self.categoryButtons.delegate = self;
-        [self.categoryButtons setViewController:self];
-        
 
-        
-        
-        
         
     }
     return self;
@@ -97,6 +90,7 @@
 {
     //Resource Header
     self.headerLabel.text = @"New Resource";
+    [self.continueButton setTitle:@"Add" forState:UIControlStateNormal];
 
     //Description Header
     self.aboutHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, aboutHeaderY, headerWidth, headerHeight)];
@@ -174,25 +168,18 @@
 
 - (void)initButtons
 {
+    [super initButtons];
+    
     //Document
     self.documentView = [[SHDocumentView alloc] initWithFrame:CGRectMake(horiViewSpacing, documentY, documentWidth, documentHeight)];
     self.documentView.owner = self;
    
     [self.view addSubview:self.documentView];
-    
-    
-    //Create
-    
-    //Create
-    self.cancelButton = [[UIButton alloc]initWithFrame:CGRectMake(horiElemSpacing, vertElemSpacing/2, 45.0, headerHeight-vertElemSpacing)];
-    [self.cancelButton setBackgroundColor:[UIColor huddleOrange]];
-    self.cancelButton.layer.cornerRadius = 3;
-    [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
-    [self.cancelButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:14]];
-    [self.cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.cancelButton];
-    
+
+    CGRect initialButton = CGRectMake(buttonX, buttonY, huddleButtonWidth, huddleButtonHeight);
+    self.categoryButtons = [[SHHuddleButtons alloc] initWithFrame:initialButton items:self.categoryNames addButton:@"New Category"];
+    self.categoryButtons.delegate = self;
+    [self.categoryButtons setViewController:self];
 }
 
 

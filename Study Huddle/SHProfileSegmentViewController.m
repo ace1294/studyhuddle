@@ -28,7 +28,7 @@
 #import "SHStartStudyingViewController.h"
 #import "SHStudyViewController.h"
 
-@interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate, SHStartStudyingDelegate>
+@interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) Student *segStudent;
@@ -428,10 +428,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     [self.tableView reloadData];
 }
 
-
-#pragma mark - StartStudying Delegate
-
-- (void)startedStudying:(PFObject *)study
+- (void)currentStudy:(PFObject *)study
 {
     [self.studyingDataArray insertObject:study atIndex:0];
     

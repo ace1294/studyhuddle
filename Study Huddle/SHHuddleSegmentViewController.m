@@ -476,11 +476,9 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
         self.addResourceVC = [[SHNewResourceViewController alloc] initWithHuddle:self.segHuddle];
         self.addResourceVC.owner = self;
-        
-
+        self.addResourceVC.delegate = self;
         
         [self presentPopupViewController:self.addResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
-        
 
     }
     
@@ -493,6 +491,16 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     NSLog(@"IN THE SEGEMENTNTNTNTJDSHF$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     [self presentPopupViewController:self.addResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
+
+#pragma mark - Popup delegate methods
+
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+}
+
+
+
 
 #pragma mark - UINavigationControllerDelegate
 

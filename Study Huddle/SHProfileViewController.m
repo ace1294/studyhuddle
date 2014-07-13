@@ -46,7 +46,7 @@
 #define sideItemsFont [UIFont systemFontOfSize:7]
 
 
-@interface SHProfileViewController () <UIScrollViewDelegate>
+@interface SHProfileViewController () <UIScrollViewDelegate, SHStartStudyingDelegate>
 
 
 @property (strong, nonatomic) SHProfileSegmentViewController *segmentController;
@@ -318,7 +318,7 @@
         //the user will start studying
         self.study = [PFObject objectWithClassName:SHStudyParseClass];
         self.startStudyingVC = [[SHStartStudyingViewController alloc]initWithStudent:[Student currentUser] studyObject:self.study];
-        self.startStudyingVC.delegate = self.segmentController;
+        self.startStudyingVC.delegate = self;
         [self presentPopupViewController:self.startStudyingVC animationType:MJPopupViewAnimationSlideBottomBottom];
         
         self.lastStart = [NSDate date];
@@ -415,6 +415,17 @@
     
 }
 
+#pragma mark - Popup delegate methods
+
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+}
+
+- (void)startedStudying:(PFObject *)study
+{
+    [self.segmentController currentStudy:study];
+}
 
 
 
