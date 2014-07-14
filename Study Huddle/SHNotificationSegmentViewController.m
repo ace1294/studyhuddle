@@ -29,7 +29,7 @@
 #import "SHClassPageViewController.h"
 #import "SHIndividualHuddleviewController.h"
 
-@interface SHNotificationSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
+@interface SHNotificationSegmentViewController () <SHAddCellDelegate, SHRequestCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) Student *segStudent;
@@ -176,10 +176,13 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     
     //Notifications Data
-    NSArray *notifications = [self.segStudent objectForKey:SHStudentNotificationsKey];
+    NSMutableArray *notifications = [[NSMutableArray alloc]init];
+    [notifications addObjectsFromArray:[self.segStudent objectForKey:SHStudentNotificationsKey]];
     NSLog(@"notifications: %@",notifications);
     
-
+    PFQuery *notificationQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
+    [notificationQuery whereKey:SHNotificationStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    [notifications addObjectsFromArray:[notificationQuery findObjects]];
     
     //sort them based on date created
     NSArray *sortedArray;
@@ -220,6 +223,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     PFQuery *requestQuery = [PFQuery queryWithClassName:SHRequestParseClass];
     
     [requestQuery whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    [self.segStudent addUniqueObjectsFromArray:[requestQuery findObjects] forKey:SHStudentRequestsKey];
+    [self.segStudent saveInBackground];
     [self.requestsDataArray addObjectsFromArray:[requestQuery findObjects]];
     
     [self.control setCount:[NSNumber numberWithInt:self.requestsDataArray.count] forSegmentAtIndex:1];
@@ -299,10 +304,10 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    //    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
-    return cellHeight;
-    //    else
-    //        return SHClassCellHeight;
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"NOTIFICATIONS"])
+        return SHNotificationCellHeight;
+    else
+        return SHRequestCellHeight;
     
 }
 
@@ -343,12 +348,12 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     else if([CellIdentifier isEqual:SHRequestCellIdentifier])
     {
-        PFObject* notificationObject = [self.requestsDataArray objectAtIndex:(int)indexPath.row];
-        SHNotificationCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        PFObject* requestObject = [self.requestsDataArray objectAtIndex:(int)indexPath.row];
+        SHRequestCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         cell.delegate = self;
         
-        [cell setNotification:notificationObject];
+        [cell setRequest:requestObject];
         [cell layoutIfNeeded];
         
         return cell;
@@ -393,6 +398,44 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     
 }
+
+#pragma mark - Request Cell Deleagte methods
+
+- (void)didTapAccept:(PFObject *)request
+{
+    NSString *type = request[SHRequestTypeKey];
+    
+    if([type isEqualToString:SHRequestSSInviteStudy])
+    {
+        PFObject *student2 = request[SHRequestStudent2Key];
+        [student2 fetchIfNeeded];
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationStudentKey] = request[SHRequestStudent1Key];
+        notification[SHNotificationTitleKey] = student2[SHStudentNameKey];
+        notification[SHNotificationDescriptionKey] = @"Accepted study invite";
+        
+        [notification saveInBackground];
+        
+    } else if([type isEqualToString:SHRequestSHJoin])
+    {
+        
+    } else if([type isEqualToString:SHRequestHSInviteStudy])
+    {
+        
+    } else if([type isEqualToString:SHRequestHSJoin])
+    {
+        
+    }
+}
+
+- (void)didTapDeny:(PFObject *)request
+{
+    NSLog(@"DNEY");
+}
+
+
+
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {

@@ -69,6 +69,10 @@
 		41CD3AB9196DB018004AD6F0 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */; };
 		96118AEE1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96118AED1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m */; };
 		96118AF11973497400201CB4 /* SHVisitorClassSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96118AF01973497400201CB4 /* SHVisitorClassSegmentViewController.m */; };
+		96118AF61973687800201CB4 /* Approve.png in Resources */ = {isa = PBXBuildFile; fileRef = 96118AF41973687800201CB4 /* Approve.png */; };
+		96118AF71973687800201CB4 /* Approve@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96118AF51973687800201CB4 /* Approve@2x.png */; };
+		96118AFA1973687F00201CB4 /* Deny.png in Resources */ = {isa = PBXBuildFile; fileRef = 96118AF81973687F00201CB4 /* Deny.png */; };
+		96118AFB1973687F00201CB4 /* Deny@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96118AF91973687F00201CB4 /* Deny@2x.png */; };
 		96368A7219452D0500E03E56 /* SHSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96368A7119452D0500E03E56 /* SHSignUpViewController.m */; };
 		96368A7719455C2A00E03E56 /* X_cancelbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96368A7619455C2A00E03E56 /* X_cancelbtn@2x.png */; };
 		9638161619594BF30069D477 /* SHHuddleSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638161519594BF30069D477 /* SHHuddleSegmentViewController.m */; };
@@ -311,6 +315,10 @@
 		96118AED1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHVisitorHuddleSegmentViewController.m; sourceTree = "<group>"; };
 		96118AEF1973497400201CB4 /* SHVisitorClassSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHVisitorClassSegmentViewController.h; sourceTree = "<group>"; };
 		96118AF01973497400201CB4 /* SHVisitorClassSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHVisitorClassSegmentViewController.m; sourceTree = "<group>"; };
+		96118AF41973687800201CB4 /* Approve.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Approve.png; sourceTree = "<group>"; };
+		96118AF51973687800201CB4 /* Approve@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Approve@2x.png"; sourceTree = "<group>"; };
+		96118AF81973687F00201CB4 /* Deny.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Deny.png; sourceTree = "<group>"; };
+		96118AF91973687F00201CB4 /* Deny@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Deny@2x.png"; sourceTree = "<group>"; };
 		96368A7019452D0500E03E56 /* SHSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSignUpViewController.h; sourceTree = "<group>"; };
 		96368A7119452D0500E03E56 /* SHSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSignUpViewController.m; sourceTree = "<group>"; };
 		96368A7619455C2A00E03E56 /* X_cancelbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "X_cancelbtn@2x.png"; sourceTree = "<group>"; };
@@ -927,6 +935,10 @@
 		96566E6C19451271006649C3 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				96118AF41973687800201CB4 /* Approve.png */,
+				96118AF51973687800201CB4 /* Approve@2x.png */,
+				96118AF81973687F00201CB4 /* Deny.png */,
+				96118AF91973687F00201CB4 /* Deny@2x.png */,
 				41BD73391971E42F006BEA9E /* selectPhotoBtn@2x.png */,
 				41BD73371971E428006BEA9E /* selectPhotoBtn.png */,
 				96D955F61964AEC500667581 /* newDocBlue.png */,
@@ -1327,12 +1339,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96118AF71973687800201CB4 /* Approve@2x.png in Resources */,
 				96D9557A195F3E7C00667581 /* backArrow.png in Resources */,
+				96118AFB1973687F00201CB4 /* Deny@2x.png in Resources */,
 				96D9557B195F3E7C00667581 /* backArrow@2x.png in Resources */,
 				9638164E195BD06C0069D477 /* search@2x.png in Resources */,
 				41AF33A0195220A80008DF21 /* Arial Black.ttf in Resources */,
 				96D95585195F3E7C00667581 /* ringOffline@2x.png in Resources */,
 				41AF3334194AA5210008DF21 /* Jack_White.jpg in Resources */,
+				96118AFA1973687F00201CB4 /* Deny.png in Resources */,
 				9638164D195BD06C0069D477 /* search.png in Resources */,
 				41365D5F19620C580057B8C9 /* shBackground.png in Resources */,
 				96F429A619575D3800E74500 /* SearchTab@2x.png in Resources */,
@@ -1379,6 +1394,7 @@
 				41AF33AE19538FC10008DF21 /* profileInactive@2x.png in Resources */,
 				41AF33B51953AB1F0008DF21 /* iconHome.png in Resources */,
 				96D9558B195F3E7C00667581 /* stopStudying@2x.png in Resources */,
+				96118AF61973687800201CB4 /* Approve.png in Resources */,
 				41AF33B019538FC10008DF21 /* searchInactive@2x.png in Resources */,
 				96D95586195F3E7C00667581 /* ringOnline.png in Resources */,
 				41AF3336194AAC980008DF21 /* circleBehindProfPic.png in Resources */,

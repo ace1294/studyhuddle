@@ -21,6 +21,7 @@ NSString *const SHResourceCategoryParseClass = @"ResourceCategory";
 NSString *const SHChatCategoryParseClass = @"ChatCategory";
 NSString *const SHThreadParseClass = @"Thread";
 NSString *const SHQuestionParseClass = @"Question";
+NSString *const SHNotificationParseClass = @"Notification";
 
 
 //Cells
@@ -96,6 +97,7 @@ NSString *const SHResourceCategoryHuddleKey = @"huddle";
 NSString *const SHResourceCategoryResourcesKey = @"resources";
 
 //Requests
+NSString *const SHRequestTitleKey = @"title";
 NSString *const SHRequestHuddleKey = @"huddle";
 NSString *const SHRequestTypeKey = @"type";
 NSString *const SHRequestStudent1Key = @"student1";
@@ -112,8 +114,8 @@ NSString *const SHRequestHSJoin = @"HSJoin";
 NSString *const SHRequestHSInviteStudy = @"HSInviteStudy";
 
 //Notifications
-NSString* const SHNotificationTitle = @"title";
-NSString* const SHNotificationSubTitle = @"subTitle";
+NSString* const SHNotificationTitleKey = @"title";
+NSString* const SHNotificationDescriptionKey = @"description";
 NSString* const SHNotificationHuddleResource = @"huddleResource";
 NSString* const SHNotificationNewMember = @"huddleNewMember";
 NSString* const SHNotificationAnswer = @"answerToQuestion";
