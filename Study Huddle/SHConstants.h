@@ -17,6 +17,7 @@ extern NSString *const SHResourceCategoryParseClass;
 extern NSString *const SHChatCategoryParseClass;
 extern NSString *const SHThreadParseClass;
 extern NSString *const SHQuestionParseClass;
+extern NSString *const SHNotificationParseClass;
 
 //Cells
 extern NSString *const SHBaseCellIdentifier;
@@ -90,6 +91,7 @@ extern NSString *const SHResourceCategoryHuddleKey;
 extern NSString *const SHResourceCategoryResourcesKey;
 
 //Requests
+extern NSString *const SHRequestTitleKey;
 extern NSString *const SHRequestTypeKey;
 extern NSString *const SHRequestHuddleKey;
 extern NSString *const SHRequestStudent1Key;
@@ -105,8 +107,8 @@ extern NSString *const SHRequestHSJoin;
 extern NSString *const SHRequestHSInviteStudy;
 
 //Notifications
-extern NSString* const SHNotificationTitle;
-extern NSString* const SHNotificationSubTitle;
+extern NSString* const SHNotificationTitleKey;
+extern NSString* const SHNotificationDescriptionKey;
 extern NSString* const SHNotificationHuddleResource;
 extern NSString* const SHNotificationNewMember;
 extern NSString* const SHNotificationAnswer;
@@ -172,6 +174,7 @@ extern int const SHEditingReply;
 
 #define SHHuddleCellHeight 70.0
 #define SHRequestCellHeight 70.0
+#define SHNotificationCellHeight 50.0
 #define SHClassCellHeight 50.0
 #define SHStudyCellHeight 50.0
 #define SHAddCellHeight 50.0

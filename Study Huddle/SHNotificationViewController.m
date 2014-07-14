@@ -39,6 +39,8 @@
         self.title = @"Notifications";
         self.tabBarItem.image = [UIImage imageNamed:@"notification.png"];
         
+        UIBarButtonItem *button = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
+        self.navigationItem.rightBarButtonItem = button;
         
         //set up the navigation options
         //settings button
@@ -71,45 +73,17 @@
     self.segmentController.owner = self;
     
     [self.view addSubview:self.segmentContainer];
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     
     
     
 }
 
-- (void)didReceiveMemoryWarning
+- (void) refresh:(id)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSLog(@"REFRESH");
+    [self.segmentController loadStudentData];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

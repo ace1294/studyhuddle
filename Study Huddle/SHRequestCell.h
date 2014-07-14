@@ -16,16 +16,12 @@
 
 @end
 
-#define acceptX 245.0
-#define requestButtonY 15.0
-#define requestButtonWidth 40.0
 
-#define denyX acceptX+requestButtonWidth+horiElemSpacing
 
 @protocol SHRequestCellDelegate <SHBaseCellDelegate>
 @optional
 
-- (void)didTapAccept:(SHRequestCell *)cell;
-- (void)didTapDeny:(SHRequestCell *)cell;
+- (void)didTapAccept:(PFObject *)request;
+- (void)didTapDeny:(PFObject *)request;
 
 @end

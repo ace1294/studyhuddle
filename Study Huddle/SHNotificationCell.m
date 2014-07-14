@@ -67,9 +67,9 @@
     self.notificationObj = aNotification;
     
     //Title Button
-    [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitle] forState:UIControlStateNormal];
+    [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitleKey] forState:UIControlStateNormal];
     
-    [self.infoLabel setText:[aNotification objectForKey:SHNotificationSubTitle]];
+    [self.descriptionLabel setText:[aNotification objectForKey:SHNotificationDescriptionKey]];
     if([aNotification[SHNotificationReadKey] boolValue])
     {
         [self.titleButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
