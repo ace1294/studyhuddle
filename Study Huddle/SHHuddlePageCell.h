@@ -15,3 +15,13 @@
 - (void)setHuddle:(PFObject *)aHuddle;
 
 @end
+
+
+@protocol SHHuddlePageCellDelegate <SHBaseCellDelegate>
+@optional
+
+- (void)didTapInviteToStudy:(PFObject *)huddle;
+- (void)didTapAddResource:(PFObject *)huddle;
+- (void)didTapMember:(PFObject *)member;
+
+@end

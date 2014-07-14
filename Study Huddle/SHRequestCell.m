@@ -65,13 +65,13 @@
 
 /* Inform delegate that a user image or name was tapped */
 - (void)didTapAcceptButtonAction:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapAcceptCell:)]) {
-        [self.delegate didTapAcceptCell:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapAccept:)]) {
+        [self.delegate didTapAccept:self];
     }
 }
 - (void)didTapDenyButtonAction:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapDenyCell:)]) {
-        [self.delegate didTapDenyCell:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapDeny:)]) {
+        [self.delegate didTapDeny:self];
     }
 }
 
