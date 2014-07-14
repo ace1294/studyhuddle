@@ -203,16 +203,15 @@
     
     
     //set up scroll view
-    CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, self.view.bounds.size.height-self.navigationController.navigationBar.frame.size.height);
+    float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
+    CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, viewableHeight);
     self.scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
-    //self.scrollView.backgroundColor = [UIColor redColor];
     self.scrollView.delegate = self;
     CGSize sViewContentSize = scrollViewFrame.size;
-    float heightOfTop = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
-    sViewContentSize.height+=heightOfTop + 9999;
+    sViewContentSize.height+=(topPartSize);
+    //sViewContentSize.height+=999999;
     [self.scrollView setContentSize:sViewContentSize];
     [self.view addSubview:self.scrollView];
-    
     
     
     //set up segmented view
@@ -348,7 +347,29 @@
     DZNSegmentedControl* control = self.segmentController.control;
     
     
+    
+    float heightOfTable = [self.segmentController getOccupatingHeight];
+    
     float distanceFromBottomToPortrait = topPartSize - (profileImageVerticalOffsetFromTop + self.profileImage.frame.size.height);
+    float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
+    
+    
+    
+    float normalHeight = viewableHeight + topPartSize;
+    float extraDistance = (heightOfTable + control.frame.size.height)-viewableHeight;
+    NSLog(@"extraDistance: %f",extraDistance);
+    if(extraDistance > 0)
+    {
+        CGSize contentSize = scrollView.contentSize;
+        contentSize.height =extraDistance + normalHeight;
+        [self.scrollView setContentSize:contentSize];
+    }
+    else
+    {
+        CGSize contentSize = scrollView.contentSize;
+        contentSize.height = normalHeight;
+        [self.scrollView setContentSize:contentSize];
+    }
     
     
     
@@ -371,6 +392,9 @@
         CGRect rect = control.frame;
         rect.origin.y=distanceMoved;
         [control setFrame:rect];
+        NSLog(@"its at the top");
+        //check to see if we should all the table to keep scrolling
+        
     }
     else
     {

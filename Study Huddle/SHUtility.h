@@ -30,4 +30,5 @@
 + (UIImage*)imageWithImage:(UIImage*)image
               scaledToSize:(CGSize)newSize;
 +(UIImageView*) getScreenImageOfSize:(CGSize)size andView:(UIView*)view;
++(BOOL)user: (PFUser*)user isInHuddle: (PFObject*)huddle;
 @end
