@@ -128,7 +128,7 @@ NSString* const SHNotificationHuddleResource = @"huddleResource";
 NSString* const SHNotificationNewMember = @"huddleNewMember";
 NSString* const SHNotificationAnswer = @"answerToQuestion";
 NSString* const SHNotificationHuddleStartedStudying = @"huddleStartsStudying";
-NSString* const SHNotificationStudentAcceptedStudyReques = @"studentAcceptedStudyRequest";
+NSString* const SHNotificationStudentAcceptedStudyRequest = @"studentAcceptedStudyRequest";
 
 //Notification Titles
 NSString* const SHAcceptedStudyInviteTitle = @"Accepted study invite";
