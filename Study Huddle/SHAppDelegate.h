@@ -12,7 +12,7 @@
 #import "SHClassPageViewController.h"
 #import "SHNotificationViewController.h"
 #import "SHVisitorHuddleViewController.h"
-
+#import "SHVisitorClassPageViewController.h"
 
 @class SHProfileViewController;
 
@@ -26,8 +26,11 @@
 @property (strong, nonatomic) SHHuddleViewController *huddlesController;
 @property (strong, nonatomic) UINavigationController *huddlesNavigator;
 
-@property (strong, nonatomic) SHVisitorHuddleViewController *searchController; //temporary for testing
+@property (strong, nonatomic) SHVisitorClassPageViewController *searchController; //temporary for testing
 @property (strong, nonatomic) UINavigationController *searchNavigator;
+
+//@property (strong, nonatomic) SHVisitorHuddleViewController *searchController; //temporary for testing
+//@property (strong, nonatomic) UINavigationController *searchNavigator;
 
 @property (strong, nonatomic) SHNotificationViewController *notificationController; //temporary for testing
 @property (strong, nonatomic) UINavigationController *notificationNavigator;

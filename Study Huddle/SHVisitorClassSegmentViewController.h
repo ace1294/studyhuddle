@@ -25,5 +25,6 @@
 
 - (void)setClass:(PFObject *)aClass;
 - (BOOL)loadClassData;
+-(float)getOccupatingHeight;
 
 @end

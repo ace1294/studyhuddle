@@ -65,6 +65,7 @@
 		41BD73381971E428006BEA9E /* selectPhotoBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 41BD73371971E428006BEA9E /* selectPhotoBtn.png */; };
 		41BD733A1971E42F006BEA9E /* selectPhotoBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41BD73391971E42F006BEA9E /* selectPhotoBtn@2x.png */; };
 		41BD733D197352E5006BEA9E /* SHVisitorHuddleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41BD733C197352E5006BEA9E /* SHVisitorHuddleViewController.m */; };
+		41BD734619736B5E006BEA9E /* SHVisitorClassPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41BD734519736B5E006BEA9E /* SHVisitorClassPageViewController.m */; };
 		41CD3AB3196CB206004AD6F0 /* SHTextBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB2196CB206004AD6F0 /* SHTextBar.m */; };
 		41CD3AB8196DB018004AD6F0 /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB5196DB018004AD6F0 /* HPGrowingTextView.m */; };
 		41CD3AB9196DB018004AD6F0 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */; };
@@ -303,6 +304,8 @@
 		41BD73391971E42F006BEA9E /* selectPhotoBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selectPhotoBtn@2x.png"; sourceTree = "<group>"; };
 		41BD733B197352E5006BEA9E /* SHVisitorHuddleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHVisitorHuddleViewController.h; sourceTree = "<group>"; };
 		41BD733C197352E5006BEA9E /* SHVisitorHuddleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHVisitorHuddleViewController.m; sourceTree = "<group>"; };
+		41BD734419736B5E006BEA9E /* SHVisitorClassPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHVisitorClassPageViewController.h; sourceTree = "<group>"; };
+		41BD734519736B5E006BEA9E /* SHVisitorClassPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHVisitorClassPageViewController.m; sourceTree = "<group>"; };
 		41CD3AB1196CB206004AD6F0 /* SHTextBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHTextBar.h; sourceTree = "<group>"; };
 		41CD3AB2196CB206004AD6F0 /* SHTextBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHTextBar.m; sourceTree = "<group>"; };
 		41CD3AB4196DB018004AD6F0 /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
@@ -876,6 +879,8 @@
 				96D955AF1960BBA000667581 /* SHAppDelegate.m */,
 				96D955B01960BBA000667581 /* SHClassPageViewController.h */,
 				96D955B11960BBA000667581 /* SHClassPageViewController.m */,
+				41BD734419736B5E006BEA9E /* SHVisitorClassPageViewController.h */,
+				41BD734519736B5E006BEA9E /* SHVisitorClassPageViewController.m */,
 				96421C961970547400B5EC89 /* Huddle Pages */,
 				96421C951970546200B5EC89 /* Profile */,
 				41365D61196211100057B8C9 /* SHNotificationViewController.h */,
@@ -1467,6 +1472,7 @@
 			files = (
 				41365D5C196207610057B8C9 /* PFObject+NSCoding.m in Sources */,
 				410261141968B5D2006F2CBF /* SHThreadViewController.m in Sources */,
+				41BD734619736B5E006BEA9E /* SHVisitorClassPageViewController.m in Sources */,
 				96421CAB1970882900B5EC89 /* SHHuddleAddViewController.m in Sources */,
 				96F429AB1957E7B400E74500 /* SHVisitorProfileSegmentViewController.m in Sources */,
 				41A1943B19662FB80038AAA2 /* SHChatCell.m in Sources */,

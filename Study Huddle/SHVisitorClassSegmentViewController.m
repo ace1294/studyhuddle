@@ -206,6 +206,12 @@
 
 }
 
+-(float)getOccupatingHeight
+{
+    
+    return studentCellHeight*self.studentData.count;
+    
+}
 
 
 @end

@@ -188,7 +188,7 @@
     
 
     
-    self.searchController = [[SHVisitorHuddleViewController alloc]initWithHuddle:huddleObject]; //temporary for testing purposes
+    self.searchController = [[SHVisitorClassPageViewController alloc]initWithClass:classObject]; //temporary for testing purposes
     self.searchNavigator = [[UINavigationController alloc] initWithRootViewController:self.searchController];
     self.searchNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.searchNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
