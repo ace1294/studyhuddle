@@ -52,7 +52,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return SHHuddleCellHeight;
+    return SHResourceCellHeight;
 }
 
 #pragma mark - UITableViewDataSource Methods

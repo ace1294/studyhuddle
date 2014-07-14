@@ -310,8 +310,12 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 {
     if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"MEMBERS"])
         return SHHuddleCellHeight;
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"RESOURCES"])
+        return SHCategoryCellHeight;
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CHAT"])
+        return SHChatCellHeight;
     else
-        return SHClassCellHeight;
+        return SHHuddleCellHeight;
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -530,6 +534,34 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     }
     
 }
+
+-(float)getOccupatingHeight
+{
+    //check if its in study, classes or online
+    float cellHeight = 0;
+    float add = 0;
+    switch (self.control.selectedSegmentIndex)
+    {
+        case 0:
+            cellHeight = SHStudentCellHeight;
+            add = 1;
+            break;
+        case 1:
+            cellHeight = SHCategoryCellHeight;
+            add = 1;
+            break;
+        case 2:
+            cellHeight = SHChatCellHeight;
+            add = 0;
+            break;
+        default:
+            break;
+    }
+    
+    return cellHeight*(self.currentRowsToDisplay+add);
+    
+}
+
 
 
 

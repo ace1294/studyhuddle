@@ -191,6 +191,8 @@ extern int const SHEditingReply;
 #define SHStudentCellHeight 70.0
 #define SHChatCellHeight 50.0
 #define SHHuddlePageCellHeight 190.0
+#define SHResourceCellHeight 50.0
+#define SHCategoryCellHeight 50.0
 
 //Cell layout
 #define vertBorderSpacing 10.0f

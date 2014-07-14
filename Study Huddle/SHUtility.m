@@ -195,5 +195,14 @@
     return [[UIImageView alloc]initWithImage:image];
 }
 
++(BOOL)user: (PFUser*)user isInHuddle: (PFObject*)huddle
+{
+  
+    NSArray* userHuddles = user[SHStudentHuddlesKey];
+    for (PFObject* userHuddle in userHuddles)
+        if([[huddle objectId]isEqual:[userHuddle objectId]])
+            return true;
+    return false;
+}
 
 @end

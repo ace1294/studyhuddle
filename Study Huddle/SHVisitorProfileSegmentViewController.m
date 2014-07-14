@@ -22,6 +22,7 @@
 #import "PFObject+NSCoding.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHIndividualHuddleviewController.h"
+#import "SHVisitorHuddleViewController.h"
 #import "SHUtility.h"
 
 @interface SHVisitorProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
@@ -187,6 +188,7 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     [self.classesDataArray removeAllObjects];
     [self.classesDataArray addObjectsFromArray:classes];
     [SHUtility fetchObjectsInArray:self.classesDataArray];
+    self.currentRowsToDisplay = self.classesDataArray.count;
     
     //Huddle Data
     NSArray *huddles = self.segStudent[SHStudentHuddlesKey];
@@ -379,11 +381,20 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     if ([cell isKindOfClass:[SHHuddleCell class]] ) {
         SHHuddleCell *huddleCell = (SHHuddleCell *)cell;
         
-        
-        SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleCell.huddle];
-        NSLog(@"HEREHUDDDLle");
-        
-        [self.owner.navigationController pushViewController:huddleVC animated:YES];
+        //check to see if he is in the huddle
+        BOOL userInHuddle = [SHUtility user:[PFUser currentUser] isInHuddle:huddleCell.huddle];
+        if(userInHuddle)
+        {
+            SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleCell.huddle];
+            [self.owner.navigationController pushViewController:huddleVC animated:YES];
+
+        }
+        else
+        {
+            SHVisitorHuddleViewController *huddleVC = [[SHVisitorHuddleViewController alloc]initWithHuddle:huddleCell.huddle];
+            [self.owner.navigationController pushViewController:huddleVC animated:YES];
+        }
+      
         
     }
     else if ([cell isKindOfClass:[SHClassCell class]] ) {
@@ -405,6 +416,29 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
         [self.parentScrollView setScrollEnabled:YES];
         
     }
+    
+}
+
+-(float)getOccupatingHeight
+{
+    //check if its in study, classes or online
+    float cellHeight = 0;
+    switch (self.control.selectedSegmentIndex)
+    {
+        case 0:
+            cellHeight = SHStudyCellHeight;
+            break;
+        case 1:
+            cellHeight = SHClassCellHeight;
+            break;
+        case 2:
+            cellHeight = SHStudentCellHeight;
+            break;
+        default:
+            break;
+    }
+    
+    return cellHeight*self.currentRowsToDisplay;
     
 }
 

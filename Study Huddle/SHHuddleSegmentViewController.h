@@ -22,6 +22,7 @@
 - (id)initWithHuddle:(PFObject *)aHuddle;
 -(id)initWithHuddle:(PFObject *)aHuddle andInitialSection:(int)section;
 - (void)setHuddle:(PFObject *)aHuddle;
+-(float)getOccupatingHeight;
 - (BOOL)loadHuddleData;
 
 @end

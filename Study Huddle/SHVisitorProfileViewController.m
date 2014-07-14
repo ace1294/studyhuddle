@@ -182,13 +182,12 @@
     
     
     //set up scroll view
-    CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, self.view.bounds.size.height-self.navigationController.navigationBar.frame.size.height);
+    float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
+    CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, viewableHeight);
     self.scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
-    //self.scrollView.backgroundColor = [UIColor redColor];
     self.scrollView.delegate = self;
     CGSize sViewContentSize = scrollViewFrame.size;
-    float heightOfTop = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
-    sViewContentSize.height+=heightOfTop + 9999;
+    sViewContentSize.height+=(topPartSize);
     [self.scrollView setContentSize:sViewContentSize];
     [self.view addSubview:self.scrollView];
     
@@ -260,7 +259,32 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     
+    DZNSegmentedControl* control = self.segmentController.control;
+    
+    
+    
+    float heightOfTable = [self.segmentController getOccupatingHeight];
+    
     float distanceFromBottomToPortrait = topPartSize - (profileImageVerticalOffsetFromTop + self.profileImage.frame.size.height);
+    float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
+    
+    
+    
+    float normalHeight = viewableHeight + topPartSize;
+    float extraDistance = (heightOfTable + control.frame.size.height)-viewableHeight;
+    NSLog(@"extraDistance: %f",extraDistance);
+    if(extraDistance > 0)
+    {
+        CGSize contentSize = scrollView.contentSize;
+        contentSize.height =extraDistance + normalHeight;
+        [self.scrollView setContentSize:contentSize];
+    }
+    else
+    {
+        CGSize contentSize = scrollView.contentSize;
+        contentSize.height = normalHeight;
+        [self.scrollView setContentSize:contentSize];
+    }
     
     
     
@@ -272,24 +296,27 @@
     else
     {
         [self.view bringSubviewToFront:self.profileImage];
-        [self.view bringSubviewToFront:self.inviteToStudyButton];
         [self.view bringSubviewToFront:self.inviteToHuddleButton];
+        [self.view bringSubviewToFront:self.inviteToStudyButton];
     }
     
+    float distanceFromSegmentToTop = distanceFromBottomToPortrait + self.profileImage.frame.size.height + profileImageVerticalOffsetFromTop;
     
-    if(self.scrollView.contentOffset.y > distanceFromBottomToPortrait + self.profileImage.frame.size.height + profileImageVerticalOffsetFromTop )
+    if(self.scrollView.contentOffset.y > distanceFromSegmentToTop )
     {
+        float distanceMoved = scrollView.contentOffset.y - distanceFromSegmentToTop;
+        CGRect rect = control.frame;
+        rect.origin.y=distanceMoved;
+        [control setFrame:rect];
         NSLog(@"its at the top");
-        [self.segmentController.tableView setScrollEnabled:YES];
-        [self.scrollView setContentOffset:CGPointMake(0, distanceFromBottomToPortrait + self.profileImage.frame.size.height + profileImageVerticalOffsetFromTop)];
-        [self.scrollView setScrollEnabled:NO];
-        //[self.scrollView setBounces:NO];
+        //check to see if we should all the table to keep scrolling
+        
     }
-    
-    if(self.scrollView.contentOffset.y<0)
+    else
     {
-        NSLog(@"it moved down!!");
-        //[self.segmentController loadStudentData];
+        CGRect rect = control.frame;
+        rect.origin.y=0;
+        [control setFrame:rect];
     }
     
 }
@@ -302,134 +329,5 @@
 }
 
 
-
-
-
-/*
- - (void)scrollViewDidScroll:(UIScrollView *)scrollView
- {
- float distanceFromBottomToPicture = self.profileHeaderContainer.frame.origin.y + self.profileHeaderContainer.frame.size.height-self.profileImage.frame.origin.y - self.profileImage.frame.size.height;
- 
- NSLog(@"contentoffset: %f",scrollView.contentOffset.y);
- 
- if(scrollView.contentOffset.y>distanceFromBottomToPicture)
- {
- NSLog(@"its touching it!");
- [self.view bringSubviewToFront:self.scrollView];
- }
- else{
- [self.view bringSubviewToFront:self.profileImage];
- }
- 
- 
- if(scrollView.contentOffset.y>0 && !self.tableIsUp)
- {
- [scrollView setScrollEnabled:NO];
- [UIView animateWithDuration:5 animations:^{
- 
- scrollView.contentOffset = CGPointMake(0, self.profileHeaderContainer.frame.size.height);
- }
- completion:^ (BOOL finished)
- {
- if (finished) {
- NSLog(@"finished");
- [scrollView setScrollEnabled:YES];
- self.tableIsUp = YES;
- }
- }];
- 
- }
- else
- {
- [scrollView setScrollEnabled:NO];
- [UIView animateWithDuration:5 animations:^{
- 
- scrollView.contentOffset = CGPointMake(0, 0);
- }
- completion:^ (BOOL finished)
- {
- if (finished) {
- NSLog(@"finished");
- [scrollView setScrollEnabled:YES];
- self.tableIsUp = NO;
- }
- }];
- }
- 
- if(scrollView.contentOffset.y>self.profileHeaderContainer.frame.size.height)
- {
- NSLog(@"it got here");
- }
- 
- 
- }
- */
-
-/*
- - (void)scrollViewDidScroll:(UIScrollView *)scrollView
- {
- NSLog(@"content offset: %f",self.scrollView.contentOffset.y);
- float distanceFromBottomToPicture = self.profileHeaderContainer.frame.origin.y + self.profileHeaderContainer.frame.size.height-self.profileImage.frame.origin.y - self.profileImage.frame.size.height;
- 
- if(scrollView.contentOffset.y>distanceFromBottomToPicture)
- {
- // NSLog(@"its touching it!");
- [self.view bringSubviewToFront:self.scrollView];
- }
- else{
- [self.view bringSubviewToFront:self.profileImage];
- }
- 
- if(scrollView.contentOffset.y>0 && !self.inMiddleOfAnimation && !self.isGoingDown && !self.isUp)
- {
- self.inMiddleOfAnimation = YES;
- self.isGoingUp = YES;
- [self.scrollView setScrollEnabled:NO];
- [self.scrollView setContentOffset:CGPointMake(0, self.profileHeaderContainer.frame.size.height) withTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear] duration:0.5];
- }
- 
- NSLog(@"top: %f",self.profileHeaderContainer.frame.size.height);
- NSLog(@"current: %f",self.scrollView.contentOffset.y);
- 
- if(scrollView.contentOffset.y <= self.profileHeaderContainer.frame.size.height-20 && !self.inMiddleOfAnimation && !self.isGoingUp)
- {
- NSLog(@"going down");
- self.inMiddleOfAnimation = YES;
- self.isGoingDown = YES;
- [self.scrollView setScrollEnabled:NO];
- [self.scrollView setContentOffset:CGPointMake(0, 0) withTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear] duration:0.5];
- }
- 
- 
- 
- 
- 
- 
- 
- }
- 
- 
- - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
- {
- NSLog(@"animation ended");
- [self.scrollView setScrollEnabled:YES];
- self.inMiddleOfAnimation = NO;
- 
- self.isGoingUp = NO;
- self.isGoingDown = NO;
- 
- if(self.scrollView.contentOffset.y > 0) self.isUp = YES;
- else self.isUp = NO;
- }
- 
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

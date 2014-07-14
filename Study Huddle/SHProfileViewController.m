@@ -198,9 +198,7 @@
     self.scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
     self.scrollView.delegate = self;
     CGSize sViewContentSize = scrollViewFrame.size;
-    float heightOfTop = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
     sViewContentSize.height+=(topPartSize);
-    //sViewContentSize.height+=999999;
     [self.scrollView setContentSize:sViewContentSize];
     [self.view addSubview:self.scrollView];
     
