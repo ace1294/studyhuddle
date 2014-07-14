@@ -133,6 +133,7 @@
 {
     [self instantiateViews];
     self.tabBarController = [[UITabBarController alloc]init];
+    [[UITabBar appearance] setTintColor:[UIColor huddleOrange]];
     
     [self.profileController setStudent:(Student *)[Student currentUser]];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:self.profileNavigator, self.huddlesNavigator,self.searchNavigator,self.notificationNavigator ,nil];
@@ -187,7 +188,7 @@
     
 
     
-    self.searchController = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleObject]; //temporary for testing purposes
+    self.searchController = [[SHVisitorHuddleViewController alloc]initWithHuddle:huddleObject]; //temporary for testing purposes
     self.searchNavigator = [[UINavigationController alloc] initWithRootViewController:self.searchController];
     self.searchNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.searchNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];

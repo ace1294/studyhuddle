@@ -25,6 +25,7 @@
 
 - (void)setStudent:(Student *)aSegStudent;
 - (BOOL)loadStudentData;
+- (void)currentStudy:(PFObject *)study;
 
 -(float)getOccupatingHeight;
 

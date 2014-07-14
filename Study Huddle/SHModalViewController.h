@@ -21,6 +21,8 @@
 @property (strong, nonatomic) UIFont *headerFont;
 @property (strong, nonatomic) UIFont *buttonFont;
 
+- (void)initButtons;
+
 - (void)continueAction;
 - (void)cancelAction;
 - (void)moveUp: (BOOL)up height:(CGFloat)height;

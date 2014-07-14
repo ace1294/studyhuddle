@@ -64,9 +64,12 @@
 		41AF33BB1953B9A60008DF21 /* Option2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41AF33BA1953B9A60008DF21 /* Option2@2x.png */; };
 		41BD73381971E428006BEA9E /* selectPhotoBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 41BD73371971E428006BEA9E /* selectPhotoBtn.png */; };
 		41BD733A1971E42F006BEA9E /* selectPhotoBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 41BD73391971E42F006BEA9E /* selectPhotoBtn@2x.png */; };
+		41BD733D197352E5006BEA9E /* SHVisitorHuddleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41BD733C197352E5006BEA9E /* SHVisitorHuddleViewController.m */; };
 		41CD3AB3196CB206004AD6F0 /* SHTextBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB2196CB206004AD6F0 /* SHTextBar.m */; };
 		41CD3AB8196DB018004AD6F0 /* HPGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB5196DB018004AD6F0 /* HPGrowingTextView.m */; };
 		41CD3AB9196DB018004AD6F0 /* HPTextViewInternal.m in Sources */ = {isa = PBXBuildFile; fileRef = 41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */; };
+		96118AEE1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96118AED1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m */; };
+		96118AF11973497400201CB4 /* SHVisitorClassSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96118AF01973497400201CB4 /* SHVisitorClassSegmentViewController.m */; };
 		96368A7219452D0500E03E56 /* SHSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96368A7119452D0500E03E56 /* SHSignUpViewController.m */; };
 		96368A7719455C2A00E03E56 /* X_cancelbtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96368A7619455C2A00E03E56 /* X_cancelbtn@2x.png */; };
 		9638161619594BF30069D477 /* SHHuddleSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638161519594BF30069D477 /* SHHuddleSegmentViewController.m */; };
@@ -298,6 +301,8 @@
 		41AF33BA1953B9A60008DF21 /* Option2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Option2@2x.png"; sourceTree = "<group>"; };
 		41BD73371971E428006BEA9E /* selectPhotoBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selectPhotoBtn.png; sourceTree = "<group>"; };
 		41BD73391971E42F006BEA9E /* selectPhotoBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "selectPhotoBtn@2x.png"; sourceTree = "<group>"; };
+		41BD733B197352E5006BEA9E /* SHVisitorHuddleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHVisitorHuddleViewController.h; sourceTree = "<group>"; };
+		41BD733C197352E5006BEA9E /* SHVisitorHuddleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHVisitorHuddleViewController.m; sourceTree = "<group>"; };
 		41CD3AB1196CB206004AD6F0 /* SHTextBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHTextBar.h; sourceTree = "<group>"; };
 		41CD3AB2196CB206004AD6F0 /* SHTextBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHTextBar.m; sourceTree = "<group>"; };
 		41CD3AB4196DB018004AD6F0 /* HPGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPGrowingTextView.h; sourceTree = "<group>"; };
@@ -305,6 +310,10 @@
 		41CD3AB6196DB018004AD6F0 /* HPTextViewInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPTextViewInternal.h; sourceTree = "<group>"; };
 		41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPTextViewInternal.m; sourceTree = "<group>"; };
 		722FD8B7A2114808AD83CFDE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		96118AEC1973474200201CB4 /* SHVisitorHuddleSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHVisitorHuddleSegmentViewController.h; sourceTree = "<group>"; };
+		96118AED1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHVisitorHuddleSegmentViewController.m; sourceTree = "<group>"; };
+		96118AEF1973497400201CB4 /* SHVisitorClassSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHVisitorClassSegmentViewController.h; sourceTree = "<group>"; };
+		96118AF01973497400201CB4 /* SHVisitorClassSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHVisitorClassSegmentViewController.m; sourceTree = "<group>"; };
 		96368A7019452D0500E03E56 /* SHSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSignUpViewController.h; sourceTree = "<group>"; };
 		96368A7119452D0500E03E56 /* SHSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSignUpViewController.m; sourceTree = "<group>"; };
 		96368A7619455C2A00E03E56 /* X_cancelbtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "X_cancelbtn@2x.png"; sourceTree = "<group>"; };
@@ -677,6 +686,32 @@
 			name = tabBarItems;
 			sourceTree = "<group>";
 		};
+		96118AF219734A7600201CB4 /* Visitor */ = {
+			isa = PBXGroup;
+			children = (
+				96F429AC1957E7D200E74500 /* SHVisitorProfileSegmentViewController.h */,
+				96F429AA1957E7B400E74500 /* SHVisitorProfileSegmentViewController.m */,
+				96118AEC1973474200201CB4 /* SHVisitorHuddleSegmentViewController.h */,
+				96118AED1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m */,
+				96118AEF1973497400201CB4 /* SHVisitorClassSegmentViewController.h */,
+				96118AF01973497400201CB4 /* SHVisitorClassSegmentViewController.m */,
+			);
+			name = Visitor;
+			sourceTree = "<group>";
+		};
+		96118AF319734A7D00201CB4 /* Student */ = {
+			isa = PBXGroup;
+			children = (
+				96D9553E195CD2CA00667581 /* SHProfileSegmentViewController.h */,
+				96D9553F195CD2CA00667581 /* SHProfileSegmentViewController.m */,
+				9638161419594BF30069D477 /* SHHuddleSegmentViewController.h */,
+				9638161519594BF30069D477 /* SHHuddleSegmentViewController.m */,
+				96D955AB1960A76400667581 /* SHClassSegmentViewController.h */,
+				96D955AC1960A76400667581 /* SHClassSegmentViewController.m */,
+			);
+			name = Student;
+			sourceTree = "<group>";
+		};
 		9638163A195BD06C0069D477 /* navBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -744,6 +779,8 @@
 				96421CAA1970882900B5EC89 /* SHHuddleAddViewController.m */,
 				96381627195BC59A0069D477 /* SHHuddleViewController.h */,
 				96381625195BC5930069D477 /* SHHuddleViewController.m */,
+				41BD733B197352E5006BEA9E /* SHVisitorHuddleViewController.h */,
+				41BD733C197352E5006BEA9E /* SHVisitorHuddleViewController.m */,
 			);
 			name = "Huddle Pages";
 			sourceTree = "<group>";
@@ -1011,14 +1048,8 @@
 		96CBFA51194CF87A008B10CE /* Segment Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				96D9553E195CD2CA00667581 /* SHProfileSegmentViewController.h */,
-				96D9553F195CD2CA00667581 /* SHProfileSegmentViewController.m */,
-				96F429AC1957E7D200E74500 /* SHVisitorProfileSegmentViewController.h */,
-				96F429AA1957E7B400E74500 /* SHVisitorProfileSegmentViewController.m */,
-				9638161419594BF30069D477 /* SHHuddleSegmentViewController.h */,
-				9638161519594BF30069D477 /* SHHuddleSegmentViewController.m */,
-				96D955AB1960A76400667581 /* SHClassSegmentViewController.h */,
-				96D955AC1960A76400667581 /* SHClassSegmentViewController.m */,
+				96118AF319734A7D00201CB4 /* Student */,
+				96118AF219734A7600201CB4 /* Visitor */,
 				41365D6A19621B090057B8C9 /* SHNotificationSegmentViewController.h */,
 				41365D6B19621B090057B8C9 /* SHNotificationSegmentViewController.m */,
 				41A1943F196673BB0038AAA2 /* SHChatEntrySegmentViewController.h */,
@@ -1448,6 +1479,7 @@
 				41A1943E196672170038AAA2 /* SHChatEntryViewController.m in Sources */,
 				41AF3371194F65CD0008DF21 /* SHPortraitViewBaseViewController.m in Sources */,
 				96D955B71960BBA000667581 /* SHClassPageViewController.m in Sources */,
+				96118AEE1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m in Sources */,
 				4102611A196A09BC006F2CBF /* SHReplyBubble.m in Sources */,
 				96421CB719709D8300B5EC89 /* FPTouchView.m in Sources */,
 				96421CB619709D8300B5EC89 /* FPPopoverView.m in Sources */,
@@ -1494,6 +1526,7 @@
 				96D955B61960BBA000667581 /* SHAppDelegate.m in Sources */,
 				96F429821955265000E74500 /* SHNewHuddleViewController.m in Sources */,
 				41365D59196207610057B8C9 /* NSObject+Properties.m in Sources */,
+				96118AF11973497400201CB4 /* SHVisitorClassSegmentViewController.m in Sources */,
 				41AF336D194F65310008DF21 /* UIImagePickerController+Block.m in Sources */,
 				96D9559C195F3F5300667581 /* SHHuddlePortraitViewController.m in Sources */,
 				96566E36194510F6006649C3 /* main.m in Sources */,
@@ -1510,6 +1543,7 @@
 				96381621195BB2BA0069D477 /* SHResourceCell.m in Sources */,
 				96CABDEC19535B4500971394 /* SHUtility.m in Sources */,
 				96D95619196A34B800667581 /* SHModalViewController.m in Sources */,
+				41BD733D197352E5006BEA9E /* SHVisitorHuddleViewController.m in Sources */,
 				96D955D91961E4CB00667581 /* UIViewController+MJPopupViewController.m in Sources */,
 				41AF3350194CB1CF0008DF21 /* SHProfileHeaderViewController.m in Sources */,
 				96D955BC1960BBA800667581 /* SHVisitorProfileViewController.m in Sources */,

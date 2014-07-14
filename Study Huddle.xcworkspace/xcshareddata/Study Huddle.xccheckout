@@ -10,29 +10,29 @@
 	<string>Study Huddle</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>9074FD8B-C908-4A5B-B350-87B0D55D7F3D</key>
-		<string>https://github.com/ace1294/studyhuddle</string>
+		<key>50B8F332-1740-4569-94A7-4D37A12E38DF</key>
+		<string>ssh://github.com/ace1294/studyhuddle.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Study Huddle.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>9074FD8B-C908-4A5B-B350-87B0D55D7F3D</key>
+		<key>50B8F332-1740-4569-94A7-4D37A12E38DF</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/ace1294/studyhuddle</string>
+	<string>ssh://github.com/ace1294/studyhuddle.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>9074FD8B-C908-4A5B-B350-87B0D55D7F3D</string>
+	<string>50B8F332-1740-4569-94A7-4D37A12E38DF</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>9074FD8B-C908-4A5B-B350-87B0D55D7F3D</string>
+			<string>50B8F332-1740-4569-94A7-4D37A12E38DF</string>
 			<key>IDESourceControlWCCName</key>
 			<string>studyhuddle</string>
 		</dict>
