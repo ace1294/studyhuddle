@@ -216,7 +216,15 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     [self.requestsDataArray removeAllObjects];
     [self.requestsDataArray addObjectsFromArray:requests];
+    
+    PFQuery *requestQuery = [PFQuery queryWithClassName:SHRequestParseClass];
+    
+    [requestQuery whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    [self.requestsDataArray addObjectsFromArray:[requestQuery findObjects]];
+    
     [self.control setCount:[NSNumber numberWithInt:self.requestsDataArray.count] forSegmentAtIndex:1];
+    
+    
     
 
     [self.tableView reloadData];

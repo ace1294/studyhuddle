@@ -150,16 +150,16 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
 {
     [super viewWillAppear:animated];
     
-    if ([self.segStudent username])
-    {
-        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
-        {
-            [self loadDataFromDisk];
-            return;
-        }
-        
-        [self loadStudentData];
-    }
+//    if ([self.segStudent username])
+//    {
+//        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
+//        {
+//            [self loadDataFromDisk];
+//            return;
+//        }
+//        
+//        [self loadStudentData];
+//    }
     
 }
 
@@ -197,7 +197,7 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     
     [self.tableView reloadData];
     
-    [self saveDataToDisk];
+    //[self saveDataToDisk];
     
     return loadError;
 }
@@ -268,10 +268,10 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-//    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
         return SHHuddleCellHeight;
-//    else
-//        return SHClassCellHeight;
+    else
+        return SHStudyCellHeight;
 
 }
 

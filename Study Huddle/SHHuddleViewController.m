@@ -9,8 +9,13 @@
 #import "SHHuddleViewController.h"
 #import "SHHuddlePageCell.h"
 #import "SHConstants.h"
+#import "SHStudyInviteViewController.h"
+#import "SHNewResourceViewController.h"
+#import "SHVisitorProfileViewController.h"
+#import "SHIndividualHuddleviewController.h"
+#import "UIViewController+MJPopupViewController.h"
 
-@interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate, SHHuddlePageCellDelegate, SHModalViewControllerDelegate>
 
 @property (strong, nonatomic) Student* student;
 @property (strong, nonatomic) NSMutableArray *huddles;
@@ -46,20 +51,16 @@
         self.title = @"Huddles";
         self.tabBarItem.image = [UIImage imageNamed:@"huddles.png"];
         
-        
-        //set up the navigation options
-        
-        //settings button
-        UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(settingsPressed)];
-        UIImage* cogWheelImg = [UIImage imageNamed:@"cogwheel.png"];
-        [settingsButton setImage:cogWheelImg];
-        settingsButton.tintColor = [UIColor whiteColor];
-        self.navigationItem.rightBarButtonItem = settingsButton;
-        
         self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         [self.view addSubview:self.tableView];
+        
+        UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shBackground.png"]];
+        [tempImageView setFrame:self.tableView.frame];
+        
+        [self.tableView setBackgroundColor:[UIColor clearColor]];
+        self.tableView.backgroundView = tempImageView;
         
         
     }
@@ -121,8 +122,9 @@
      
     [cell setHuddle:huddleObject];
     
-    
-    
+    cell.backgroundColor = [UIColor clearColor];
+    [cell.mainView setBackgroundColor:[UIColor clearColor]];
+
     
     return cell;
     
@@ -130,9 +132,44 @@
 
 - (void)didTapTitleCell:(SHHuddlePageCell *)cell
 {
-    if ([cell isKindOfClass:[SHHuddlePageCell class]] ) {
-    }
+    SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:cell.huddle];
     
+    [self.navigationController pushViewController:huddleVC animated:YES];
+}
+
+#pragma mark - Huddle Page Cell Deleagte Methods
+
+
+
+- (void)didTapInviteToStudy:(PFObject *)huddle
+{
+    //SHStudyInviteViewController *studyInviteVC = [[SHStudyInviteViewController alloc]init]
+}
+
+-(void)didTapAddResource:(PFObject *)huddle
+{
+    SHNewResourceViewController *newResourceVC = [[SHNewResourceViewController alloc]initWithHuddle:huddle];
+    newResourceVC.delegate = self;
+    
+    [self presentPopupViewController:newResourceVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
+        //
+    }];
+    
+}
+
+- (void)didTapMember:(PFObject *)member
+{
+    SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)member];
+    
+    [self.navigationController pushViewController:visitorVC animated:YES];
+    
+}
+
+#pragma mark - Popup delegate methods
+
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 

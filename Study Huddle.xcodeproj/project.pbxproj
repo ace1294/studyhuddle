@@ -686,6 +686,7 @@
 		96118AF219734A7600201CB4 /* Visitor */ = {
 			isa = PBXGroup;
 			children = (
+				96F429AC1957E7D200E74500 /* SHVisitorProfileSegmentViewController.h */,
 				96F429AA1957E7B400E74500 /* SHVisitorProfileSegmentViewController.m */,
 				96118AEC1973474200201CB4 /* SHVisitorHuddleSegmentViewController.h */,
 				96118AED1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m */,
@@ -704,7 +705,6 @@
 				9638161519594BF30069D477 /* SHHuddleSegmentViewController.m */,
 				96D955AB1960A76400667581 /* SHClassSegmentViewController.h */,
 				96D955AC1960A76400667581 /* SHClassSegmentViewController.m */,
-				96F429AC1957E7D200E74500 /* SHVisitorProfileSegmentViewController.h */,
 			);
 			name = Student;
 			sourceTree = "<group>";

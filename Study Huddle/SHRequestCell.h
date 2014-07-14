@@ -22,14 +22,10 @@
 
 #define denyX acceptX+requestButtonWidth+horiElemSpacing
 
-@protocol SHRequestCellDelegate <NSObject>
+@protocol SHRequestCellDelegate <SHBaseCellDelegate>
 @optional
 
-/*!
- Sent to the delegate when the activity button is tapped
- @param activity the PFObject of the activity that was tapped
- */
-- (void)didTapAcceptCell:(SHRequestCell *)cell;
-- (void)didTapDenyCell:(SHRequestCell *)cell;
+- (void)didTapAccept:(SHRequestCell *)cell;
+- (void)didTapDeny:(SHRequestCell *)cell;
 
 @end

@@ -21,7 +21,8 @@
 @property (strong, nonatomic) UIButton *addResouceButton;
 
 //Members
-@property (strong, nonatomic) NSMutableDictionary *memberPortraits;
+@property (strong, nonatomic) NSMutableArray *memberPortraits;
+@property (strong, nonatomic) NSMutableArray *memberObjects;
 
 @end
 
@@ -35,8 +36,11 @@
 #define buttonWidth 175.0
 #define buttonHeight 30.0
 
-#define inviteStudyX huddlePortraitX+huddlePortraitDim+horiViewSpacing
-#define inviteStudyY 36.0
+#define huddleTitleX huddlePortraitX+huddlePortraitDim+horiViewSpacing
+#define huddleTitleY huddlePortraitY
+
+#define inviteStudyX huddleTitleX
+#define inviteStudyY 40.0
 
 #define addResourceX inviteStudyX
 #define addResourceY inviteStudyY+buttonHeight+vertElemSpacing
@@ -52,8 +56,14 @@
         
         [self initButtons];
         
+        self.memberObjects = [[NSMutableArray alloc]init];
+        self.memberPortraits = [[NSMutableArray alloc]init];
+        
+        
+        
         [self.arrowButton setHidden:YES];
         
+                
     }
     return self;
 }
@@ -61,7 +71,6 @@
 - (void)initButtons
 {
     [self.titleButton.titleLabel setFont:[UIFont fontWithName:@"Arial" size:18.0]];
-    
     
     self.huddlePortrait = [[SHPortraitView alloc] initWithFrame:CGRectMake(huddlePortraitX, huddlePortraitY, huddlePortraitDim, huddlePortraitDim)];
     [self.huddlePortrait setBackgroundColor:[UIColor clearColor]];
@@ -71,7 +80,7 @@
 
     
     self.askToStudyButton = [[UIButton alloc] initWithFrame:CGRectMake(inviteStudyX, inviteStudyY, buttonWidth, buttonHeight)];
-    [self.askToStudyButton setBackgroundColor:[UIColor clearColor]];
+    [self.askToStudyButton setBackgroundColor:[UIColor whiteColor]];
     [self.askToStudyButton setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
     //[self.askToStudyButton setTitleColor:[UIColor huddleOrangeAlpha] forState:UIControlStateHighlighted];
     [self.askToStudyButton.titleLabel setFont: self.titleFont];
@@ -79,11 +88,11 @@
     [self.askToStudyButton.layer setBorderColor:[UIColor huddleOrange].CGColor];
     self.askToStudyButton.layer.cornerRadius = 3;
     [self.askToStudyButton setTitle:@"Invite to Study" forState:UIControlStateNormal];
-    [self.askToStudyButton addTarget:self action:@selector(didTapAskStudyAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.askToStudyButton addTarget:self action:@selector(didTapInviteToStudyAction) forControlEvents:UIControlEventTouchUpInside];
     [self.mainView addSubview:self.askToStudyButton];
     
     self.addResouceButton = [[UIButton alloc] initWithFrame:CGRectMake(addResourceX, addResourceY, buttonWidth, buttonHeight)];
-    [self.addResouceButton setBackgroundColor:[UIColor clearColor]];
+    [self.addResouceButton setBackgroundColor:[UIColor whiteColor]];
     [self.addResouceButton setTitleColor:[UIColor huddlePurple] forState:UIControlStateNormal];
     //[self.addResouceButton setTitleColor:[UIColor huddleOrangeAlpha] forState:UIControlStateHighlighted];
     [self.addResouceButton.titleLabel setFont: self.titleFont];
@@ -102,16 +111,36 @@
     for (PFObject *student in students)
     {
         [student fetchIfNeeded];
+        [self.memberObjects addObject:student];
+        
         SHPortraitView *memberPortrait = [[SHPortraitView alloc] initWithFrame:CGRectMake(memberPortraitX + ((memberPortraitDim+horiBorderSpacing)*(i%5)), memberPortraitY + ((memberPortraitDim+vertBorderSpacing)*(i/5)), memberPortraitDim, memberPortraitDim)];
         [memberPortrait setBackgroundColor:[UIColor clearColor]];
         [memberPortrait setOpaque:YES];
         [memberPortrait setFile:student[SHStudentImageKey]];
         [memberPortrait.profileButton addTarget:self action:@selector(didTapMemberAction:) forControlEvents:UIControlEventTouchUpInside];
+        memberPortrait.profileButton.tag = i;
+        [self.memberPortraits addObject:memberPortrait];
         [self.mainView addSubview:memberPortrait];
         
         
         i++;
     }
+    
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+    [self.mainView setFrame:CGRectMake(0.0, self.contentView.frame.origin.y, self.contentView.frame.size.width, self.contentView.frame.size.height)];
+    
+    CGSize titleSize = [self.titleButton.titleLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
+                                                                      options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                                   attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Arial" size:18]}
+                                                                      context:nil].size;
+    
+    
+    CGFloat offset = (buttonWidth-titleSize.width)/2;
+    [self.titleButton setFrame:CGRectMake(huddleTitleX+offset, huddleTitleY, titleSize.width, titleSize.height)];
     
 }
 
@@ -123,26 +152,30 @@
     
     [self setMembers:aHuddle[SHHuddleMembersKey]];
     
+    [self.titleButton setTitle:aHuddle[SHHuddleNameKey] forState:UIControlStateNormal];
     
+    [self layoutSubviews];
 }
 
 
 
 #pragma mark - Actions
 
-- (void)didTapAskStudyAction
+- (void)didTapInviteToStudyAction
 {
-    NSLog(@"ASK to STUDY");
+    [self.delegate didTapInviteToStudy:self.huddle];
 }
 
 - (void)didTapAddResourceAction
 {
-    NSLog(@"Add resource");
+    [self.delegate didTapAddResource:self.huddle];
 }
 
 - (void)didTapMemberAction:(id)sender
 {
-    NSLog(@"member Tapped");
+    PFObject *member = self.memberObjects[[sender tag]];
+    
+    [self.delegate didTapMember:member];
 }
 
 @end
