@@ -386,6 +386,16 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
         [self.owner.navigationController pushViewController:huddleVC animated:YES];
         
     }
+    else if ([cell isKindOfClass:[SHClassCell class]] ) {
+//        SHHuddleCell *huddleCell = (SHHuddleCell *)cell;
+//        
+//        
+//        SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleCell.huddle];
+//        NSLog(@"HEREHUDDDLle");
+//        
+//        [self.owner.navigationController pushViewController:huddleVC animated:YES];
+        
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

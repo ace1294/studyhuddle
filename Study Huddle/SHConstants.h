@@ -109,16 +109,26 @@ extern NSString *const SHRequestHSInviteStudy;
 //Notifications
 extern NSString* const SHNotificationTitleKey;
 extern NSString* const SHNotificationDescriptionKey;
-extern NSString* const SHNotificationHuddleResource;
-extern NSString* const SHNotificationNewMember;
-extern NSString* const SHNotificationAnswer;
-extern NSString* const SHNotificationHuddleStartedStudying;
 extern NSString* const SHNotificationHuddleKey;
 extern NSString* const SHNotificationStudentKey;
 extern NSString* const SHNotificationClassKey;
 extern NSString* const SHNotificationTypeKey;
 extern NSString* const SHNotificationReadKey;
 extern NSString* const SHNotificationDateKey;
+
+//Notification types
+extern NSString* const SHNotificationHuddleResource;
+extern NSString* const SHNotificationNewMember;
+extern NSString* const SHNotificationAnswer;
+extern NSString* const SHNotificationHuddleStartedStudying;
+extern NSString* const SHNotificationStudentAcceptedStudyRequest;
+
+//Notification Titles
+extern NSString* const SHAcceptedStudyInviteTitle;
+extern NSString* const SHNewHuddleResourceTitle;
+extern NSString* const SHNewHuddleMemberTitle;
+extern NSString* const SHAnswerStudentsQuestionTitle;
+extern NSString* const SHHuddleStartedStudyingTitle;
 
 //Chat Category
 extern NSString* const SHChatCategoryNameKey;

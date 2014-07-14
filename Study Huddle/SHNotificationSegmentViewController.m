@@ -57,6 +57,7 @@
 static NSString* const NotificationDiskKey = @"notificationArray";
 static NSString* const RequestsDiskKey = @"requestsArray";
 
+
 - (id)initWithStudent:(Student *)student
 {
     self = [super init];
@@ -413,7 +414,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationStudentKey] = request[SHRequestStudent1Key];
         notification[SHNotificationTitleKey] = student2[SHStudentNameKey];
-        notification[SHNotificationDescriptionKey] = @"Accepted study invite";
+        notification[SHNotificationTypeKey] = SHNotificationStudentAcceptedStudyRequest;
+        notification[SHNotificationDescriptionKey] = SHAcceptedStudyInviteTitle;
         
         [notification saveInBackground];
         
