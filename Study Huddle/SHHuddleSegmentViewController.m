@@ -30,7 +30,7 @@
 
 
 
-@interface SHHuddleSegmentViewController () <SHBaseCellDelegate, SHAddCellDelegate, UINavigationControllerDelegate>
+@interface SHHuddleSegmentViewController () <SHBaseCellDelegate, SHAddCellDelegate, UINavigationControllerDelegate, SHStudentSearchDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 
@@ -465,12 +465,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         self.searchVC = [[SHStudentSearchViewController alloc]init];
         self.searchVC.navigationController.delegate = self;
         self.searchVC.type = @"NewMember";
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didDismissWithNewMember)
-                                                     name:@"AddMemberDismissed"
-                                                   object:nil];
-        
+        self.searchVC.delegate = self;
         [self.owner presentViewController:self.searchVC animated:YES completion:nil];
         
     }
@@ -486,14 +481,6 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 
     }
     
-    
-}
-
-
-- (void)presentNewResource
-{
-    NSLog(@"IN THE SEGEMENTNTNTNTJDSHF$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    [self presentPopupViewController:self.addResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 #pragma mark - Popup delegate methods
@@ -506,25 +493,31 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 
 
 
-#pragma mark - UINavigationControllerDelegate
+#pragma mark - SHStudentSearchDelgate
 
-- (void)didDismissWithNewMember
-{
+- (void)didAddMember:(PFObject *)member
+{  
+    PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
+    request[SHRequestTitleKey] = self.segHuddle[SHHuddleNameKey];
+    request[SHRequestHuddleKey] = self.segHuddle;
     
-    if(self.searchVC.addedMember)
-    {
-        [self.navigationController.navigationBar setHidden:NO];
-        [self.membersDataArray addObject:self.searchVC.addedMember];
+    if([[Student currentUser] isEqual:self.segHuddle[SHHuddleCreatorKey]]){
+        request[SHRequestTypeKey] = SHRequestHSJoin;
+        request[SHRequestStudent1Key] = self.searchVC.addedMember;
         
-        [self.segHuddle addObject:self.searchVC.addedMember forKey:SHHuddleMembersKey];
         
-        [self.segHuddle save];
         
-        [self.tableView reloadData];
+    } else {
+        //Send creator request to
+        request[SHRequestTypeKey] = SHRequestSCJoin;
+        request[SHRequestStudent1Key] = self.segHuddle[SHHuddleCreatorKey];
+        request[SHRequestStudent2Key] = self.searchVC.addedMember;
+        request[SHRequestStudent3Key] = [Student currentUser];
         
-        //PFObject *request = [PFObject objectWithClassName:]
+        
         
     }
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

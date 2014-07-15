@@ -45,6 +45,7 @@ extern NSString *const SHClassStudentsKey;
 extern NSString *const SHClassHuddlesKey;
 
 //Huddle
+extern NSString *const SHHuddleCreatorKey;
 extern NSString *const SHHuddleNameKey;
 extern NSString *const SHHuddleMembersKey;
 extern NSString *const SHHuddleClassKey;
@@ -96,6 +97,7 @@ extern NSString *const SHRequestTypeKey;
 extern NSString *const SHRequestHuddleKey;
 extern NSString *const SHRequestStudent1Key;
 extern NSString *const SHRequestStudent2Key;
+extern NSString *const SHRequestStudent3Key;
 extern NSString *const SHRequestLocationKey;
 extern NSString *const SHRequestTimeKey;
 extern NSString *const SHRequestDescriptionKey;
@@ -104,7 +106,7 @@ extern NSString *const SHRequestDescriptionKey;
 extern NSString *const SHRequestSSInviteStudy;
 extern NSString *const SHRequestSHJoin;
 extern NSString *const SHRequestHSJoin;
-extern NSString *const SHRequestHSInviteStudy;
+extern NSString *const SHRequestSCJoin;
 
 //Notifications
 extern NSString* const SHNotificationTitleKey;
@@ -115,20 +117,24 @@ extern NSString* const SHNotificationClassKey;
 extern NSString* const SHNotificationTypeKey;
 extern NSString* const SHNotificationReadKey;
 extern NSString* const SHNotificationDateKey;
+extern NSString* const SHNotificationRequestAcceptedKey;
 
 //Notification types
-extern NSString* const SHNotificationHuddleResource;
-extern NSString* const SHNotificationNewMember;
-extern NSString* const SHNotificationAnswer;
-extern NSString* const SHNotificationHuddleStartedStudying;
-extern NSString* const SHNotificationStudentAcceptedStudyRequest;
+extern NSString* const SHNotificationHuddleResourceType;
+extern NSString* const SHNotificationNewHuddleMemberType;
+extern NSString* const SHNotificationAnswerType;
+extern NSString* const SHNotificationHuddleStartedStudyingType;
+extern NSString* const SHNotificationSSStudyRequestType;
+extern NSString* const SHNotificationSHJoinRequestType;
+extern NSString* const SHNotificationHSJoinRequestType;
+extern NSString* const SHNotificationSCJoinRequestType;
+extern NSString* const SHNotificationHSStudyRequestType;
 
-//Notification Titles
-extern NSString* const SHAcceptedStudyInviteTitle;
-extern NSString* const SHNewHuddleResourceTitle;
-extern NSString* const SHNewHuddleMemberTitle;
-extern NSString* const SHAnswerStudentsQuestionTitle;
-extern NSString* const SHHuddleStartedStudyingTitle;
+//Notification Descriptions
+extern NSString* const SHSSAcceptedStudyInviteRequestTitle;
+extern NSString* const SHSSDeniedStudyInviteRequestTitle;
+extern NSString* const SHSHAcceptedJoinRequestTitle;
+extern NSString* const SHSHDeniedJoinRequestTitle;
 
 //Chat Category
 extern NSString* const SHChatCategoryNameKey;

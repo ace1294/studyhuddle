@@ -170,9 +170,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
     else if([self.type isEqual:@"NewMember"]){
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"AddMemberDismissed"
-                                                            object:nil
-                                                          userInfo:nil];
+        [self.delegate didAddMember:object];
         
         [self dismissViewControllerAnimated:YES completion:nil];
     }

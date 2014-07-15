@@ -377,22 +377,22 @@ static NSString* const RequestsDiskKey = @"requestsArray";
        PFObject* notificationObject = [notificationCell getNotificationObj];
        
        //check the type of notification
-       if([notificationObject[SHNotificationTypeKey] isEqualToString:SHNotificationNewMember])
-       {
-           PFObject* huddleObject = notificationObject[SHNotificationHuddleKey];
-           [huddleObject fetchIfNeeded];
-           SHIndividualHuddleviewController* newHuddleView = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleObject andInitialSection:0];
-           
-           [self.navigationController pushViewController:newHuddleView animated:YES];
-       }
-       else if([notificationObject[SHNotificationTypeKey] isEqualToString:SHNotificationHuddleStartedStudying])
-       {
-           PFObject* huddleObject = notificationObject[SHNotificationHuddleKey];
-           [huddleObject fetchIfNeeded];
-           SHIndividualHuddleviewController* indvHuddle = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleObject];
-           
-           [self.navigationController pushViewController:indvHuddle animated:NO];
-       }
+//       if([notificationObject[SHNotificationTypeKey] isEqualToString:SHNotificationNewMember])
+//       {
+//           PFObject* huddleObject = notificationObject[SHNotificationHuddleKey];
+//           [huddleObject fetchIfNeeded];
+//           SHIndividualHuddleviewController* newHuddleView = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleObject andInitialSection:0];
+//           
+//           [self.navigationController pushViewController:newHuddleView animated:YES];
+//       }
+//       else if([notificationObject[SHNotificationTypeKey] isEqualToString:SHNotificationHuddleStartedStudying])
+//       {
+//           PFObject* huddleObject = notificationObject[SHNotificationHuddleKey];
+//           [huddleObject fetchIfNeeded];
+//           SHIndividualHuddleviewController* indvHuddle = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleObject];
+//           
+//           [self.navigationController pushViewController:indvHuddle animated:NO];
+//       }
        
 
    }
@@ -408,32 +408,243 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     if([type isEqualToString:SHRequestSSInviteStudy])
     {
+        //Student 2 accepted Student 1's request to study
+        
         PFObject *student2 = request[SHRequestStudent2Key];
         [student2 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationStudentKey] = request[SHRequestStudent1Key];
         notification[SHNotificationTitleKey] = student2[SHStudentNameKey];
-        notification[SHNotificationTypeKey] = SHNotificationStudentAcceptedStudyRequest;
-        notification[SHNotificationDescriptionKey] = SHAcceptedStudyInviteTitle;
+        notification[SHNotificationTypeKey] = SHNotificationSSStudyRequestType;
+        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
+        notification[SHNotificationDescriptionKey] = SHSSAcceptedStudyInviteRequestTitle;
         
         [notification saveInBackground];
         
     } else if([type isEqualToString:SHRequestSHJoin])
     {
+        //Huddle Creator accepted Student1's request to join Huddle
         
-    } else if([type isEqualToString:SHRequestHSInviteStudy])
-    {
+        PFObject *huddle = request[SHRequestHuddleKey];
+        [huddle fetchIfNeeded];
+        
+        PFObject *student1 = request[SHRequestStudent1Key];
+        [student1 fetchIfNeeded];
+        
+        [student1 addObject:huddle forKey:SHStudentHuddlesKey];
+        [huddle addObject:student1 forKey:SHHuddleMembersKey];
+        [student1 saveInBackground];
+        [huddle saveInBackground];
+        
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationStudentKey] = student1;
+        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationSHJoinRequestType;
+        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
+        notification[SHNotificationDescriptionKey] = SHSHAcceptedJoinRequestTitle;
+        
+        [notification saveInBackground];
+        
+        for(Student *member in huddle[SHHuddleMembersKey])
+        {
+            if([member isEqual:huddle[SHHuddleCreatorKey]])
+                continue;
+            
+            PFObject *memberNotification = [PFObject objectWithClassName:SHNotificationParseClass];
+            
+            [member fetchIfNeeded];
+            memberNotification[SHNotificationStudentKey] = member;
+            memberNotification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+            memberNotification[SHNotificationTypeKey] = SHNotificationNewHuddleMemberType;
+            
+            NSString *description = [NSString stringWithFormat:@"%@ added to huddle", student1[SHStudentNameKey]];
+            memberNotification[SHNotificationDescriptionKey] = description;
+            
+            [memberNotification saveInBackground];
+        }
+        
         
     } else if([type isEqualToString:SHRequestHSJoin])
     {
+        
+        PFObject *huddle = request[SHRequestHuddleKey];
+        [huddle fetchIfNeeded];
+        
+        PFObject *student1 = request[SHRequestStudent1Key];
+        [student1 fetchIfNeeded];
+        
+        [student1 addObject:huddle forKey:SHStudentHuddlesKey];
+        [huddle addObject:student1 forKey:SHHuddleMembersKey];
+        
+        [student1 saveInBackground];
+        [huddle saveInBackground];
+        
+        PFObject *creator = huddle[SHHuddleCreatorKey];
+        //[creator fetchIfNeeded];
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationStudentKey] = creator;
+        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationHSJoinRequestType;
+        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
+        
+        NSString *description = [NSString stringWithFormat:@"%@ accepted request to join huddle", student1[SHStudentNameKey]];
+        notification[SHNotificationDescriptionKey] = description;
+        
+        [notification saveInBackground];
+        
+        
+        for(Student *member in huddle[SHHuddleMembersKey])
+        {
+            PFObject *memberNotification = [PFObject objectWithClassName:SHNotificationParseClass];
+            
+            [member fetchIfNeeded];
+            memberNotification[SHNotificationStudentKey] = member;
+            memberNotification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+            memberNotification[SHNotificationTypeKey] = SHNotificationNewHuddleMemberType;
+            memberNotification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
+            
+            NSString *description = [NSString stringWithFormat:@"%@ added to huddle", student1[SHStudentNameKey]];
+            memberNotification[SHNotificationDescriptionKey] = description;
+            
+            [memberNotification saveInBackground];
+        }
+        
+    } else if([type isEqualToString:SHRequestSCJoin])
+    {
+        PFObject *huddle = request[SHRequestHuddleKey];
+        [huddle fetchIfNeeded];
+        
+        PFObject *student1 = request[SHRequestStudent1Key];
+        [student1 fetchIfNeeded];
+        
+        PFObject *student2 = request[SHRequestStudent2Key];
+        [student1 fetchIfNeeded];
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationStudentKey] = request[SHRequestStudent3Key];
+        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationSCJoinRequestType;
+        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
+        
+        NSString *description = [NSString stringWithFormat:@"%@ sent a request to %@", student1[SHStudentNameKey], student2[SHStudentNameKey]];
+        notification[SHNotificationDescriptionKey] = description;
+        
+        [notification saveInBackground];
+        
+        PFObject *newRequest = [PFObject objectWithClassName:SHRequestParseClass];
+    
+        newRequest[SHRequestTitleKey] = huddle[SHHuddleNameKey];
+        newRequest[SHRequestHuddleKey] = huddle;
+        newRequest[SHRequestTypeKey] = SHRequestHSJoin;
+        newRequest[SHRequestStudent1Key] = request[SHRequestStudent2Key];
+        newRequest[SHRequestStudent2Key] = request[SHRequestStudent3Key];
         
     }
 }
 
 - (void)didTapDeny:(PFObject *)request
 {
-    NSLog(@"DNEY");
+    NSString *type = request[SHRequestTypeKey];
+    
+    if([type isEqualToString:SHRequestSSInviteStudy])
+    {
+        //Student 2 denied Student 1's request to study
+        
+        PFObject *student2 = request[SHRequestStudent2Key];
+        [student2 fetchIfNeeded];
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationStudentKey] = request[SHRequestStudent1Key];
+        notification[SHNotificationTitleKey] = student2[SHStudentNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationSSStudyRequestType;
+        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
+        notification[SHNotificationDescriptionKey] = SHSSDeniedStudyInviteRequestTitle;
+        
+        [notification saveInBackground];
+        
+    } else if([type isEqualToString:SHRequestSHJoin])
+    {
+        //Huddle Creator denied Student1's request to join Huddle
+        
+        PFObject *huddle = request[SHRequestHuddleKey];
+        [huddle fetchIfNeeded];
+        
+        PFObject *student1 = request[SHRequestStudent1Key];
+        [student1 fetchIfNeeded];
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationStudentKey] = student1;
+        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationSHJoinRequestType;
+        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
+        notification[SHNotificationDescriptionKey] = SHSHDeniedJoinRequestTitle;
+        
+        [notification saveInBackground];
+        
+        
+    } else if([type isEqualToString:SHRequestHSJoin])
+    {
+        //Student1 denied Huddle's request to Join
+        
+        PFObject *huddle = request[SHRequestHuddleKey];
+        [huddle fetchIfNeeded];
+        
+        PFObject *creator = huddle[SHHuddleCreatorKey];
+        [creator fetchIfNeeded];
+        
+        PFObject *student1 = request[SHRequestStudent1Key];
+        [student1 fetchIfNeeded];
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationStudentKey] = creator;
+        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationHSJoinRequestType;
+        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
+        
+        NSString *description = [NSString stringWithFormat:@"%@ denied request to join huddle", student1[SHStudentNameKey]];
+        notification[SHNotificationDescriptionKey] = description;
+        
+        [notification saveInBackground];
+        
+        if(request[SHRequestStudent2Key]){
+            PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+            notification[SHNotificationStudentKey] = request[SHRequestStudent2Key];
+            notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+            notification[SHNotificationTypeKey] = SHNotificationHSJoinRequestType;
+            notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
+            
+            NSString *description = [NSString stringWithFormat:@"%@ denied request to join huddle", student1[SHStudentNameKey]];
+            notification[SHNotificationDescriptionKey] = description;
+            
+            [notification saveInBackground];
+        }
+        
+        
+    } else if([type isEqualToString:SHRequestSCJoin])
+    {
+        PFObject *huddle = request[SHRequestHuddleKey];
+        [huddle fetchIfNeeded];
+        
+        PFObject *student1 = request[SHRequestStudent1Key];
+        [student1 fetchIfNeeded];
+        
+        PFObject *student2 = request[SHRequestStudent2Key];
+        [student1 fetchIfNeeded];
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationStudentKey] = request[SHRequestStudent3Key];
+        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationSCJoinRequestType;
+        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
+        
+        NSString *description = [NSString stringWithFormat:@"%@ denied your request to admit %@", student1[SHStudentNameKey], student2[SHStudentNameKey]];
+        notification[SHNotificationDescriptionKey] = description;
+        
+        [notification saveInBackground];
+    }
 }
 
 

@@ -104,9 +104,6 @@
     } else if([type isEqualToString:SHRequestSHJoin])
     {
         
-    } else if([type isEqualToString:SHRequestHSInviteStudy])
-    {
-        
     } else if([type isEqualToString:SHRequestHSJoin])
     {
         

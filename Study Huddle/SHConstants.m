@@ -50,6 +50,7 @@ NSString *const SHClassStudentsKey = @"students";
 NSString *const SHClassHuddlesKey = @"huddles";
 
 //Huddle
+NSString *const SHHuddleCreatorKey = @"creator";
 NSString *const SHHuddleNameKey = @"huddleName";
 NSString *const SHHuddleMembersKey = @"huddleMembers";
 NSString *const SHHuddleClassKey = @"huddleClass";
@@ -102,6 +103,7 @@ NSString *const SHRequestHuddleKey = @"huddle";
 NSString *const SHRequestTypeKey = @"type";
 NSString *const SHRequestStudent1Key = @"student1";
 NSString *const SHRequestStudent2Key = @"student2";
+NSString *const SHRequestStudent3Key = @"student3";
 NSString *const SHRequestLocationKey = @"location";
 NSString *const SHRequestTimeKey = @"time";
 NSString *const SHRequestDescriptionKey = @"description";
@@ -111,7 +113,7 @@ NSString *const SHRequestDescriptionKey = @"description";
 NSString *const SHRequestSSInviteStudy = @"SSInviteStudy";
 NSString *const SHRequestSHJoin = @"SHJoin";
 NSString *const SHRequestHSJoin = @"HSJoin";
-NSString *const SHRequestHSInviteStudy = @"HSInviteStudy";
+NSString *const SHRequestSCJoin = @"SCJoin";
 
 //Notifications
 NSString* const SHNotificationTitleKey = @"title";
@@ -122,20 +124,24 @@ NSString* const SHNotificationClassKey = @"class";
 NSString* const SHNotificationTypeKey = @"type";
 NSString* const SHNotificationReadKey = @"read";
 NSString* const SHNotificationDateKey = @"createdAt";
+NSString* const SHNotificationRequestAcceptedKey = @"requestAccepted";
 
 //Notification Types
-NSString* const SHNotificationHuddleResource = @"huddleResource";
-NSString* const SHNotificationNewMember = @"huddleNewMember";
-NSString* const SHNotificationAnswer = @"answerToQuestion";
-NSString* const SHNotificationHuddleStartedStudying = @"huddleStartsStudying";
-NSString* const SHNotificationStudentAcceptedStudyRequest = @"studentAcceptedStudyRequest";
+NSString* const SHNotificationHuddleResourceType = @"huddleResource";
+NSString* const SHNotificationNewHuddleMemberType = @"huddleNewMember";
+NSString* const SHNotificationAnswerType = @"answerToQuestion";
+NSString* const SHNotificationHuddleStartedStudyingType = @"huddleStartsStudying";
+NSString* const SHNotificationSSStudyRequestType = @"ssStudyRequest";
+NSString* const SHNotificationSHJoinRequestType = @"shJoinRequest";
+NSString* const SHNotificationHSJoinRequestType = @"hsJoinRequest";
+NSString* const SHNotificationSCJoinRequestType = @"scJoinRequest";
+NSString* const SHNotificationHSStudyRequestType = @"hsStudyRequest";
 
-//Notification Titles
-NSString* const SHAcceptedStudyInviteTitle = @"Accepted study invite";
-NSString* const SHNewHuddleResourceTitle = @"";
-NSString* const SHNewHuddleMemberTitle = @"";
-NSString* const SHAnswerStudentsQuestionTitle = @"";
-NSString* const SHHuddleStartedStudyingTitle = @"";
+//Notification Descriptions
+NSString* const SHSSAcceptedStudyInviteRequestTitle = @"Student accepted study invite";
+NSString* const SHSSDeniedStudyInviteRequestTitle = @"Student denied study invite";
+NSString* const SHSHAcceptedJoinRequestTitle = @"Huddle accepted request to join";
+NSString* const SHSHDeniedJoinRequestTitle = @"Huddle denied request to join";
 
 //Thread
 NSString* const SHThreadTitle = @"title";
