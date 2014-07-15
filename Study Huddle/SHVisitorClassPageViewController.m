@@ -190,14 +190,20 @@
     NSMutableArray* classesArray = [[NSMutableArray alloc]initWithArray:currentUser[SHStudentClassesKey]];
     [classesArray addObject:self.classObj];
     currentUser[SHStudentClassesKey] = classesArray;
-    [currentUser saveInBackground];
+    [currentUser save];
     
     //add it to the classes students array
-    NSMutableArray* studentsArray = [[NSMutableArray alloc]initWithArray:self.classObj[SHClassStudentsKey]];
-    [studentsArray addObject:currentUser];
-    self.classObj[SHClassStudentsKey] = studentsArray;
-    [self.classObj saveInBackground];
- 
+   // [self.classObj addObject:currentUser forKey:SHClassStudentsKey];
+    
+    NSString* currentUserId = [currentUser objectId];
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    PFObject* student = [query getObjectWithId:currentUserId];
+    [self.classObj addObject:student forKey:SHClassStudentsKey];
+    [self.classObj save];
+
+  
+  
+    
     SHClassPageViewController* classVC = [[SHClassPageViewController alloc]initWithClass:self.classObj];
     NSMutableArray* navControllers = [[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
     [navControllers insertObject:classVC atIndex:navControllers.count-1];

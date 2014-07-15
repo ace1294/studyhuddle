@@ -59,6 +59,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
         self.docsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         self.docsPath = [self.docsPath stringByAppendingPathComponent:@"classSegment"];
+        
     }
     return self;
 }
@@ -134,7 +135,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 {
     BOOL loadError = true;
     
-    [self.segClass fetch];
+    [self.segClass fetchIfNeeded];
     
     //Student Dataa
     NSArray *students = [self.segClass objectForKey:SHClassStudentsKey];

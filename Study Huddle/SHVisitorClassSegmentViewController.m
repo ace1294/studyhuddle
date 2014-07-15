@@ -36,6 +36,7 @@
         _segClass = aClass;
         
         self.segMenu = [[NSArray alloc]initWithObjects:@"STUDENTS", nil];
+        [aClass saveInBackground];
         
     }
     return self;
@@ -92,7 +93,7 @@
 {
     BOOL loadError = true;
     
-    [self.segClass fetch];
+    [self.segClass fetchIfNeeded];
     
     //Student Dataa
     NSArray *students = [self.segClass objectForKey:SHClassStudentsKey];

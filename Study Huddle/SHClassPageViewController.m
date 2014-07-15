@@ -82,6 +82,8 @@
     [super viewDidLoad];
     [self.classObj fetchIfNeeded];
     
+    //save it because it might be returning from the visitor class
+    [self.classObj saveInBackground];
     
     float bottomOfNavBar = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
     //float middleHeight = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
@@ -191,27 +193,16 @@
     
     //remove it to the current users classes array
     PFUser* currentUser = [PFUser currentUser];
-    NSArray* classesArray = [[NSArray alloc]initWithArray:currentUser[SHStudentClassesKey]];
-    NSMutableArray* newClassesArray = [[NSMutableArray alloc]init];
-    for (PFObject* classObject in classesArray)
-    {
-        if(![[classObject objectId]isEqual:[self.classObj objectId]])
-            [newClassesArray addObject:classObject];
-    }
-    currentUser[SHStudentClassesKey] = newClassesArray;
+    [currentUser removeObject:self.classObj forKey:SHStudentClassesKey];
     [currentUser saveInBackground];
     
     //remove the user from the classes students array
-    NSArray* studentsArray = [[NSArray alloc]initWithArray:self.classObj[SHClassStudentsKey]];
-    NSMutableArray* newStudentsArray = [[NSMutableArray alloc]init];
-    for (PFObject* student in studentsArray)
-    {
-        if(![[student objectId]isEqual:[currentUser objectId]])
-            [newStudentsArray addObject:student];
-    }
-    self.classObj[SHClassStudentsKey] = newStudentsArray;
-    [self.classObj saveInBackground];
-    
+    NSString* currentUserId = [currentUser objectId];
+    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
+    PFObject* student = [query getObjectWithId:currentUserId];
+    [self.classObj removeObject:student forKey:SHClassStudentsKey];
+    [self.classObj save];
+
     
     SHVisitorClassPageViewController* classVC = [[SHVisitorClassPageViewController alloc]initWithClass:self.classObj];
     NSMutableArray* navControllers = [[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
