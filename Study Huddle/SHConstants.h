@@ -120,7 +120,7 @@ extern NSString* const SHNotificationDateKey;
 extern NSString* const SHNotificationRequestAcceptedKey;
 
 //Notification types
-extern NSString* const SHNotificationHuddleResourceType;
+extern NSString* const SHNotificationNewResourceType;
 extern NSString* const SHNotificationNewHuddleMemberType;
 extern NSString* const SHNotificationAnswerType;
 extern NSString* const SHNotificationHuddleStartedStudyingType;

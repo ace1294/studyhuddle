@@ -41,7 +41,7 @@
 
 
 #define aboutHeaderY firstHeader
-#define descriptionHeaderY 140.0
+#define descriptionHeaderY 145.0
 #define categoryHeaderY 275.0
 
 #define resourceNameY documentY+10.0

@@ -172,7 +172,7 @@
     
     //Document
     self.documentView = [[SHDocumentView alloc] initWithFrame:CGRectMake(horiViewSpacing, documentY, documentWidth, documentHeight)];
-    self.documentView.owner = self;
+    self.documentView.owner = self.parentViewController;
    
     [self.view addSubview:self.documentView];
 
@@ -210,50 +210,7 @@
     
     view.layer.mask = shape;
 }
-
-//- (void)textFieldDidBeginEditing:(UITextField *)textField
-//{
-//    [self animateTextField: textField up: YES];
-//}
-//
-//
-//- (void)textFieldDidEndEditing:(UITextField *)textField
-//{
-//    [self animateTextField: textField up: NO];
-//}
-//
-//-(BOOL)textFieldShouldReturn:(UITextField *)textField
-//{
-//    [self animateTextField: textField up: NO];
-//    
-//    [self resignFirstResponder];
-//    
-//    return true;
-//}
-
-//- (void) animateTextField: (UITextField*) textField up: (BOOL) up
-//{
-//    const int movementDistance = 110; // tweak as needed
-//    const float movementDuration = 0.3f; // tweak as needed
-//    
-//    int movement = (up ? -movementDistance : movementDistance);
-//    
-//    [UIView beginAnimations: @"anim" context: nil];
-//    [UIView setAnimationBeginsFromCurrentState: YES];
-//    [UIView setAnimationDuration: movementDuration];
-//    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
-//    [UIView commitAnimations];
-//    
-//    textField.userInteractionEnabled = NO;
-//    
-//    self.selectedCategory = textField.text;
-//    
-//    UIButton *button = [self.categoryButtons objectForKey: [NSNumber numberWithInt:([self.categoryButtons count]-1)]];
-//                        
-//    button.titleLabel.text = self.selectedCategory;
-//    
-//    [self.huddle addObject:self.selectedCategory forKey:SHHuddleResourcesKey];
-//    //[self.huddle saveInBackground];
+//[self.huddle saveInBackground];
 //}
 
 #pragma mark - Text View Delegate
@@ -268,18 +225,22 @@
     return YES;
 }
 
-- (void)didTapContinue
-{
-    [self create];
-}
 
-- (void)didTapCancel
-{
-    [self cancel];
-}
+#pragma mark - Super Class
 
-- (void)create
+- (void)continueAction
 {
+    self.selectedCategory = self.categoryButtons.selectedButton;
+    
+    if (!self.selectedCategory) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
+                                                        message: @"Must select a category"
+                                                       delegate: nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     PFObject *newResource = [PFObject objectWithClassName:SHResourceParseClass];
     newResource[SHResourceNameKey] = self.resourceTitleField.text;
     newResource[SHResourceHuddleKey] = self.huddle;
@@ -304,21 +265,34 @@
         PFQuery *categoryQuery = [PFQuery queryWithClassName:SHResourceCategoryParseClass];
         [categoryQuery whereKey:SHResourceCategoryNameKey equalTo:self.selectedCategory];
         [categoryQuery whereKey:SHResourceCategoryHuddleKey equalTo:self.huddle];
-        NSArray *cateogory = [categoryQuery findObjects];
+        NSArray *category = [categoryQuery findObjects];
         
-        newResource[SHResourceCategoryKey] = cateogory[0];
+        newResource[SHResourceCategoryKey] = category[0];
     }
     
     [newResource saveInBackground];
     
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+    [self cancelAction];
+    
+    for(Student *member in self.huddle[SHHuddleMembersKey])
+    {
+        if ([[member objectId] isEqual:[[Student currentUser] objectId]])
+            continue;
+        
+        PFObject *memberNotification = [PFObject objectWithClassName:SHNotificationParseClass];
+        
+        [member fetchIfNeeded];
+        memberNotification[SHNotificationStudentKey] = member;
+        memberNotification[SHNotificationTitleKey] = self.huddle[SHHuddleNameKey];
+        memberNotification[SHNotificationTypeKey] = SHNotificationNewResourceType;
+        
+        NSString *description = [NSString stringWithFormat:@"%@ added a new resource", [Student currentUser][SHStudentNameKey]];
+        memberNotification[SHNotificationDescriptionKey] = description;
+        
+        [memberNotification saveInBackground];
+    }
     
 }
 
-- (void)cancel
-{
-    NSLog(@"CANCELLING");
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
-}
 
 @end

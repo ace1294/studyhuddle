@@ -127,7 +127,7 @@ NSString* const SHNotificationDateKey = @"createdAt";
 NSString* const SHNotificationRequestAcceptedKey = @"requestAccepted";
 
 //Notification Types
-NSString* const SHNotificationHuddleResourceType = @"huddleResource";
+NSString* const SHNotificationNewResourceType = @"newResource";
 NSString* const SHNotificationNewHuddleMemberType = @"huddleNewMember";
 NSString* const SHNotificationAnswerType = @"answerToQuestion";
 NSString* const SHNotificationHuddleStartedStudyingType = @"huddleStartsStudying";

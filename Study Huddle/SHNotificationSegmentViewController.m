@@ -221,12 +221,28 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [self.requestsDataArray removeAllObjects];
     [self.requestsDataArray addObjectsFromArray:requests];
     
-    PFQuery *requestQuery = [PFQuery queryWithClassName:SHRequestParseClass];
+    PFQuery *ssInviteStudy = [PFQuery queryWithClassName:SHRequestParseClass];
+    PFQuery *shJoin = [PFQuery queryWithClassName:SHRequestParseClass];
+    PFQuery *hsJoin = [PFQuery queryWithClassName:SHRequestParseClass];
+    PFQuery *scJoin = [PFQuery queryWithClassName:SHRequestParseClass];
     
-    [requestQuery whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
-    [self.segStudent addUniqueObjectsFromArray:[requestQuery findObjects] forKey:SHStudentRequestsKey];
+    [ssInviteStudy whereKey:SHRequestTypeKey equalTo:SHRequestSSInviteStudy];
+    [ssInviteStudy whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    
+    [shJoin whereKey:SHRequestTypeKey equalTo:SHRequestSHJoin];
+    [shJoin whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    
+    [hsJoin whereKey:SHRequestTypeKey equalTo:SHRequestHSJoin];
+    [hsJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    
+    [scJoin whereKey:SHRequestTypeKey equalTo:SHRequestSCJoin];
+    [scJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[ssInviteStudy,shJoin,hsJoin,scJoin]];
+    
+    [self.segStudent addUniqueObjectsFromArray:[query findObjects] forKey:SHStudentRequestsKey];
     [self.segStudent saveInBackground];
-    [self.requestsDataArray addObjectsFromArray:[requestQuery findObjects]];
+    [self.requestsDataArray addObjectsFromArray:[query findObjects]];
     
     [self.control setCount:[NSNumber numberWithInt:self.requestsDataArray.count] forSegmentAtIndex:1];
     
@@ -541,6 +557,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         newRequest[SHRequestTypeKey] = SHRequestHSJoin;
         newRequest[SHRequestStudent1Key] = request[SHRequestStudent2Key];
         newRequest[SHRequestStudent2Key] = request[SHRequestStudent3Key];
+        
+        [newRequest saveInBackground];
         
     }
 }

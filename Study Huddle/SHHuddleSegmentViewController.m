@@ -518,6 +518,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
     }
     
+    [request saveInBackground];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

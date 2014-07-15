@@ -9,6 +9,7 @@
 #import "SHRequestCell.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
+#import "Student.h"
 
 @interface SHRequestCell ()
 
@@ -85,13 +86,10 @@
     
     NSString *type = aRequest[SHRequestTypeKey];
     
+    [self.titleButton setTitle:aRequest[SHRequestTitleKey] forState:UIControlStateNormal];
+    
     if([type isEqualToString:SHRequestSSInviteStudy])
     {
-        PFObject *student1 = aRequest[SHRequestStudent1Key];
-        [student1 fetchIfNeeded];
-        
-        [self.titleButton setTitle:student1[SHStudentNameKey] forState:UIControlStateNormal];
-        
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"hh:mm a"];
         NSString *timeString = [formatter stringFromDate:aRequest[SHRequestTimeKey]];
@@ -103,10 +101,23 @@
         
     } else if([type isEqualToString:SHRequestSHJoin])
     {
+        Student *student1 = aRequest[SHRequestStudent1Key];
+        [student1 fetchIfNeeded];
         
+        [self.descriptionLabel setText:[NSString stringWithFormat:@"%@ requested to join the huddle", student1[SHStudentNameKey]]];
     } else if([type isEqualToString:SHRequestHSJoin])
     {
+        [self.descriptionLabel setText:@"Request you to join their huddle"];
         
+    } else if([type isEqualToString:SHRequestSCJoin])
+    {
+        Student *student2 = aRequest[SHRequestStudent2Key];
+        Student *student3 = aRequest[SHRequestStudent3Key];
+        
+        [student2 fetchIfNeeded];
+        [student3 fetchIfNeeded];
+        
+        [self.descriptionLabel setText:[NSString stringWithFormat:@"%@ requested to add %@", student3[SHStudentNameKey], student2[SHStudentNameKey]]];
     }
     
     
