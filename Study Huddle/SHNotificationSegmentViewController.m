@@ -185,6 +185,9 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [notificationQuery whereKey:SHNotificationStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
     [notifications addObjectsFromArray:[notificationQuery findObjects]];
     
+    [self.segStudent addUniqueObjectsFromArray:[notificationQuery findObjects] forKey:SHStudentNotificationsKey];
+    [self.segStudent saveInBackground];
+    
     //sort them based on date created
     NSArray *sortedArray;
     sortedArray = [notifications sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
