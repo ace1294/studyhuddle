@@ -11,15 +11,10 @@
 #import "SHProfileSegmentViewController.h"
 #import "UIColor+HuddleColors.h"
 #import "SHNotificationCell.h"
-#import "SHHuddleCell.h"
-#import "SHClassCell.h"
 #import "SHRequestCell.h"
-#import "SHAddCell.h"
 #import "SHConstants.h"
 #import "Student.h"
-#import "SHStudentCell.h"
 #import "SHNewHuddleViewController.h"
-#import "SHStudyCell.h"
 #import "PFACL+NSCoding.h"
 #import "PFFile+NSCoding.h"
 #import "PFObject+NSCoding.h"
@@ -28,8 +23,9 @@
 #import "SHVisitorProfileViewController.h"
 #import "SHClassPageViewController.h"
 #import "SHIndividualHuddleviewController.h"
+#import "SHUtility.h"
 
-@interface SHNotificationSegmentViewController () <SHAddCellDelegate, SHRequestCellDelegate>
+@interface SHNotificationSegmentViewController () <SHRequestCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) Student *segStudent;
@@ -212,7 +208,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [self.notificationsDataArray removeAllObjects];
     [self.notificationsDataArray addObjectsFromArray:sortedArray];
 
-    
+    //[SHUtility fetchObjectsInArray:self.notificationsDataArray];
     
     [self.control setCount:[NSNumber numberWithInt:self.notificationsDataArray.count] forSegmentAtIndex:0];
     
@@ -246,6 +242,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [self.segStudent addUniqueObjectsFromArray:[query findObjects] forKey:SHStudentRequestsKey];
     [self.segStudent saveInBackground];
     [self.requestsDataArray addObjectsFromArray:[query findObjects]];
+    
+    //[SHUtility fetchObjectsInArray:self.requestsDataArray];
     
     [self.control setCount:[NSNumber numberWithInt:self.requestsDataArray.count] forSegmentAtIndex:1];
     
@@ -346,7 +344,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
-    NSLog(@"selected segment index: %d",self.control.selectedSegmentIndex);
 
     if([CellIdentifier isEqual:SHNotificationCellIdentifier])
     {
@@ -370,6 +367,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         PFObject* requestObject = [self.requestsDataArray objectAtIndex:(int)indexPath.row];
         SHRequestCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        
+        [requestObject fetchIfNeeded];
         
         cell.delegate = self;
         
@@ -414,6 +413,9 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 //       }
        
 
+   } else if ([cell isKindOfClass:[SHNotificationCell class]] )
+   {
+       
    }
     
     
@@ -564,6 +566,14 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [newRequest saveInBackground];
         
     }
+    
+    
+    [self.segStudent removeObject:request forKey:SHStudentRequestsKey];
+    [self.requestsDataArray removeObject:request];
+    [request deleteInBackground];
+    
+    self.currentRowsToDisplay--;
+    [self.tableView reloadData];
 }
 
 - (void)didTapDeny:(PFObject *)request
@@ -666,6 +676,13 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
         [notification saveInBackground];
     }
+    
+    [self.segStudent removeObject:request forKey:SHStudentRequestsKey];
+    [self.requestsDataArray removeObject:request];
+    [request deleteInBackground];
+    
+    self.currentRowsToDisplay--;
+    [self.tableView reloadData];
 }
 
 

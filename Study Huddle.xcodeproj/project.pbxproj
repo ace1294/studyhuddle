@@ -101,6 +101,9 @@
 		96421CC01970A84300B5EC89 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CBD1970A84300B5EC89 /* WYPopoverController.m */; };
 		96421CC11970A84300B5EC89 /* WYStoryboardPopoverSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CBF1970A84300B5EC89 /* WYStoryboardPopoverSegue.m */; };
 		96421CC419718F2500B5EC89 /* SHHuddlePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CC319718F2500B5EC89 /* SHHuddlePageCell.m */; };
+		9653593619758ABE00ADA134 /* SHHuddleStartStudyingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9653593519758ABE00ADA134 /* SHHuddleStartStudyingViewController.m */; };
+		9653593A197597F200ADA134 /* SHSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96535939197597F200ADA134 /* SHSearchViewController.m */; };
+		9653593D1975AC0000ADA134 /* SHHuddleJoinRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9653593C1975AC0000ADA134 /* SHHuddleJoinRequestViewController.m */; };
 		96566E2A194510F6006649C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E29194510F6006649C3 /* Foundation.framework */; };
 		96566E2C194510F6006649C3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E2B194510F6006649C3 /* CoreGraphics.framework */; };
 		96566E2E194510F6006649C3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E2D194510F6006649C3 /* UIKit.framework */; };
@@ -369,6 +372,12 @@
 		96421CBF1970A84300B5EC89 /* WYStoryboardPopoverSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYStoryboardPopoverSegue.m; sourceTree = "<group>"; };
 		96421CC219718F2500B5EC89 /* SHHuddlePageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddlePageCell.h; sourceTree = "<group>"; };
 		96421CC319718F2500B5EC89 /* SHHuddlePageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddlePageCell.m; sourceTree = "<group>"; };
+		9653593419758ABE00ADA134 /* SHHuddleStartStudyingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleStartStudyingViewController.h; sourceTree = "<group>"; };
+		9653593519758ABE00ADA134 /* SHHuddleStartStudyingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleStartStudyingViewController.m; sourceTree = "<group>"; };
+		96535938197597F200ADA134 /* SHSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSearchViewController.h; sourceTree = "<group>"; };
+		96535939197597F200ADA134 /* SHSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSearchViewController.m; sourceTree = "<group>"; };
+		9653593B1975AC0000ADA134 /* SHHuddleJoinRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleJoinRequestViewController.h; sourceTree = "<group>"; };
+		9653593C1975AC0000ADA134 /* SHHuddleJoinRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleJoinRequestViewController.m; sourceTree = "<group>"; };
 		96566E26194510F6006649C3 /* Study Huddle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Study Huddle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96566E29194510F6006649C3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		96566E2B194510F6006649C3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -590,10 +599,7 @@
 			children = (
 				96D95617196A34B800667581 /* SHModalViewController.h */,
 				96D95618196A34B800667581 /* SHModalViewController.m */,
-				96F429801955265000E74500 /* SHNewHuddleViewController.h */,
-				96F429811955265000E74500 /* SHNewHuddleViewController.m */,
-				96D95627196F4FBC00667581 /* SHHuddleInviteViewController.h */,
-				96D95628196F4FBC00667581 /* SHHuddleInviteViewController.m */,
+				9653593319758AAD00ADA134 /* Huddle */,
 				96421C971970548A00B5EC89 /* Thread */,
 				96D95620196DD17000667581 /* Study */,
 				96D955A71960A02D00667581 /* Resource */,
@@ -835,6 +841,32 @@
 			name = Popover;
 			sourceTree = "<group>";
 		};
+		9653593319758AAD00ADA134 /* Huddle */ = {
+			isa = PBXGroup;
+			children = (
+				96F429801955265000E74500 /* SHNewHuddleViewController.h */,
+				96F429811955265000E74500 /* SHNewHuddleViewController.m */,
+				96D95627196F4FBC00667581 /* SHHuddleInviteViewController.h */,
+				96D95628196F4FBC00667581 /* SHHuddleInviteViewController.m */,
+				9653593419758ABE00ADA134 /* SHHuddleStartStudyingViewController.h */,
+				9653593519758ABE00ADA134 /* SHHuddleStartStudyingViewController.m */,
+				9653593B1975AC0000ADA134 /* SHHuddleJoinRequestViewController.h */,
+				9653593C1975AC0000ADA134 /* SHHuddleJoinRequestViewController.m */,
+			);
+			name = Huddle;
+			sourceTree = "<group>";
+		};
+		96535937197597D100ADA134 /* Class Pages */ = {
+			isa = PBXGroup;
+			children = (
+				96D955B01960BBA000667581 /* SHClassPageViewController.h */,
+				96D955B11960BBA000667581 /* SHClassPageViewController.m */,
+				41BD734419736B5E006BEA9E /* SHVisitorClassPageViewController.h */,
+				41BD734519736B5E006BEA9E /* SHVisitorClassPageViewController.m */,
+			);
+			name = "Class Pages";
+			sourceTree = "<group>";
+		};
 		96566E1D194510F6006649C3 = {
 			isa = PBXGroup;
 			children = (
@@ -885,14 +917,13 @@
 			children = (
 				96D955AE1960BBA000667581 /* SHAppDelegate.h */,
 				96D955AF1960BBA000667581 /* SHAppDelegate.m */,
-				96D955B01960BBA000667581 /* SHClassPageViewController.h */,
-				96D955B11960BBA000667581 /* SHClassPageViewController.m */,
-				41BD734419736B5E006BEA9E /* SHVisitorClassPageViewController.h */,
-				41BD734519736B5E006BEA9E /* SHVisitorClassPageViewController.m */,
+				96535937197597D100ADA134 /* Class Pages */,
 				96421C961970547400B5EC89 /* Huddle Pages */,
 				96421C951970546200B5EC89 /* Profile */,
 				41365D61196211100057B8C9 /* SHNotificationViewController.h */,
 				41365D62196211100057B8C9 /* SHNotificationViewController.m */,
+				96535938197597F200ADA134 /* SHSearchViewController.h */,
+				96535939197597F200ADA134 /* SHSearchViewController.m */,
 				96566E7A1945166E006649C3 /* Categories */,
 				96CBFA3B194CC1A9008B10CE /* Views */,
 				41AF32E3194A7C000008DF21 /* Controllers */,
@@ -1497,6 +1528,7 @@
 				96D95592195F3F0900667581 /* SHBasePortraitView.m in Sources */,
 				41365D6C19621B090057B8C9 /* SHNotificationSegmentViewController.m in Sources */,
 				96381635195BC6530069D477 /* SHVisibilitySetting.m in Sources */,
+				9653593D1975AC0000ADA134 /* SHHuddleJoinRequestViewController.m in Sources */,
 				96F4297C1954F2A200E74500 /* SHStudyCell.m in Sources */,
 				41A1943E196672170038AAA2 /* SHChatEntryViewController.m in Sources */,
 				41AF3371194F65CD0008DF21 /* SHPortraitViewBaseViewController.m in Sources */,
@@ -1508,6 +1540,7 @@
 				96D955A6196085A600667581 /* SHCategoryCell.m in Sources */,
 				96CBFA4A194CE878008B10CE /* SHRequestCell.m in Sources */,
 				96D95593195F3F0900667581 /* SHHuddlePortraitView.m in Sources */,
+				9653593619758ABE00ADA134 /* SHHuddleStartStudyingViewController.m in Sources */,
 				41CD3AB8196DB018004AD6F0 /* HPGrowingTextView.m in Sources */,
 				41AF336E194F65310008DF21 /* UIImagePickerController+Edit.m in Sources */,
 				96D9559D195F3F5300667581 /* SHProfilePortraitViewController.m in Sources */,
@@ -1572,6 +1605,7 @@
 				96D955F21964A0DA00667581 /* SHDocumentView.m in Sources */,
 				96D95616196A345900667581 /* SHStartStudyingViewController.m in Sources */,
 				41AF3376194F65FC0008DF21 /* SHPortraitViewBase.m in Sources */,
+				9653593A197597F200ADA134 /* SHSearchViewController.m in Sources */,
 				96D955B81960BBA000667581 /* SHIndividualHuddleviewController.m in Sources */,
 				96F429A01956ACDC00E74500 /* SHPortraitView.m in Sources */,
 				410261171968BEC0006F2CBF /* SHQuestionBubble.m in Sources */,

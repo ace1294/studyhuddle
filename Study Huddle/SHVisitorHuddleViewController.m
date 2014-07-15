@@ -25,8 +25,7 @@
 #import "WYPopoverController.h"
 #import "SHNewResourceViewController.h"
 #import "SHStudentSearchViewController.h"
-
-
+#import "SHHuddleJoinRequestViewController.h"
 
 
 #define profileImageWidth 100
@@ -238,7 +237,10 @@
 
 -(void)requestToJoinPressed
 {
-    NSLog(@"request to join not implemented yet");
+    SHHuddleJoinRequestViewController *joinRequestVC = [[SHHuddleJoinRequestViewController alloc]initWithHuddle:self.indvHuddle];
+    joinRequestVC.delegate = self;
+    
+    [self presentPopupViewController:joinRequestVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 
@@ -306,6 +308,13 @@
         [control setFrame:rect];
     }
     
+}
+
+#pragma mark - Popup delegate methods
+
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 

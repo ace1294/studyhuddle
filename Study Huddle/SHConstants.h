@@ -117,6 +117,7 @@ extern NSString* const SHNotificationClassKey;
 extern NSString* const SHNotificationTypeKey;
 extern NSString* const SHNotificationReadKey;
 extern NSString* const SHNotificationDateKey;
+extern NSString* const SHNotificationLocationKey;
 extern NSString* const SHNotificationRequestAcceptedKey;
 
 //Notification types
