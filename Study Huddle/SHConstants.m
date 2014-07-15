@@ -124,6 +124,7 @@ NSString* const SHNotificationClassKey = @"class";
 NSString* const SHNotificationTypeKey = @"type";
 NSString* const SHNotificationReadKey = @"read";
 NSString* const SHNotificationDateKey = @"createdAt";
+NSString* const SHNotificationLocationKey = @"location";
 NSString* const SHNotificationRequestAcceptedKey = @"requestAccepted";
 
 //Notification Types
@@ -136,6 +137,9 @@ NSString* const SHNotificationSHJoinRequestType = @"shJoinRequest";
 NSString* const SHNotificationHSJoinRequestType = @"hsJoinRequest";
 NSString* const SHNotificationSCJoinRequestType = @"scJoinRequest";
 NSString* const SHNotificationHSStudyRequestType = @"hsStudyRequest";
+
+
+//SHHuddleStartStudyingViewController
 
 //Notification Descriptions
 NSString* const SHSSAcceptedStudyInviteRequestTitle = @"Student accepted study invite";

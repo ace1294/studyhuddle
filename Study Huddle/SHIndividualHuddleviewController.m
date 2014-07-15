@@ -17,7 +17,8 @@
 #import "WYPopoverController.h"
 #import "SHNewResourceViewController.h"
 #import "SHStudentSearchViewController.h"
-
+#import "SHHuddleStartStudyingViewController.h"
+#import "UIViewController+MJPopupViewController.h"
 
 
 #define profileImageWidth 100
@@ -328,6 +329,11 @@
     }
     else
     {
+        SHHuddleStartStudyingViewController *studyVC = [[SHHuddleStartStudyingViewController alloc]initWithHuddle:self.indvHuddle];
+        studyVC.delegate = self;
+        
+        [self presentPopupViewController:studyVC animationType:MJPopupViewAnimationSlideBottomBottom];
+        
         //the user will start studying
         self.lastStart = [NSDate date];
         self.indvHuddle[@"lastStudyDate"] = self.lastStart;

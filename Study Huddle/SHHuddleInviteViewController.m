@@ -122,6 +122,8 @@
     [huddleQuery whereKey:SHHuddleNameKey equalTo:self.huddleButtons.selectedButton];
     [huddleQuery whereKey:SHHuddleMembersKey equalTo:self.student];
     self.request[SHRequestHuddleKey] = [huddleQuery findObjects][0];
+    //self.request[shrequest]
+    
     
     [self.request saveInBackground];
     
