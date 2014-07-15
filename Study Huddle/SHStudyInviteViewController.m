@@ -47,6 +47,7 @@
         [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         
         self.request = [PFObject objectWithClassName:SHRequestParseClass];
+        self.request[SHRequestTitleKey] = aStudent1[SHStudentNameKey];
         self.request[SHRequestTypeKey] = SHRequestSSInviteStudy;
         self.request[SHRequestStudent1Key] = aStudent1;
         self.request[SHRequestStudent2Key] = aStudent2;
