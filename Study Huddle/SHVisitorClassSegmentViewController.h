@@ -10,6 +10,7 @@
 
 #import "SHClassPageViewController.h"
 #import "DZNSegmentedControl.h"
+#import "SHVisitorClassPageViewController.h"
 #import <Parse/Parse.h>
 @class Student;
 
@@ -19,7 +20,7 @@
 @property (nonatomic, strong) DZNSegmentedControl *control;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic,strong) UIScrollView* parentScrollView;
-@property (nonatomic, strong) SHClassPageViewController *owner;
+@property (nonatomic, strong) SHVisitorClassPageViewController *owner;
 
 - (id)initWithClass:(PFObject *)aClass;
 

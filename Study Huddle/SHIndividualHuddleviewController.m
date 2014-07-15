@@ -134,7 +134,8 @@
 {
     [super viewDidLoad];
     
-    
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.topItem.title = @"";
     
     
     //important coordinates

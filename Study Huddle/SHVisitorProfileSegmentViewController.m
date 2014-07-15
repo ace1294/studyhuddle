@@ -23,6 +23,8 @@
 #import "SHVisitorProfileViewController.h"
 #import "SHIndividualHuddleviewController.h"
 #import "SHVisitorHuddleViewController.h"
+#import "SHVisitorClassPageViewController.h"
+#import "SHClassPageViewController.h"
 #import "SHUtility.h"
 
 @interface SHVisitorProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
@@ -398,13 +400,20 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
         
     }
     else if ([cell isKindOfClass:[SHClassCell class]] ) {
-//        SHHuddleCell *huddleCell = (SHHuddleCell *)cell;
-//        
-//        
-//        SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleCell.huddle];
-//        NSLog(@"HEREHUDDDLle");
-//        
-//        [self.owner.navigationController pushViewController:huddleVC animated:YES];
+        
+        SHClassCell *classCell = (SHClassCell *)cell;
+        BOOL userInClass = [SHUtility user:[PFUser currentUser] isInClass:classCell.huddleClass];
+        if(userInClass)
+        {
+            SHClassPageViewController* classPage = [[SHClassPageViewController alloc]initWithClass:classCell.huddleClass];
+           [self.owner.navigationController pushViewController:classPage animated:YES];
+        }
+        else
+        {
+            SHVisitorClassPageViewController* classPage = [[SHVisitorClassPageViewController alloc]initWithClass:classCell.huddleClass];
+            [self.owner.navigationController pushViewController:classPage animated:YES];
+        }
+
         
     }
 }

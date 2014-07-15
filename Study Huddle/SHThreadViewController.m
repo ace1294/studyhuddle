@@ -111,6 +111,9 @@
     
     self.state = SHQuestioning;
     
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.topItem.title = @"";
+    
     //that scroll view
     CGRect scrollViewFrame = self.view.frame;
     scrollViewFrame.size.height -= (replyTextFieldHeight);

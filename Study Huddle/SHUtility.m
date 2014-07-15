@@ -205,4 +205,13 @@
     return false;
 }
 
++(BOOL)user: (PFUser*)user isInClass: (PFObject*)classObject
+{
+    NSArray* userClasses = user[SHStudentClassesKey];
+    for (PFObject* userClass in userClasses)
+        if([[classObject objectId]isEqual:[userClass objectId]])
+            return true;
+    return false;
+}
+
 @end

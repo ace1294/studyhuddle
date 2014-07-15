@@ -112,7 +112,8 @@
 {
     [super viewDidLoad];
     
-    
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.topItem.title = @"";
     
     
     //important coordinates
@@ -122,7 +123,7 @@
     //float middleHeight = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
     
     //background
-    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"background.png"]];
+    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shBackground.png"]];
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
     

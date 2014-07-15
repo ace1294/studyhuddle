@@ -291,6 +291,9 @@
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
         self.startStudyingLabel.text = @"START STUDYING";
     }
+    
+    [self.segmentController loadStudentData];
+    
 }
 
 -(void)setStudy

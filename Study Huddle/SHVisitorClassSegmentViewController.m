@@ -197,7 +197,8 @@
 - (void)didTapTitleCell:(SHBaseTextCell *)cell
 {
     SHStudentCell *studentCell = (SHStudentCell *)cell;
-        
+    
+
     SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
         
         

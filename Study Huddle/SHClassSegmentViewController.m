@@ -150,7 +150,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     [self.huddlesData setObject:huddles forKey:@"both"];
     [SHUtility separateOnlineOfflineData:self.huddlesData forOnlineKey:SHHuddleStudyingKey];
     [SHUtility fetchObjectsInArray:[self.huddlesData objectForKey:@"both"]];
-    
+    self.currentRowsToDisplay = [[self.huddlesData objectForKey:@"both"] count];
     //Chat
     
     [self.tableView reloadData];
@@ -220,8 +220,11 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 {
     return self.currentRowsToDisplay;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+
     CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
     
     
@@ -252,7 +255,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         PFObject *huddleObject;
         SHHuddleCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        if(indexPath.row < [[self.huddlesData objectForKey:@"online"]count]){
+        if(indexPath.row+1 <= [[self.huddlesData objectForKey:@"online"]count]){
             huddleObject = [[self.huddlesData objectForKey:@"online"] objectAtIndex:(int)indexPath.row];
             [cell setOnline];
             
@@ -291,7 +294,6 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 
 - (void)didTapTitleCell:(SHBaseTextCell *)cell
 {
-    NSLog(@"GOT HERERE");
     
     if ([cell isKindOfClass:[SHStudentCell class]] ) {
         SHStudentCell *studentCell = (SHStudentCell *)cell;
@@ -312,6 +314,30 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
     }
 }
+
+-(float)getOccupatingHeight
+{
+    //check if its in study, classes or online
+    float cellHeight = 0;
+    switch (self.control.selectedSegmentIndex)
+    {
+        case 0:
+            cellHeight = SHStudentCellHeight;
+            break;
+        case 1:
+            cellHeight = SHHuddleCellHeight;
+            break;
+        case 2:
+            cellHeight = SHChatCellHeight;
+            break;
+        default:
+            break;
+    }
+    
+    return cellHeight*self.currentRowsToDisplay;
+    
+}
+
 
 
 

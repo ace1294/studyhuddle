@@ -41,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHProfileViewController.m"
-            timestampString = "427047528.52153"
+            filePath = "Study Huddle/SHClassSegmentViewController.m"
+            timestampString = "427088255.3991"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
-            landmarkName = "-scrollViewDidScroll:"
+            startingLineNumber = "297"
+            endingLineNumber = "297"
+            landmarkName = "-didTapTitleCell:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
