@@ -50,7 +50,7 @@ extern NSString *const SHHuddleNameKey;
 extern NSString *const SHHuddleMembersKey;
 extern NSString *const SHHuddleClassKey;
 extern NSString *const SHHuddleStatusKey;
-extern NSString *const SHHuddleUniqueName;
+extern NSString *const SHHuddleLowerName;
 extern NSString *const SHHuddleStudyKey;
 extern NSString *const SHHuddleResourceCategoriesKey;
 extern NSString *const SHHuddleImageKey;

@@ -501,11 +501,9 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     request[SHRequestTitleKey] = self.segHuddle[SHHuddleNameKey];
     request[SHRequestHuddleKey] = self.segHuddle;
     
-    if([[Student currentUser] isEqual:self.segHuddle[SHHuddleCreatorKey]]){
+    if([[[Student currentUser] objectId] isEqual:[self.segHuddle[SHHuddleCreatorKey] objectId]]){
         request[SHRequestTypeKey] = SHRequestHSJoin;
         request[SHRequestStudent1Key] = self.searchVC.addedMember;
-        
-        
         
     } else {
         //Send creator request to
@@ -518,7 +516,9 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         
     }
     
-    [request saveInBackground];
+    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        NSLog(@"SAVING ReQUEST BACKGROUND");
+    }];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

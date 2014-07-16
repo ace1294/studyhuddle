@@ -378,7 +378,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         return cell;
     }
     
-    
+
     
     return nil;
 }
@@ -431,7 +431,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         //Student 2 accepted Student 1's request to study
         
-        PFObject *student2 = request[SHRequestStudent2Key];
+        Student *student2 = request[SHRequestStudent2Key];
         [student2 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -450,7 +450,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetchIfNeeded];
         
-        PFObject *student1 = request[SHRequestStudent1Key];
+        Student *student1 = request[SHRequestStudent1Key];
         [student1 fetchIfNeeded];
         
         [student1 addObject:huddle forKey:SHStudentHuddlesKey];
@@ -491,18 +491,23 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         
         PFObject *huddle = request[SHRequestHuddleKey];
-        [huddle fetchIfNeeded];
+        [huddle fetch];
         
-        PFObject *student1 = request[SHRequestStudent1Key];
-        [student1 fetchIfNeeded];
+        Student *student1 = request[SHRequestStudent1Key];
+        [student1 fetch];
         
         [student1 addObject:huddle forKey:SHStudentHuddlesKey];
         [huddle addObject:student1 forKey:SHHuddleMembersKey];
         
-        [student1 saveInBackground];
-        [huddle saveInBackground];
+        [huddle saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            NSLog(@"Complete save huddle");
+        }];
+        [student1 saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            NSLog(@"complete save student");
+        }];
         
-        PFObject *creator = huddle[SHHuddleCreatorKey];
+        
+        Student *creator = huddle[SHHuddleCreatorKey];
         //[creator fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -538,10 +543,10 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetchIfNeeded];
         
-        PFObject *student1 = request[SHRequestStudent1Key];
+        Student *student1 = request[SHRequestStudent1Key];
         [student1 fetchIfNeeded];
         
-        PFObject *student2 = request[SHRequestStudent2Key];
+        Student *student2 = request[SHRequestStudent2Key];
         [student1 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -584,7 +589,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         //Student 2 denied Student 1's request to study
         
-        PFObject *student2 = request[SHRequestStudent2Key];
+        Student *student2 = request[SHRequestStudent2Key];
         [student2 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -603,7 +608,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetchIfNeeded];
         
-        PFObject *student1 = request[SHRequestStudent1Key];
+        Student *student1 = request[SHRequestStudent1Key];
         [student1 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -623,10 +628,10 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetchIfNeeded];
         
-        PFObject *creator = huddle[SHHuddleCreatorKey];
+        Student *creator = huddle[SHHuddleCreatorKey];
         [creator fetchIfNeeded];
         
-        PFObject *student1 = request[SHRequestStudent1Key];
+        Student *student1 = request[SHRequestStudent1Key];
         [student1 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -659,10 +664,10 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetchIfNeeded];
         
-        PFObject *student1 = request[SHRequestStudent1Key];
+        Student *student1 = request[SHRequestStudent1Key];
         [student1 fetchIfNeeded];
         
-        PFObject *student2 = request[SHRequestStudent2Key];
+        Student *student2 = request[SHRequestStudent2Key];
         [student1 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];

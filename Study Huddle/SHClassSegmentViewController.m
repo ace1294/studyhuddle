@@ -234,7 +234,7 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
         PFObject *studentObject;
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        if(indexPath.row < [[self.studentData objectForKey:@"online"]count]){
+        if(indexPath.row+1 <= [[self.studentData objectForKey:@"online"]count]){
             studentObject = [[self.studentData objectForKey:@"online"] objectAtIndex:(int)indexPath.row];
             [cell setOnline];
         }
