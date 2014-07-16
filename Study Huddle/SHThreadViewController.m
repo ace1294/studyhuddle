@@ -13,6 +13,7 @@
 #import "UIColor+HuddleColors.h"
 #import "SHTextBar.h"
 #import "SHUtility.h"
+#import "Student.h"
 
 #define questionHorizontalOffset 10
 #define repliesHorizontalOffset 30
@@ -255,7 +256,7 @@
     else if(self.state == SHReplying)
     {
         //make a new reply object
-        PFObject* creator = [PFUser currentUser];
+        PFObject* creator = [Student currentUser];
         NSString* answer = self.textBar.textField.text;
         PFObject* newReplyObject = [PFObject objectWithClassName:SHReplyClassName];
         newReplyObject[SHReplyCreator] = creator;
@@ -268,6 +269,23 @@
         [replies addObject:newReplyObject];
         self.relevantQuestionObject[SHQuestionReplies] = replies;
         [self.relevantQuestionObject save];
+        
+        
+        PFObject *chatCategory = self.threadObject[SHThreadChatCategoryKey];
+        [chatCategory fetchIfNeeded];
+        
+        PFObject *huddle = chatCategory[SHChatCategoryHuddleKey];
+        [huddle fetchIfNeeded];
+        
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationAnswerType;
+        notification[SHNotificationToStudentKey] = self.relevantQuestionObject[SHQuestionCreator];
+        notification[SHNotificationFromStudentKey] = [Student currentUser];
+        notification[SHNotificationDescriptionKey] = [NSString stringWithFormat:@"%@ replied to your question", [Student currentUser][SHStudentNameKey]];
+        
+        [notification saveInBackground];
+        
         self.relevantQuestionObject = nil;
     }
     else if(self.state == SHEditingQuestion)
@@ -287,7 +305,8 @@
     [self.textBar.textField resignFirstResponder];
     self.textBar.textField.text = @"";
     [self updateLayout];
-
+    
+    
 }
 
 - (void)didReceiveMemoryWarning

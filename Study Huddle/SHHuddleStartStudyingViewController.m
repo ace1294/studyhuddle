@@ -113,7 +113,7 @@
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationTypeKey] = SHNotificationHSStudyRequestType;
         notification[SHNotificationTitleKey] = self.huddle[SHHuddleNameKey];
-        notification[SHNotificationStudentKey] = member;
+        notification[SHNotificationToStudentKey] = member;
         notification[SHNotificationHuddleKey] = self.huddle;
         notification[SHNotificationDescriptionKey] = self.descriptionTextView.text;
         notification[SHNotificationLocationKey] = self.locationTextField.text;

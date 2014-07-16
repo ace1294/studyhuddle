@@ -250,7 +250,11 @@
     NSData *fileData = UIImageJPEGRepresentation(self.documentView.documentImageView.image, 1.0f);
     newResource[SHResourceFileKey] = [PFFile fileWithData:fileData];
     
+    //POSSIBLY DO IN BACKGROUND
+    
     if(self.categoryButtons.addButtonSet){
+        [newResource save];
+        
         PFObject *newCategory = [PFObject objectWithClassName:SHResourceCategoryParseClass];
         
         newCategory[SHResourceCategoryNameKey] = self.categoryButtons.selectedButton;
@@ -259,18 +263,20 @@
         newResource[SHResourceCategoryKey] = newCategory;
         
         [self.huddle addObject:newCategory forKey:SHHuddleResourceCategoriesKey];
-        [self.huddle saveInBackground];
+        
+        [PFObject saveAll:@[self.huddle,newCategory,newResource]];
     }
     else{
         PFQuery *categoryQuery = [PFQuery queryWithClassName:SHResourceCategoryParseClass];
         [categoryQuery whereKey:SHResourceCategoryNameKey equalTo:self.selectedCategory];
         [categoryQuery whereKey:SHResourceCategoryHuddleKey equalTo:self.huddle];
-        NSArray *category = [categoryQuery findObjects];
+        PFObject *category = [categoryQuery findObjects][0];
+        [category addObject:newResource forKey:SHResourceCategoryResourcesKey];
         
-        newResource[SHResourceCategoryKey] = category[0];
+        newResource[SHResourceCategoryKey] = category;
+        
+        [PFObject saveAll:@[category,newResource]];
     }
-    
-    [newResource saveInBackground];
     
     [self cancelAction];
     
@@ -282,9 +288,10 @@
         PFObject *memberNotification = [PFObject objectWithClassName:SHNotificationParseClass];
         
         [member fetchIfNeeded];
-        memberNotification[SHNotificationStudentKey] = member;
+        memberNotification[SHNotificationToStudentKey] = member;
         memberNotification[SHNotificationTitleKey] = self.huddle[SHHuddleNameKey];
         memberNotification[SHNotificationTypeKey] = SHNotificationNewResourceType;
+        memberNotification[SHNotificationHuddleKey] = self.huddle;
         
         NSString *description = [NSString stringWithFormat:@"%@ added a new resource", [Student currentUser][SHStudentNameKey]];
         memberNotification[SHNotificationDescriptionKey] = description;

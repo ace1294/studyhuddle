@@ -112,7 +112,8 @@ extern NSString *const SHRequestSCJoin;
 extern NSString* const SHNotificationTitleKey;
 extern NSString* const SHNotificationDescriptionKey;
 extern NSString* const SHNotificationHuddleKey;
-extern NSString* const SHNotificationStudentKey;
+extern NSString* const SHNotificationToStudentKey;
+extern NSString* const SHNotificationFromStudentKey;
 extern NSString* const SHNotificationClassKey;
 extern NSString* const SHNotificationTypeKey;
 extern NSString* const SHNotificationReadKey;
@@ -140,11 +141,13 @@ extern NSString* const SHSHDeniedJoinRequestTitle;
 //Chat Category
 extern NSString* const SHChatCategoryNameKey;
 extern NSString* const SHChatCategoryThreadsKey;
+extern NSString* const SHChatCategoryHuddleKey;
 
 //Thread
 extern NSString* const SHThreadTitle;
 extern NSString* const SHThreadCreator;
 extern NSString* const SHThreadQuestions;
+extern NSString* const SHThreadChatCategoryKey;
 
 //Question
 extern NSString* const SHQuestionCreator;
@@ -191,7 +194,7 @@ extern int const SHEditingReply;
 
 #define SHHuddleCellHeight 70.0
 #define SHRequestCellHeight 70.0
-#define SHNotificationCellHeight 50.0
+#define SHNotificationCellHeight 70.0
 #define SHClassCellHeight 50.0
 #define SHStudyCellHeight 50.0
 #define SHAddCellHeight 50.0

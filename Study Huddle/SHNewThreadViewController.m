@@ -135,6 +135,7 @@
     self.thread[SHThreadTitle] = self.subjectTextField.text;
     self.thread[SHThreadQuestions] = @[self.question];
     self.thread[SHThreadCreator] = [Student currentUser];
+    self.thread[SHThreadChatCategoryKey] = self.chatCategory;
     
     self.question[SHQuestionCreator] = [Student currentUser];
     self.question[SHQuestionQuestion] = self.messageTextView.text;

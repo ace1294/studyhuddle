@@ -11,7 +11,8 @@
 
 @interface SHNotificationCell : SHBaseTextCell
 
+@property (nonatomic,strong) PFObject* notification;
+
 - (void)setNotification:(PFObject *)aNotification;
--(PFObject*)getNotificationObj;
 
 @end

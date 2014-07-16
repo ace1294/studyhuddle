@@ -12,7 +12,7 @@
 
 @interface SHNotificationCell ()
 
-@property (nonatomic,strong) PFObject* notificationObj;
+
 
 @end
 
@@ -23,7 +23,7 @@
 
 - (void)setNotification:(PFObject *)aNotification
 {
-    self.notificationObj = aNotification;
+    _notification = aNotification;
     
     //Title Button
     [self.titleButton setTitle:[aNotification objectForKey:SHNotificationTitleKey] forState:UIControlStateNormal];
@@ -54,11 +54,6 @@
     
     
     [self layoutSubviews];
-}
-
--(PFObject*)getNotificationObj
-{
-    return self.notificationObj;
 }
 
 @end

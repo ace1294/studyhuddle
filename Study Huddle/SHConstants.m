@@ -119,7 +119,8 @@ NSString *const SHRequestSCJoin = @"SCJoin";
 NSString* const SHNotificationTitleKey = @"title";
 NSString* const SHNotificationDescriptionKey = @"description";
 NSString* const SHNotificationHuddleKey = @"huddle";
-NSString* const SHNotificationStudentKey = @"student";
+NSString* const SHNotificationToStudentKey = @"toStudent";
+NSString* const SHNotificationFromStudentKey = @"fromStudent";
 NSString* const SHNotificationClassKey = @"class";
 NSString* const SHNotificationTypeKey = @"type";
 NSString* const SHNotificationReadKey = @"read";
@@ -151,6 +152,7 @@ NSString* const SHSHDeniedJoinRequestTitle = @"Huddle denied request to join";
 NSString* const SHThreadTitle = @"title";
 NSString* const SHThreadCreator = @"creator";
 NSString* const SHThreadQuestions = @"questions";
+NSString* const SHThreadChatCategoryKey = @"chatCategory";
 
 //Question
 NSString* const SHQuestionCreator = @"creator";
@@ -163,9 +165,10 @@ NSString* const SHReplyCreator = @"creator";
 NSString* const SHReplyAnswer = @"answer";
 NSString* const SHReplyClassName = @"Reply";
 
-//Chat Entry
+//Chat Category
 NSString* const SHChatCategoryNameKey = @"category";
 NSString* const SHChatCategoryThreadsKey = @"threads";
+NSString* const SHChatCategoryHuddleKey = @"huddle";
 
 //Constants for chat feature
 int const SHEditingQuestion = 0;
