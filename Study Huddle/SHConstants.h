@@ -191,7 +191,7 @@ extern int const SHEditingReply;
 
 #define SHHuddleCellHeight 70.0
 #define SHRequestCellHeight 70.0
-#define SHNotificationCellHeight 50.0
+#define SHNotificationCellHeight 70.0
 #define SHClassCellHeight 50.0
 #define SHStudyCellHeight 50.0
 #define SHAddCellHeight 50.0
