@@ -101,6 +101,7 @@ extern NSString *const SHRequestStudent3Key;
 extern NSString *const SHRequestLocationKey;
 extern NSString *const SHRequestTimeKey;
 extern NSString *const SHRequestDescriptionKey;
+extern NSString *const SHRequestMessageKey;
 
 //Request Types
 extern NSString *const SHRequestSSInviteStudy;
@@ -117,9 +118,9 @@ extern NSString* const SHNotificationFromStudentKey;
 extern NSString* const SHNotificationClassKey;
 extern NSString* const SHNotificationTypeKey;
 extern NSString* const SHNotificationReadKey;
-extern NSString* const SHNotificationDateKey;
 extern NSString* const SHNotificationLocationKey;
 extern NSString* const SHNotificationRequestAcceptedKey;
+extern NSString *const SHNotificationMessageKey;
 
 //Notification types
 extern NSString* const SHNotificationNewResourceType;
@@ -193,8 +194,8 @@ extern int const SHEditingReply;
 #define maxHeight 568.0
 
 #define SHHuddleCellHeight 70.0
-#define SHRequestCellHeight 70.0
-#define SHNotificationCellHeight 70.0
+#define SHRequestCellHeight 65.0
+#define SHNotificationCellHeight 65.0
 #define SHClassCellHeight 50.0
 #define SHStudyCellHeight 50.0
 #define SHAddCellHeight 50.0
@@ -215,7 +216,6 @@ extern int const SHEditingReply;
 #define horiBorderSpacingBottom 7.0f
 #define horiElemSpacing 5.0f
 
-#define nameMaxWidth 200.0f
 
 #define cellPortraitX vertBorderSpacing
 #define cellPortraitY horiBorderSpacing
@@ -224,11 +224,7 @@ extern int const SHEditingReply;
 #define titleX vertBorderSpacing
 #define titleY horiBorderSpacing
 
-//Arrow
-#define arrowX 295.0f
-#define arrowY 25.0
-#define arrowDimX 10.0f
-#define arrowDimY 20.0
+
 
 //Portait
 //#define portraitX

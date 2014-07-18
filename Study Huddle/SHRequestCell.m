@@ -10,13 +10,11 @@
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
 #import "Student.h"
+#import "NSDateFormatter+RelativeString.h"
 
 @interface SHRequestCell ()
 
-
-@property (nonatomic, strong) UIButton *acceptButton;
-@property (nonatomic, strong) UIButton *denyButton;
-@property (nonatomic, strong) UILabel *messageLabel;
+@property (strong, nonatomic) UILabel *timeLabel;
 
 @end
 
@@ -26,27 +24,27 @@
 @synthesize denyButton;
 @synthesize descriptionLabel;
 
+#define vertArrowY (SHNotificationCellHeight-arrowDimX)/2
+#define vertExpandedArrowY vertElemSpacing+2.0
+
 #define acceptX 245.0
 #define denyX acceptX+requestButtonDim+horiElemSpacing
 #define requestButtonY (SHRequestCellHeight-requestButtonDim)/2
 #define requestButtonDim 25.0
 
+#define vertButtonX arrowX-((requestButtonDim-arrowDimY)/2)
+#define vertAcceptY vertExpandedArrowY+arrowDimX+vertElemSpacing
+#define vertDenyY vertAcceptY+requestButtonDim+vertElemSpacing
+
+BOOL expandable;
+BOOL expanded;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
         [self.arrowButton setHidden:YES];
         
-        self.messageLabel = [[UILabel alloc] init];
-        [self.messageLabel setFont:self.descriptionFont];
-        [self.messageLabel setTextColor:[UIColor huddleSilver]];
-        [self.messageLabel setNumberOfLines:0];
-        [self.messageLabel sizeToFit];
-        [self.messageLabel setLineBreakMode:NSLineBreakByWordWrapping];
-        [self.messageLabel setBackgroundColor:[UIColor clearColor]];
-        [self.mainView addSubview:self.messageLabel];
-
         acceptButton = [[UIButton alloc]init];
         [acceptButton setImage:[UIImage imageNamed:@"Approve@2x.png"] forState:UIControlStateNormal];
         [acceptButton addTarget:self action:@selector(didTapAcceptButtonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -57,6 +55,15 @@
         [denyButton addTarget:self action:@selector(didTapDenyButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.mainView addSubview:self.denyButton];
         
+        self.timeLabel = [[UILabel alloc] init];
+        [self.timeLabel setFont:self.descriptionFont];
+        [self.timeLabel setTextColor:[UIColor huddleLightGrey]];
+        [self.timeLabel setNumberOfLines:0];
+        [self.timeLabel sizeToFit];
+        [self.timeLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [self.timeLabel setBackgroundColor:[UIColor clearColor]];
+        [self.mainView addSubview:self.timeLabel];
+        
     }
     return self;
 }
@@ -65,18 +72,41 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGSize messageSize = [self.messageLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
-                                                                      options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
-                                                                   attributes:@{NSFontAttributeName:self.descriptionFont}
-                                                                      context:nil].size;
+    CGSize timeSize = [self.timeLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
+                                                              options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                           attributes:@{NSFontAttributeName:self.descriptionFont}
+                                                              context:nil].size;
     
-    CGFloat messageY = self.descriptionLabel.frame.origin.y+self.descriptionLabel.frame.size.height;
+    if(expandable)
+    {
+        CGSize messageSize = [self.expandedMessageLabel.text boundingRectWithSize:CGSizeMake(descriptionMaxWidth, CGFLOAT_MAX)
+                                                                  options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                               attributes:@{NSFontAttributeName:self.descriptionFont}
+                                                                  context:nil].size;
+        
+        CGFloat messageY = self.descriptionLabel.frame.origin.y+self.descriptionLabel.frame.size.height;
+        
+        [self.expandedMessageLabel setFrame:CGRectMake(horiViewSpacing, messageY, messageSize.width, messageSize.height)];
+        
+        [self.acceptButton setFrame:CGRectMake(vertButtonX, vertAcceptY, requestButtonDim, requestButtonDim)];
+        [self.denyButton setFrame:CGRectMake(vertButtonX, vertDenyY, requestButtonDim, requestButtonDim)];
+        
+    } else {
+        [self.acceptButton setFrame:CGRectMake(acceptX, requestButtonY, requestButtonDim, requestButtonDim)];
+        [self.denyButton setFrame:CGRectMake(denyX, requestButtonY, requestButtonDim, requestButtonDim)];
+    }
     
-    [self.messageLabel setFrame:CGRectMake(horiViewSpacing, messageY, messageSize.width, messageSize.height)];
+    if(expanded){
+        CGFloat timeY = self.expandedMessageLabel.frame.origin.y+self.expandedMessageLabel.frame.size.height+2.0;
+        [self.timeLabel setFrame:CGRectMake(horiViewSpacing, timeY, timeSize.width, timeSize.height)];
+        [self.arrowButton setFrame:CGRectMake(arrowX, vertExpandedArrowY, arrowDimY, arrowDimX)];
+        
+    } else{
+        CGFloat timeY = self.descriptionLabel.frame.origin.y+self.descriptionLabel.frame.size.height+2.0;
+        [self.timeLabel setFrame:CGRectMake(horiViewSpacing, timeY, timeSize.width, timeSize.height)];
+        [self.arrowButton setFrame:CGRectMake(arrowX, vertArrowY, arrowDimY, arrowDimX)];
+    }
     
-    [self.acceptButton setFrame:CGRectMake(acceptX, requestButtonY, requestButtonDim, requestButtonDim)];
-    
-    [self.denyButton setFrame:CGRectMake(denyX, requestButtonY, requestButtonDim, requestButtonDim)];
     
 }
 
@@ -87,42 +117,88 @@
     NSString *type = aRequest[SHRequestTypeKey];
     
     [self.titleButton setTitle:aRequest[SHRequestTitleKey] forState:UIControlStateNormal];
+    NSDate *created = [aRequest updatedAt];
+    [self.timeLabel setText:[NSDateFormatter relativeDateStringFromDate:created toDate:[NSDate date]]];
     
-    if([type isEqualToString:SHRequestSSInviteStudy])
+    
+    if([type isEqualToString:SHRequestSCJoin])
     {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"hh:mm a"];
-        NSString *timeString = [formatter stringFromDate:aRequest[SHRequestTimeKey]];
-        NSString *timeLocation = [NSString stringWithFormat:@"%@; %@", timeString, aRequest[SHRequestLocationKey]];
-        
-        [self.descriptionLabel setText:timeLocation];
-        
-        [self.messageLabel setText:aRequest[SHRequestDescriptionKey]];
-        
-    } else if([type isEqualToString:SHRequestSHJoin])
-    {
-        Student *student1 = aRequest[SHRequestStudent1Key];
-        [student1 fetchIfNeeded];
-        
-        [self.descriptionLabel setText:[NSString stringWithFormat:@"%@ requested to join the huddle", student1[SHStudentNameKey]]];
-    } else if([type isEqualToString:SHRequestHSJoin])
-    {
-        [self.descriptionLabel setText:@"Request you to join their huddle"];
-        
-    } else if([type isEqualToString:SHRequestSCJoin])
-    {
-        Student *student2 = aRequest[SHRequestStudent2Key];
-        Student *student3 = aRequest[SHRequestStudent3Key];
-        
-        [student2 fetchIfNeeded];
-        [student3 fetchIfNeeded];
-        
-        [self.descriptionLabel setText:[NSString stringWithFormat:@"%@ requested to add %@", student3[SHStudentNameKey], student2[SHStudentNameKey]]];
+        [self.descriptionLabel setText:aRequest[SHRequestDescriptionKey]];
     }
-    
+    else
+    {
+        [self initExpandedContent];
+        [self.descriptionLabel setText:aRequest[SHRequestDescriptionKey]];
+        
+        [self.expandedMessageLabel setText:aRequest[SHRequestMessageKey]];
+    }
     
     [self layoutSubviews];
 }
+
+- (void)initExpandedContent
+{
+    expandable = true;
+    
+    //Members
+    if (!self.expandedMessageLabel) {
+        self.expandedMessageLabel = [[UILabel alloc] init];
+        [self.expandedMessageLabel setFont:self.descriptionFont];
+        [self.expandedMessageLabel setTextColor:[UIColor huddleSilver]];
+        [self.expandedMessageLabel setNumberOfLines:0];
+        [self.expandedMessageLabel sizeToFit];
+        [self.expandedMessageLabel setLineBreakMode:NSLineBreakByWordWrapping];
+        [self.expandedMessageLabel setBackgroundColor:[UIColor clearColor]];
+        [self.mainView addSubview:self.expandedMessageLabel];
+        
+        [self.arrowButton setImage:[UIImage imageNamed:@"DownwardArrow.png"] forState:UIControlStateNormal];
+        [self.arrowButton setImage:[UIImage imageNamed:@"UpwardArrow.png"] forState:UIControlStateSelected];
+        [self.arrowButton setHidden:NO];
+    }
+    
+    [self collapse];
+}
+
+- (void)expand
+{
+    expanded = true;
+    [self.arrowButton setSelected:YES];
+    [self.acceptButton setHidden:NO];
+    [self.denyButton setHidden:NO];
+    [self.expandedMessageLabel setHidden:NO];
+    
+}
+
+- (void)collapse
+{
+    expanded = false;
+    
+    [self.arrowButton setSelected:NO];
+    [self.acceptButton setHidden:YES];
+    [self.denyButton setHidden:YES];
+    [self.expandedMessageLabel setHidden:YES];
+    
+
+}
+
+- (CGFloat)heightForExpandedCell:(NSString *)message
+{
+    CGSize messageSize = [message boundingRectWithSize:CGSizeMake(descriptionMaxWidth, CGFLOAT_MAX)
+                                                                      options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                                   attributes:@{NSFontAttributeName:self.descriptionFont}
+                                                                      context:nil].size;
+    
+    CGSize timeSize = [@"1 hour ago" boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
+                                                        options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                                     attributes:@{NSFontAttributeName:self.descriptionFont}
+                                                        context:nil].size;
+    
+    CGFloat height = self.descriptionLabel.frame.origin.y+self.descriptionLabel.frame.size.height+messageSize.height+timeSize.height+vertBorderSpacing;
+    
+    
+    return height;
+}
+
 
 #pragma mark - Delegate methods
 

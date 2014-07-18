@@ -121,7 +121,7 @@
     self.scrollView = [[UIScrollView alloc]initWithFrame:scrollViewFrame];
     [self.view addSubview:self.scrollView];
     self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 99999);
-    self.scrollView.backgroundColor = [UIColor huddleLightSilver];
+    self.scrollView.backgroundColor = [UIColor huddleLightGrey];
     self.scrollView.delegate = self;
     
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPressedOutside:)];

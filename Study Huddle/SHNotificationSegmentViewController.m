@@ -25,7 +25,9 @@
 #import "SHIndividualHuddleviewController.h"
 #import "SHUtility.h"
 
-@interface SHNotificationSegmentViewController () <SHRequestCellDelegate>
+@interface SHNotificationSegmentViewController () <SHRequestCellDelegate>{
+    int selectedIndex;
+}
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) Student *segStudent;
@@ -42,6 +44,9 @@
 @property (strong, nonatomic) NSMutableArray *requestsDataArray;
 
 @property (strong, nonatomic) NSMutableArray *encapsulatingDataArray;
+@property (strong, nonatomic) NSMutableIndexSet *expandableNotificationCells;
+@property (strong, nonatomic) NSMutableIndexSet *expandableRequestCells;
+
 
 @end
 
@@ -54,12 +59,15 @@ static NSString* const NotificationDiskKey = @"notificationArray";
 static NSString* const RequestsDiskKey = @"requestsArray";
 
 
+
+
 - (id)initWithStudent:(Student *)student
 {
     self = [super init];
     if(self)
     {
         _segStudent = student;
+        selectedIndex = -1;
         
         CellIdentifier = [[NSString alloc]init];
         
@@ -97,7 +105,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     self.notificationsDataArray = [[NSMutableArray alloc]init];
     self.requestsDataArray = [[NSMutableArray alloc]init];
     self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.notificationsDataArray,self.requestsDataArray, nil];
-    
+    self.expandableNotificationCells = [[NSMutableIndexSet alloc]init];
+    self.expandableRequestCells = [[NSMutableIndexSet alloc]init];
     
     [self loadStudentData];
     
@@ -178,6 +187,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     PFQuery *notificationQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
     [notificationQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
     [notifications addObjectsFromArray:[notificationQuery findObjects]];
+    [self findExpandableNotificaitonTypes];
     
     [self.segStudent addUniqueObjectsFromArray:[notificationQuery findObjects] forKey:SHStudentNotificationsKey];
     [self.segStudent saveInBackground];
@@ -242,6 +252,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [self.requestsDataArray removeAllObjects];
     [self.requestsDataArray addObjectsFromArray:[query findObjects]];
     
+    [self findExpandableRequestTypes];
+    
     //[SHUtility fetchObjectsInArray:self.requestsDataArray];
     
     [self.control setCount:[NSNumber numberWithInt:(int)self.requestsDataArray.count] forSegmentAtIndex:1];
@@ -305,6 +317,9 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 - (void)selectedSegment:(DZNSegmentedControl *)control
 {
     self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:control.selectedSegmentIndex]count];
+    
+    selectedIndex = -1;
+    
     [self.tableView reloadData];
 }
 
@@ -320,11 +335,22 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"NOTIFICATIONS"])
+    if(selectedIndex == indexPath.row){
+        
+        if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"NOTIFICATIONS"]){
+            id cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            SHNotificationCell *notificationCell = (SHNotificationCell *)cell;
+            return  [notificationCell heightForExpandedCell:notificationCell.notification[SHNotificationMessageKey]];
+            
+        } else {
+            id cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            SHRequestCell *requestCell = (SHRequestCell *)cell;
+            return  [requestCell heightForExpandedCell:requestCell.request[SHRequestMessageKey]];
+        }
+    }
+    else{
         return SHNotificationCellHeight;
-    else
-        return SHRequestCellHeight;
+    }
     
 }
 
@@ -346,16 +372,21 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
     if([CellIdentifier isEqual:SHNotificationCellIdentifier])
     {
-        
-        
         PFObject* notificationObject = [self.notificationsDataArray objectAtIndex:(int)indexPath.row];
-        SHNotificationCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
         [notificationObject fetchIfNeeded];
         
+        SHNotificationCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
-        
         [cell setNotification:notificationObject];
+        
+        if(selectedIndex == indexPath.row)
+            [cell expand];
+        else
+            [cell collapse];
+        
+        
+        
+        
         [cell layoutIfNeeded];
        
         
@@ -365,13 +396,18 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     else if([CellIdentifier isEqual:SHRequestCellIdentifier])
     {
         PFObject* requestObject = [self.requestsDataArray objectAtIndex:(int)indexPath.row];
-        SHRequestCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
         [requestObject fetchIfNeeded];
         
+        SHRequestCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
-        
         [cell setRequest:requestObject];
+        
+        if(selectedIndex == indexPath.row)
+            [cell expand];
+        else
+            [cell collapse];
+        
+        
         [cell layoutIfNeeded];
         
         return cell;
@@ -384,15 +420,50 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"NOTIFICATIONS"])
+    CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
+    
+    if([CellIdentifier isEqual:SHNotificationCellIdentifier])
     {
-        PFObject* notificationObject = [self.notificationsDataArray objectAtIndex:(int)indexPath.row];
-        [notificationObject fetchIfNeeded];
-      
-        
+        if ([self.expandableNotificationCells containsIndex:indexPath.row]) {
+            if(selectedIndex == indexPath.row){
+                selectedIndex = -1;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                return;
+            }
+            if(selectedIndex != -1){
+                NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+                selectedIndex = indexPath.row;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+            selectedIndex = indexPath.row;
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        } else{
+            PFObject* notification = [self.notificationsDataArray objectAtIndex:(int)indexPath.row];
+            [notification fetchIfNeeded];
+        }
     }
     
-    
+    else if([CellIdentifier isEqual:SHRequestCellIdentifier])
+    {
+        if ([self.expandableRequestCells containsIndex:indexPath.row]) {
+            if(selectedIndex == indexPath.row){
+                selectedIndex = -1;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                return;
+            }
+            if(selectedIndex != -1){
+                NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+                selectedIndex = indexPath.row;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+            selectedIndex = indexPath.row;
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        } else{
+            PFObject* request = [self.requestsDataArray objectAtIndex:(int)indexPath.row];
+            [request fetchIfNeeded];
+        }
+        
+    }
     
 }
 
@@ -431,8 +502,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
        NSString *type = request[SHRequestTypeKey];
        
        Student *student1 = request[SHRequestStudent1Key];
-       Student *student2 = request[SHRequestStudent2Key];
-       Student *student3 = request[SHRequestStudent3Key];
+       //Student *student2 = request[SHRequestStudent2Key];
+       //Student *student3 = request[SHRequestStudent3Key];
        PFObject *huddle = request[SHRequestHuddleKey];
        
        if([type isEqual:SHRequestSSInviteStudy])
@@ -601,6 +672,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         newRequest[SHRequestTypeKey] = SHRequestHSJoin;
         newRequest[SHRequestStudent1Key] = request[SHRequestStudent2Key];
         newRequest[SHRequestStudent2Key] = request[SHRequestStudent3Key];
+        newRequest[SHRequestMessageKey] = request[SHRequestMessageKey];
         
         [newRequest saveInBackground];
         
@@ -728,6 +800,32 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     self.currentRowsToDisplay--;
     [self.control setCount:[NSNumber numberWithInt:self.currentRowsToDisplay] forSegmentAtIndex:1];
     [self.tableView reloadData];
+}
+
+#pragma mark - Helpers
+
+- (void)findExpandableNotificaitonTypes
+{
+    int i = 0;
+    for(PFObject *notification in self.notificationsDataArray)
+    {
+        [notification fetchIfNeeded];
+        if([notification[SHNotificationTypeKey] isEqualToString:SHNotificationHSStudyRequestType] || [notification[SHNotificationTypeKey] isEqualToString:SHNotificationAnswerType])
+            [self.expandableNotificationCells addIndex:i];
+        i++;
+    }
+}
+
+- (void)findExpandableRequestTypes
+{
+    int i = 0;
+    for(PFObject *request in self.requestsDataArray)
+    {
+        [request fetchIfNeeded];
+        if([request[SHRequestTypeKey] isEqualToString:SHRequestSSInviteStudy] || [request[SHRequestTypeKey] isEqualToString:SHRequestSHJoin]|| [request[SHRequestTypeKey] isEqualToString:SHRequestHSJoin])
+            [self.expandableRequestCells addIndex:i];
+        i++;
+    }
 }
 
 

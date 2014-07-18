@@ -36,3 +36,11 @@
 
 
 #define descriptionLabelY vertViewSpacing+23.0
+#define nameMaxWidth 200.0f
+#define descriptionMaxWidth 250.0f
+
+//Arrow
+#define arrowX 285.0f
+#define arrowY 20.0
+#define arrowDimX 10.0f
+#define arrowDimY 17.0f

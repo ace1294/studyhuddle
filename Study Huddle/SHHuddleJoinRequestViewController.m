@@ -88,6 +88,8 @@
     request[SHRequestStudent1Key] = [Student currentUser];
     request[SHRequestStudent2Key] = self.huddle[SHHuddleCreatorKey];
     request[SHRequestHuddleKey] = self.huddle;
+    request[SHRequestMessageKey] = self.messageTextView.text;
+    request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to join the huddle", [Student currentUser][SHStudentNameKey]];
     
     [request saveInBackground];
     

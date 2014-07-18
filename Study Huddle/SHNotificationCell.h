@@ -12,7 +12,14 @@
 @interface SHNotificationCell : SHBaseTextCell
 
 @property (nonatomic,strong) PFObject* notification;
+@property (strong, nonatomic) UILabel *expandedMessageLabel;
+
+@property (nonatomic, strong) UIButton *acceptButton;
+@property (nonatomic, strong) UIButton *denyButton;
 
 - (void)setNotification:(PFObject *)aNotification;
+- (void)expand;
+- (void)collapse;
+- (CGFloat)heightForExpandedCell:(NSString *)message;
 
 @end

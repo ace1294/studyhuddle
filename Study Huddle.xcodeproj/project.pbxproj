@@ -94,7 +94,7 @@
 		9638164E195BD06C0069D477 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96381646195BD06C0069D477 /* search@2x.png */; };
 		96421C9A197055CC00B5EC89 /* SHNewQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421C99197055CC00B5EC89 /* SHNewQuestionViewController.m */; };
 		96421C9D19707CB600B5EC89 /* SHNewThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421C9C19707CB600B5EC89 /* SHNewThreadViewController.m */; };
-		96421CAB1970882900B5EC89 /* SHHuddleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CAA1970882900B5EC89 /* SHHuddleAddViewController.m */; };
+		96421CAB1970882900B5EC89 /* SHIndividualHuddleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CAA1970882900B5EC89 /* SHIndividualHuddleAddViewController.m */; };
 		96421CB619709D8300B5EC89 /* FPPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CB319709D8300B5EC89 /* FPPopoverView.m */; };
 		96421CB719709D8300B5EC89 /* FPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CB519709D8300B5EC89 /* FPTouchView.m */; };
 		96421CBA19709D8B00B5EC89 /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CB919709D8B00B5EC89 /* FPPopoverController.m */; };
@@ -104,6 +104,12 @@
 		9653593619758ABE00ADA134 /* SHHuddleStartStudyingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9653593519758ABE00ADA134 /* SHHuddleStartStudyingViewController.m */; };
 		9653593A197597F200ADA134 /* SHSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96535939197597F200ADA134 /* SHSearchViewController.m */; };
 		9653593D1975AC0000ADA134 /* SHHuddleJoinRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9653593C1975AC0000ADA134 /* SHHuddleJoinRequestViewController.m */; };
+		96535943197744D300ADA134 /* NSDateFormatter+RelativeString.m in Sources */ = {isa = PBXBuildFile; fileRef = 96535942197744D300ADA134 /* NSDateFormatter+RelativeString.m */; };
+		96535947197871D100ADA134 /* UpwardArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 96535945197871D100ADA134 /* UpwardArrow.png */; };
+		96535948197871D100ADA134 /* UpwardArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96535946197871D100ADA134 /* UpwardArrow@2x.png */; };
+		9653594B197871D800ADA134 /* DownwardArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 96535949197871D800ADA134 /* DownwardArrow.png */; };
+		9653594C197871D800ADA134 /* DownwardArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9653594A197871D800ADA134 /* DownwardArrow@2x.png */; };
+		9653594F1978B91200ADA134 /* SHHuddleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9653594E1978B91200ADA134 /* SHHuddleAddViewController.m */; };
 		96566E2A194510F6006649C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E29194510F6006649C3 /* Foundation.framework */; };
 		96566E2C194510F6006649C3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E2B194510F6006649C3 /* CoreGraphics.framework */; };
 		96566E2E194510F6006649C3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E2D194510F6006649C3 /* UIKit.framework */; };
@@ -357,8 +363,8 @@
 		96421C99197055CC00B5EC89 /* SHNewQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHNewQuestionViewController.m; sourceTree = "<group>"; };
 		96421C9B19707CB600B5EC89 /* SHNewThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHNewThreadViewController.h; sourceTree = "<group>"; };
 		96421C9C19707CB600B5EC89 /* SHNewThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHNewThreadViewController.m; sourceTree = "<group>"; };
-		96421CA91970882900B5EC89 /* SHHuddleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleAddViewController.h; sourceTree = "<group>"; };
-		96421CAA1970882900B5EC89 /* SHHuddleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleAddViewController.m; sourceTree = "<group>"; };
+		96421CA91970882900B5EC89 /* SHIndividualHuddleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHIndividualHuddleAddViewController.h; sourceTree = "<group>"; };
+		96421CAA1970882900B5EC89 /* SHIndividualHuddleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHIndividualHuddleAddViewController.m; sourceTree = "<group>"; };
 		96421CB219709D8300B5EC89 /* FPPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPPopoverView.h; sourceTree = "<group>"; };
 		96421CB319709D8300B5EC89 /* FPPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverView.m; sourceTree = "<group>"; };
 		96421CB419709D8300B5EC89 /* FPTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPTouchView.h; sourceTree = "<group>"; };
@@ -378,6 +384,14 @@
 		96535939197597F200ADA134 /* SHSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSearchViewController.m; sourceTree = "<group>"; };
 		9653593B1975AC0000ADA134 /* SHHuddleJoinRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleJoinRequestViewController.h; sourceTree = "<group>"; };
 		9653593C1975AC0000ADA134 /* SHHuddleJoinRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleJoinRequestViewController.m; sourceTree = "<group>"; };
+		96535941197744D300ADA134 /* NSDateFormatter+RelativeString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+RelativeString.h"; sourceTree = "<group>"; };
+		96535942197744D300ADA134 /* NSDateFormatter+RelativeString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+RelativeString.m"; sourceTree = "<group>"; };
+		96535945197871D100ADA134 /* UpwardArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpwardArrow.png; sourceTree = "<group>"; };
+		96535946197871D100ADA134 /* UpwardArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UpwardArrow@2x.png"; sourceTree = "<group>"; };
+		96535949197871D800ADA134 /* DownwardArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DownwardArrow.png; sourceTree = "<group>"; };
+		9653594A197871D800ADA134 /* DownwardArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DownwardArrow@2x.png"; sourceTree = "<group>"; };
+		9653594D1978B91200ADA134 /* SHHuddleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleAddViewController.h; sourceTree = "<group>"; };
+		9653594E1978B91200ADA134 /* SHHuddleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleAddViewController.m; sourceTree = "<group>"; };
 		96566E26194510F6006649C3 /* Study Huddle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Study Huddle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96566E29194510F6006649C3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		96566E2B194510F6006649C3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -790,10 +804,12 @@
 		96421C961970547400B5EC89 /* Huddle Pages */ = {
 			isa = PBXGroup;
 			children = (
+				96421CA91970882900B5EC89 /* SHIndividualHuddleAddViewController.h */,
+				96421CAA1970882900B5EC89 /* SHIndividualHuddleAddViewController.m */,
 				96D955B21960BBA000667581 /* SHIndividualHuddleviewController.h */,
 				96D955B31960BBA000667581 /* SHIndividualHuddleviewController.m */,
-				96421CA91970882900B5EC89 /* SHHuddleAddViewController.h */,
-				96421CAA1970882900B5EC89 /* SHHuddleAddViewController.m */,
+				9653594D1978B91200ADA134 /* SHHuddleAddViewController.h */,
+				9653594E1978B91200ADA134 /* SHHuddleAddViewController.m */,
 				96381627195BC59A0069D477 /* SHHuddleViewController.h */,
 				96381625195BC5930069D477 /* SHHuddleViewController.m */,
 				41BD733B197352E5006BEA9E /* SHVisitorHuddleViewController.h */,
@@ -989,6 +1005,10 @@
 				96D95559195F3E7C00667581 /* Profile */,
 				9638163A195BD06C0069D477 /* navBar */,
 				41AF33B119538FD00008DF21 /* tabBarItems */,
+				96535945197871D100ADA134 /* UpwardArrow.png */,
+				96535946197871D100ADA134 /* UpwardArrow@2x.png */,
+				96535949197871D800ADA134 /* DownwardArrow.png */,
+				9653594A197871D800ADA134 /* DownwardArrow@2x.png */,
 				96F42986195528D300E74500 /* backgroundSolid@2x.png */,
 				41AF337D194F67F70008DF21 /* backgroundPattern@2x.png */,
 				41AF337B194F67ED0008DF21 /* placeholderProfPic.png */,
@@ -1029,6 +1049,8 @@
 				41AF336C194F65310008DF21 /* UIImagePickerController+Edit.m */,
 				96566E7B19451683006649C3 /* UIColor+HuddleColors.h */,
 				96566E7C19451683006649C3 /* UIColor+HuddleColors.m */,
+				96535941197744D300ADA134 /* NSDateFormatter+RelativeString.h */,
+				96535942197744D300ADA134 /* NSDateFormatter+RelativeString.m */,
 				96421C9E197086F800B5EC89 /* Popover */,
 				41A1936F19637A7C0038AAA2 /* Borders */,
 				96D955DD1961E4E700667581 /* Popup */,
@@ -1407,8 +1429,10 @@
 				96381649195BD06C0069D477 /* Notifications.png in Resources */,
 				96D9557C195F3E7C00667581 /* blankProfPic.png in Resources */,
 				96F0EDC8195BD79200B25DC1 /* cogwheel.png in Resources */,
+				96535947197871D100ADA134 /* UpwardArrow.png in Resources */,
 				41AF337E194F67F70008DF21 /* backgroundPattern@2x.png in Resources */,
 				41AF332F194A99700008DF21 /* Online_Ring@2x.png in Resources */,
+				9653594C197871D800ADA134 /* DownwardArrow@2x.png in Resources */,
 				96D9560D1965EF2900667581 /* modalGreyPlus@2x.png in Resources */,
 				41AF332D194A99700008DF21 /* Offline_Ring@2x.png in Resources */,
 				96F42987195528D300E74500 /* backgroundSolid@2x.png in Resources */,
@@ -1416,6 +1440,7 @@
 				41AF33B91953B99F0008DF21 /* Option1@2x.png in Resources */,
 				96CBFA39194CC170008B10CE /* Arial Bold.ttf in Resources */,
 				96CBFA37194CC168008B10CE /* Arial.ttf in Resources */,
+				96535948197871D100ADA134 /* UpwardArrow@2x.png in Resources */,
 				96D95581195F3E7C00667581 /* inviteToHuddle@2x.png in Resources */,
 				96F0EDDD195C737200B25DC1 /* Pods-Parse+NSCoding.xcconfig in Resources */,
 				96D95584195F3E7C00667581 /* ringOffline.png in Resources */,
@@ -1438,6 +1463,7 @@
 				96118AF61973687800201CB4 /* Approve.png in Resources */,
 				41AF33B019538FC10008DF21 /* searchInactive@2x.png in Resources */,
 				96D95586195F3E7C00667581 /* ringOnline.png in Resources */,
+				9653594B197871D800ADA134 /* DownwardArrow.png in Resources */,
 				41AF3336194AAC980008DF21 /* circleBehindProfPic.png in Resources */,
 				96F0EDDE195C737200B25DC1 /* Pods-Parse+NSCoding-Private.xcconfig in Resources */,
 				96566E34194510F6006649C3 /* InfoPlist.strings in Resources */,
@@ -1520,7 +1546,7 @@
 				41365D5C196207610057B8C9 /* PFObject+NSCoding.m in Sources */,
 				410261141968B5D2006F2CBF /* SHThreadViewController.m in Sources */,
 				41BD734619736B5E006BEA9E /* SHVisitorClassPageViewController.m in Sources */,
-				96421CAB1970882900B5EC89 /* SHHuddleAddViewController.m in Sources */,
+				96421CAB1970882900B5EC89 /* SHIndividualHuddleAddViewController.m in Sources */,
 				96F429AB1957E7B400E74500 /* SHVisitorProfileSegmentViewController.m in Sources */,
 				41A1943B19662FB80038AAA2 /* SHChatCell.m in Sources */,
 				41CD3AB9196DB018004AD6F0 /* HPTextViewInternal.m in Sources */,
@@ -1537,6 +1563,7 @@
 				4102611A196A09BC006F2CBF /* SHReplyBubble.m in Sources */,
 				96421CB719709D8300B5EC89 /* FPTouchView.m in Sources */,
 				96421CB619709D8300B5EC89 /* FPPopoverView.m in Sources */,
+				96535943197744D300ADA134 /* NSDateFormatter+RelativeString.m in Sources */,
 				96D955A6196085A600667581 /* SHCategoryCell.m in Sources */,
 				96CBFA4A194CE878008B10CE /* SHRequestCell.m in Sources */,
 				96D95593195F3F0900667581 /* SHHuddlePortraitView.m in Sources */,
@@ -1562,6 +1589,7 @@
 				41A19441196673BB0038AAA2 /* SHChatEntrySegmentViewController.m in Sources */,
 				96421CC419718F2500B5EC89 /* SHHuddlePageCell.m in Sources */,
 				96D95623196DD17C00667581 /* SHEditStudyViewController.m in Sources */,
+				9653594F1978B91200ADA134 /* SHHuddleAddViewController.m in Sources */,
 				96D9561C196B467000667581 /* UIImage+Color.m in Sources */,
 				9638162F195BC6140069D477 /* SHPushNotificationsSetting.m in Sources */,
 				41365D661962169A0057B8C9 /* SHNotificationCell.m in Sources */,

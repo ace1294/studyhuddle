@@ -503,22 +503,20 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     if([[[Student currentUser] objectId] isEqual:[self.segHuddle[SHHuddleCreatorKey] objectId]]){
         request[SHRequestTypeKey] = SHRequestHSJoin;
-        request[SHRequestStudent1Key] = self.searchVC.addedMember;
+        request[SHRequestStudent1Key] = member;
+        request[SHRequestDescriptionKey] = @"We want you to join our huddle";
         
     } else {
         //Send creator request to
         request[SHRequestTypeKey] = SHRequestSCJoin;
         request[SHRequestStudent1Key] = self.segHuddle[SHHuddleCreatorKey];
-        request[SHRequestStudent2Key] = self.searchVC.addedMember;
+        request[SHRequestStudent2Key] = member;
         request[SHRequestStudent3Key] = [Student currentUser];
-        
-        
+        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to add %@", [Student currentUser][SHStudentNameKey], member[SHStudentNameKey]];
         
     }
     
-    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        NSLog(@"SAVING ReQUEST BACKGROUND");
-    }];
+    [request saveInBackground];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

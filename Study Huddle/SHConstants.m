@@ -107,6 +107,7 @@ NSString *const SHRequestStudent3Key = @"student3";
 NSString *const SHRequestLocationKey = @"location";
 NSString *const SHRequestTimeKey = @"time";
 NSString *const SHRequestDescriptionKey = @"description";
+NSString *const SHRequestMessageKey = @"message";
 
 
 //Request Types
@@ -124,9 +125,9 @@ NSString* const SHNotificationFromStudentKey = @"fromStudent";
 NSString* const SHNotificationClassKey = @"class";
 NSString* const SHNotificationTypeKey = @"type";
 NSString* const SHNotificationReadKey = @"read";
-NSString* const SHNotificationDateKey = @"createdAt";
 NSString* const SHNotificationLocationKey = @"location";
 NSString* const SHNotificationRequestAcceptedKey = @"requestAccepted";
+NSString *const SHNotificationMessageKey = @"message";
 
 //Notification Types
 NSString* const SHNotificationNewResourceType = @"newResource";

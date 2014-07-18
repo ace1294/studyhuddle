@@ -115,8 +115,9 @@
         notification[SHNotificationTitleKey] = self.huddle[SHHuddleNameKey];
         notification[SHNotificationToStudentKey] = member;
         notification[SHNotificationHuddleKey] = self.huddle;
-        notification[SHNotificationDescriptionKey] = self.descriptionTextView.text;
+        notification[SHNotificationMessageKey] = self.descriptionTextView.text;
         notification[SHNotificationLocationKey] = self.locationTextField.text;
+        notification[SHNotificationDescriptionKey] = [NSString stringWithFormat:@"We are studying at %@ ", self.locationTextField.text];
         
         [notification saveInBackground];
         
