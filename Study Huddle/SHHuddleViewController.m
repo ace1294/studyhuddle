@@ -130,6 +130,13 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.student refresh];
+    [self.tableView reloadData];
+}
+
 - (void)didTapTitleCell:(SHHuddlePageCell *)cell
 {
     SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:cell.huddle];

@@ -16,6 +16,7 @@
 #import "SHConstants.h"
 #import "SHProfileViewController.h"
 #import "SHSearchViewController.h"
+#import "SHTutorialIntro.h"
 
 
 @interface SHAppDelegate()
@@ -28,6 +29,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -44,6 +47,13 @@
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     
+    self.isRunMoreThanOnce = [[NSUserDefaults standardUserDefaults] boolForKey:@"isRunMoreThanOnce"];
+    if(!self.isRunMoreThanOnce){
+        // Show the alert view
+        // Then set the first run flag
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isRunMoreThanOnce"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     //at first only setup the startupcontroller. Once the user is loged in, we will instantiate all other classes that will go in the tab bar controller
     
@@ -52,9 +62,19 @@
     self.navController.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.navController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
+    if(![PFUser currentUser])
+    {
+        //show the tutorial thingy
+        self.window.rootViewController = [[SHTutorialIntro alloc]init];
+    }
+    else
+    {
+        //do regular login
+        self.window.rootViewController = self.navController;
+    }
     
-    self.window.rootViewController = self.navController;
-    self.window.backgroundColor = [UIColor whiteColor];
+    
+    self.window.backgroundColor = [UIColor clearColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -139,7 +159,9 @@
     [self.profileController setStudent:(Student *)[Student currentUser]];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:self.profileNavigator, self.huddlesNavigator,self.searchNavigator,self.notificationNavigator ,nil];
     
+    
     self.window.rootViewController = self.tabBarController;
+    self.window.backgroundColor = [UIColor whiteColor];
 }
 
 
@@ -157,13 +179,15 @@
 {
     
     [PFUser logOut];
-    self.startUpViewController = [[SHStartUpViewController alloc]init];
-    self.navController = [[UINavigationController alloc] initWithRootViewController:self.startUpViewController];
-    self.navController.navigationBar.barTintColor = [UIColor huddleOrange];
-    [self.navController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    //self.startUpViewController = [[SHStartUpViewController alloc]init];
+    //self.navController = [[UINavigationController alloc] initWithRootViewController:self.startUpViewController];
+    //self.navController.navigationBar.barTintColor = [UIColor huddleOrange];
+    //[self.navController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
   
-    self.window.rootViewController = self.navController;
+    //self.window.rootViewController = self.navController;
 
+    self.window.rootViewController = [[SHTutorialIntro alloc]init];
+    self.window.backgroundColor = [UIColor clearColor];
 }
 
 -(void)instantiateViews

@@ -40,6 +40,8 @@
 
 @property (strong,nonatomic) UITabBarController* tabBarController;
 
+@property BOOL isRunMoreThanOnce;
+
 - (void)presentProfileViewController;
 - (void)presentLoginViewController;
 -(void)logout;
