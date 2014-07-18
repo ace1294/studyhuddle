@@ -82,7 +82,7 @@
     [self.categoryHeaderLabel setFont:self.headerFont];
     [self.categoryHeaderLabel setTextColor:[UIColor huddleSilver]];
     self.categoryHeaderLabel.textAlignment = NSTextAlignmentLeft;
-    self.categoryHeaderLabel.text = @"Category";
+    self.categoryHeaderLabel.text = @"Chat Category";
     [self.view addSubview:self.categoryHeaderLabel];
     
     //Time Header
@@ -109,7 +109,7 @@
 {
     
     CGRect initial = CGRectMake(horiViewSpacing, categoryY, huddleButtonWidth, huddleButtonHeight);
-    self.chatCategoryButtons = [[SHHuddleButtons alloc]initWithFrame:initial items:[SHUtility namesForObjects:self.huddle[SHChatCategoryNameKey] withKey:SHChatCategoryNameKey] addButton:@"Add Category"];
+    self.chatCategoryButtons = [[SHHuddleButtons alloc]initWithFrame:initial items:[SHUtility namesForObjects:self.huddle[SHChatCategoryNameKey] withKey:SHChatCategoryNameKey] addButton:@"Add Chat Category"];
     self.chatCategoryButtons.viewController = self;
     
     self.subjectTextField = [[UITextField alloc] initWithFrame:CGRectMake(horiViewSpacing, subjectY, modalContentWidth, textFieldHeight)];
@@ -160,24 +160,43 @@
         return;
     }
     
+    self.question[SHQuestionCreator] = [Student currentUser];
+    self.question[SHQuestionQuestion] = self.messageTextView.text;
     
-    
-    [self.huddle addObject:self.chatCategory forKey:SHHuddleChatCategoriesKey];
-    
-    //self.chatCategory[SHChatCategoryNameKey] = self.categoryTextField.text;
-    self.chatCategory[SHChatCategoryThreadsKey] = @[self.thread];
+    [self.question save];
     
     self.thread[SHThreadTitle] = self.subjectTextField.text;
     self.thread[SHThreadQuestions] = @[self.question];
     self.thread[SHThreadCreator] = [Student currentUser];
     
-    self.question[SHQuestionCreator] = [Student currentUser];
-    self.question[SHQuestionQuestion] = self.messageTextView.text;
+    [self.thread save];
     
-    [self.huddle saveInBackground];
-    [self.chatCategory saveInBackground];
-    [self.thread saveInBackground];
-    [self.question saveInBackground];
+    if(self.chatCategoryButtons.addButtonSet){
+        
+        PFObject *newChatCategory = [PFObject objectWithClassName:SHResourceCategoryParseClass];
+        
+        newChatCategory[SHChatCategoryNameKey] = self.chatCategoryButtons.selectedButton;
+        newChatCategory[SHChatCategoryThreadsKey] = @[self.thread];
+        newChatCategory[SHChatCategoryHuddleKey] = self.huddle;
+        self.thread[SHThreadChatCategoryKey] = newChatCategory;
+        
+        
+        [self.huddle addObject:newChatCategory forKey:SHHuddleChatCategoriesKey];
+        
+        [PFObject saveAll:@[self.huddle,newChatCategory, self.thread]];
+    }
+    else{
+        PFQuery *chatCategoryQuery = [PFQuery queryWithClassName:SHChatCategoryParseClass];
+        [chatCategoryQuery whereKey:SHChatCategoryNameKey equalTo:self.chatCategoryButtons.selectedButton];
+        [chatCategoryQuery whereKey:SHChatCategoryHuddleKey equalTo:self.huddle];
+        self.chatCategory = [chatCategoryQuery findObjects][0];
+        [self.chatCategory addObject:self.thread forKey:SHChatCategoryThreadsKey];
+        self.thread[SHThreadChatCategoryKey] = self.chatCategory;
+        
+        [PFObject saveAll:@[self.chatCategory,self.thread]];
+        
+    }
+    
     
     [self cancelAction];
     

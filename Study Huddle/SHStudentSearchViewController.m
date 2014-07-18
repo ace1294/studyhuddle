@@ -175,6 +175,8 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     
+    self.navigationController.navigationBarHidden = NO;
+    
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath

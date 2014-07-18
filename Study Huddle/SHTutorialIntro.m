@@ -41,7 +41,7 @@
     self.pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y+self.view.frame.size.height-37, self.view.frame.size.width, 37)];
     self.pageControl.currentPage = 0;
     self.pageControl.numberOfPages = MAX_PAGES;
-    self.pageControl.pageIndicatorTintColor = [UIColor huddleLightSilver];
+    self.pageControl.pageIndicatorTintColor = [UIColor huddleLightGrey];
     self.pageControl.currentPageIndicatorTintColor = [UIColor huddleSilver];
     
 
@@ -155,7 +155,7 @@
 
 -(void)updatePageNumber
 {
-    self.pageControl.pageIndicatorTintColor = [UIColor huddleLightSilver];
+    self.pageControl.pageIndicatorTintColor = [UIColor huddleLightGrey];
     self.pageControl.currentPageIndicatorTintColor = [UIColor huddleSilver];
     UIViewController* viewController = self.pageController.viewControllers[0];
     if([viewController isKindOfClass:[SHIntro1ViewController class]])

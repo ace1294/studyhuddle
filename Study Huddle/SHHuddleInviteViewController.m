@@ -10,11 +10,12 @@
 #import "UIColor+HuddleColors.h"
 #import "SHHuddleButtons.h"
 #import "SHUtility.h"
+#import "Student.h"
 
 @interface SHHuddleInviteViewController () <UITextViewDelegate>
 
-@property (strong, nonatomic) PFObject *request;
 @property (strong, nonatomic) PFObject *student;
+@property (strong, nonatomic) PFObject *toStudent;
 
 //Headers
 @property (strong, nonatomic) UILabel *messageHeaderLabel;
@@ -41,10 +42,8 @@
         self.modalFrameHeight = 140.0;
         [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         
-        self.request = [PFObject objectWithClassName:SHRequestParseClass];
-        self.request[SHRequestStudent1Key] = aToStudent;
-        self.request[SHRequestTypeKey] = SHRequestHSJoin;
         self.student = aFromStudent;
+        self.toStudent = aToStudent;
         
         [self initHeaders];
         [self initContent];
@@ -106,10 +105,6 @@
 
 - (void)continueAction
 {
-    self.request[SHRequestDescriptionKey] = self.messageTextView.text;
-    
-    PFQuery *huddleQuery = [PFQuery queryWithClassName:SHHuddleParseClass];
-    
     if (!self.huddleButtons.selectedButton) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
                                                         message: @"Must select a huddle."
@@ -119,13 +114,33 @@
         return;
     }
     
+    PFQuery *huddleQuery = [PFQuery queryWithClassName:SHHuddleParseClass];
     [huddleQuery whereKey:SHHuddleNameKey equalTo:self.huddleButtons.selectedButton];
     [huddleQuery whereKey:SHHuddleMembersKey equalTo:self.student];
-    self.request[SHRequestHuddleKey] = [huddleQuery findObjects][0];
-    //self.request[shrequest]
+    PFObject *huddle = [huddleQuery findObjects][0];
+
+    PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
+    request[SHRequestTitleKey] = huddle[SHHuddleNameKey];
+    request[SHRequestHuddleKey] = huddle;
+    request[SHRequestMessageKey] = self.messageTextView.text;
+    
+    if([[[Student currentUser] objectId] isEqual:[huddle[SHHuddleCreatorKey] objectId]]){
+        request[SHRequestTypeKey] = SHRequestHSJoin;
+        request[SHRequestStudent1Key] = self.toStudent;
+        request[SHRequestDescriptionKey] = @"We want you to join our huddle";
+        
+    } else {
+        //Send creator request to
+        request[SHRequestTypeKey] = SHRequestSCJoin;
+        request[SHRequestStudent1Key] = huddle[SHHuddleCreatorKey];
+        request[SHRequestStudent2Key] = self.toStudent;
+        request[SHRequestStudent3Key] = [Student currentUser];
+        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to add %@", [Student currentUser][SHStudentNameKey], self.toStudent[SHStudentNameKey]];
+        
+    }
     
     
-    [self.request saveInBackground];
+    [request saveInBackground];
     
     //Set button as Invite Sent
     

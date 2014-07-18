@@ -12,7 +12,16 @@
 @interface SHRequestCell : SHBaseTextCell
 
 @property (strong, nonatomic) PFObject *request;
+@property (nonatomic, strong) UILabel *expandedMessageLabel;
+
+@property (nonatomic, strong) UIButton *acceptButton;
+@property (nonatomic, strong) UIButton *denyButton;
+
 - (void)setRequest:(PFObject *)aRequest;
+- (void)expand;
+- (void)collapse;
+
+- (CGFloat)heightForExpandedCell:(NSString *)message;
 
 @end
 

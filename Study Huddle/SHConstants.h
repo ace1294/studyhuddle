@@ -50,7 +50,7 @@ extern NSString *const SHHuddleNameKey;
 extern NSString *const SHHuddleMembersKey;
 extern NSString *const SHHuddleClassKey;
 extern NSString *const SHHuddleStatusKey;
-extern NSString *const SHHuddleUniqueName;
+extern NSString *const SHHuddleLowerName;
 extern NSString *const SHHuddleStudyKey;
 extern NSString *const SHHuddleResourceCategoriesKey;
 extern NSString *const SHHuddleImageKey;
@@ -101,6 +101,7 @@ extern NSString *const SHRequestStudent3Key;
 extern NSString *const SHRequestLocationKey;
 extern NSString *const SHRequestTimeKey;
 extern NSString *const SHRequestDescriptionKey;
+extern NSString *const SHRequestMessageKey;
 
 //Request Types
 extern NSString *const SHRequestSSInviteStudy;
@@ -112,13 +113,14 @@ extern NSString *const SHRequestSCJoin;
 extern NSString* const SHNotificationTitleKey;
 extern NSString* const SHNotificationDescriptionKey;
 extern NSString* const SHNotificationHuddleKey;
-extern NSString* const SHNotificationStudentKey;
+extern NSString* const SHNotificationToStudentKey;
+extern NSString* const SHNotificationFromStudentKey;
 extern NSString* const SHNotificationClassKey;
 extern NSString* const SHNotificationTypeKey;
 extern NSString* const SHNotificationReadKey;
-extern NSString* const SHNotificationDateKey;
 extern NSString* const SHNotificationLocationKey;
 extern NSString* const SHNotificationRequestAcceptedKey;
+extern NSString *const SHNotificationMessageKey;
 
 //Notification types
 extern NSString* const SHNotificationNewResourceType;
@@ -140,11 +142,13 @@ extern NSString* const SHSHDeniedJoinRequestTitle;
 //Chat Category
 extern NSString* const SHChatCategoryNameKey;
 extern NSString* const SHChatCategoryThreadsKey;
+extern NSString* const SHChatCategoryHuddleKey;
 
 //Thread
 extern NSString* const SHThreadTitle;
 extern NSString* const SHThreadCreator;
 extern NSString* const SHThreadQuestions;
+extern NSString* const SHThreadChatCategoryKey;
 
 //Question
 extern NSString* const SHQuestionCreator;
@@ -190,8 +194,8 @@ extern int const SHEditingReply;
 #define maxHeight 568.0
 
 #define SHHuddleCellHeight 70.0
-#define SHRequestCellHeight 70.0
-#define SHNotificationCellHeight 70.0
+#define SHRequestCellHeight 65.0
+#define SHNotificationCellHeight 65.0
 #define SHClassCellHeight 50.0
 #define SHStudyCellHeight 50.0
 #define SHAddCellHeight 50.0
@@ -212,7 +216,6 @@ extern int const SHEditingReply;
 #define horiBorderSpacingBottom 7.0f
 #define horiElemSpacing 5.0f
 
-#define nameMaxWidth 200.0f
 
 #define cellPortraitX vertBorderSpacing
 #define cellPortraitY horiBorderSpacing
@@ -221,11 +224,7 @@ extern int const SHEditingReply;
 #define titleX vertBorderSpacing
 #define titleY horiBorderSpacing
 
-//Arrow
-#define arrowX 295.0f
-#define arrowY 25.0
-#define arrowDimX 10.0f
-#define arrowDimY 20.0
+
 
 //Portait
 //#define portraitX

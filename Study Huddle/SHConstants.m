@@ -55,7 +55,7 @@ NSString *const SHHuddleNameKey = @"huddleName";
 NSString *const SHHuddleMembersKey = @"huddleMembers";
 NSString *const SHHuddleClassKey = @"huddleClass";
 NSString *const SHHuddleStatusKey = @"huddleStatus";
-NSString *const SHHuddleUniqueName = @"uniqueName";
+NSString *const SHHuddleLowerName = @"lowerName";
 NSString *const SHHuddleStudyKey = @"study";
 NSString *const SHHuddleResourceCategoriesKey = @"resourceCategories";
 NSString *const SHHuddleImageKey = @"huddleImage";
@@ -107,6 +107,7 @@ NSString *const SHRequestStudent3Key = @"student3";
 NSString *const SHRequestLocationKey = @"location";
 NSString *const SHRequestTimeKey = @"time";
 NSString *const SHRequestDescriptionKey = @"description";
+NSString *const SHRequestMessageKey = @"message";
 
 
 //Request Types
@@ -119,13 +120,14 @@ NSString *const SHRequestSCJoin = @"SCJoin";
 NSString* const SHNotificationTitleKey = @"title";
 NSString* const SHNotificationDescriptionKey = @"description";
 NSString* const SHNotificationHuddleKey = @"huddle";
-NSString* const SHNotificationStudentKey = @"student";
+NSString* const SHNotificationToStudentKey = @"toStudent";
+NSString* const SHNotificationFromStudentKey = @"fromStudent";
 NSString* const SHNotificationClassKey = @"class";
 NSString* const SHNotificationTypeKey = @"type";
 NSString* const SHNotificationReadKey = @"read";
-NSString* const SHNotificationDateKey = @"createdAt";
 NSString* const SHNotificationLocationKey = @"location";
 NSString* const SHNotificationRequestAcceptedKey = @"requestAccepted";
+NSString *const SHNotificationMessageKey = @"message";
 
 //Notification Types
 NSString* const SHNotificationNewResourceType = @"newResource";
@@ -151,6 +153,7 @@ NSString* const SHSHDeniedJoinRequestTitle = @"Huddle denied request to join";
 NSString* const SHThreadTitle = @"title";
 NSString* const SHThreadCreator = @"creator";
 NSString* const SHThreadQuestions = @"questions";
+NSString* const SHThreadChatCategoryKey = @"chatCategory";
 
 //Question
 NSString* const SHQuestionCreator = @"creator";
@@ -163,9 +166,10 @@ NSString* const SHReplyCreator = @"creator";
 NSString* const SHReplyAnswer = @"answer";
 NSString* const SHReplyClassName = @"Reply";
 
-//Chat Entry
+//Chat Category
 NSString* const SHChatCategoryNameKey = @"category";
 NSString* const SHChatCategoryThreadsKey = @"threads";
+NSString* const SHChatCategoryHuddleKey = @"huddle";
 
 //Constants for chat feature
 int const SHEditingQuestion = 0;

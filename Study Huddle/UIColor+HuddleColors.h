@@ -18,7 +18,7 @@
 + (UIColor *)huddleCharcoal;
 + (UIColor *)huddleMidnightBlue;
 + (UIColor *)huddleSilver;
-+ (UIColor *)huddleLightSilver;
++ (UIColor *)huddleLightGrey;
 + (UIColor *)huddleCell;
 + (UIColor *)huddleDarkSilver;
 

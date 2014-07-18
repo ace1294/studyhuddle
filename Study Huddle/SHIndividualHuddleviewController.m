@@ -12,13 +12,15 @@
 #import "SHHuddleSegmentViewController.h"
 #import "SHNewQuestionViewController.h"
 #import "UIViewController+MJPopupViewController.h"
-#import "SHHuddleAddViewController.h"
+#import "SHIndividualHuddleAddViewController.h"
 #import "FPPopoverController.h"
 #import "WYPopoverController.h"
 #import "SHNewResourceViewController.h"
 #import "SHStudentSearchViewController.h"
 #import "SHHuddleStartStudyingViewController.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "SHStudentSearchViewController.h"
+#import "Student.h"
 
 
 #define profileImageWidth 100
@@ -50,7 +52,7 @@
 #define sideItemsFont [UIFont systemFontOfSize:7]
 
 
-@interface SHIndividualHuddleviewController () <UIScrollViewDelegate, SHModalViewControllerDelegate, WYPopoverControllerDelegate, SHHuddleAddDelegate>
+@interface SHIndividualHuddleviewController () <UIScrollViewDelegate, SHModalViewControllerDelegate, WYPopoverControllerDelegate, SHIndividualHuddleAddDelegate, SHStudentSearchDelegate>
 {
     WYPopoverController* popoverController;
 }
@@ -73,6 +75,7 @@
 @property (nonatomic,strong) NSDate* lastStart;
 
 @property (strong, nonatomic) UIBarButtonItem *addButton;
+
 
 
 @end
@@ -256,7 +259,7 @@
                                    userInfo:nil
                                     repeats:YES];
     
-    SHHuddleAddViewController *addVC = [[SHHuddleAddViewController alloc]init];
+    SHIndividualHuddleAddViewController *addVC = [[SHIndividualHuddleAddViewController alloc]init];
     [addVC.view setFrame:CGRectMake(305, 55.0, 100.0, 200.0)];
     addVC.preferredContentSize = CGSizeMake(120, 110);
     addVC.delegate = self;
@@ -424,7 +427,10 @@
 
 - (void)addMemberTapped
 {
-    
+    SHStudentSearchViewController *searchVC = [[SHStudentSearchViewController alloc]init];
+    searchVC.type = @"NewMember";
+    searchVC.delegate = self;
+    [self presentViewController:searchVC animated:YES completion:nil];
 }
 
 - (void)addResourceTapped
@@ -437,9 +443,6 @@
             //
         }];
     }];
-    
-    
-    
     
 }
 
@@ -457,7 +460,31 @@
     
 }
 
+#pragma mark - SHStudentSearchDelgate
 
+- (void)didAddMember:(PFObject *)member
+{
+    PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
+    request[SHRequestTitleKey] = self.indvHuddle[SHHuddleNameKey];
+    request[SHRequestHuddleKey] = self.indvHuddle;
+    
+    if([[[Student currentUser] objectId] isEqual:[self.indvHuddle[SHHuddleCreatorKey] objectId]]){
+        request[SHRequestTypeKey] = SHRequestHSJoin;
+        request[SHRequestStudent1Key] = member;
+        request[SHRequestDescriptionKey] = @"We want you to join our huddle";
+        
+    } else {
+        //Send creator request to
+        request[SHRequestTypeKey] = SHRequestSCJoin;
+        request[SHRequestStudent1Key] = self.indvHuddle[SHHuddleCreatorKey];
+        request[SHRequestStudent2Key] = member;
+        request[SHRequestStudent3Key] = [Student currentUser];
+        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to add %@", [Student currentUser][SHStudentNameKey], member[SHStudentNameKey]];
+        
+    }
+    
+    [request saveInBackground];
+}
 
 #pragma mark - Popoover Delegate Methods
 
@@ -468,8 +495,8 @@
 
 - (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller
 {
-    popoverController.delegate = nil;
-    popoverController = nil;
+    //popoverController.delegate = nil;
+    //popoverController = nil;
 }
 
 #pragma mark - Popup delegate methods

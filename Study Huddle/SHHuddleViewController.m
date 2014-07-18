@@ -14,26 +14,26 @@
 #import "SHVisitorProfileViewController.h"
 #import "SHIndividualHuddleviewController.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "SHHuddleAddViewController.h"
+#import "WYPopoverController.h"
+#import "SHNewHuddleViewController.h"
+#import "UIColor+HuddleColors.h"
 
-@interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate, SHHuddlePageCellDelegate, SHModalViewControllerDelegate>
+@interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate, SHHuddlePageCellDelegate, SHModalViewControllerDelegate, SHHuddleAddDelegate, WYPopoverControllerDelegate>
+{
+    WYPopoverController* popoverController;
+}
 
 @property (strong, nonatomic) Student* student;
 @property (strong, nonatomic) NSMutableArray *huddles;
 
 @property (strong, nonatomic) UITableView *tableView;
 
+@property (strong, nonatomic) UIBarButtonItem *addButton;
+
 @end
 
 @implementation SHHuddleViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (id)init
 {
@@ -62,6 +62,13 @@
         [self.tableView setBackgroundColor:[UIColor clearColor]];
         self.tableView.backgroundView = tempImageView;
         
+        //Edit Button
+        self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                                   target:self
+                                                                                   action:@selector(addItem)];
+        
+        self.navigationItem.rightBarButtonItem = self.addButton;
+        
         
     }
     return self;
@@ -75,6 +82,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    SHHuddleAddViewController *addVC = [[SHHuddleAddViewController alloc]init];
+    [addVC.view setFrame:CGRectMake(305, 55.0, 100.0, 40.0)];
+    addVC.preferredContentSize = CGSizeMake(120, 40);
+    addVC.delegate = self;
+    popoverController = [[WYPopoverController alloc]initWithContentViewController:addVC];
+    popoverController.delegate = self;
+    [WYPopoverController setDefaultTheme:[WYPopoverTheme theme]];
+    
+    WYPopoverBackgroundView *appearance = [WYPopoverBackgroundView appearance];
+    [appearance setTintColor:[UIColor huddleSilver]];
     
 }
 
@@ -148,29 +166,39 @@
 
 
 
-- (void)didTapInviteToStudy:(PFObject *)huddle
+- (void)addHuddleTapped
 {
-    //SHStudyInviteViewController *studyInviteVC = [[SHStudyInviteViewController alloc]init]
-}
-
--(void)didTapAddResource:(PFObject *)huddle
-{
-    SHNewResourceViewController *newResourceVC = [[SHNewResourceViewController alloc]initWithHuddle:huddle];
-    newResourceVC.delegate = self;
+    SHNewHuddleViewController *newHuddleVC = [[SHNewHuddleViewController alloc]initWithStudent:[Student currentUser]];
     
-    [self presentPopupViewController:newResourceVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
-        //
+    [popoverController dismissPopoverAnimated:YES completion:^{
+        [self.navigationController pushViewController:newHuddleVC animated:YES];
     }];
     
+    
 }
 
-- (void)didTapMember:(PFObject *)member
+
+#pragma mark - Actions
+
+- (void)addItem
 {
-    SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)member];
-    
-    [self.navigationController pushViewController:visitorVC animated:YES];
-    
+    [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
 }
+
+
+#pragma mark - Popoover Delegate Methods
+
+- (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller
+{
+    return YES;
+}
+
+- (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller
+{
+    //popoverController.delegate = nil;
+    //popoverController = nil;
+}
+
 
 #pragma mark - Popup delegate methods
 

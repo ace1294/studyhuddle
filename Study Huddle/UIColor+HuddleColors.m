@@ -50,10 +50,10 @@
 
 + (UIColor *)huddleCell
 {
-    return [UIColor colorWithRed:255.0f/255.0f green:251.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
+    return [UIColor colorWithRed:229.0f/255.0f green:229.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
 }
 
-+ (UIColor *)huddleLightSilver;
++ (UIColor *)huddleLightGrey;
 {
         return [UIColor colorWithRed:200.0f/255.0f green:200.0f/255.0f blue:200.0f/255.0f alpha:1.0f];
 }

@@ -160,7 +160,14 @@
 {
     self.request[SHRequestTimeKey] = self.timePicker.date;
     self.request[SHRequestLocationKey] = self.locationTextField.text;
-    self.request[SHRequestDescriptionKey] = self.descriptionTextView.text;
+    self.request[SHRequestMessageKey] = self.descriptionTextView.text;
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"hh:mm a"];
+    NSString *timeString = [formatter stringFromDate:self.timePicker.date];
+    NSString *timeLocation = [NSString stringWithFormat:@"Wants to study at %@; %@", timeString, self.locationTextField.text];
+    
+    self.request[SHRequestDescriptionKey] = timeLocation;
     
     [self.request saveInBackground];
     

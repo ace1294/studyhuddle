@@ -91,9 +91,9 @@
     
     
     
-    [self.titleButton setFrame:CGRectMake(horiViewSpacing, vertViewSpacing-5.0, titleSize.width, titleSize.height)];
+    [self.titleButton setFrame:CGRectMake(horiViewSpacing, vertBorderSpacing, titleSize.width, titleSize.height)];
     
-    CGSize descriptionSize = [self.descriptionLabel.text boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
+    CGSize descriptionSize = [self.descriptionLabel.text boundingRectWithSize:CGSizeMake(descriptionMaxWidth, CGFLOAT_MAX)
                                                                       options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
                                                                    attributes:@{NSFontAttributeName:self.descriptionFont}
                                                                       context:nil].size;

@@ -15,6 +15,7 @@
 #import "SHStudentCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SHBasePortraitView.h"
+#import "SHIndividualHuddleviewController.h"
 
 
 
@@ -77,13 +78,9 @@
         self.classObjects = [[NSMutableDictionary alloc]init];
         //[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"backgroundSolid.png"]]];
         
-        //create cancelButton
-        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)];
-        cancelButton.tintColor = [UIColor whiteColor];
-        self.navigationItem.leftBarButtonItem = cancelButton;
         
         //done button
-        UIBarButtonItem *createButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(createPressed)];
+        UIBarButtonItem *createButton = [[UIBarButtonItem alloc] initWithTitle:@"Create" style:UIBarButtonItemStylePlain target:self action:@selector(createPressed)];
         createButton.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = createButton;
         self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -118,7 +115,7 @@
         [self.classHuddleLabel setLineBreakMode:NSLineBreakByWordWrapping];
         self.classHuddleLabel.textAlignment = NSTextAlignmentCenter;
         self.classHuddleLabel.text = [@"Class For Huddle" capitalizedString];
-        [self.classHuddleLabel setBackgroundColor:[UIColor huddleLightSilver]];
+        [self.classHuddleLabel setBackgroundColor:[UIColor huddleLightGrey]];
         [self.view addSubview:self.classHuddleLabel];
         
         self.inviteStudentsLabel = [[UILabel alloc] init];
@@ -129,7 +126,7 @@
         [self.inviteStudentsLabel setLineBreakMode:NSLineBreakByWordWrapping];
         self.inviteStudentsLabel.textAlignment = NSTextAlignmentCenter;
         self.inviteStudentsLabel.text = [@"Invite Students to Huddle" capitalizedString];
-        [self.inviteStudentsLabel setBackgroundColor:[UIColor huddleLightSilver]];
+        [self.inviteStudentsLabel setBackgroundColor:[UIColor huddleLightGrey]];
         [self.view addSubview:self.inviteStudentsLabel];
         
         //Huddle Type Buttons
@@ -363,16 +360,19 @@
 
 
 
--(void)cancelPressed
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
+#pragma mark - Actions
 -(void)createPressed
 {
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleName.text;
     self.huddle[SHHuddleClassKey] = [self.classObjects objectForKey:self.className];
+    
+    [self.huddle saveInBackground];
+    
+    SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:self.huddle];
+    
+    [self.parentViewController.navigationController pushViewController:huddleVC animated:YES];
     
     
 }
