@@ -127,9 +127,6 @@
 		96421C9A197055CC00B5EC89 /* SHNewQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421C99197055CC00B5EC89 /* SHNewQuestionViewController.m */; };
 		96421C9D19707CB600B5EC89 /* SHNewThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421C9C19707CB600B5EC89 /* SHNewThreadViewController.m */; };
 		96421CAB1970882900B5EC89 /* SHIndividualHuddleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CAA1970882900B5EC89 /* SHIndividualHuddleAddViewController.m */; };
-		96421CB619709D8300B5EC89 /* FPPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CB319709D8300B5EC89 /* FPPopoverView.m */; };
-		96421CB719709D8300B5EC89 /* FPTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CB519709D8300B5EC89 /* FPTouchView.m */; };
-		96421CBA19709D8B00B5EC89 /* FPPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CB919709D8B00B5EC89 /* FPPopoverController.m */; };
 		96421CC01970A84300B5EC89 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CBD1970A84300B5EC89 /* WYPopoverController.m */; };
 		96421CC11970A84300B5EC89 /* WYStoryboardPopoverSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CBF1970A84300B5EC89 /* WYStoryboardPopoverSegue.m */; };
 		96421CC419718F2500B5EC89 /* SHHuddlePageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96421CC319718F2500B5EC89 /* SHHuddlePageCell.m */; };
@@ -435,13 +432,6 @@
 		96421C9C19707CB600B5EC89 /* SHNewThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHNewThreadViewController.m; sourceTree = "<group>"; };
 		96421CA91970882900B5EC89 /* SHIndividualHuddleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHIndividualHuddleAddViewController.h; sourceTree = "<group>"; };
 		96421CAA1970882900B5EC89 /* SHIndividualHuddleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHIndividualHuddleAddViewController.m; sourceTree = "<group>"; };
-		96421CB219709D8300B5EC89 /* FPPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPPopoverView.h; sourceTree = "<group>"; };
-		96421CB319709D8300B5EC89 /* FPPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverView.m; sourceTree = "<group>"; };
-		96421CB419709D8300B5EC89 /* FPTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPTouchView.h; sourceTree = "<group>"; };
-		96421CB519709D8300B5EC89 /* FPTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPTouchView.m; sourceTree = "<group>"; };
-		96421CB819709D8B00B5EC89 /* FPPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPPopoverController.h; sourceTree = "<group>"; };
-		96421CB919709D8B00B5EC89 /* FPPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPPopoverController.m; sourceTree = "<group>"; };
-		96421CBB19709D9A00B5EC89 /* ARCMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARCMacros.h; sourceTree = "<group>"; };
 		96421CBC1970A84300B5EC89 /* WYPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYPopoverController.h; sourceTree = "<group>"; };
 		96421CBD1970A84300B5EC89 /* WYPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYPopoverController.m; sourceTree = "<group>"; };
 		96421CBE1970A84300B5EC89 /* WYStoryboardPopoverSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYStoryboardPopoverSegue.h; sourceTree = "<group>"; };
@@ -662,7 +652,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		41A1936F19637A7C0038AAA2 /* Borders */ = {
+		41A1936F19637A7C0038AAA2 /* AUISelectiveBordersLayer */ = {
 			isa = PBXGroup;
 			children = (
 				41A1937019637A9E0038AAA2 /* AUISelectiveBordersLayer.h */,
@@ -670,7 +660,8 @@
 				41A1937519637AAE0038AAA2 /* UIView+AUISelectiveBorder.h */,
 				41A1937319637AA90038AAA2 /* UIView+AUISelectiveBorder.m */,
 			);
-			name = Borders;
+			name = AUISelectiveBordersLayer;
+			path = "../Study Huddle";
 			sourceTree = "<group>";
 		};
 		41AF32DF194A77C60008DF21 /* HuddleClasses */ = {
@@ -1044,22 +1035,16 @@
 			name = Thread;
 			sourceTree = "<group>";
 		};
-		96421C9E197086F800B5EC89 /* Popover */ = {
+		96421C9E197086F800B5EC89 /* WYPopoverController */ = {
 			isa = PBXGroup;
 			children = (
 				96421CBC1970A84300B5EC89 /* WYPopoverController.h */,
 				96421CBD1970A84300B5EC89 /* WYPopoverController.m */,
 				96421CBE1970A84300B5EC89 /* WYStoryboardPopoverSegue.h */,
 				96421CBF1970A84300B5EC89 /* WYStoryboardPopoverSegue.m */,
-				96421CBB19709D9A00B5EC89 /* ARCMacros.h */,
-				96421CB819709D8B00B5EC89 /* FPPopoverController.h */,
-				96421CB919709D8B00B5EC89 /* FPPopoverController.m */,
-				96421CB219709D8300B5EC89 /* FPPopoverView.h */,
-				96421CB319709D8300B5EC89 /* FPPopoverView.m */,
-				96421CB419709D8300B5EC89 /* FPTouchView.h */,
-				96421CB519709D8300B5EC89 /* FPTouchView.m */,
 			);
-			name = Popover;
+			name = WYPopoverController;
+			path = "../Study Huddle";
 			sourceTree = "<group>";
 		};
 		9653593319758AAD00ADA134 /* Huddle */ = {
@@ -1088,7 +1073,7 @@
 			name = "Class Pages";
 			sourceTree = "<group>";
 		};
-		96535950198883EB00ADA134 /* GrowingText */ = {
+		96535950198883EB00ADA134 /* HPGrowingTextView */ = {
 			isa = PBXGroup;
 			children = (
 				41CD3AB4196DB018004AD6F0 /* HPGrowingTextView.h */,
@@ -1096,7 +1081,8 @@
 				41CD3AB6196DB018004AD6F0 /* HPTextViewInternal.h */,
 				41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */,
 			);
-			name = GrowingText;
+			name = HPGrowingTextView;
+			path = "../Study Huddle";
 			sourceTree = "<group>";
 		};
 		9653595719889C2600ADA134 /* MBProgressHUD */ = {
@@ -1106,13 +1092,29 @@
 				9653595519889C1F00ADA134 /* MBProgressHUD.m */,
 			);
 			name = MBProgressHUD;
+			path = "../Study Huddle";
 			sourceTree = "<group>";
+		};
+		9653595819896BAE00ADA134 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				9653595719889C2600ADA134 /* MBProgressHUD */,
+				96535950198883EB00ADA134 /* HPGrowingTextView */,
+				96421C9E197086F800B5EC89 /* WYPopoverController */,
+				41A1936F19637A7C0038AAA2 /* AUISelectiveBordersLayer */,
+				96D955DD1961E4E700667581 /* UIViewController+MJPopupViewController */,
+				96F0EDD8195C737200B25DC1 /* Parse+NSCoding */,
+			);
+			name = External;
+			path = "Study HuddleTests";
+			sourceTree = SOURCE_ROOT;
 		};
 		96566E1D194510F6006649C3 = {
 			isa = PBXGroup;
 			children = (
 				41AF3349194CAC3C0008DF21 /* Podfile */,
 				96566E2F194510F6006649C3 /* Study Huddle */,
+				9653595819896BAE00ADA134 /* External */,
 				96566E48194510F6006649C3 /* Study HuddleTests */,
 				96566E28194510F6006649C3 /* Frameworks */,
 				96566E27194510F6006649C3 /* Products */,
@@ -1276,12 +1278,6 @@
 				96566E7C19451683006649C3 /* UIColor+HuddleColors.m */,
 				96535941197744D300ADA134 /* NSDateFormatter+RelativeString.h */,
 				96535942197744D300ADA134 /* NSDateFormatter+RelativeString.m */,
-				9653595719889C2600ADA134 /* MBProgressHUD */,
-				96535950198883EB00ADA134 /* GrowingText */,
-				96421C9E197086F800B5EC89 /* Popover */,
-				41A1936F19637A7C0038AAA2 /* Borders */,
-				96D955DD1961E4E700667581 /* Popup */,
-				96F0EDD8195C737200B25DC1 /* Parse+NSCoding */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1475,7 +1471,7 @@
 			name = Resource;
 			sourceTree = "<group>";
 		};
-		96D955DD1961E4E700667581 /* Popup */ = {
+		96D955DD1961E4E700667581 /* UIViewController+MJPopupViewController */ = {
 			isa = PBXGroup;
 			children = (
 				96D955DA1961E4E100667581 /* MJPopupBackgroundView.h */,
@@ -1483,7 +1479,8 @@
 				96D955D71961E4CB00667581 /* UIViewController+MJPopupViewController.h */,
 				96D955D81961E4CB00667581 /* UIViewController+MJPopupViewController.m */,
 			);
-			name = Popup;
+			name = "UIViewController+MJPopupViewController";
+			path = "../Study Huddle";
 			sourceTree = "<group>";
 		};
 		96D956031965C5A500667581 /* Buttons */ = {
@@ -1816,8 +1813,6 @@
 				96D955B71960BBA000667581 /* SHClassPageViewController.m in Sources */,
 				96118AEE1973474200201CB4 /* SHVisitorHuddleSegmentViewController.m in Sources */,
 				4102611A196A09BC006F2CBF /* SHReplyBubble.m in Sources */,
-				96421CB719709D8300B5EC89 /* FPTouchView.m in Sources */,
-				96421CB619709D8300B5EC89 /* FPPopoverView.m in Sources */,
 				96535943197744D300ADA134 /* NSDateFormatter+RelativeString.m in Sources */,
 				96D955A6196085A600667581 /* SHCategoryCell.m in Sources */,
 				96CBFA4A194CE878008B10CE /* SHRequestCell.m in Sources */,
@@ -1839,7 +1834,6 @@
 				96D95594195F3F0900667581 /* SHProfilePortraitView.m in Sources */,
 				41CD3AB3196CB206004AD6F0 /* SHTextBar.m in Sources */,
 				41A194441966759F0038AAA2 /* SHThreadCell.m in Sources */,
-				96421CBA19709D8B00B5EC89 /* FPPopoverController.m in Sources */,
 				41BD7350197706FA006BEA9E /* SHIntro2ViewController.m in Sources */,
 				96D9559B195F3F5300667581 /* SHBasePortraitViewController.m in Sources */,
 				41A19441196673BB0038AAA2 /* SHChatEntrySegmentViewController.m in Sources */,
