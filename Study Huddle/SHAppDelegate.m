@@ -52,28 +52,17 @@
         // Then set the first run flag
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isRunMoreThanOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    
-    //at first only setup the startupcontroller. Once the user is loged in, we will instantiate all other classes that will go in the tab bar controller
-    
-    self.startUpViewController = [[SHStartUpViewController alloc]init];
-    self.navController = [[UINavigationController alloc] initWithRootViewController:self.startUpViewController];
-    //self.navController.navigationBar.barTintColor = [UIColor huddleOrange];
-    //[self.navController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    
-    if(![PFUser currentUser])
-    {
         //show the tutorial thingy
         self.window.rootViewController = [[SHTutorialIntro alloc]init];
     }
     else
     {
-        //do regular login
-        [[Student currentUser] refreshInBackgroundWithTarget:self selector:nil];
+        self.startUpViewController = [[SHStartUpViewController alloc]init];
+        self.navController = [[UINavigationController alloc] initWithRootViewController:self.startUpViewController];
         self.window.rootViewController = self.navController;
     }
     
-    
+ 
     self.window.backgroundColor = [UIColor clearColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -198,7 +187,10 @@
   
     //self.window.rootViewController = self.navController;
 
-    self.window.rootViewController = [[SHTutorialIntro alloc]init];
+    self.startUpViewController = [[SHStartUpViewController alloc]init];
+    self.navController = [[UINavigationController alloc] initWithRootViewController:self.startUpViewController];
+    self.window.rootViewController = self.navController;
+
     self.window.backgroundColor = [UIColor clearColor];
 }
 
