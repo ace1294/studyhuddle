@@ -6,6 +6,11 @@
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
+#pragma mark - NSUserDefaults
+extern NSString *const SHUserDefaultsUserHuddlesKey;
+extern NSString *const SHUserDefaultsUserClassesKey;
+extern NSString *const SHUserDefaultsUserStudyFriendsKey;
+
 //Parse Classes
 extern NSString *const SHHuddleParseClass;
 extern NSString *const SHStudentParseClass;

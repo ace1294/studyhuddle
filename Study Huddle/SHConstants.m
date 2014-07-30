@@ -8,6 +8,12 @@
 
 #import "SHConstants.h"
 
+#pragma mark - NSUserDefaults
+
+NSString *const SHUserDefaultsUserHuddlesKey = @"com.StudyHuddle.userDefaults.huddles";
+NSString *const SHUserDefaultsUserClassesKey = @"com.StudyHuddle.userDefaults.classes";
+NSString *const SHUserDefaultsUserStudyFriendsKey = @"com.StudyHuddle.userDefaults.studyFriends";
+
 #pragma mark - Cells
 
 //Parse

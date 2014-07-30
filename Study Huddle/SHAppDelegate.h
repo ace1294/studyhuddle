@@ -30,9 +30,6 @@
 @property (strong, nonatomic) SHSearchViewController *searchController; //temporary for testing
 @property (strong, nonatomic) UINavigationController *searchNavigator;
 
-//@property (strong, nonatomic) SHVisitorHuddleViewController *searchController; //temporary for testing
-//@property (strong, nonatomic) UINavigationController *searchNavigator;
-
 @property (strong, nonatomic) SHNotificationViewController *notificationController; //temporary for testing
 @property (strong, nonatomic) UINavigationController *notificationNavigator;
 

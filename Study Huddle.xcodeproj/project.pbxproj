@@ -142,6 +142,8 @@
 		9653594B197871D800ADA134 /* DownwardArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 96535949197871D800ADA134 /* DownwardArrow.png */; };
 		9653594C197871D800ADA134 /* DownwardArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9653594A197871D800ADA134 /* DownwardArrow@2x.png */; };
 		9653594F1978B91200ADA134 /* SHHuddleAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9653594E1978B91200ADA134 /* SHHuddleAddViewController.m */; };
+		96535953198884B000ADA134 /* SHCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 96535952198884B000ADA134 /* SHCache.m */; };
+		9653595619889C1F00ADA134 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9653595519889C1F00ADA134 /* MBProgressHUD.m */; };
 		96566E2A194510F6006649C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E29194510F6006649C3 /* Foundation.framework */; };
 		96566E2C194510F6006649C3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E2B194510F6006649C3 /* CoreGraphics.framework */; };
 		96566E2E194510F6006649C3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E2D194510F6006649C3 /* UIKit.framework */; };
@@ -460,6 +462,10 @@
 		9653594A197871D800ADA134 /* DownwardArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DownwardArrow@2x.png"; sourceTree = "<group>"; };
 		9653594D1978B91200ADA134 /* SHHuddleAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHuddleAddViewController.h; sourceTree = "<group>"; };
 		9653594E1978B91200ADA134 /* SHHuddleAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHuddleAddViewController.m; sourceTree = "<group>"; };
+		96535951198884B000ADA134 /* SHCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHCache.h; sourceTree = "<group>"; };
+		96535952198884B000ADA134 /* SHCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHCache.m; sourceTree = "<group>"; };
+		9653595419889C1F00ADA134 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		9653595519889C1F00ADA134 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		96566E26194510F6006649C3 /* Study Huddle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Study Huddle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96566E29194510F6006649C3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		96566E2B194510F6006649C3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1082,6 +1088,26 @@
 			name = "Class Pages";
 			sourceTree = "<group>";
 		};
+		96535950198883EB00ADA134 /* GrowingText */ = {
+			isa = PBXGroup;
+			children = (
+				41CD3AB4196DB018004AD6F0 /* HPGrowingTextView.h */,
+				41CD3AB5196DB018004AD6F0 /* HPGrowingTextView.m */,
+				41CD3AB6196DB018004AD6F0 /* HPTextViewInternal.h */,
+				41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */,
+			);
+			name = GrowingText;
+			sourceTree = "<group>";
+		};
+		9653595719889C2600ADA134 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				9653595419889C1F00ADA134 /* MBProgressHUD.h */,
+				9653595519889C1F00ADA134 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		96566E1D194510F6006649C3 = {
 			isa = PBXGroup;
 			children = (
@@ -1145,14 +1171,12 @@
 				41AF32E3194A7C000008DF21 /* Controllers */,
 				41AF32DF194A77C60008DF21 /* HuddleClasses */,
 				96CBFA35194CC148008B10CE /* Startup */,
+				96535951198884B000ADA134 /* SHCache.h */,
+				96535952198884B000ADA134 /* SHCache.m */,
 				96CABDEA19535B4500971394 /* SHUtility.h */,
 				96CABDEB19535B4500971394 /* SHUtility.m */,
 				41AF338A19521ACA0008DF21 /* SHConstants.h */,
 				41AF338819521ABD0008DF21 /* SHConstants.m */,
-				41CD3AB4196DB018004AD6F0 /* HPGrowingTextView.h */,
-				41CD3AB5196DB018004AD6F0 /* HPGrowingTextView.m */,
-				41CD3AB6196DB018004AD6F0 /* HPTextViewInternal.h */,
-				41CD3AB7196DB018004AD6F0 /* HPTextViewInternal.m */,
 				96566E3B194510F6006649C3 /* Images.xcassets */,
 				96566E6C19451271006649C3 /* Assets */,
 				96566E30194510F6006649C3 /* Supporting Files */,
@@ -1252,6 +1276,8 @@
 				96566E7C19451683006649C3 /* UIColor+HuddleColors.m */,
 				96535941197744D300ADA134 /* NSDateFormatter+RelativeString.h */,
 				96535942197744D300ADA134 /* NSDateFormatter+RelativeString.m */,
+				9653595719889C2600ADA134 /* MBProgressHUD */,
+				96535950198883EB00ADA134 /* GrowingText */,
 				96421C9E197086F800B5EC89 /* Popover */,
 				41A1936F19637A7C0038AAA2 /* Borders */,
 				96D955DD1961E4E700667581 /* Popup */,
@@ -1827,6 +1853,7 @@
 				96D95540195CD2CA00667581 /* SHProfileSegmentViewController.m in Sources */,
 				41A1937219637AA40038AAA2 /* AUISelectiveBordersLayer.m in Sources */,
 				96CABE6B1953A0A300971394 /* SHStudentCell.m in Sources */,
+				96535953198884B000ADA134 /* SHCache.m in Sources */,
 				41AF339B19521E290008DF21 /* SHClassCell.m in Sources */,
 				96421C9A197055CC00B5EC89 /* SHNewQuestionViewController.m in Sources */,
 				41365D5A196207610057B8C9 /* PFACL+NSCoding.m in Sources */,
@@ -1852,6 +1879,7 @@
 				96D955DC1961E4E100667581 /* MJPopupBackgroundView.m in Sources */,
 				96368A7219452D0500E03E56 /* SHSignUpViewController.m in Sources */,
 				96F4297F1954F40A00E74500 /* SHBaseTextCell.m in Sources */,
+				9653595619889C1F00ADA134 /* MBProgressHUD.m in Sources */,
 				96D955BF1960BBC000667581 /* SHStartUpViewController.m in Sources */,
 				96566E7D19451683006649C3 /* UIColor+HuddleColors.m in Sources */,
 				41BD734D197706B5006BEA9E /* SHIntro1ViewController.m in Sources */,

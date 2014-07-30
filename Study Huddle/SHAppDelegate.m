@@ -17,11 +17,15 @@
 #import "SHProfileViewController.h"
 #import "SHSearchViewController.h"
 #import "SHTutorialIntro.h"
+#import "MBProgressHUD.h"
+#import "SHCache.h"
 
 
 @interface SHAppDelegate()
 
 @property SHStartUpViewController* startUpViewController;
+
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -29,23 +33,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self setupAppearance];
     
-    [Student registerSubclass];
-    //[PFUser registerSubclass];
-    [Parse setApplicationId:@"tYVLuBAkB3oeGEo8dQa0mQdW8AfyppZHI92DKvTk"
-                  clientKey:@"BZ4boxrBIGK0dJKV47r7hVJ4D4C9bSensOhR46kN"];
-    
+    [self setupParseWithOptions:launchOptions];
     
     // Register for push notifications
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
+    
     
     self.isRunMoreThanOnce = [[NSUserDefaults standardUserDefaults] boolForKey:@"isRunMoreThanOnce"];
     if(!self.isRunMoreThanOnce){
@@ -59,8 +58,8 @@
     
     self.startUpViewController = [[SHStartUpViewController alloc]init];
     self.navController = [[UINavigationController alloc] initWithRootViewController:self.startUpViewController];
-    self.navController.navigationBar.barTintColor = [UIColor huddleOrange];
-    [self.navController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    //self.navController.navigationBar.barTintColor = [UIColor huddleOrange];
+    //[self.navController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
     if(![PFUser currentUser])
     {
@@ -70,6 +69,7 @@
     else
     {
         //do regular login
+        [[Student currentUser] refreshInBackgroundWithTarget:self selector:nil];
         self.window.rootViewController = self.navController;
     }
     
@@ -177,6 +177,18 @@
 
 -(void)logout
 {
+    [[SHCache sharedCache]clear];
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserHuddlesKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserClassesKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserStudyFriendsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //[[PFInstallation currentInstallation] removeObjectForKey:]
+    //[[PFInstallation currentInstallation] saveInBackground];
+    
+    [PFQuery clearAllCachedResults];
+
     
     [PFUser logOut];
     //self.startUpViewController = [[SHStartUpViewController alloc]init];
@@ -199,32 +211,16 @@
     self.profileNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.profileNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
-    //search
-    PFObject* huddleObject = nil;
-    PFQuery* huddleQuery = [PFQuery queryWithClassName:@"Huddles"];
-    huddleQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
-    [huddleQuery whereKey:@"huddleName" equalTo:@"King Slayers"];
-    huddleObject = [[huddleQuery findObjects] objectAtIndex:0];
-    
-    //for testing class page
-    PFQuery* classQuery = [PFQuery queryWithClassName:SHClassParseClass];
-    [classQuery whereKey:@"classShortName" equalTo:@"SPA 601"];
-    PFObject* classObject = [[classQuery findObjects]objectAtIndex:0];
-    
-
-    
-    self.searchController = [[SHSearchViewController alloc]init]; //temporary for testing purposes
-    self.searchNavigator = [[UINavigationController alloc] initWithRootViewController:self.searchController];
-    self.searchNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
-    [self.searchNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    
-    
-    
     //huddles
     self.huddlesController = [[SHHuddleViewController alloc]init];
     self.huddlesNavigator = [[UINavigationController alloc] initWithRootViewController:self.huddlesController];
     self.huddlesNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.huddlesNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
+    self.searchController = [[SHSearchViewController alloc]init]; //temporary for testing purposes
+    self.searchNavigator = [[UINavigationController alloc] initWithRootViewController:self.searchController];
+    self.searchNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
+    [self.searchNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
     //notification
     self.notificationController = [[SHNotificationViewController alloc]initWithStudent:(Student*)[PFUser currentUser]]; 
@@ -235,7 +231,40 @@
     
 
 
+}
 
+#pragma mark - ()
+
+- (void)setupParseWithOptions:(NSDictionary *)launchOptions
+{
+    [Student registerSubclass];
+    
+    [Parse setApplicationId:@"tYVLuBAkB3oeGEo8dQa0mQdW8AfyppZHI92DKvTk"
+                  clientKey:@"BZ4boxrBIGK0dJKV47r7hVJ4D4C9bSensOhR46kN"];
+    
+    // Track app open.
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    //    PFACL *defaultACL = [PFACL ACL];
+    //    // Enable public read access by default, with any newly created PFObjects belonging to the current user
+    //    [defaultACL setPublicReadAccess:YES];
+    //    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+}
+
+//Setup up all Study Huddle custom Appearance attributes
+- (void)setupAppearance
+{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    
+    
+    [[UINavigationBar appearance] setBarTintColor:[UIColor huddleOrange]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    
+    [[UIButton appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}
+                                                forState:UIControlStateNormal];
+    
+    [[UISearchBar appearance] setTintColor:[UIColor whiteColor]];
 }
 
 @end
