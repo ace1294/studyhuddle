@@ -214,4 +214,19 @@
     return false;
 }
 
++(void)hakySave: (PFObject*) pfobject
+{
+    NSString* objectID = [pfobject objectId];
+    NSString* objectClass = [pfobject parseClassName];
+    PFObject* obj = [PFQuery getObjectOfClass:objectClass objectId:objectID];
+    [obj save];
+}
+
++(PFObject*)getInstanceOfPFObject: (PFObject*)obj
+{
+    NSString* objectID = [obj objectId];
+    NSString* objectClass = [obj parseClassName];
+    return [PFQuery getObjectOfClass:objectClass objectId:objectID];
+}
+
 @end

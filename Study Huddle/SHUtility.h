@@ -32,4 +32,6 @@
 +(UIImageView*) getScreenImageOfSize:(CGSize)size andView:(UIView*)view;
 +(BOOL)user: (PFUser*)user isInHuddle: (PFObject*)huddle;
 +(BOOL)user: (PFUser*)user isInClass: (PFObject*)classObject;
++(void)hakySave: (PFObject*) pfobject;
++(PFObject*)getInstanceOfPFObject: (PFObject*)obj;
 @end

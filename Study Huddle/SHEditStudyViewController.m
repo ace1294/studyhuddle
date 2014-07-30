@@ -80,8 +80,8 @@
 
 - (void)initContent
 {
-    PFObject *student = self.study[SHStudyStudentKey];
-    [student fetchIfNeeded];
+    PFObject *student = [PFUser currentUser];
+   
     
     CGRect initialButton = CGRectMake(vertViewSpacing, subjectHeaderY+headerHeight, huddleButtonWidth, huddleButtonHeight);
     self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:[SHUtility namesForObjects:student[SHStudentClassesKey] withKey:SHClassShortNameKey] addButton:nil];

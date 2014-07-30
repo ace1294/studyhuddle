@@ -94,15 +94,19 @@
     [classes whereKey:SHClassShortNameKey containedIn:self.subjectButtons.selectedButtons];
     self.study[SHStudyClassesKey] = [classes findObjects];
     self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
-    self.study[SHStudyStudentKey] = self.student;
+    self.study[SHStudyStudentKey] = [self.student objectId];
     
     
     [self.student addObject:self.study forKey:SHStudentStudyKey];
+    [PFObject saveAll:@[self.student,self.study]];
     
-    [self.study saveInBackground];
-    [self.student saveInBackground];
+    //[self.student save];
+    //[self.study save];
     
     [self.delegate startedStudying:self.study];
+    
+    //send a notification saying that it was sucesfull
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"studySuccess" object:self];
     
     [self cancelAction];
 }

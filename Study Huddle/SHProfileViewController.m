@@ -66,6 +66,7 @@
 
 @property (nonatomic,strong) UIButton* startStudyingButton;
 @property BOOL isStudying;
+@property BOOL didContinue; //if when the study pop up showed, the user pressed continue
 
 @property (nonatomic,strong) NSDate* lastStart;
 
@@ -81,6 +82,7 @@
     self = [super init];
     if (self) {
         _profStudent = aStudent;
+        [_profStudent refresh];
         self.title = @"Profile";
         self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
      
@@ -105,7 +107,7 @@
 {
     
     _profStudent = aProfStudent;
-    
+    [_profStudent refresh];
     [self.segmentController setStudent:aProfStudent];
     [self.profileImage setStudent:aProfStudent];
 }
@@ -116,7 +118,9 @@
     [super viewDidLoad];
     
 
-
+    //register for the continueNotification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activateStudy) name:@"studySuccess" object:nil] ;
+    
     
     //important coordinates
     float centerX = self.view.bounds.origin.x + self.view.bounds.size.width/2;
@@ -233,12 +237,13 @@
     [self.view addSubview:self.startStudyingButton];
     
     //get the last study date
-    self.lastStart = self.profStudent[@"lastStart"];
+    self.lastStart = self.profStudent[SHStudentLastStartKey];
     
     
   
     
     //set timer
+    [self updateHoursStudied];
     [NSTimer scheduledTimerWithTimeInterval:60
                                      target:self
                                    selector:@selector(updateHoursStudied)
@@ -251,11 +256,13 @@
 -(void)updateHoursStudied
 {
 
-    NSDate* date = [NSDate date];
-    NSTimeInterval diff = [date timeIntervalSinceDate:self.lastStart];
     if(self.isStudying)
     {
+        NSDate* date = [NSDate date];
+        NSTimeInterval diff = [date timeIntervalSinceDate:self.lastStart];
+
         self.lastStart = date;
+        self.profStudent[SHStudentLastStartKey] = date;
         NSString* hoursPrevStudied = self.profStudent.hoursStudied;
         double previousTimeStudied = [hoursPrevStudied doubleValue];
         double secondsStudied = diff + previousTimeStudied;
@@ -263,7 +270,8 @@
         self.hoursStudiedLabel.text = [NSString stringWithFormat:@"%d",hoursStudied];
 
         self.profStudent.hoursStudied = [NSString stringWithFormat:@"%f",(diff+previousTimeStudied)];
-        [self.profStudent saveInBackground];
+        [self.profStudent save];
+
     }
     
 }
@@ -298,10 +306,12 @@
 
 -(void)setStudy
 {
+    [self updateHoursStudied];
     if(self.isStudying)
     {
         //the user will stop their studying session
         self.profStudent[@"isStudying"] = [NSNumber numberWithBool:false];
+        //[self.profStudent save];
         self.isStudying =   NO;
         [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
@@ -310,7 +320,14 @@
         [self.study fetchIfNeeded];
         self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:false];
         self.study[SHStudyEndKey] = [NSDate date];
-        [self.study saveInBackground];
+        if(self.study)
+        {
+
+            [PFObject saveAll:@[self.study,self.profStudent]];
+            
+        }
+        else
+            [PFObject saveAll:@[self.profStudent]];
         
         [self.segmentController.tableView reloadData];
     }
@@ -322,16 +339,37 @@
         self.startStudyingVC.delegate = self;
         [self presentPopupViewController:self.startStudyingVC animationType:MJPopupViewAnimationSlideBottomBottom];
         
-        self.lastStart = [NSDate date];
-        self.profStudent[@"lastStudyDate"] = self.lastStart;
-        self.profStudent[@"isStudying"] =[NSNumber numberWithBool:true];
-        self.isStudying = YES;
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
-        [self.startStudyingLabel setTextColor:[UIColor redColor]];
-         self.startStudyingLabel.text = @"STOP STUDYING";
+        //check if the user actually put continue
+       /* if(self.didContinue)
+        {
+            
+            self.lastStart = [NSDate date];
+            self.profStudent[SHStudentLastStartKey] = self.lastStart;
+            self.profStudent[@"isStudying"] =[NSNumber numberWithBool:true];
+            self.isStudying = YES;
+            [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
+            [self.startStudyingLabel setTextColor:[UIColor redColor]];
+            self.startStudyingLabel.text = @"STOP STUDYING";
+            [PFObject saveAll:@[self.profStudent]];
+            self.didContinue = NO;
+        }*/
+
     }
     
-    [self.profStudent saveInBackground];
+   
+}
+
+-(void)activateStudy
+{
+    self.lastStart = [NSDate date];
+    self.profStudent[SHStudentLastStartKey] = self.lastStart;
+    self.profStudent[@"isStudying"] =[NSNumber numberWithBool:true];
+    self.isStudying = YES;
+    [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
+    [self.startStudyingLabel setTextColor:[UIColor redColor]];
+    self.startStudyingLabel.text = @"STOP STUDYING";
+    [PFObject saveAll:@[self.profStudent]];
+    self.didContinue = NO;
 }
 
 
@@ -420,6 +458,7 @@
 
 - (void)cancelTapped
 {
+    //cancel the whole study process
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
 

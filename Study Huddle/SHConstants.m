@@ -74,6 +74,7 @@ NSString *const SHStudentOnlineFriendsKey = @"online";
 NSString *const SHStudentStudyingKey = @"isStudying";
 NSString *const SHStudentRequestsKey = @"requests";
 NSString *const SHStudentNotificationsKey = @"notifications";
+NSString* const SHStudentLastStartKey = @"lastStart";
 
 //Study
 NSString *const SHStudyClassesKey = @"classes";
@@ -81,7 +82,7 @@ NSString *const SHStudyStartKey = @"start";
 NSString *const SHStudyEndKey = @"end";
 NSString *const SHStudyOnlineKey = @"online";
 NSString *const SHStudyDescriptionKey = @"description";
-NSString *const SHStudyStudentKey = @"student";
+NSString *const SHStudyStudentKey = @"studentID";
 
 //Resources
 NSString *const SHResourceHuddleKey = @"huddle";

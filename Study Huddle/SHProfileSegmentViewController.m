@@ -169,7 +169,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 - (BOOL)loadStudentData
 {
     BOOL loadError = true;
-    [self.segStudent fetch];
+    [self.segStudent fetchIfNeeded];
     
     //Study Data
     NSArray *studying = [self.segStudent objectForKey:SHStudentStudyKey];
@@ -184,7 +184,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     
     //Classes Data
     NSArray *classes = [self.segStudent objectForKey:SHStudentClassesKey];
-    self.currentRowsToDisplay = classes.count;
+    
     
     [self.classesDataArray removeAllObjects];
     [self.classesDataArray addObjectsFromArray:classes];
@@ -197,6 +197,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     [self.onlineDataArray addObjectsFromArray:onlineStudents];
     [SHUtility fetchObjectsInArray:self.onlineDataArray];
     
+    self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:self.control.selectedSegmentIndex] count];
     
     [self.tableView reloadData];
     
@@ -432,7 +433,9 @@ static NSString* const OnlineDiskKey = @"onlineKey";
 {
     [self.studyingDataArray insertObject:study atIndex:0];
     
+    self.control.selectedSegmentIndex = 0;
     self.currentRowsToDisplay = [self.studyingDataArray count];
+    
     
     [self tableView:self.tableView numberOfRowsInSection:0];
     
