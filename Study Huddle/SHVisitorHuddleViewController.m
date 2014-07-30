@@ -20,7 +20,6 @@
 #import "SHVisitorHuddleSegmentViewController.h"
 #import "SHNewQuestionViewController.h"
 #import "UIViewController+MJPopupViewController.h"
-#import "FPPopoverController.h"
 #import "WYPopoverController.h"
 #import "SHNewResourceViewController.h"
 #import "SHStudentSearchViewController.h"
