@@ -15,6 +15,7 @@
 #import "SHLoginViewController.h"
 #import "SHAppDelegate.h"
 #import "UIColor+HuddleColors.h"
+#import "SHConstants.h"
 
 #define MAX_PAGES 4
 
@@ -172,6 +173,41 @@
     }
 }
 
+- (void)goToLastPage
+{
+    // Instead get the view controller of the first page
+    UIViewController *newInitialViewController = [self getLogingViewController];
+    NSArray *initialViewControllers = [NSArray arrayWithObject:newInitialViewController];
+    self.pageControl.currentPageIndicatorTintColor = nil;
+    self.pageControl.pageIndicatorTintColor = nil;
+    
+    // Do the setViewControllers: again but this time use direction animation:
+    [self.pageController setViewControllers:initialViewControllers direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
+}
+
+#pragma mark - PFLogInViewControllerDelegate
+
+// Sent to the delegate to determine whether the log in request should be submitted to the server.
+- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
+    if (username && password && username.length && password.length) {
+        return YES;
+    }
+    
+    [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Missing Information", nil) message:NSLocalizedString(@"Make sure you fill out all of the information!", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil] show];
+    return NO;
+}
+
+// Sent to the delegate when a PFUser is logged in.
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
+    
+    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:user];
+    
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - PFSignUpViewControllerDelegate
+
 // Sent to the delegate to determine whether the sign up request should be submitted to the server.
 - (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
     
@@ -206,42 +242,24 @@
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
     
     SHSignUpViewController* SHSignUpController = (SHSignUpViewController*)signUpController;
-    Student* currentUser = [Student currentUser];
     
-    currentUser.major = SHSignUpController.majorTextField.text;
-    currentUser.hoursStudied = @"0";
+    user[SHStudentMajorKey] = SHSignUpController.majorTextField.text;
+    user[SHStudentHoursStudiedKey] = @"0";
     
     
     //make sure that the username is the email
-    currentUser.fullName = currentUser.username;
-    currentUser.username = currentUser.email;
+    user[SHStudentNameKey] = user.username;
+    user[SHStudentEmailKey] = user.email;
     
-    [currentUser saveInBackground];
+    [user saveInBackground];
     
+    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:user];
     
     [self dismissViewControllerAnimated:YES completion:NULL];
-    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] doLogin];
 }
 
-// Sent to the delegate when a PFUser is logged in.
-- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
-    [self dismissViewControllerAnimated:YES completion:NULL];
 
-    // Present Anypic UI
-    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] doLogin];
-}
 
-- (void)goToLastPage
-{
-    // Instead get the view controller of the first page
-    UIViewController *newInitialViewController = [self getLogingViewController];
-    NSArray *initialViewControllers = [NSArray arrayWithObject:newInitialViewController];
-    self.pageControl.currentPageIndicatorTintColor = nil;
-    self.pageControl.pageIndicatorTintColor = nil;
-    
-    // Do the setViewControllers: again but this time use direction animation:
-    [self.pageController setViewControllers:initialViewControllers direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-}
 
 
 @end

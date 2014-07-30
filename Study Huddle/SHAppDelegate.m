@@ -31,6 +31,8 @@
 
 @implementation SHAppDelegate
 
+#pragma mark - UIApplicationDelegate
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -110,38 +112,12 @@
 
 #pragma mark - AppDelegate
 
-/*
-- (void)presentProfileViewController
-{
-    self.profileController = [[SHProfileViewController alloc]init];
-    UINavigationController *profileNavigationController = [[UINavigationController alloc] initWithRootViewController:self.profileController];
-    
-    profileNavigationController.navigationBar.barTintColor = [UIColor redColor];
-    [profileNavigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    
-    UITabBarController *tabBar = [[UITabBarController alloc]init];
-    
-    tabBar.viewControllers = @[profileNavigationController];
 
-    [self.navController setViewControllers:@[tabBar] animated:NO];
-}*/
 
-- (void)presentProfileViewController
-{
-    self.profileController = [[SHProfileViewController alloc]init];
-
-    self.navController = [[UINavigationController alloc] initWithRootViewController:self.profileController];
-    self.navController.navigationBar.barTintColor = [UIColor huddleOrange];
-    [self.navController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    
-    self.window.rootViewController = self.navController;
-    
-    
-}
-
--(void) doLogin
+-(void)userLoggedIn:(PFUser *)user
 {
     [self instantiateViews];
+    
     self.tabBarController = [[UITabBarController alloc]init];
     [[UITabBar appearance] setTintColor:[UIColor huddleOrange]];
     
@@ -153,16 +129,6 @@
     self.window.backgroundColor = [UIColor whiteColor];
 }
 
-
-- (void)presentLoginViewControllerAnimated:(BOOL)animated {
-    SHLoginViewController *loginViewController = [[SHLoginViewController alloc] init];
-    
-    [self.startUpViewController presentViewController:loginViewController animated:animated completion:nil];
-}
-
-- (void)presentLoginViewController {
-    [self presentLoginViewControllerAnimated:YES];
-}
 
 -(void)logout
 {

@@ -64,6 +64,7 @@ extern NSString *const SHHuddleChatCategoriesKey;
 
 //Student
 extern NSString *const SHStudentNameKey;
+extern NSString *const SHStudentEmailKey;
 extern NSString *const SHStudentClassesKey;
 extern NSString *const SHStudentMajorKey;
 extern NSString *const SHStudentImageKey;
@@ -75,6 +76,7 @@ extern NSString *const SHStudentOnlineFriendsKey;
 extern NSString *const SHStudentRequestsKey;
 extern NSString *const SHStudentNotificationsKey;
 extern NSString* const SHStudentLastStartKey;
+extern NSString *const SHStudentHoursStudiedKey;
 
 //Study
 extern NSString *const SHStudyClassesKey;

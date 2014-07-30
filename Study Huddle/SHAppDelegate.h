@@ -39,9 +39,8 @@
 
 @property BOOL isRunMoreThanOnce;
 
-- (void)presentProfileViewController;
-- (void)presentLoginViewController;
+
+-(void)userLoggedIn:(PFUser *)user;
 -(void)logout;
--(void)doLogin;
 
 @end
