@@ -24,7 +24,7 @@
 - (id)initWithStudent:(Student *)student;
 
 - (void)setStudent:(Student *)aSegStudent;
-- (BOOL)loadStudentData;
+- (BOOL)loadStudentDataRefresh:(BOOL)refresh;
 - (void)currentStudy:(PFObject *)study;
 
 -(float)getOccupatingHeight;

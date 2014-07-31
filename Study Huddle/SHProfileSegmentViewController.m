@@ -27,6 +27,8 @@
 #import "SHClassPageViewController.h"
 #import "SHStartStudyingViewController.h"
 #import "SHStudyViewController.h"
+#import "SHCache.h"
+
 
 @interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
 
@@ -52,10 +54,6 @@
 @implementation SHProfileSegmentViewController
 
 @synthesize CellIdentifier;
-
-static NSString* const StudyDiskKey = @"studyArray";
-static NSString* const ClassesDiskKey = @"classKey";
-static NSString* const OnlineDiskKey = @"onlineKey";
 
 - (id)initWithStudent:(Student *)student
 {
@@ -103,7 +101,7 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.studyingDataArray,self.classesDataArray,self.onlineDataArray, nil];
     
 
-    [self loadStudentData];
+    [self loadStudentDataRefresh:false];
 
     
     
@@ -141,93 +139,44 @@ static NSString* const OnlineDiskKey = @"onlineKey";
     [self.tableView setScrollEnabled:NO];
 
     
-    [self loadStudentData];
+    [self loadStudentDataRefresh:false];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    
-//    if ([self.segStudent username])
-//    {
-//        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
-//        {
-//            [self loadDataFromDisk];
-//            return;
-//        }
-//        
-        //[self loadStudentData];
-//    }
+
 }
 
 - (void)setStudent:(Student *)aSegStudent
 {
     _segStudent = aSegStudent;
-    [self loadStudentData];
+    [self loadStudentDataRefresh:false];
 }
 
-- (BOOL)loadStudentData
+- (BOOL)loadStudentDataRefresh:(BOOL)refresh
 {
     BOOL loadError = true;
     [self.segStudent fetchIfNeeded];
     
-    //Study Data
-    NSArray *studying = [self.segStudent objectForKey:SHStudentStudyKey];
-    
     [self.studyingDataArray removeAllObjects];
-    [self.studyingDataArray addObjectsFromArray:studying];
-    [SHUtility fetchObjectsInArray:self.studyingDataArray];
+    [self.studyingDataArray addObjectsFromArray:[[SHCache sharedCache] studyLogs]];
     
     [self.studyingDataArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2){
         return [[obj2 objectForKey:SHStudyStartKey] compare:[obj1 objectForKey:SHStudyStartKey]];
     }];
     
-    //Classes Data
-    NSArray *classes = [self.segStudent objectForKey:SHStudentClassesKey];
-    
-    
     [self.classesDataArray removeAllObjects];
-    [self.classesDataArray addObjectsFromArray:classes];
-    [SHUtility fetchObjectsInArray:self.classesDataArray];
-    
-    //Huddle Data
-    NSArray *onlineStudents = [self.segStudent objectForKey:SHStudentOnlineFriendsKey];
+    [self.classesDataArray addObjectsFromArray:[[SHCache sharedCache] classes]];
     
     [self.onlineDataArray removeAllObjects];
-    [self.onlineDataArray addObjectsFromArray:onlineStudents];
-    [SHUtility fetchObjectsInArray:self.onlineDataArray];
+    [self.onlineDataArray addObjectsFromArray:[[SHCache sharedCache]studyFriends]];
     
     self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:self.control.selectedSegmentIndex] count];
     
     [self.tableView reloadData];
     
-    //[self saveDataToDisk];
-    
     return loadError;
-}
-
-- (void)saveDataToDisk
-{
-    
-    NSLog(@"SAVING TO DISK");
-    
-    [self.segmentData setObject:self.studyingDataArray forKey:StudyDiskKey];
-    [self.segmentData setObject:self.classesDataArray forKey:ClassesDiskKey];
-    [self.segmentData setObject:self.onlineDataArray forKey:OnlineDiskKey];
-    
-    [NSKeyedArchiver archiveRootObject:self.segmentData toFile:self.docsPath];
-    
-}
-
-- (void)loadDataFromDisk
-{
-    NSLog(@"LOADING FROM DISK");
-    
-    self.segmentData = [NSKeyedUnarchiver unarchiveObjectWithFile:self.docsPath];
-    
-    self.studyingDataArray = [self.segmentData objectForKey:StudyDiskKey];
-    self.classesDataArray = [self.segmentData objectForKey:ClassesDiskKey];
-    self.onlineDataArray = [self.segmentData objectForKey:OnlineDiskKey];
 }
 
 #pragma mark - DZNSegmentController

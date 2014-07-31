@@ -34,4 +34,7 @@
 +(BOOL)user: (PFUser*)user isInClass: (PFObject*)classObject;
 +(void)hakySave: (PFObject*) pfobject;
 +(PFObject*)getInstanceOfPFObject: (PFObject*)obj;
+
++ (NSArray *)objectIDsForObjects:(NSArray *)objects;
+
 @end

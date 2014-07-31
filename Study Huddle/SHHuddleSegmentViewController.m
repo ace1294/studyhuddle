@@ -63,9 +63,6 @@
 
 @implementation SHHuddleSegmentViewController
 
-static NSString* const MembersDiskKey = @"membersArray";
-static NSString* const ResourcesDiskKey = @"resourcesKey";
-
 @synthesize CellIdentifier;
 @synthesize refreshControl;
 
@@ -172,18 +169,6 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
 {
     [super viewWillAppear:animated];
     
-
-    
-//    if(self.segHuddle[SHHuddleNameKey]){
-//        
-//        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
-//        {
-//            [self loadDataFromDisk];
-//            return;
-//        }
-//        [self loadHuddleData];
-//    }
-    
 }
 
 - (void)setHuddle:(PFObject *)aHuddle
@@ -215,12 +200,9 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     [self.chatEntryDataArray removeAllObjects];
     [self.chatEntryDataArray addObjectsFromArray:chatEntries];
-    
-    
+
     
     [self.tableView reloadData];
-    
-    //[self saveDataToDisk];
 
     switch (self.initialSection) {
         case 0:
@@ -239,34 +221,6 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     
     return loadError;
 }
-
-
-
-
-- (void)saveDataToDisk
-{
-    
-    NSLog(@"SAVING TO DISK");
-    
-    [self.segmentData setObject:self.membersDataArray forKey:MembersDiskKey];
-    [self.segmentData setObject:self.resourceCategoriesDataArray forKey:ResourcesDiskKey];
-    //[self.segmentData setObject:self.chatDataArray forKey:ChatDiskKey];
-    
-    [NSKeyedArchiver archiveRootObject:self.segmentData toFile:self.docsPath];
-    
-}
-
-- (void)loadDataFromDisk
-{
-    NSLog(@"LOADING FROM DISK");
-    
-    self.segmentData = [NSKeyedUnarchiver unarchiveObjectWithFile:self.docsPath];
-    
-    self.membersDataArray = [self.segmentData objectForKey:MembersDiskKey];
-    self.resourceCategoriesDataArray = [self.segmentData objectForKey:ResourcesDiskKey];
-}
-
-
 
 #pragma mark - DZNSegmentController
 

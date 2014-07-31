@@ -116,17 +116,14 @@
 
 -(void)userLoggedIn:(PFUser *)user
 {
-    [self instantiateViews];
     
-    self.tabBarController = [[UITabBarController alloc]init];
-    [[UITabBar appearance] setTintColor:[UIColor huddleOrange]];
+    //Present HUD
+    [[SHCache sharedCache] setStudyFriends:user[SHStudentStudyFriendsKey]];
+    [[SHCache sharedCache] setHuddles:user[SHStudentHuddlesKey]];
+    [[SHCache sharedCache] setClasses:user[SHStudentClassesKey]];
+    [[SHCache sharedCache] setStudyLogs:user[SHStudentStudyLogsKey]];
     
-    [self.profileController setStudent:(Student *)[Student currentUser]];
-    self.tabBarController.viewControllers = [NSArray arrayWithObjects:self.profileNavigator, self.huddlesNavigator,self.searchNavigator,self.notificationNavigator ,nil];
-    
-    
-    self.window.rootViewController = self.tabBarController;
-    self.window.backgroundColor = [UIColor whiteColor];
+    [self presentTabBarController];
 }
 
 
@@ -137,6 +134,7 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserHuddlesKey];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserClassesKey];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserStudyFriendsKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserStudyLogsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     //[[PFInstallation currentInstallation] removeObjectForKey:]
@@ -160,7 +158,7 @@
     self.window.backgroundColor = [UIColor clearColor];
 }
 
--(void)instantiateViews
+- (void)presentTabBarController
 {
 
     //profile
@@ -186,9 +184,16 @@
     self.notificationNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.notificationNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
+    self.tabBarController = [[UITabBarController alloc]init];
+    [[UITabBar appearance] setTintColor:[UIColor huddleOrange]];
     
-
-
+    [self.profileController setStudent:(Student *)[Student currentUser]];
+    self.tabBarController.viewControllers = [NSArray arrayWithObjects:self.profileNavigator, self.huddlesNavigator,self.searchNavigator,self.notificationNavigator ,nil];
+    
+    
+    self.window.rootViewController = self.tabBarController;
+    self.window.backgroundColor = [UIColor whiteColor];
+    
 }
 
 #pragma mark - ()
