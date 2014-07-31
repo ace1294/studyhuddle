@@ -17,7 +17,7 @@
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
 
-#define MAX_PAGES 4
+#define MAX_PAGES 3
 
 @interface SHTutorialIntro ()<UIPageViewControllerDataSource,UIPageViewControllerDelegate,PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 

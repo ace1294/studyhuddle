@@ -29,6 +29,7 @@
 @property (strong,nonatomic) UILabel* middleLabel;
 @property (strong,nonatomic) UILabel* rightLabel;
 
+@property (strong,nonatomic) UILabel* swipeToContinueLabel;
 
 
 
@@ -46,6 +47,10 @@
 #define verticalDistanceBetweenCircles 60
 #define verticalDistanceBetweenCirclesAndLabels 2
 #define verticalDistanceBetweenTrifectaAndBottomCircles 30
+
+#define swipeWidth 100
+#define swipeHeight 30
+#define swipeVerticalOffset 20
 
 @end
 
@@ -152,6 +157,15 @@
     [self setUpLabel:self.leftLabel withReferenceCircle:self.leftBottomCircle andTitle:@"INVITE TO STUDY" andColor:[UIColor huddleOrange]];
     [self setUpLabel:self.middleLabel withReferenceCircle:self.middleBottomCircle andTitle:@"HUDDLE THREAD" andColor:[UIColor huddleBlue]];
     [self setUpLabel:self.leftLabel withReferenceCircle:self.rightBottomCircle andTitle:@"ADD RESOURCE" andColor:[UIColor huddleCharcoal]];
+    
+    
+    //the swipe thingy
+    self.swipeToContinueLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2-swipeWidth/2, self.middleLabel.frame.origin.y + swipeVerticalOffset, swipeWidth, swipeHeight)];
+    self.swipeToContinueLabel.text = @"Swipe right to begin!";
+    self.swipeToContinueLabel.textAlignment = NSTextAlignmentCenter;
+    self.swipeToContinueLabel.backgroundColor = [UIColor yellowColor];
+    [self.view addSubview:self.swipeToContinueLabel];
+    
 }
 
 - (void)didReceiveMemoryWarning
