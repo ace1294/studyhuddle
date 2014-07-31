@@ -8,8 +8,12 @@
 
 #import "SHLoginViewController.h"
 #import "UIColor+HuddleColors.h"
+#import "SHAppDelegate.h"
+
+#define tutorialVerticalOffsetFromButtons 10
 
 @interface SHLoginViewController ()
+
 
 @end
 
@@ -76,9 +80,22 @@
     guest.backgroundColor = [UIColor whiteColor];
     guest.layer.cornerRadius = 5;
     guest.frame = CGRectMake(163.0, 380.0, 125.0, 30.0);
+    
+    //view tutorial button
+    UIButton *tutorialButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [tutorialButton addTarget:self
+              action:@selector(doTutorial)
+    forControlEvents:UIControlEventTouchUpInside];
+    [tutorialButton setTitleColor:[UIColor huddleOrange] forState:UIControlStateNormal];
+    [tutorialButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
+    [tutorialButton setTitle:@"View tutorial" forState:UIControlStateNormal];
+    tutorialButton.backgroundColor = [UIColor whiteColor];
+    tutorialButton.layer.cornerRadius = 5;
+    tutorialButton.frame = CGRectMake(163.0-125.0/2, 380.0 + guest.frame.size.height + tutorialVerticalOffsetFromButtons, 125.0, 30.0);
 
 
     [self.logInView addSubview:guest];
+    [self.logInView addSubview:tutorialButton];
 }
 
 
@@ -114,7 +131,11 @@
 }
 
 
-
+-(void)doTutorial
+{
+    
+  [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] doTutorial];
+}
 
 
 

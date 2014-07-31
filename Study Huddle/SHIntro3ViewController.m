@@ -48,7 +48,7 @@
 #define verticalDistanceBetweenCirclesAndLabels 2
 #define verticalDistanceBetweenTrifectaAndBottomCircles 30
 
-#define swipeWidth 100
+#define swipeWidth 300
 #define swipeHeight 30
 #define swipeVerticalOffset 20
 
@@ -160,10 +160,10 @@
     
     
     //the swipe thingy
-    self.swipeToContinueLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2-swipeWidth/2, self.middleLabel.frame.origin.y + swipeVerticalOffset, swipeWidth, swipeHeight)];
+    self.swipeToContinueLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2-swipeWidth/2, self.middleBottomCircle.frame.origin.y + self.middleBottomCircle.frame.size.height + verticalDistanceBetweenCirclesAndLabels + swipeVerticalOffset + 20, swipeWidth, swipeHeight)];
     self.swipeToContinueLabel.text = @"Swipe right to begin!";
+    self.swipeToContinueLabel.textColor = [UIColor huddleGreen];
     self.swipeToContinueLabel.textAlignment = NSTextAlignmentCenter;
-    self.swipeToContinueLabel.backgroundColor = [UIColor yellowColor];
     [self.view addSubview:self.swipeToContinueLabel];
     
 }

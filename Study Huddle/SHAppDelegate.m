@@ -55,18 +55,19 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isRunMoreThanOnce"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //show the tutorial thingy
-        self.window.rootViewController = [[SHTutorialIntro alloc]init];
+        [self doTutorial];
     }
     else
     {
         self.startUpViewController = [[SHStartUpViewController alloc]init];
         self.navController = [[UINavigationController alloc] initWithRootViewController:self.startUpViewController];
         self.window.rootViewController = self.navController;
+        self.window.backgroundColor = [UIColor clearColor];
+        [self.window makeKeyAndVisible];
     }
     
  
-    self.window.backgroundColor = [UIColor clearColor];
-    [self.window makeKeyAndVisible];
+
     return YES;
 }
 
@@ -229,5 +230,15 @@
     
     [[UISearchBar appearance] setTintColor:[UIColor whiteColor]];
 }
+
+-(void)doTutorial
+{
+    
+    self.window.rootViewController = [[SHTutorialIntro alloc]init];
+    self.window.backgroundColor = [UIColor clearColor];
+    [self.window makeKeyAndVisible];
+}
+
+
 
 @end

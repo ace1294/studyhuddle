@@ -71,7 +71,7 @@
         logInViewController.signUpController = signUpViewController;
         
         // Present Log In View Controller
-        [self presentViewController:logInViewController animated:YES completion:NULL];
+        [self presentViewController:logInViewController animated:NO completion:NULL];
     }
     else
     {

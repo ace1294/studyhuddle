@@ -43,5 +43,6 @@
 
 -(void)userLoggedIn:(PFUser *)user;
 -(void)logout;
+-(void)doTutorial;
 
 @end

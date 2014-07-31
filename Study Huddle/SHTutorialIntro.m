@@ -62,13 +62,6 @@
     [self.view addSubview:self.pageControl];
 
 
-
-    SHAppDelegate* appDelegate = (SHAppDelegate*)[[UIApplication sharedApplication] delegate];
-    if(appDelegate.isRunMoreThanOnce)
-    {
-        self.pageControl.currentPage = MAX_PAGES-1;
-        [self goToLastPage];
-    }
     
 
     
@@ -108,7 +101,7 @@
     else if([viewController isKindOfClass:[SHIntro2ViewController class]])
         result = [[SHIntro3ViewController alloc]init];
     else if([viewController isKindOfClass:[SHIntro3ViewController class]])
-        result = [self getLogingViewController];
+        result = [[SHStartUpViewController alloc]init];
     else //its number 4. There is no after
         result = nil;
 
