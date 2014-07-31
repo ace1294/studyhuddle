@@ -12,6 +12,4 @@
 
 @interface SHStartUpViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
-- (void)logOutButtonTapAction:(id)sender;
-
 @end

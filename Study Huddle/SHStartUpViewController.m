@@ -12,6 +12,7 @@
 #import "SHProfileHeaderViewController.h"
 #import "SHAppDelegate.h"
 #import "UIColor+HuddleColors.h"
+#import "SHConstants.h"
 
 #define logoWidth 200
 #define logoHeight 100
@@ -28,15 +29,6 @@
 @implementation SHStartUpViewController
 
 #pragma mark - UIViewController
-
-//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-//{
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        // Custom initialization
-//    }
-//    return self;
-//}
 
 - (void)viewDidLoad
 {
@@ -56,20 +48,6 @@
     [self.view addSubview:spinner];
     [spinner startAnimating];
     
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    // If not logged in, present login view controller
-   /* if (![PFUser currentUser]) {
-        NSLog(@"got called again");
-        [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] presentLoginViewController];
-        return;
-    }
-    // Present Anypic UI
-    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] presentProfileViewController];*/
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -97,7 +75,7 @@
     }
     else
     {
-        [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] doLogin];
+        [[PFUser currentUser] refreshInBackgroundWithTarget:self selector:@selector(refreshCurrentUserCallbackWithResult:error:)];
     }
     
     
@@ -105,16 +83,18 @@
 }
 
 
-- (void)didReceiveMemoryWarning
+- (void)refreshCurrentUserCallbackWithResult:(PFObject *)refreshedObject error:(NSError *)error
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // A kPFErrorObjectNotFound error on currentUser refresh signals a deleted user
+    if (error && error.code == kPFErrorObjectNotFound) {
+        NSLog(@"User does not exist.");
+        [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] logout];
+        return;
+    }
+    
+    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:[Student currentUser]];
 }
 
-- (void)logOutButtonTapAction:(id)sender
-{
-    
-}
 
 #pragma mark - PFLogInViewControllerDelegate
 
@@ -129,13 +109,12 @@
 }
 
 // Sent to the delegate when a PFUser is logged in.
-- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
+
+    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:user];
+    
     [self dismissViewControllerAnimated:YES completion:NULL];
-    
-    NSLog(@"LOGGED IN");
-    
-    // Present Anypic UI
-    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] presentProfileViewController];
 }
 
 // Sent to the delegate when the log in attempt fails.
@@ -186,21 +165,20 @@
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
     
     SHSignUpViewController* SHSignUpController = (SHSignUpViewController*)signUpController;
-    Student* currentUser = [Student currentUser];
     
-    currentUser.major = SHSignUpController.majorTextField.text;
-    currentUser.hoursStudied = @"0";
+    user[SHStudentMajorKey] = SHSignUpController.majorTextField.text;
+    user[SHStudentHoursStudiedKey] = @"0";
     
     
     //make sure that the username is the email
-    currentUser.fullName = currentUser.username;
-    currentUser.username = currentUser.email;
+    user[SHStudentNameKey] = user.username;
+    user[SHStudentEmailKey] = user.email;
     
-    [currentUser saveInBackground];
+    [user saveInBackground];
     
+    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:user];
     
     [self dismissViewControllerAnimated:YES completion:NULL];
-    [self.profileVC doLayout];
 }
 
 // Sent to the delegate when the sign up attempt fails.
