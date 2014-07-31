@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 StudyHuddle. All rights reserved.
 //
 
-#import "SHIndividualHuddleviewController.h"
+#import "SHIndividualHuddleViewController.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
 #import "SHHuddleSegmentViewController.h"
@@ -47,7 +47,7 @@
 #define sideItemsFont [UIFont systemFontOfSize:7]
 
 
-@interface SHIndividualHuddleviewController () <UIScrollViewDelegate, SHModalViewControllerDelegate, WYPopoverControllerDelegate, SHIndividualHuddleAddDelegate>
+@interface SHIndividualHuddleViewController () <UIScrollViewDelegate, SHModalViewControllerDelegate, WYPopoverControllerDelegate, SHIndividualHuddleAddDelegate>
 {
     WYPopoverController* popoverController;
 }
@@ -75,7 +75,7 @@
 
 @end
 
-@implementation SHIndividualHuddleviewController
+@implementation SHIndividualHuddleViewController
 
 
 - (id)init

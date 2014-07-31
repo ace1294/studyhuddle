@@ -19,7 +19,7 @@
 #import "SHResourceCell.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHProfileViewController.h"
-#import "SHIndividualHuddleviewController.h"
+#import "SHIndividualHuddleViewController.h"
 #import "SHUtility.h"
 #import "SHStudentSearchViewController.h"
 #import "SHCategoryCell.h"
@@ -377,12 +377,12 @@
         {
             SHProfileViewController *profileVC = [[SHProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
             
-            [self.owner.navigationController pushViewController:profileVC animated:YES];
+            [self.navigationController pushViewController:profileVC animated:YES];
         }
         else{
             SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
             
-            [self.owner.navigationController pushViewController:visitorVC animated:YES];
+            [self.navigationController pushViewController:visitorVC animated:YES];
         }
 
 
@@ -392,7 +392,7 @@
         PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
         NSLog(@"chatEntryObj: , %@",chatEntryObj);
         SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
-        [self.owner.navigationController pushViewController:chatEntryVC animated:YES];
+        [self.navigationController pushViewController:chatEntryVC animated:YES];
 
         
     }
@@ -404,7 +404,7 @@
         SHResourceListViewController *resourceListVC = [[SHResourceListViewController alloc] initWithResourceCategory:categoryCell.category];
         
         
-        [self.owner.navigationController pushViewController:resourceListVC animated:YES];
+        [self.navigationController pushViewController:resourceListVC animated:YES];
         
 
     }
