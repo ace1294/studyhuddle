@@ -39,8 +39,6 @@
 
 @implementation SHClassSegmentViewController
 
-static NSString* const MembersDiskKey = @"membersArray";
-static NSString* const ResourcesDiskKey = @"resourcesKey";
 
 @synthesize CellIdentifier;
 @synthesize refreshControl;
@@ -155,8 +153,6 @@ static NSString* const ResourcesDiskKey = @"resourcesKey";
     //Chat
     
     [self.tableView reloadData];
-    
-    //[self saveDataToDisk];
     
     return loadError;
 }

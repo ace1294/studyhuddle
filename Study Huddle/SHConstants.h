@@ -10,6 +10,7 @@
 extern NSString *const SHUserDefaultsUserHuddlesKey;
 extern NSString *const SHUserDefaultsUserClassesKey;
 extern NSString *const SHUserDefaultsUserStudyFriendsKey;
+extern NSString *const SHUserDefaultsUserStudyLogsKey;
 
 //Parse Classes
 extern NSString *const SHHuddleParseClass;
@@ -70,9 +71,9 @@ extern NSString *const SHStudentMajorKey;
 extern NSString *const SHStudentImageKey;
 extern NSString *const SHStudentLowerNameKey;
 extern NSString *const SHStudentHuddlesKey;
-extern NSString *const SHStudentStudyKey;
+extern NSString *const SHStudentStudyLogsKey;
 extern NSString *const SHStudentStudyingKey;
-extern NSString *const SHStudentOnlineFriendsKey;
+extern NSString *const SHStudentStudyFriendsKey;
 extern NSString *const SHStudentRequestsKey;
 extern NSString *const SHStudentNotificationsKey;
 extern NSString* const SHStudentLastStartKey;

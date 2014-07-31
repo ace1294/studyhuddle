@@ -13,6 +13,7 @@
 NSString *const SHUserDefaultsUserHuddlesKey = @"com.StudyHuddle.userDefaults.huddles";
 NSString *const SHUserDefaultsUserClassesKey = @"com.StudyHuddle.userDefaults.classes";
 NSString *const SHUserDefaultsUserStudyFriendsKey = @"com.StudyHuddle.userDefaults.studyFriends";
+NSString *const SHUserDefaultsUserStudyLogsKey = @"com.StudyHuddle.userDefaults.studyLogs";
 
 #pragma mark - Cells
 
@@ -76,8 +77,8 @@ NSString *const SHStudentMajorKey = @"major";
 NSString *const SHStudentImageKey = @"userImage";
 NSString *const SHStudentLowerNameKey = @"lowerName";
 NSString *const SHStudentHuddlesKey = @"huddles";
-NSString *const SHStudentStudyKey = @"study";
-NSString *const SHStudentOnlineFriendsKey = @"online";
+NSString *const SHStudentStudyLogsKey = @"study";
+NSString *const SHStudentStudyFriendsKey = @"online";
 NSString *const SHStudentStudyingKey = @"isStudying";
 NSString *const SHStudentRequestsKey = @"requests";
 NSString *const SHStudentNotificationsKey = @"notifications";

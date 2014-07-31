@@ -39,6 +39,7 @@
 
 @property BOOL isRunMoreThanOnce;
 
+- (void)presentTabBarController;
 
 -(void)userLoggedIn:(PFUser *)user;
 -(void)logout;

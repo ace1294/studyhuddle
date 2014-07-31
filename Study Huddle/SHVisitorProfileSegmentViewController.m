@@ -180,7 +180,7 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     
     
     //Study Data
-    NSArray *studying = [self.segStudent objectForKey:SHStudentStudyKey];
+    NSArray *studying = [self.segStudent objectForKey:SHStudentStudyLogsKey];
     [self.studyingDataArray removeAllObjects];
     [self.studyingDataArray addObjectsFromArray:studying];
     [SHUtility fetchObjectsInArray:self.studyingDataArray];

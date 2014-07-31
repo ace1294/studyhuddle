@@ -97,7 +97,7 @@
     self.study[SHStudyStudentKey] = [self.student objectId];
     
     
-    [self.student addObject:self.study forKey:SHStudentStudyKey];
+    [self.student addObject:self.study forKey:SHStudentStudyLogsKey];
     [PFObject saveAll:@[self.student,self.study]];
     
     //[self.student save];

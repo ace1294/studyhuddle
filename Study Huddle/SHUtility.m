@@ -229,4 +229,15 @@
     return [PFQuery getObjectOfClass:objectClass objectId:objectID];
 }
 
++ (NSArray *)objectIDsForObjects:(NSArray *)objects
+{
+    NSMutableArray *objectIDs = [[NSMutableArray alloc]initWithCapacity:[objects count]];
+    
+    for(PFObject *object in objects){
+        [objectIDs addObject:[object objectId]];
+    }
+    return objectIDs;
+}
+
+
 @end

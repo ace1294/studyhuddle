@@ -300,7 +300,7 @@
         self.startStudyingLabel.text = @"START STUDYING";
     }
     
-    [self.segmentController loadStudentData];
+    [self.segmentController loadStudentDataRefresh:false];
     
 }
 
