@@ -20,7 +20,7 @@
 
 @protocol SHStartStudyingDelegate <NSObject>
 
-- (void)startedStudying:(PFObject *)study;
+- (void)activateStudyLog:(PFObject *)study;
 
 @end
 

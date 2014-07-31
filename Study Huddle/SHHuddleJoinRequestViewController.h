@@ -11,6 +11,6 @@
 
 @interface SHHuddleJoinRequestViewController : SHModalViewController
 
-- (id)initWithHuddle:(PFObject *)aHuddle;
+- (id)initWithHuddle:(PFObject *)aHuddle withType:(NSString *)type;
 
 @end

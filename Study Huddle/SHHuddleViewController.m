@@ -97,6 +97,13 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.student refresh];
+    [self.tableView reloadData];
+}
+
 
 #pragma mark - UITableViewDelegate Methods
 
@@ -108,10 +115,16 @@
     if ([[curHuddle objectForKey:SHHuddleMembersKey]count]>5) {
         return SHHuddlePageCellHeight + 60;
     }
-    
-    
-    
+
     return SHHuddlePageCellHeight;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:self.huddles[indexPath.row]];
+    
+    [self.navigationController pushViewController:huddleVC animated:YES];
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -146,12 +159,14 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated
+#pragma mark - Actions
+
+- (void)addItem
 {
-    [super viewWillAppear:animated];
-    [self.student refresh];
-    [self.tableView reloadData];
+    [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
 }
+
+#pragma mark - SHHuddlePageCellDelegate Methods
 
 - (void)didTapTitleCell:(SHHuddlePageCell *)cell
 {
@@ -159,10 +174,6 @@
     
     [self.navigationController pushViewController:huddleVC animated:YES];
 }
-
-#pragma mark - Huddle Page Cell Deleagte Methods
-
-
 
 - (void)addHuddleTapped
 {
@@ -175,16 +186,6 @@
     
 }
 
-
-#pragma mark - Actions
-
-- (void)addItem
-{
-    [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
-}
-
-#pragma mark - SHHuddlePageCellDelegate Methods
-
 - (void)didTapInviteToStudy:(PFObject *)huddle
 {
     
@@ -195,9 +196,11 @@
     
 }
 
-- (void)didTapMember:(PFObject *)member
+- (void)didTapMember:(PFUser *)member
 {
+    SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)member];
     
+    [self.navigationController pushViewController:visitorVC animated:YES];
 }
 
 

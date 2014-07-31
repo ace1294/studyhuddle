@@ -25,4 +25,6 @@
 -(float)getOccupatingHeight;
 - (BOOL)loadHuddleData;
 
+- (void)didAddMember:(PFObject *)member;
+
 @end

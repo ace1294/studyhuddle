@@ -117,11 +117,6 @@
 {
     [super viewDidLoad];
     
-
-    //register for the continueNotification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activateStudy) name:@"studySuccess" object:nil] ;
-    
-    
     //important coordinates
     float centerX = self.view.bounds.origin.x + self.view.bounds.size.width/2;
     
@@ -133,9 +128,6 @@
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
    
-    
- 
-    
     
     //set up portrait view
     CGRect profileFrame = CGRectMake(centerX-profileImageWidth/2, bottomOfNavBar + profileImageVerticalOffsetFromTop, profileImageWidth, profileImageHeight);
@@ -318,6 +310,9 @@
         self.startStudyingLabel.text = @"START STUDYING";
         
         [self.study fetchIfNeeded];
+        if (!self.study) {
+            self.study = self.profStudent[SHStudentStudyLogsKey][[self.profStudent[SHStudentStudyLogsKey] count]-1];
+        }
         self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:false];
         self.study[SHStudyEndKey] = [NSDate date];
         if(self.study)
@@ -339,39 +334,10 @@
         self.startStudyingVC.delegate = self;
         [self presentPopupViewController:self.startStudyingVC animationType:MJPopupViewAnimationSlideBottomBottom];
         
-        //check if the user actually put continue
-       /* if(self.didContinue)
-        {
-            
-            self.lastStart = [NSDate date];
-            self.profStudent[SHStudentLastStartKey] = self.lastStart;
-            self.profStudent[@"isStudying"] =[NSNumber numberWithBool:true];
-            self.isStudying = YES;
-            [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
-            [self.startStudyingLabel setTextColor:[UIColor redColor]];
-            self.startStudyingLabel.text = @"STOP STUDYING";
-            [PFObject saveAll:@[self.profStudent]];
-            self.didContinue = NO;
-        }*/
-
     }
     
    
 }
-
--(void)activateStudy
-{
-    self.lastStart = [NSDate date];
-    self.profStudent[SHStudentLastStartKey] = self.lastStart;
-    self.profStudent[@"isStudying"] =[NSNumber numberWithBool:true];
-    self.isStudying = YES;
-    [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
-    [self.startStudyingLabel setTextColor:[UIColor redColor]];
-    self.startStudyingLabel.text = @"STOP STUDYING";
-    [PFObject saveAll:@[self.profStudent]];
-    self.didContinue = NO;
-}
-
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -462,8 +428,18 @@
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
-- (void)startedStudying:(PFObject *)study
+- (void)activateStudyLog:(PFObject *)study
 {
+    self.lastStart = [NSDate date];
+    self.profStudent[SHStudentLastStartKey] = self.lastStart;
+    self.profStudent[@"isStudying"] =[NSNumber numberWithBool:true];
+    self.isStudying = YES;
+    [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
+    [self.startStudyingLabel setTextColor:[UIColor redColor]];
+    self.startStudyingLabel.text = @"STOP STUDYING";
+    [PFObject saveAll:@[self.profStudent]];
+    self.didContinue = NO;
+    
     [self.segmentController currentStudy:study];
 }
 

@@ -31,7 +31,6 @@
 #define fullNameHeight 20
 
 
-
 #define hoursStudiedLabelWidth 45
 #define hoursStudiedLabelHeight 30
 
@@ -43,15 +42,12 @@
 
 #define topPartSize 170
 
-
-
-
 #define nameLabelFont [UIFont boldSystemFontOfSize:15]
 
 #define sideItemsFont [UIFont systemFontOfSize:7]
 
 
-@interface SHIndividualHuddleviewController () <UIScrollViewDelegate, SHModalViewControllerDelegate, WYPopoverControllerDelegate, SHIndividualHuddleAddDelegate, SHStudentSearchDelegate>
+@interface SHIndividualHuddleviewController () <UIScrollViewDelegate, SHModalViewControllerDelegate, WYPopoverControllerDelegate, SHIndividualHuddleAddDelegate>
 {
     WYPopoverController* popoverController;
 }
@@ -95,7 +91,7 @@
     NSLog(@"initWithHuddleCalled");
     self = [super init];
     if (self) {
-        self.indvHuddle = aHuddle;
+        _indvHuddle = aHuddle;
         
         self.title = @"Huddle";
         self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
@@ -428,8 +424,11 @@
 {
     SHStudentSearchViewController *searchVC = [[SHStudentSearchViewController alloc]init];
     searchVC.type = @"NewMember";
-    searchVC.delegate = self;
-    [self presentViewController:searchVC animated:YES completion:nil];
+    searchVC.delegate = self.segmentController;
+    
+    [popoverController dismissPopoverAnimated:YES completion:^{
+        [self presentViewController:searchVC animated:YES completion:nil];
+    }];
 }
 
 - (void)addResourceTapped
@@ -457,32 +456,6 @@
     }];
     
     
-}
-
-#pragma mark - SHStudentSearchDelgate
-
-- (void)didAddMember:(PFObject *)member
-{
-    PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
-    request[SHRequestTitleKey] = self.indvHuddle[SHHuddleNameKey];
-    request[SHRequestHuddleKey] = self.indvHuddle;
-    
-    if([[[Student currentUser] objectId] isEqual:[self.indvHuddle[SHHuddleCreatorKey] objectId]]){
-        request[SHRequestTypeKey] = SHRequestHSJoin;
-        request[SHRequestStudent1Key] = member;
-        request[SHRequestDescriptionKey] = @"We want you to join our huddle";
-        
-    } else {
-        //Send creator request to
-        request[SHRequestTypeKey] = SHRequestSCJoin;
-        request[SHRequestStudent1Key] = self.indvHuddle[SHHuddleCreatorKey];
-        request[SHRequestStudent2Key] = member;
-        request[SHRequestStudent3Key] = [Student currentUser];
-        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to add %@", [Student currentUser][SHStudentNameKey], member[SHStudentNameKey]];
-        
-    }
-    
-    [request saveInBackground];
 }
 
 #pragma mark - Popoover Delegate Methods

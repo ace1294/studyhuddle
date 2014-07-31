@@ -105,31 +105,6 @@
     [self.mainView addSubview:self.addResouceButton];
 }
 
-- (void)setMembers:(NSArray *)students
-{
-    PFUser *member;
-    int i = 0;
-    
-    for (PFUser *student in students)
-    {
-        member = [[SHCache sharedCache] objectForUser:student];
-        [self.memberObjects addObject:member];
-        
-        SHPortraitView *memberPortrait = [[SHPortraitView alloc] initWithFrame:CGRectMake(memberPortraitX + ((memberPortraitDim+horiBorderSpacing)*(i%5)), memberPortraitY + ((memberPortraitDim+vertBorderSpacing)*(i/5)), memberPortraitDim, memberPortraitDim)];
-        [memberPortrait setBackgroundColor:[UIColor clearColor]];
-        [memberPortrait setOpaque:YES];
-        [memberPortrait setFile:member[SHStudentImageKey]];
-        [memberPortrait.profileButton addTarget:self action:@selector(didTapMemberAction:) forControlEvents:UIControlEventTouchUpInside];
-        memberPortrait.profileButton.tag = i;
-        [self.memberPortraits addObject:memberPortrait];
-        [self.mainView addSubview:memberPortrait];
-        
-        
-        i++;
-    }
-    
-}
-
 - (void)layoutSubviews{
     [super layoutSubviews];
     
@@ -159,6 +134,30 @@
     [self layoutSubviews];
 }
 
+- (void)setMembers:(NSArray *)students
+{
+    PFUser *member;
+    int i = 0;
+    
+    for (PFUser *student in students)
+    {
+        member = [[SHCache sharedCache] objectForUser:student];
+        [self.memberObjects addObject:member];
+        
+        SHPortraitView *memberPortrait = [[SHPortraitView alloc] initWithFrame:CGRectMake(memberPortraitX + ((memberPortraitDim+horiBorderSpacing)*(i%5)), memberPortraitY + ((memberPortraitDim+vertBorderSpacing)*(i/5)), memberPortraitDim, memberPortraitDim)];
+        [memberPortrait setBackgroundColor:[UIColor clearColor]];
+        [memberPortrait setOpaque:YES];
+        [memberPortrait setFile:member[SHStudentImageKey]];
+        [memberPortrait.profileButton addTarget:self action:@selector(didTapMemberAction:) forControlEvents:UIControlEventTouchUpInside];
+        memberPortrait.profileButton.tag = i;
+        [self.memberPortraits addObject:memberPortrait];
+        [self.mainView addSubview:memberPortrait];
+        
+        
+        i++;
+    }
+    
+}
 
 
 #pragma mark - Actions
@@ -175,7 +174,7 @@
 
 - (void)didTapMemberAction:(id)sender
 {
-    PFObject *member = self.memberObjects[[sender tag]];
+    PFUser *member = self.memberObjects[[sender tag]];
     
     [self.delegate didTapMember:member];
 }

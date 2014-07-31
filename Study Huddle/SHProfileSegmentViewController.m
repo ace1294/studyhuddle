@@ -230,6 +230,37 @@
     
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"ONLINE"])
+    {
+        Student *student = self.onlineDataArray[indexPath.row];
+        
+        SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:student];
+        
+        
+        [self.owner.navigationController pushViewController:studentVC animated:YES];
+    }
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CLASSES"])
+    {
+        PFObject *class = self.classesDataArray[indexPath.row];
+        
+        SHClassPageViewController *classVC = [[SHClassPageViewController alloc]initWithClass:class];
+        
+        
+        [self.owner.navigationController pushViewController:classVC animated:YES];
+    }
+    else
+    {
+        PFObject *studyLog = self.studyingDataArray[indexPath.row];
+        
+        SHStudyViewController *studyVC = [[SHStudyViewController alloc]initWithStudy:studyLog];
+        
+        [self.owner.navigationController pushViewController:studyVC animated:YES];
+        
+    }
+}
+
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
