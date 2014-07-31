@@ -15,7 +15,7 @@
 #import "SHStudentCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SHBasePortraitView.h"
-#import "SHIndividualHuddleviewController.h"
+#import "SHIndividualHuddleViewController.h"
 
 
 
@@ -370,7 +370,7 @@
     
     [self.huddle saveInBackground];
     
-    SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:self.huddle];
+    SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:self.huddle];
     
     [self.parentViewController.navigationController pushViewController:huddleVC animated:YES];
     

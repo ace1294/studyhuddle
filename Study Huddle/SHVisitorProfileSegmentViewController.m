@@ -21,7 +21,7 @@
 #import "PFFile+NSCoding.h"
 #import "PFObject+NSCoding.h"
 #import "SHVisitorProfileViewController.h"
-#import "SHIndividualHuddleviewController.h"
+#import "SHIndividualHuddleViewController.h"
 #import "SHVisitorHuddleViewController.h"
 #import "SHVisitorClassPageViewController.h"
 #import "SHClassPageViewController.h"
@@ -387,7 +387,7 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
         BOOL userInHuddle = [SHUtility user:[PFUser currentUser] isInHuddle:huddleCell.huddle];
         if(userInHuddle)
         {
-            SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleCell.huddle];
+            SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:huddleCell.huddle];
             [self.owner.navigationController pushViewController:huddleVC animated:YES];
 
         }

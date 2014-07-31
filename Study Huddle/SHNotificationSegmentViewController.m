@@ -22,7 +22,7 @@
 #import "SHIndividualHuddleviewController.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHClassPageViewController.h"
-#import "SHIndividualHuddleviewController.h"
+#import "SHIndividualHuddleViewController.h"
 #import "SHUtility.h"
 
 @interface SHNotificationSegmentViewController () <SHRequestCellDelegate>{
@@ -437,7 +437,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
            PFObject *huddle = notification[SHNotificationHuddleKey];
            [huddle fetchIfNeeded];
            
-           SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddle];
+           SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:huddle];
            
            [self.navigationController pushViewController:huddleVC animated:YES];
        }
@@ -464,7 +464,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
        } else {
            [huddle fetchIfNeeded];
            
-           SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddle];
+           SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:huddle];
            
            [self.navigationController pushViewController:huddleVC animated:YES];
        }

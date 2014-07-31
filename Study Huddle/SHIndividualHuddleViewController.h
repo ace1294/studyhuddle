@@ -12,7 +12,7 @@
 
 @class Student;
 
-@interface SHIndividualHuddleviewController : UIViewController
+@interface SHIndividualHuddleViewController : UIViewController
 @property (strong,nonatomic) SHHuddlePortraitView* profileImage;
 
 

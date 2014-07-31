@@ -12,7 +12,7 @@
 #import "UIColor+HuddleColors.h"
 #import "SHStudentCell.h"
 #import "SHHuddleCell.h"
-#import "SHIndividualHuddleviewController.h"
+#import "SHIndividualHuddleViewController.h"
 #import "SHVisitorProfileViewController.h"
 
 @interface SHClassSegmentViewController () <SHBaseCellDelegate, UINavigationControllerDelegate>
@@ -304,7 +304,7 @@
     else if ([cell isKindOfClass:[SHHuddleCell class]] ) {
         SHHuddleCell *huddleCell = (SHHuddleCell *)cell;
         
-        SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:huddleCell.huddle];
+        SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:huddleCell.huddle];
         
         
         [self.owner.navigationController pushViewController:huddleVC animated:YES];

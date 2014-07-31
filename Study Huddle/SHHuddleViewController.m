@@ -12,7 +12,7 @@
 #import "SHStudyInviteViewController.h"
 #import "SHNewResourceViewController.h"
 #import "SHVisitorProfileViewController.h"
-#import "SHIndividualHuddleviewController.h"
+#import "SHIndividualHuddleViewController.h"
 #import "UIViewController+MJPopupViewController.h"
 #import "SHHuddleAddViewController.h"
 #import "WYPopoverController.h"
@@ -122,7 +122,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:self.huddles[indexPath.row]];
+    SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:self.huddles[indexPath.row]];
     
     [self.navigationController pushViewController:huddleVC animated:YES];
 }
@@ -170,7 +170,7 @@
 
 - (void)didTapTitleCell:(SHHuddlePageCell *)cell
 {
-    SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:cell.huddle];
+    SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:cell.huddle];
     
     [self.navigationController pushViewController:huddleVC animated:YES];
 }

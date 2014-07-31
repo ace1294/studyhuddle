@@ -207,7 +207,7 @@
 		96D955AD1960A76400667581 /* SHClassSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955AC1960A76400667581 /* SHClassSegmentViewController.m */; };
 		96D955B61960BBA000667581 /* SHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955AF1960BBA000667581 /* SHAppDelegate.m */; };
 		96D955B71960BBA000667581 /* SHClassPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955B11960BBA000667581 /* SHClassPageViewController.m */; };
-		96D955B81960BBA000667581 /* SHIndividualHuddleviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955B31960BBA000667581 /* SHIndividualHuddleviewController.m */; };
+		96D955B81960BBA000667581 /* SHIndividualHuddleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955B31960BBA000667581 /* SHIndividualHuddleViewController.m */; };
 		96D955B91960BBA000667581 /* SHProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955B51960BBA000667581 /* SHProfileViewController.m */; };
 		96D955BC1960BBA800667581 /* SHVisitorProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955BB1960BBA800667581 /* SHVisitorProfileViewController.m */; };
 		96D955BF1960BBC000667581 /* SHStartUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D955BE1960BBC000667581 /* SHStartUpViewController.m */; };
@@ -543,8 +543,8 @@
 		96D955AF1960BBA000667581 /* SHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHAppDelegate.m; sourceTree = "<group>"; };
 		96D955B01960BBA000667581 /* SHClassPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHClassPageViewController.h; sourceTree = "<group>"; };
 		96D955B11960BBA000667581 /* SHClassPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHClassPageViewController.m; sourceTree = "<group>"; };
-		96D955B21960BBA000667581 /* SHIndividualHuddleviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHIndividualHuddleviewController.h; sourceTree = "<group>"; };
-		96D955B31960BBA000667581 /* SHIndividualHuddleviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHIndividualHuddleviewController.m; sourceTree = "<group>"; };
+		96D955B21960BBA000667581 /* SHIndividualHuddleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHIndividualHuddleViewController.h; sourceTree = "<group>"; };
+		96D955B31960BBA000667581 /* SHIndividualHuddleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHIndividualHuddleViewController.m; sourceTree = "<group>"; };
 		96D955B41960BBA000667581 /* SHProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHProfileViewController.h; sourceTree = "<group>"; };
 		96D955B51960BBA000667581 /* SHProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHProfileViewController.m; sourceTree = "<group>"; };
 		96D955BA1960BBA800667581 /* SHVisitorProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHVisitorProfileViewController.h; sourceTree = "<group>"; };
@@ -1002,8 +1002,8 @@
 			children = (
 				96421CA91970882900B5EC89 /* SHIndividualHuddleAddViewController.h */,
 				96421CAA1970882900B5EC89 /* SHIndividualHuddleAddViewController.m */,
-				96D955B21960BBA000667581 /* SHIndividualHuddleviewController.h */,
-				96D955B31960BBA000667581 /* SHIndividualHuddleviewController.m */,
+				96D955B21960BBA000667581 /* SHIndividualHuddleViewController.h */,
+				96D955B31960BBA000667581 /* SHIndividualHuddleViewController.m */,
 				9653594D1978B91200ADA134 /* SHHuddleAddViewController.h */,
 				9653594E1978B91200ADA134 /* SHHuddleAddViewController.m */,
 				96381627195BC59A0069D477 /* SHHuddleViewController.h */,
@@ -1889,7 +1889,7 @@
 				96D95616196A345900667581 /* SHStartStudyingViewController.m in Sources */,
 				41AF3376194F65FC0008DF21 /* SHPortraitViewBase.m in Sources */,
 				9653593A197597F200ADA134 /* SHSearchViewController.m in Sources */,
-				96D955B81960BBA000667581 /* SHIndividualHuddleviewController.m in Sources */,
+				96D955B81960BBA000667581 /* SHIndividualHuddleViewController.m in Sources */,
 				96F429A01956ACDC00E74500 /* SHPortraitView.m in Sources */,
 				410261171968BEC0006F2CBF /* SHQuestionBubble.m in Sources */,
 				96D956131969E10500667581 /* SHIndividualResourceViewController.m in Sources */,
