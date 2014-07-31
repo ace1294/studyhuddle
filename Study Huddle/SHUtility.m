@@ -10,6 +10,7 @@
 #import "SHConstants.h"
 #import <Parse/Parse.h>
 #import "Student.h"
+#import "SHCache.h"
 
 @implementation SHUtility
 
@@ -64,9 +65,7 @@
     
     for(int i = 0; (i < 3 && i < [classObjects count]); i++)
     {
-        class = classObjects[i];
-        
-        [class fetchIfNeeded];
+        class = [[SHCache sharedCache] objectForClass:(PFObject *)classObjects[i]];
         
         temp = [[NSMutableAttributedString alloc] initWithString:class[SHClassShortNameKey] attributes:attr];
         if (i+1<[classObjects count]) {

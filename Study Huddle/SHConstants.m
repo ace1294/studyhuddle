@@ -79,6 +79,7 @@ NSString *const SHStudentLowerNameKey = @"lowerName";
 NSString *const SHStudentHuddlesKey = @"huddles";
 NSString *const SHStudentStudyLogsKey = @"study";
 NSString *const SHStudentStudyFriendsKey = @"online";
+NSString *const SHStudentCurrentStudyLogKey = @"lastStudy";
 NSString *const SHStudentStudyingKey = @"isStudying";
 NSString *const SHStudentRequestsKey = @"requests";
 NSString *const SHStudentNotificationsKey = @"notifications";
@@ -113,7 +114,6 @@ NSString *const SHRequestHuddleKey = @"huddle";
 NSString *const SHRequestTypeKey = @"type";
 NSString *const SHRequestStudent1Key = @"student1";
 NSString *const SHRequestStudent2Key = @"student2";
-NSString *const SHRequestStudent3Key = @"student3";
 NSString *const SHRequestLocationKey = @"location";
 NSString *const SHRequestTimeKey = @"time";
 NSString *const SHRequestDescriptionKey = @"description";
@@ -124,7 +124,6 @@ NSString *const SHRequestMessageKey = @"message";
 NSString *const SHRequestSSInviteStudy = @"SSInviteStudy";
 NSString *const SHRequestSHJoin = @"SHJoin";
 NSString *const SHRequestHSJoin = @"HSJoin";
-NSString *const SHRequestSCJoin = @"SCJoin";
 
 //Notifications
 NSString* const SHNotificationTitleKey = @"title";
@@ -147,7 +146,6 @@ NSString* const SHNotificationHuddleStartedStudyingType = @"huddleStartsStudying
 NSString* const SHNotificationSSStudyRequestType = @"ssStudyRequest";
 NSString* const SHNotificationSHJoinRequestType = @"shJoinRequest";
 NSString* const SHNotificationHSJoinRequestType = @"hsJoinRequest";
-NSString* const SHNotificationSCJoinRequestType = @"scJoinRequest";
 NSString* const SHNotificationHSStudyRequestType = @"hsStudyRequest";
 
 

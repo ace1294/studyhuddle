@@ -96,17 +96,11 @@
     self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
     self.study[SHStudyStudentKey] = [self.student objectId];
     
-    
+    self.student[SHStudentCurrentStudyLogKey] = self.study;
     [self.student addObject:self.study forKey:SHStudentStudyLogsKey];
     [PFObject saveAll:@[self.student,self.study]];
     
-    //[self.student save];
-    //[self.study save];
-    
-    [self.delegate startedStudying:self.study];
-    
-    //send a notification saying that it was sucesfull
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"studySuccess" object:self];
+    [self.delegate activateStudyLog:self.study];
     
     [self cancelAction];
 }

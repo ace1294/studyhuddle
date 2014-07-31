@@ -45,8 +45,6 @@
 
 @property (strong, nonatomic) NSMutableArray *encapsulatingDataArray;
 @property (strong, nonatomic) NSMutableIndexSet *expandableNotificationCells;
-@property (strong, nonatomic) NSMutableIndexSet *expandableRequestCells;
-
 
 @end
 
@@ -106,7 +104,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     self.requestsDataArray = [[NSMutableArray alloc]init];
     self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.notificationsDataArray,self.requestsDataArray, nil];
     self.expandableNotificationCells = [[NSMutableIndexSet alloc]init];
-    self.expandableRequestCells = [[NSMutableIndexSet alloc]init];
     
     [self loadStudentData];
     
@@ -176,10 +173,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 {
     BOOL loadError = true;
     
-    NSLog(@"Loading student Data");
-    
-    //[self.segStudent fetch];
-    
     
     //Notifications Data
     NSMutableArray *notifications = [[NSMutableArray alloc]init];
@@ -197,26 +190,20 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     sortedArray = [notifications sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         [a fetchIfNeeded];
         [b fetchIfNeeded];
-     
     
         PFObject* firstNotification = (PFObject*)a;
         
         NSDate* first = [firstNotification createdAt];
-    
         
         PFObject* secondNotification = (PFObject*)b;
         NSDate* second = [secondNotification createdAt];
-      
-        
-   
+
         return [second compare:first];
        
     }];
     
     [self.notificationsDataArray removeAllObjects];
     [self.notificationsDataArray addObjectsFromArray:sortedArray];
-
-    //[SHUtility fetchObjectsInArray:self.notificationsDataArray];
     
     [self.control setCount:[NSNumber numberWithInt:(int)self.notificationsDataArray.count] forSegmentAtIndex:0];
     
@@ -231,7 +218,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     PFQuery *ssInviteStudy = [PFQuery queryWithClassName:SHRequestParseClass];
     PFQuery *shJoin = [PFQuery queryWithClassName:SHRequestParseClass];
     PFQuery *hsJoin = [PFQuery queryWithClassName:SHRequestParseClass];
-    PFQuery *scJoin = [PFQuery queryWithClassName:SHRequestParseClass];
     
     [ssInviteStudy whereKey:SHRequestTypeKey equalTo:SHRequestSSInviteStudy];
     [ssInviteStudy whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
@@ -242,53 +228,18 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [hsJoin whereKey:SHRequestTypeKey equalTo:SHRequestHSJoin];
     [hsJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
     
-    [scJoin whereKey:SHRequestTypeKey equalTo:SHRequestSCJoin];
-    [scJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
-    
-    PFQuery *query = [PFQuery orQueryWithSubqueries:@[ssInviteStudy,shJoin,hsJoin,scJoin]];
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[ssInviteStudy,shJoin,hsJoin]];
     
     [self.segStudent addUniqueObjectsFromArray:[query findObjects] forKey:SHStudentRequestsKey];
     [self.segStudent saveInBackground];
     [self.requestsDataArray removeAllObjects];
     [self.requestsDataArray addObjectsFromArray:[query findObjects]];
     
-    [self findExpandableRequestTypes];
-    
-    //[SHUtility fetchObjectsInArray:self.requestsDataArray];
-    
     [self.control setCount:[NSNumber numberWithInt:(int)self.requestsDataArray.count] forSegmentAtIndex:1];
-    
-    
-    
 
     [self.tableView reloadData];
     
-    //[self saveDataToDisk];
-    
     return loadError;
-}
-
-- (void)saveDataToDisk
-{
-    
-    NSLog(@"SAVING TO DISK");
-    
-    [self.segmentData setObject:self.requestsDataArray forKey:RequestsDiskKey];
-    [self.segmentData setObject:self.notificationsDataArray forKey:NotificationDiskKey];
-    
-    [NSKeyedArchiver archiveRootObject:self.segmentData toFile:self.docsPath];
-    
-}
-
-- (void)loadDataFromDisk
-{
-    NSLog(@"LOADING FROM DISK");
-    
-    self.segmentData = [NSKeyedUnarchiver unarchiveObjectWithFile:self.docsPath];
-    
-    self.requestsDataArray = [self.segmentData objectForKey:RequestsDiskKey];
-    self.notificationsDataArray = [self.segmentData objectForKey:NotificationDiskKey];
-
 }
 
 #pragma mark - DZNSegmentController
@@ -445,23 +396,20 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     else if([CellIdentifier isEqual:SHRequestCellIdentifier])
     {
-        if ([self.expandableRequestCells containsIndex:indexPath.row]) {
-            if(selectedIndex == indexPath.row){
-                selectedIndex = -1;
-                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                return;
-            }
-            if(selectedIndex != -1){
-                NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
-                selectedIndex = indexPath.row;
-                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
-            }
-            selectedIndex = indexPath.row;
+        if(selectedIndex == indexPath.row)
+        {
+            selectedIndex = -1;
             [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        } else{
-            PFObject* request = [self.requestsDataArray objectAtIndex:(int)indexPath.row];
-            [request fetchIfNeeded];
+            return;
         }
+        if(selectedIndex != -1)
+        {
+            NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+            selectedIndex = indexPath.row;
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        selectedIndex = indexPath.row;
+        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
     }
     
@@ -531,8 +479,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 {
     NSString *type = request[SHRequestTypeKey];
     
-
-    
     if([type isEqualToString:SHRequestSSInviteStudy])
     {
         //Student 2 accepted Student 1's request to study
@@ -549,7 +495,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         notification[SHNotificationDescriptionKey] = SHSSAcceptedStudyInviteRequestTitle;
         
         [notification saveInBackground];
-        
+    
     } else if([type isEqualToString:SHRequestSHJoin])
     {
         //Huddle Creator accepted Student1's request to join Huddle
@@ -561,13 +507,12 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [student1 fetch];
         
         [huddle addObject:student1 forKey:SHHuddleMembersKey];
-        [student1 addObject:huddle forKey:SHStudentHuddlesKey];
-        
-        [PFObject saveAll:@[huddle,student1]];
+        [huddle saveInBackground];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationToStudentKey] = student1;
         notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
+        notification[SHNotificationHuddleKey] = huddle;
         notification[SHNotificationTypeKey] = SHNotificationSHJoinRequestType;
         notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
         notification[SHNotificationDescriptionKey] = SHSHAcceptedJoinRequestTitle;
@@ -584,6 +529,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             [member fetchIfNeeded];
             memberNotification[SHNotificationToStudentKey] = member;
             memberNotification[SHNotificationFromStudentKey] = student1;
+            memberNotification[SHNotificationHuddleKey] = huddle;
             memberNotification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
             memberNotification[SHNotificationTypeKey] = SHNotificationNewHuddleMemberType;
             
@@ -596,7 +542,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
     } else if([type isEqualToString:SHRequestHSJoin])
     {
-        //Student accepted Huddle creators request to join
+        //Student1 (Current User) accepted Huddle creators request to join
         
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
@@ -606,6 +552,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
         [huddle addObject:student1 forKey:SHHuddleMembersKey];
         [student1 addObject:huddle forKey:SHStudentHuddlesKey];
+        [student1 addUniqueObjectsFromArray:huddle[SHHuddleMembersKey] forKey:SHStudentStudyFriendsKey];
         
         [PFObject saveAll:@[huddle,student1]];
         
@@ -641,40 +588,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             
             [memberNotification saveInBackground];
         }
-        
-    } else if([type isEqualToString:SHRequestSCJoin])
-    {
-        PFObject *huddle = request[SHRequestHuddleKey];
-        [huddle fetchIfNeeded];
-        
-        Student *student1 = request[SHRequestStudent1Key];
-        [student1 fetchIfNeeded];
-        
-        Student *student2 = request[SHRequestStudent2Key];
-        [student1 fetchIfNeeded];
-        
-        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
-        notification[SHNotificationToStudentKey] = request[SHRequestStudent3Key];
-        notification[SHNotificationFromStudentKey] = request[SHRequestStudent1Key];
-        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
-        notification[SHNotificationTypeKey] = SHNotificationSCJoinRequestType;
-        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
-        
-        NSString *description = [NSString stringWithFormat:@"%@ sent a request to %@", student1[SHStudentNameKey], student2[SHStudentNameKey]];
-        notification[SHNotificationDescriptionKey] = description;
-        
-        [notification saveInBackground];
-        
-        PFObject *newRequest = [PFObject objectWithClassName:SHRequestParseClass];
-    
-        newRequest[SHRequestTitleKey] = huddle[SHHuddleNameKey];
-        newRequest[SHRequestHuddleKey] = huddle;
-        newRequest[SHRequestTypeKey] = SHRequestHSJoin;
-        newRequest[SHRequestStudent1Key] = request[SHRequestStudent2Key];
-        newRequest[SHRequestStudent2Key] = request[SHRequestStudent3Key];
-        newRequest[SHRequestMessageKey] = request[SHRequestMessageKey];
-        
-        [newRequest saveInBackground];
         
     }
     
@@ -768,29 +681,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             [notification saveInBackground];
         }
         
-        
-    } else if([type isEqualToString:SHRequestSCJoin])
-    {
-        PFObject *huddle = request[SHRequestHuddleKey];
-        [huddle fetchIfNeeded];
-        
-        Student *student1 = request[SHRequestStudent1Key];
-        [student1 fetchIfNeeded];
-        
-        Student *student2 = request[SHRequestStudent2Key];
-        [student1 fetchIfNeeded];
-        
-        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
-        notification[SHNotificationToStudentKey] = request[SHRequestStudent3Key];
-        notification[SHNotificationFromStudentKey] = student1;
-        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
-        notification[SHNotificationTypeKey] = SHNotificationSCJoinRequestType;
-        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
-        
-        NSString *description = [NSString stringWithFormat:@"%@ denied your request to admit %@", student1[SHStudentNameKey], student2[SHStudentNameKey]];
-        notification[SHNotificationDescriptionKey] = description;
-        
-        [notification saveInBackground];
     }
     
     [self.segStudent removeObject:request forKey:SHStudentRequestsKey];
@@ -804,6 +694,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
 #pragma mark - Helpers
 
+//Also adds the member to the huddle if is off type SHNotificationSHJoinRequestType
 - (void)findExpandableNotificaitonTypes
 {
     int i = 0;
@@ -812,23 +703,18 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [notification fetchIfNeeded];
         if([notification[SHNotificationTypeKey] isEqualToString:SHNotificationHSStudyRequestType] || [notification[SHNotificationTypeKey] isEqualToString:SHNotificationAnswerType])
             [self.expandableNotificationCells addIndex:i];
+        
+        if([notification[SHNotificationTypeKey] isEqualToString:SHNotificationSHJoinRequestType] && [notification[SHNotificationRequestAcceptedKey] boolValue] == true){
+            PFObject *newHuddle = notification[SHNotificationHuddleKey];
+            [newHuddle fetchIfNeeded];
+            
+            [[Student currentUser] addObject:newHuddle forKey:SHStudentHuddlesKey];
+            [[Student currentUser] addUniqueObjectsFromArray:newHuddle[SHHuddleMembersKey] forKey:SHStudentStudyFriendsKey];
+            [[Student currentUser] saveInBackground];
+        }
         i++;
     }
 }
-
-- (void)findExpandableRequestTypes
-{
-    int i = 0;
-    for(PFObject *request in self.requestsDataArray)
-    {
-        [request fetchIfNeeded];
-        if([request[SHRequestTypeKey] isEqualToString:SHRequestSSInviteStudy] || [request[SHRequestTypeKey] isEqualToString:SHRequestSHJoin]|| [request[SHRequestTypeKey] isEqualToString:SHRequestHSJoin])
-            [self.expandableRequestCells addIndex:i];
-        i++;
-    }
-}
-
-
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

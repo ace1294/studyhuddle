@@ -171,7 +171,7 @@
 
     
     self.requestToJoinLabel.text = @"REQUEST TO JOIN";
-    [self.requestToJoinLabel setTextColor:[UIColor huddlePurple]];
+    [self.requestToJoinLabel setTextColor:[UIColor huddleOrange]];
     [self.requestToJoinLabel setTextAlignment:NSTextAlignmentCenter];
     [self.requestToJoinLabel setFont:sideItemsFont];
     //[self.startStudyingLabel setBackgroundColor:[UIColor redColor]];
@@ -235,7 +235,7 @@
 
 -(void)requestToJoinPressed
 {
-    SHHuddleJoinRequestViewController *joinRequestVC = [[SHHuddleJoinRequestViewController alloc]initWithHuddle:self.indvHuddle];
+    SHHuddleJoinRequestViewController *joinRequestVC = [[SHHuddleJoinRequestViewController alloc]initWithHuddle:self.indvHuddle withType:SHRequestSHJoin];
     joinRequestVC.delegate = self;
     
     [self presentPopupViewController:joinRequestVC animationType:MJPopupViewAnimationSlideBottomBottom];

@@ -13,6 +13,7 @@
 @interface SHHuddleJoinRequestViewController () <UITextViewDelegate>
 
 @property (strong, nonatomic) PFObject *huddle;
+@property (strong, nonatomic) NSString *type;
 
 //Headers
 @property (strong, nonatomic) UILabel *messageHeaderLabel;
@@ -29,7 +30,7 @@
 
 #define descriptionY descriptionHeaderY+headerHeight
 
-- (id)initWithHuddle:(PFObject *)aHuddle
+- (id)initWithHuddle:(PFObject *)aHuddle withType:(NSString *)type
 {
     self = [super init];
     if(self){
@@ -38,6 +39,7 @@
         [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         
         _huddle = aHuddle;
+        _type = type;
         
         [self initHeaders];
         [self initContent];

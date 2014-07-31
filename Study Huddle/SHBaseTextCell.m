@@ -101,7 +101,7 @@
     CGFloat descriptionY = self.titleButton.frame.origin.y+self.titleButton.frame.size.height;
     [self.descriptionLabel setFrame:CGRectMake(horiViewSpacing, descriptionY, descriptionSize.width, descriptionSize.height)];
     
-    [self.arrowButton setFrame:CGRectMake(arrowX, arrowY-10.0, arrowDimX, arrowDimY)];
+    [self.arrowButton setFrame:CGRectMake(arrowX, arrowY, arrowDimX, arrowDimY)];
 }
 
 - (void)didTapTitleButtonAction:(id)sender

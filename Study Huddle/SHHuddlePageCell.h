@@ -22,6 +22,6 @@
 
 - (void)didTapInviteToStudy:(PFObject *)huddle;
 - (void)didTapAddResource:(PFObject *)huddle;
-- (void)didTapMember:(PFObject *)member;
+- (void)didTapMember:(PFUser *)member;
 
 @end

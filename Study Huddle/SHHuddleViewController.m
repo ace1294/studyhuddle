@@ -18,6 +18,7 @@
 #import "WYPopoverController.h"
 #import "SHNewHuddleViewController.h"
 #import "UIColor+HuddleColors.h"
+#import "SHCache.h"
 
 @interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate, SHHuddlePageCellDelegate, SHModalViewControllerDelegate, SHHuddleAddDelegate, WYPopoverControllerDelegate>
 {
@@ -46,7 +47,7 @@
     self = [super init];
     if (self) {
         self.student = aStudent;
-        self.huddles = aStudent[SHStudentHuddlesKey];
+        self.huddles = [NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]];
         
         self.title = @"Huddles";
         self.tabBarItem.image = [UIImage imageNamed:@"huddles.png"];
@@ -96,6 +97,13 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.student refresh];
+    [self.tableView reloadData];
+}
+
 
 #pragma mark - UITableViewDelegate Methods
 
@@ -103,15 +111,20 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PFObject *curHuddle = self.huddles[indexPath.row];
-    [curHuddle fetchIfNeeded];
     
     if ([[curHuddle objectForKey:SHHuddleMembersKey]count]>5) {
         return SHHuddlePageCellHeight + 60;
     }
-    
-    
-    
+
     return SHHuddlePageCellHeight;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    SHIndividualHuddleviewController *huddleVC = [[SHIndividualHuddleviewController alloc]initWithHuddle:self.huddles[indexPath.row]];
+    
+    [self.navigationController pushViewController:huddleVC animated:YES];
 }
 
 #pragma mark - UITableViewDataSource Methods
@@ -135,8 +148,6 @@
     
     cell.delegate = self;
     PFObject *huddleObject = [self.huddles objectAtIndex:indexPath.row];
-    
-    [huddleObject fetchIfNeeded];
      
     [cell setHuddle:huddleObject];
     
@@ -148,12 +159,14 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated
+#pragma mark - Actions
+
+- (void)addItem
 {
-    [super viewWillAppear:animated];
-    [self.student refresh];
-    [self.tableView reloadData];
+    [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
 }
+
+#pragma mark - SHHuddlePageCellDelegate Methods
 
 - (void)didTapTitleCell:(SHHuddlePageCell *)cell
 {
@@ -161,10 +174,6 @@
     
     [self.navigationController pushViewController:huddleVC animated:YES];
 }
-
-#pragma mark - Huddle Page Cell Deleagte Methods
-
-
 
 - (void)addHuddleTapped
 {
@@ -177,12 +186,21 @@
     
 }
 
-
-#pragma mark - Actions
-
-- (void)addItem
+- (void)didTapInviteToStudy:(PFObject *)huddle
 {
-    [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
+    
+}
+
+- (void)didTapAddResource:(PFObject *)huddle
+{
+    
+}
+
+- (void)didTapMember:(PFUser *)member
+{
+    SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)member];
+    
+    [self.navigationController pushViewController:visitorVC animated:YES];
 }
 
 

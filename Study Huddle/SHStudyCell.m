@@ -23,8 +23,6 @@
 {
     _study = aStudy;
     
-    //[aStudy fetchIfNeeded];
-    
     if([aStudy[SHStudyOnlineKey] boolValue])
         [self.mainView setBackgroundColor:[UIColor huddleOrangeAlpha]];
     else

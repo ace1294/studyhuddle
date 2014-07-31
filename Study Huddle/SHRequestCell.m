@@ -77,25 +77,19 @@ BOOL expanded;
                                                            attributes:@{NSFontAttributeName:self.descriptionFont}
                                                               context:nil].size;
     
-    if(expandable)
-    {
-        CGSize messageSize = [self.expandedMessageLabel.text boundingRectWithSize:CGSizeMake(descriptionMaxWidth, CGFLOAT_MAX)
+
+    CGSize messageSize = [self.expandedMessageLabel.text boundingRectWithSize:CGSizeMake(descriptionMaxWidth, CGFLOAT_MAX)
                                                                   options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
                                                                attributes:@{NSFontAttributeName:self.descriptionFont}
                                                                   context:nil].size;
         
-        CGFloat messageY = self.descriptionLabel.frame.origin.y+self.descriptionLabel.frame.size.height;
+    CGFloat messageY = self.descriptionLabel.frame.origin.y+self.descriptionLabel.frame.size.height;
         
-        [self.expandedMessageLabel setFrame:CGRectMake(horiViewSpacing, messageY, messageSize.width, messageSize.height)];
+    [self.expandedMessageLabel setFrame:CGRectMake(horiViewSpacing, messageY, messageSize.width, messageSize.height)];
         
-        [self.acceptButton setFrame:CGRectMake(vertButtonX, vertAcceptY, requestButtonDim, requestButtonDim)];
-        [self.denyButton setFrame:CGRectMake(vertButtonX, vertDenyY, requestButtonDim, requestButtonDim)];
+    [self.acceptButton setFrame:CGRectMake(vertButtonX, vertAcceptY, requestButtonDim, requestButtonDim)];
+    [self.denyButton setFrame:CGRectMake(vertButtonX, vertDenyY, requestButtonDim, requestButtonDim)];
         
-    } else {
-        [self.acceptButton setFrame:CGRectMake(acceptX, requestButtonY, requestButtonDim, requestButtonDim)];
-        [self.denyButton setFrame:CGRectMake(denyX, requestButtonY, requestButtonDim, requestButtonDim)];
-    }
-    
     if(expanded){
         CGFloat timeY = self.expandedMessageLabel.frame.origin.y+self.expandedMessageLabel.frame.size.height+2.0;
         [self.timeLabel setFrame:CGRectMake(horiViewSpacing, timeY, timeSize.width, timeSize.height)];
@@ -114,24 +108,14 @@ BOOL expanded;
 {
     _request = aRequest;
     
-    NSString *type = aRequest[SHRequestTypeKey];
-    
     [self.titleButton setTitle:aRequest[SHRequestTitleKey] forState:UIControlStateNormal];
     NSDate *created = [aRequest updatedAt];
     [self.timeLabel setText:[NSDateFormatter relativeDateStringFromDate:created toDate:[NSDate date]]];
     
-    
-    if([type isEqualToString:SHRequestSCJoin])
-    {
-        [self.descriptionLabel setText:aRequest[SHRequestDescriptionKey]];
-    }
-    else
-    {
-        [self initExpandedContent];
-        [self.descriptionLabel setText:aRequest[SHRequestDescriptionKey]];
+    [self initExpandedContent];
+    [self.descriptionLabel setText:aRequest[SHRequestDescriptionKey]];
         
-        [self.expandedMessageLabel setText:aRequest[SHRequestMessageKey]];
-    }
+    [self.expandedMessageLabel setText:aRequest[SHRequestMessageKey]];
     
     [self layoutSubviews];
 }
@@ -174,9 +158,9 @@ BOOL expanded;
     expanded = false;
     
     [self.arrowButton setSelected:NO];
+    [self.expandedMessageLabel setHidden:YES];
     [self.acceptButton setHidden:YES];
     [self.denyButton setHidden:YES];
-    [self.expandedMessageLabel setHidden:YES];
     
 
 }

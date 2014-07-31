@@ -123,22 +123,9 @@
     request[SHRequestTitleKey] = huddle[SHHuddleNameKey];
     request[SHRequestHuddleKey] = huddle;
     request[SHRequestMessageKey] = self.messageTextView.text;
-    
-    if([[[Student currentUser] objectId] isEqual:[huddle[SHHuddleCreatorKey] objectId]]){
-        request[SHRequestTypeKey] = SHRequestHSJoin;
-        request[SHRequestStudent1Key] = self.toStudent;
-        request[SHRequestDescriptionKey] = @"We want you to join our huddle";
-        
-    } else {
-        //Send creator request to
-        request[SHRequestTypeKey] = SHRequestSCJoin;
-        request[SHRequestStudent1Key] = huddle[SHHuddleCreatorKey];
-        request[SHRequestStudent2Key] = self.toStudent;
-        request[SHRequestStudent3Key] = [Student currentUser];
-        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to add %@", [Student currentUser][SHStudentNameKey], self.toStudent[SHStudentNameKey]];
-        
-    }
-    
+    request[SHRequestTypeKey] = SHRequestHSJoin;
+    request[SHRequestStudent1Key] = self.toStudent;
+    request[SHRequestDescriptionKey] = @"We want you to join our huddle";
     
     [request saveInBackground];
     

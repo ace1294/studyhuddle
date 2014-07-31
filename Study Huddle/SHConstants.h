@@ -73,6 +73,7 @@ extern NSString *const SHStudentLowerNameKey;
 extern NSString *const SHStudentHuddlesKey;
 extern NSString *const SHStudentStudyLogsKey;
 extern NSString *const SHStudentStudyingKey;
+extern NSString *const SHStudentCurrentStudyLogKey;
 extern NSString *const SHStudentStudyFriendsKey;
 extern NSString *const SHStudentRequestsKey;
 extern NSString *const SHStudentNotificationsKey;
@@ -108,7 +109,6 @@ extern NSString *const SHRequestTypeKey;
 extern NSString *const SHRequestHuddleKey;
 extern NSString *const SHRequestStudent1Key;
 extern NSString *const SHRequestStudent2Key;
-extern NSString *const SHRequestStudent3Key;
 extern NSString *const SHRequestLocationKey;
 extern NSString *const SHRequestTimeKey;
 extern NSString *const SHRequestDescriptionKey;
@@ -118,7 +118,6 @@ extern NSString *const SHRequestMessageKey;
 extern NSString *const SHRequestSSInviteStudy;
 extern NSString *const SHRequestSHJoin;
 extern NSString *const SHRequestHSJoin;
-extern NSString *const SHRequestSCJoin;
 
 //Notifications
 extern NSString* const SHNotificationTitleKey;
@@ -141,7 +140,6 @@ extern NSString* const SHNotificationHuddleStartedStudyingType;
 extern NSString* const SHNotificationSSStudyRequestType;
 extern NSString* const SHNotificationSHJoinRequestType;
 extern NSString* const SHNotificationHSJoinRequestType;
-extern NSString* const SHNotificationSCJoinRequestType;
 extern NSString* const SHNotificationHSStudyRequestType;
 
 //Notification Descriptions
