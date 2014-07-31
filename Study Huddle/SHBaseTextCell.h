@@ -41,6 +41,6 @@
 
 //Arrow
 #define arrowX 285.0f
-#define arrowY 20.0
+#define arrowY 11.5
 #define arrowDimX 10.0f
 #define arrowDimY 17.0f

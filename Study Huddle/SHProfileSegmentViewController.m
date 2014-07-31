@@ -266,8 +266,6 @@
     }
     else if([CellIdentifier isEqual:SHStudentCellIdentifier])
     {
-        
-        
         PFObject* studentObject = [self.onlineDataArray objectAtIndex:(int)indexPath.row];
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
@@ -296,7 +294,6 @@
         SHStudyCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
         
-        [studyObject fetchIfNeeded];
         [cell setStudy:studyObject];
         [cell layoutIfNeeded];
         

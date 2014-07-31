@@ -73,7 +73,7 @@
 
 - (void)setFile:(PFFile *)file {
     if (!file) {
-        NSLog(@"returning");
+        
         return;
     }
     

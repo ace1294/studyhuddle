@@ -20,6 +20,7 @@
 - (NSArray *)huddles;
 - (void)setAttributesForHuddle:(PFObject *)huddle;
 - (PFObject *)objectForHuddle:(PFObject *)huddle;
+- (NSArray *)membersForHuddle:(PFObject *)huddle;
 
 
 #pragma mark - Class

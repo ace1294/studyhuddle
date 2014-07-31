@@ -18,6 +18,7 @@
 #import "WYPopoverController.h"
 #import "SHNewHuddleViewController.h"
 #import "UIColor+HuddleColors.h"
+#import "SHCache.h"
 
 @interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate, SHHuddlePageCellDelegate, SHModalViewControllerDelegate, SHHuddleAddDelegate, WYPopoverControllerDelegate>
 {
@@ -46,7 +47,7 @@
     self = [super init];
     if (self) {
         self.student = aStudent;
-        self.huddles = aStudent[SHStudentHuddlesKey];
+        self.huddles = [NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]];
         
         self.title = @"Huddles";
         self.tabBarItem.image = [UIImage imageNamed:@"huddles.png"];
@@ -103,7 +104,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PFObject *curHuddle = self.huddles[indexPath.row];
-    [curHuddle fetchIfNeeded];
     
     if ([[curHuddle objectForKey:SHHuddleMembersKey]count]>5) {
         return SHHuddlePageCellHeight + 60;
@@ -135,8 +135,6 @@
     
     cell.delegate = self;
     PFObject *huddleObject = [self.huddles objectAtIndex:indexPath.row];
-    
-    [huddleObject fetchIfNeeded];
      
     [cell setHuddle:huddleObject];
     
@@ -183,6 +181,23 @@
 - (void)addItem
 {
     [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
+}
+
+#pragma mark - SHHuddlePageCellDelegate Methods
+
+- (void)didTapInviteToStudy:(PFObject *)huddle
+{
+    
+}
+
+- (void)didTapAddResource:(PFObject *)huddle
+{
+    
+}
+
+- (void)didTapMember:(PFObject *)member
+{
+    
 }
 
 

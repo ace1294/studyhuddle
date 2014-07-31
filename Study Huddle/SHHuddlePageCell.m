@@ -10,6 +10,7 @@
 #import "SHPortraitView.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
+#import "SHCache.h"
 
 @interface SHHuddlePageCell ()
 
@@ -106,17 +107,18 @@
 
 - (void)setMembers:(NSArray *)students
 {
+    PFUser *member;
     int i = 0;
     
-    for (PFObject *student in students)
+    for (PFUser *student in students)
     {
-        [student fetchIfNeeded];
-        [self.memberObjects addObject:student];
+        member = [[SHCache sharedCache] objectForUser:student];
+        [self.memberObjects addObject:member];
         
         SHPortraitView *memberPortrait = [[SHPortraitView alloc] initWithFrame:CGRectMake(memberPortraitX + ((memberPortraitDim+horiBorderSpacing)*(i%5)), memberPortraitY + ((memberPortraitDim+vertBorderSpacing)*(i/5)), memberPortraitDim, memberPortraitDim)];
         [memberPortrait setBackgroundColor:[UIColor clearColor]];
         [memberPortrait setOpaque:YES];
-        [memberPortrait setFile:student[SHStudentImageKey]];
+        [memberPortrait setFile:member[SHStudentImageKey]];
         [memberPortrait.profileButton addTarget:self action:@selector(didTapMemberAction:) forControlEvents:UIControlEventTouchUpInside];
         memberPortrait.profileButton.tag = i;
         [self.memberPortraits addObject:memberPortrait];

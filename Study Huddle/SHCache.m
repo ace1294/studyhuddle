@@ -99,6 +99,10 @@ NSString *studyLogHeader = @"studyLog";
     return [self.cache objectForKey:key];
 }
 
+- (NSArray *)membersForHuddle:(PFObject *)huddle
+{
+    return [self objectsForKeys:huddle[SHHuddleMembersKey] withHeader:userHeader];
+}
 
 
 #pragma mark - Class
