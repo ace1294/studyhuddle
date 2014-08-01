@@ -54,7 +54,6 @@ NSString *studyLogHeader = @"studyLog";
     
 }
 
-
 #pragma mark - Huddle
 
 - (void)setHuddles:(NSArray *)huddles
@@ -72,7 +71,7 @@ NSString *studyLogHeader = @"studyLog";
 - (NSArray *)huddles {
     NSString *key = SHUserDefaultsUserHuddlesKey;
     if ([self.cache objectForKey:key]) {
-        return [self objectsForKeys:[self.cache objectForKey:key] withHeader:huddleHeader];
+        return [NSArray arrayWithArray:[self objectsForKeys:[self.cache objectForKey:key] withHeader:huddleHeader]];
     }
     
     NSArray *huddles = [[NSUserDefaults standardUserDefaults] objectForKey:key];
@@ -81,7 +80,7 @@ NSString *studyLogHeader = @"studyLog";
         [self.cache setObject:huddles forKey:key];
     }
     
-    return [self objectsForKeys:huddles withHeader:huddleHeader];
+    return [NSArray arrayWithArray:[self objectsForKeys:huddles withHeader:huddleHeader]];
 }
 
 - (void)setAttributesForHuddle:(PFObject *)huddle
@@ -90,7 +89,33 @@ NSString *studyLogHeader = @"studyLog";
     
     [huddle fetchIfNeeded];
     
+    //Dont need to fetch the members because they should all be Study Friends
+    
+    for(PFObject *resourceCategory in huddle[SHHuddleResourceCategoriesKey])
+        [resourceCategory fetchIfNeeded];
+    
+    for(PFObject *chatCategory in huddle[SHHuddleChatCategoriesKey])
+        [chatCategory fetchIfNeeded];
+    
     [self.cache setObject:huddle forKey:key];
+}
+
+- (void)setNewHuddle:(PFObject *)huddle
+{
+    [self setAttributesForHuddle:huddle];
+    
+    NSString *key = SHUserDefaultsUserHuddlesKey;
+    NSMutableArray *currentHuddles = [self.cache objectForKey:key];
+    if (!currentHuddles) {
+        currentHuddles = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        [self.cache setObject:currentHuddles forKey:key];
+    }
+    
+    [currentHuddles addObject:[huddle objectId]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
 
 - (PFObject *)objectForHuddle:(PFObject *)huddle
@@ -101,9 +126,18 @@ NSString *studyLogHeader = @"studyLog";
 
 - (NSArray *)membersForHuddle:(PFObject *)huddle
 {
-    return [self objectsForKeys:huddle[SHHuddleMembersKey] withHeader:userHeader];
+    return [NSArray arrayWithArray:[self objectsForKeys:[SHUtility objectIDsForObjects:huddle[SHHuddleMembersKey]] withHeader:userHeader]];
 }
 
+- (NSArray *)resourceCategoriesForHuddle:(PFObject *)huddle
+{
+    return [NSArray arrayWithArray:huddle[SHHuddleResourceCategoriesKey]];
+}
+
+- (NSArray *)chatCategoriessForHuddle:(PFObject *)huddle
+{
+    return [NSArray arrayWithArray:huddle[SHHuddleChatCategoriesKey]];
+}
 
 #pragma mark - Class
 
@@ -124,7 +158,7 @@ NSString *studyLogHeader = @"studyLog";
 {
     NSString *key = SHUserDefaultsUserClassesKey;
     if ([self.cache objectForKey:key]) {
-        return [self objectsForKeys:[self.cache objectForKey:key] withHeader:classHeader];
+        return [NSArray arrayWithArray:[self objectsForKeys:[self.cache objectForKey:key] withHeader:classHeader]];
     }
     
     NSArray *classes = [[NSUserDefaults standardUserDefaults] objectForKey:key];
@@ -133,7 +167,7 @@ NSString *studyLogHeader = @"studyLog";
         [self.cache setObject:classes forKey:key];
     }
     
-    return [self objectsForKeys:classes withHeader:classHeader];
+    return [NSArray arrayWithArray:[self objectsForKeys:classes withHeader:classHeader]];
 }
 
 - (void)setAttributesForClass:(PFObject *)huddleClass
@@ -142,7 +176,30 @@ NSString *studyLogHeader = @"studyLog";
     
     [huddleClass fetchIfNeeded];
     
+    for(PFUser *student in huddleClass[SHClassStudentsKey])
+        [student fetchIfNeeded];
+    
+    for(PFObject *huddle in huddleClass[SHClassHuddlesKey])
+        [huddle fetchIfNeeded];
+    
     [self.cache setObject:huddleClass forKey:key];
+}
+
+- (void)setNewClass:(PFObject *)huddleClass
+{
+    [self setAttributesForClass:huddleClass];
+    
+    NSString *key = SHUserDefaultsUserStudyLogsKey;
+    NSMutableArray *currentClasses = [self.cache objectForKey:key];
+    if (!currentClasses) {
+        currentClasses = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        [self.cache setObject:currentClasses forKey:key];
+    }
+    
+    [currentClasses addObject:[huddleClass objectId]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentClasses forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (PFObject *)objectForClass:(PFObject *)huddleClass
@@ -151,7 +208,15 @@ NSString *studyLogHeader = @"studyLog";
     return [self.cache objectForKey:key];
 }
 
+- (NSArray *)studentsForClass:(PFObject *)huddleClass
+{
+    return [NSArray arrayWithArray:huddleClass[SHClassStudentsKey]];
+}
 
+- (NSArray *)huddlesForClass:(PFObject *)huddleClass
+{
+    return [NSArray arrayWithArray:huddleClass[SHClassHuddlesKey]];
+}
 
 #pragma mark - User
 
@@ -171,7 +236,7 @@ NSString *studyLogHeader = @"studyLog";
 {
     NSString *key = SHUserDefaultsUserStudyFriendsKey;
     if ([self.cache objectForKey:key]) {
-        [self objectsForKeys:[self.cache objectForKey:key] withHeader:userHeader];
+        [NSArray arrayWithArray:[self objectsForKeys:[self.cache objectForKey:key] withHeader:userHeader]];
     }
     
     NSArray *studyFriends = [[NSUserDefaults standardUserDefaults] objectForKey:key];
@@ -180,7 +245,7 @@ NSString *studyLogHeader = @"studyLog";
         [self.cache setObject:studyFriends forKey:key];
     }
     
-    return [self objectsForKeys:studyFriends withHeader:userHeader];
+    return [NSArray arrayWithArray:[self objectsForKeys:studyFriends withHeader:userHeader]];
 }
 
 - (void)setAttributesForUser:(PFUser *)user
@@ -192,6 +257,23 @@ NSString *studyLogHeader = @"studyLog";
     [self.cache setObject:user forKey:key];
 }
 
+- (void)setNewStudyFriend:(PFUser *)user
+{
+    [self setAttributesForClass:user];
+    
+    NSString *key = SHUserDefaultsUserStudyFriendsKey;
+    NSMutableArray *currentFriends = [self.cache objectForKey:key];
+    if (!currentFriends) {
+        currentFriends = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        [self.cache setObject:currentFriends forKey:key];
+    }
+    
+    [currentFriends addObject:[user objectId]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentFriends forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (PFUser *)objectForUser:(PFUser *)user
 {
     NSString *key = [self keyForObject:user withHeader:userHeader];
@@ -199,6 +281,7 @@ NSString *studyLogHeader = @"studyLog";
 }
 
 #pragma mark - Study
+
 - (void)setStudyLogs:(NSArray *)logs
 {
     for(PFObject *log in logs){
@@ -224,7 +307,7 @@ NSString *studyLogHeader = @"studyLog";
         [self.cache setObject:studyLogs forKey:key];
     }
     
-    return [self objectsForKeys:studyLogs withHeader:studyLogHeader];
+    return [NSArray arrayWithArray:[self objectsForKeys:studyLogs withHeader:studyLogHeader]];
 }
 
 - (void)setAttributesForStudyLog:(PFObject *)log
@@ -234,6 +317,22 @@ NSString *studyLogHeader = @"studyLog";
     [log fetchIfNeeded];
     
     [self.cache setObject:log forKey:key];
+}
+- (void)setNewStudyLog:(PFObject *)studyLog
+{
+    [self setAttributesForClass:studyLog];
+    
+    NSString *key = SHUserDefaultsUserStudyLogsKey;
+    NSMutableArray *currentLogs = [self.cache objectForKey:key];
+    if (!currentLogs) {
+        currentLogs = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        [self.cache setObject:currentLogs forKey:key];
+    }
+    
+    [currentLogs addObject:[studyLog objectId]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentLogs forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (PFUser *)objectForStudyLog:(PFObject *)log
@@ -259,10 +358,14 @@ NSString *studyLogHeader = @"studyLog";
     NSMutableArray *objects = [[NSMutableArray alloc]initWithCapacity:[keys count]];
     
     for(NSString *key in keys){
-        [objects addObject:[self.cache objectForKey:[NSString stringWithFormat:@"%@_%@",header, key]]];
+        PFObject *object = [self.cache objectForKey:[NSString stringWithFormat:@"%@_%@",header, key]];
+        [object fetchIfNeeded];
+        
+        [objects addObject:object];
     }
     
     return objects;
 }
+
 
 @end

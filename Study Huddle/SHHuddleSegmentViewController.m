@@ -27,7 +27,8 @@
 #import "UIViewController+MJPopupViewController.h"
 #import "SHChatEntryViewController.h"
 #import "SHResourceListViewController.h"
-
+#import "SHHuddleJoinRequestViewController.h"
+#import "SHCache.h"
 
 
 @interface SHHuddleSegmentViewController () <SHBaseCellDelegate, SHAddCellDelegate, UINavigationControllerDelegate, SHStudentSearchDelegate>
@@ -45,7 +46,7 @@
 @property (strong, nonatomic) NSMutableDictionary *segmentData;
 @property (strong, nonatomic) NSMutableArray *membersDataArray;
 
-@property (strong, nonatomic) NSMutableArray *chatEntryDataArray;
+@property (strong, nonatomic) NSMutableArray *chatCategoriesDataArray;
 
 @property (strong, nonatomic) NSMutableArray *threadDataArray;
 @property (strong, nonatomic) NSMutableArray *resourceCategoriesDataArray;
@@ -116,12 +117,12 @@
     self.tableView.dataSource = self;
     
     self.membersDataArray = [[NSMutableArray alloc]init];
-    self.chatEntryDataArray = [[NSMutableArray alloc]init];
+    self.chatCategoriesDataArray = [[NSMutableArray alloc]init];
     self.resourceCategoriesDataArray = [[NSMutableArray alloc]init];
-    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.membersDataArray, self.resourceCategoriesDataArray, self.chatEntryDataArray, nil];
+    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.membersDataArray, self.resourceCategoriesDataArray, self.chatCategoriesDataArray, nil];
     
 
-    [self loadHuddleData];
+    [self loadHuddleDataRefresh:false];
         
     
 }
@@ -144,8 +145,8 @@
     
     //Set segment menu titles
     [self.segCellIdentifiers setObject:SHStudentCellIdentifier forKey:[@"Members" uppercaseString]];
-    [self.segCellIdentifiers setObject:SHChatCellIdentifier forKey:[@"Chat" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$
-    [self.segCellIdentifiers setObject:SHCategoryCellIdentifier forKey:[@"Resources" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ // NEED TO REGISTER CELLS AS WELL
+    [self.segCellIdentifiers setObject:SHChatCellIdentifier forKey:[@"Chat" uppercaseString]];
+    [self.segCellIdentifiers setObject:SHCategoryCellIdentifier forKey:[@"Resources" uppercaseString]];
     
     //Segment
     [self.view addSubview:self.control];
@@ -161,7 +162,7 @@
 - (void)refreshTable {
     //TODO: refresh your data
     [refreshControl endRefreshing];
-    [self loadHuddleData];
+    [self loadHuddleDataRefresh:true];
     [self.tableView reloadData];
 }
 
@@ -174,33 +175,23 @@
 - (void)setHuddle:(PFObject *)aHuddle
 {
     _segHuddle = aHuddle;
-    [self loadHuddleData];
+    [self loadHuddleDataRefresh:true];
 }
 
--(BOOL)loadHuddleData
+-(BOOL)loadHuddleDataRefresh:(BOOL)refresh
 {
     BOOL loadError = true;
     
     [self.segHuddle fetch];
     
-    NSArray *resourceCategories = [self.segHuddle objectForKey:SHHuddleResourceCategoriesKey];
-    
     [self.resourceCategoriesDataArray removeAllObjects];
-    [self.resourceCategoriesDataArray addObjectsFromArray:resourceCategories];
-    [SHUtility fetchObjectsInArray:self.resourceCategoriesDataArray];
-    
-    NSArray *members = [self.segHuddle objectForKey:SHHuddleMembersKey];
+    [self.resourceCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] resourceCategoriesForHuddle:self.segHuddle]];
     
     [self.membersDataArray removeAllObjects];
-    [self.membersDataArray addObjectsFromArray:members];
-    [SHUtility fetchObjectsInArray:self.membersDataArray];
+    [self.membersDataArray addObjectsFromArray:[[SHCache sharedCache] membersForHuddle:self.segHuddle]];
     
-    
-    NSArray *chatEntries = [self.segHuddle objectForKey:SHHuddleChatCategoriesKey];
-    
-    [self.chatEntryDataArray removeAllObjects];
-    [self.chatEntryDataArray addObjectsFromArray:chatEntries];
-
+    [self.chatCategoriesDataArray removeAllObjects];
+    [self.chatCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] chatCategoriessForHuddle:self.segHuddle]];
     
     [self.tableView reloadData];
 
@@ -212,7 +203,7 @@
             self.currentRowsToDisplay = self.resourceCategoriesDataArray.count;
             break;
         case 2:
-            self.currentRowsToDisplay = self.chatEntryDataArray.count;
+            self.currentRowsToDisplay = self.chatCategoriesDataArray.count;
             break;
         default:
             break;
@@ -311,7 +302,6 @@
             
             
         [cell layoutIfNeeded];
-        NSLog(@"baby got kush");
         return cell;
     
     }
@@ -321,10 +311,7 @@
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
         
-        [studentObject fetch];
-        
         [cell setStudent:studentObject];
-        
         [cell layoutIfNeeded];
         
         return cell;
@@ -332,36 +319,25 @@
     else if([CellIdentifier isEqual:SHCategoryCellIdentifier])
     {
         PFObject *categoryObject = [self.resourceCategoriesDataArray objectAtIndex:(int)indexPath.row];
-
         SHCategoryCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        
         cell.delegate = self;
         
-        [categoryObject fetch];
-        
         [cell setCategory:categoryObject];
-        
         [cell layoutIfNeeded];
         
         return cell;
     }
     else if([CellIdentifier isEqual:SHChatCellIdentifier])
     {
-        PFObject *chatEntryObj = [self.chatEntryDataArray objectAtIndex:(int)indexPath.row];
+        PFObject *chatEntryObj = [self.chatCategoriesDataArray objectAtIndex:(int)indexPath.row];
         SHChatCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
         
-        [chatEntryObj fetch];
-        
         [cell setChatEntry:chatEntryObj];
-        
         [cell layoutIfNeeded];
         
         return cell;
     }
-    
-    
-    
     
     
     return nil;
@@ -451,15 +427,9 @@
 
 - (void)didAddMember:(PFObject *)member
 {
-    PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
-    request[SHRequestTitleKey] = self.segHuddle[SHHuddleNameKey];
-    request[SHRequestHuddleKey] = self.segHuddle;
+    SHHuddleJoinRequestViewController *joinRequestVC = [[SHHuddleJoinRequestViewController alloc]initWithHuddle:self.segHuddle withType:SHRequestHSJoin];
     
-    request[SHRequestTypeKey] = SHRequestHSJoin;
-    request[SHRequestStudent1Key] = member;
-    request[SHRequestDescriptionKey] = @"We want you to join our huddle";
-
-    [request saveInBackground];
+    [self presentPopupViewController:joinRequestVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

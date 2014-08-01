@@ -247,7 +247,6 @@
         
         SHClassPageViewController *classVC = [[SHClassPageViewController alloc]initWithClass:class];
         
-        
         [self.owner.navigationController pushViewController:classVC animated:YES];
     }
     else
@@ -301,7 +300,6 @@
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
         
-        [studentObject fetchIfNeeded];
         [cell setStudent:studentObject];
         [cell layoutIfNeeded];
         
@@ -313,7 +311,6 @@
         SHClassCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
         
-        [classObject fetchIfNeeded];
         [cell setClass:classObject];
         [cell layoutIfNeeded];
         

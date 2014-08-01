@@ -13,7 +13,9 @@
 #import "SHStudentCell.h"
 #import "SHHuddleCell.h"
 #import "SHIndividualHuddleViewController.h"
+#import "SHVisitorHuddleViewController.h"
 #import "SHVisitorProfileViewController.h"
+#import "SHCache.h"
 
 @interface SHClassSegmentViewController () <SHBaseCellDelegate, UINavigationControllerDelegate>
 
@@ -84,7 +86,7 @@
     self.studentData = [[NSMutableDictionary alloc]init];
     self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects: self.studentData, self.huddlesData, nil];
     
-    [self loadClassData];
+    [self loadClassDataRefresh:false];
     
     
 }
@@ -109,7 +111,6 @@
     [self.segCellIdentifiers setObject:SHStudentCellIdentifier forKey:@"STUDENTS"];
     [self.segCellIdentifiers setObject:SHHuddleCellIdentifier forKey:@"HUDDLES"];
     [self.segCellIdentifiers setObject:@"UITableViewCell" forKey:[@"Chat" uppercaseString]];
-    // [self.segCellIdentifiers setObject:SHCategoryCellIdentifier forKey:[@"Resources" uppercaseString]];  //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ // NEED TO REGISTER CELLS AS WELL
     
     //Segment
     [self.view addSubview:self.control];
@@ -122,45 +123,43 @@
     
 }
 
+- (void)setClass:(PFObject *)aClass
+{
+    _segClass = aClass;
+    [self loadClassDataRefresh:true];
+}
+
 - (void)refreshTable {
     //TODO: refresh your data
     [refreshControl endRefreshing];
-    [self loadClassData];
+    [self loadClassDataRefresh:true];
     [self.tableView reloadData];
 }
 
--(BOOL)loadClassData
+-(BOOL)loadClassDataRefresh:(BOOL)refresh
 {
     BOOL loadError = true;
     
     [self.segClass fetchIfNeeded];
     
     //Student Dataa
-    NSArray *students = [self.segClass objectForKey:SHClassStudentsKey];
     [[self.studentData objectForKey:@"both"] removeAllObjects];
-    [self.studentData setObject:students forKey:@"both"];
-    [SHUtility fetchObjectsInArray:[self.studentData objectForKey:@"both"]];
+    [self.studentData setObject:[[SHCache sharedCache] studentsForClass:self.segClass] forKey:@"both"];
     [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
     
     
     //Huddle Data
-    NSArray *huddles = [self.segClass objectForKey:SHClassHuddlesKey];
     [[self.huddlesData objectForKey:@"both"] removeAllObjects];
-    [self.huddlesData setObject:huddles forKey:@"both"];
+    [self.huddlesData setObject:[[SHCache sharedCache] huddlesForClass:self.segClass] forKey:@"both"];
     [SHUtility separateOnlineOfflineData:self.huddlesData forOnlineKey:SHHuddleStudyingKey];
-    [SHUtility fetchObjectsInArray:[self.huddlesData objectForKey:@"both"]];
+    
     self.currentRowsToDisplay = [[self.huddlesData objectForKey:@"both"] count];
+    
     //Chat
     
     [self.tableView reloadData];
     
     return loadError;
-}
-
-- (void)setClass:(PFObject *)aClass
-{
-    _segClass = aClass;
-    [self loadClassData];
 }
 
 #pragma mark - DZNSegmentController
@@ -206,6 +205,34 @@
     return SHHuddleCellHeight;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"STUDENTS"])
+    {
+        Student *student = [self.studentData objectForKey:@"both"][indexPath.row];
+        
+        SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:student];
+        
+        
+        [self.owner.navigationController pushViewController:studentVC animated:YES];
+    }
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
+    {
+        //$$$$$$$$$$$$$$$$ Need to check if student is in huddle, maybe should pop them back to huddle page?
+        
+        PFObject *huddle = [self.huddlesData objectForKey:@"both"][indexPath.row];
+        
+        SHVisitorHuddleViewController *huddleVC = [[SHVisitorHuddleViewController alloc]initWithHuddle:huddle];
+        
+        [self.owner.navigationController pushViewController:huddleVC animated:YES];
+    }
+    else
+    {
+        //
+        
+    }
+}
+
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -238,11 +265,7 @@
             studentObject = [[self.studentData objectForKey:@"offline"] objectAtIndex:((int)indexPath.row-[[self.studentData objectForKey:@"online"]count])];
         
         cell.delegate = self;
-        
-        [studentObject fetch];
-        
         [cell setStudent:studentObject];
-        
         [cell layoutIfNeeded];
         
         return cell;
@@ -261,11 +284,7 @@
             huddleObject = [[self.huddlesData objectForKey:@"offline"] objectAtIndex:(int)indexPath.row];
         
         cell.delegate = self;
-        
-        [huddleObject fetch];
-        
         [cell setHuddle:huddleObject];
-        
         [cell layoutIfNeeded];
         
         return cell;

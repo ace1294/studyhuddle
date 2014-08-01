@@ -434,7 +434,7 @@
 - (void)addResourceTapped
 {
     SHNewResourceViewController *newResource = [[SHNewResourceViewController alloc]initWithHuddle:self.indvHuddle];
-    newResource.delegate = self;
+    newResource.delegate = self.segmentController;
     
     [popoverController dismissPopoverAnimated:YES completion:^{
         [self presentPopupViewController:newResource animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
@@ -447,7 +447,7 @@
 - (void)addThreadTapped
 {
     SHNewQuestionViewController *createThreadVC = [[SHNewQuestionViewController alloc]initWithHuddle:self.indvHuddle];
-    createThreadVC.delegate = self;
+    createThreadVC.delegate = self.segmentController;
     
     [popoverController dismissPopoverAnimated:YES completion:^{
         [self presentPopupViewController:createThreadVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
