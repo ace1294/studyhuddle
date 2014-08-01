@@ -47,6 +47,7 @@
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
     
+
     
     self.isRunMoreThanOnce = [[NSUserDefaults standardUserDefaults] boolForKey:@"isRunMoreThanOnce"];
     if(!self.isRunMoreThanOnce){
@@ -107,7 +108,14 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [PFPush handlePush:userInfo];
+   //check the type
+    NSString* type = [userInfo objectForKey:SHPushTypeKey];
+    if([type isEqualToString:SHPushTypeHuddleChatPost])
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:SHPushTypeHuddleChatPost object:self];
+    }
+    
+    
 }
 
 

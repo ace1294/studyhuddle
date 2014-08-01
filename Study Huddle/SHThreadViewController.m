@@ -96,7 +96,11 @@
 {
     [super viewWillAppear:animated];
     [self registerForKeyboardNotifications];
-    [self updateLayout];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateLayout)
+                                                 name:SHPushTypeHuddleChatPost
+                                               object:nil];
+ 
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -127,11 +131,7 @@
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPressedOutside:)];
     [self.scrollView addGestureRecognizer:gestureRecognizer];
     
-    [NSTimer scheduledTimerWithTimeInterval:30
-                                     target:self
-                                   selector:@selector(refreshAll)
-                                   userInfo:nil
-                                    repeats:YES];
+ 
 
     
 
@@ -159,13 +159,7 @@
 
 }
 
--(void)refreshAll
-{
-    //[self updateAllFromParse];
-    [self.threadObject fetchIfNeeded];
-    [self.threadObject refresh];
-    [self updateLayout];
-}
+
 
 -(void)updateAllFromParse
 {
@@ -200,7 +194,7 @@
         [subview removeFromSuperview];
     }
     
-    [self.threadObject fetchIfNeeded];
+    [self.threadObject refresh];
     
     NSMutableArray* questions = self.threadObject[SHThreadQuestions];
     
@@ -208,7 +202,7 @@
     for (PFObject* questionObject in questions)
     {
         [questionObject fetchIfNeeded];
-        [questionObject refresh];
+        //[questionObject refresh];
         SHQuestionBubble* bubble = [[SHQuestionBubble alloc] initWithQuestion:questionObject andFrame:CGRectMake(questionHorizontalOffset, lastBubbleY, bubbleWidth, 100)];
         bubble.delegate = self;
         [self.scrollView addSubview:bubble];
@@ -219,7 +213,7 @@
         for (PFObject* replyObject in replies) {
             
             [replyObject fetchIfNeeded];
-            [replyObject refresh];
+            //[replyObject refresh];
             SHReplyBubble* replyBubble = [[SHReplyBubble alloc] initWithReply:replyObject andFrame:CGRectMake(repliesHorizontalOffset, lastBubbleY, bubbleWidth - (repliesHorizontalOffset - questionHorizontalOffset), 100)];
             replyBubble.delegate = self;
             [self.scrollView addSubview:replyBubble];
@@ -236,38 +230,35 @@
 -(void)postTextInTextView
 {
     
+    PFObject* currentUser = [PFUser currentUser];
     
     if(self.state == SHQuestioning)
     {
         //make a new question object
-        PFObject* creator = [PFUser currentUser];
+       
         NSString* question = self.textBar.textField.text;
         PFObject* newQuestionObject = [PFObject objectWithClassName:SHQuestionClassName];
-        newQuestionObject[SHQuestionCreator] = creator;
+        newQuestionObject[SHQuestionCreatorID] = [currentUser objectId];
         newQuestionObject[SHQuestionQuestion] = question;
-        [newQuestionObject save];
+        newQuestionObject[SHQuestionCreatorName] = currentUser[SHStudentNameKey];
+        //[newQuestionObject save];
         
         //add it to the threads list
-        NSMutableArray* questions = [[NSMutableArray alloc]initWithArray:self.threadObject[SHThreadQuestions]];
-        [questions addObject:newQuestionObject];
-        self.threadObject[SHThreadQuestions] = questions;
+        [self.threadObject addObject:newQuestionObject forKey:SHThreadQuestions];
         [self.threadObject save];
     }
     else if(self.state == SHReplying)
     {
         //make a new reply object
-        PFObject* creator = [Student currentUser];
         NSString* answer = self.textBar.textField.text;
         PFObject* newReplyObject = [PFObject objectWithClassName:SHReplyClassName];
-        newReplyObject[SHReplyCreator] = creator;
+        newReplyObject[SHReplyCreatorID] = [currentUser objectId];
         newReplyObject[SHReplyAnswer] = answer;
-        [newReplyObject save];
+        newReplyObject[SHReplyCreatorName] = currentUser[SHStudentNameKey];
+        //[newReplyObject save];
         
         //append it to the questions array
-        [self.relevantQuestionObject fetchIfNeeded];
-        NSMutableArray* replies = [[NSMutableArray alloc]initWithArray: self.relevantQuestionObject[SHQuestionReplies]];
-        [replies addObject:newReplyObject];
-        self.relevantQuestionObject[SHQuestionReplies] = replies;
+        [self.relevantQuestionObject addObject:newReplyObject forKey:SHQuestionReplies];
         [self.relevantQuestionObject save];
         
         
@@ -280,7 +271,7 @@
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
         notification[SHNotificationTypeKey] = SHNotificationAnswerType;
-        notification[SHNotificationToStudentKey] = self.relevantQuestionObject[SHQuestionCreator];
+        notification[SHNotificationToStudentKey] = self.relevantQuestionObject[SHQuestionCreatorID]; //THIS WAS CHANGED. SO IT MIGHT CRASH
         notification[SHNotificationFromStudentKey] = [Student currentUser];
         notification[SHNotificationDescriptionKey] = [NSString stringWithFormat:@"%@ replied to your question", [Student currentUser][SHStudentNameKey]];
         
@@ -304,7 +295,15 @@
     self.state = SHQuestioning;
     [self.textBar.textField resignFirstResponder];
     self.textBar.textField.text = @"";
-    [self updateLayout];
+    //send a pushy push
+    PFPush *push = [[PFPush alloc] init];
+    NSDictionary* data = @{@"alert":@"hello honey, how are you", @"type":@"huddleChatPost"};
+    [push setChannel:@"Small-Thread"];
+    [push setData:data];
+    //[push setMessage:@"New message"];
+    [push sendPushInBackground];
+    
+
     
     
 }
@@ -416,6 +415,7 @@
     
 }
 
+/*
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
 
@@ -435,7 +435,7 @@
         self.canUpdate = YES;
     }
     
-}
+}*/
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {

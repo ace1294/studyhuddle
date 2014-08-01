@@ -60,28 +60,15 @@
     
     _questionObject = questionObject;
     [_questionObject fetchIfNeeded];
-    PFObject* creator = _questionObject[SHQuestionCreator];
-    [creator fetchIfNeeded];
-    NSString* title = creator[SHStudentNameKey];
-    NSString* content =  _questionObject[SHQuestionQuestion];
-    [self doLayoutWith:title andContent:content];
+    [self doLayout];
     
     return self;
     
 }
 
--(id)initWithFrame:(CGRect)frame andTitle:(NSString*) title andContent: (NSString*)content andParent:(PFObject*)parent
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        _parent = parent;
-        [self doLayoutWith:title andContent:content];
-    }
-    return self;
-}
 
--(void)doLayoutWith:(NSString*)title andContent: (NSString*)content
+
+-(void)doLayout
 {
     self.backgroundColor = [UIColor lightGrayColor];
     
@@ -89,7 +76,7 @@
     
     self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, 0, width-horizontalOffest-roundness, titleHeight)];
     self.titleLabel.backgroundColor = [UIColor whiteColor];
-    self.titleLabel.text = title;
+    self.titleLabel.text = self.questionObject[SHQuestionCreatorName];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     self.titleLabel.textColor = [UIColor huddleSilver];
     [self.titleLabel setTextAlignment:NSTextAlignmentLeft];
@@ -97,8 +84,8 @@
     
     
     //the edit button/replyButton
-    PFUser* creator = self.questionObject[SHReplyCreator];
-    PFUser* currentUser = [PFUser currentUser];
+    NSString* currentUserID = [[PFUser currentUser] objectId];
+    NSString* creatorID = self.questionObject[SHQuestionCreatorID];
     CGRect editFrame = CGRectMake(width-sideButtonOffsetFromRightEdge - buttonsWidth, self.titleLabel.frame.origin.y + (titleHeight - buttonsHeight)/2, buttonsWidth, buttonsHeight);
     UIButton* editButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     editButton.frame = editFrame;
@@ -108,7 +95,7 @@
     [editButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
     
     
-    BOOL shouldSeeEditButton = ([[currentUser objectId] isEqual:[creator objectId]]);
+    BOOL shouldSeeEditButton = ([currentUserID isEqual:creatorID]);
     if(shouldSeeEditButton)
     {
         [editButton setTitle:@"EDIT POST" forState:UIControlStateNormal];
@@ -125,7 +112,7 @@
     self.contentLabel = [[UILabel alloc]init];
     //self.contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(horizontalOffest, self.titleLabel.frame.origin.y+self.titleLabel.frame.size.height, width-horizontalOffest-roundness, contentCalcHeight)];
     self.contentLabel.backgroundColor = [UIColor whiteColor];
-    self.contentLabel.text = content;
+    self.contentLabel.text = self.questionObject[SHQuestionQuestion];
     CGSize descriptionSize = [self.contentLabel.text boundingRectWithSize:CGSizeMake(width-horizontalOffest-roundness, CGFLOAT_MAX) options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
     self.contentLabel.font = [UIFont systemFontOfSize:14];
     self.contentLabel.textColor = [UIColor huddleSilver];
