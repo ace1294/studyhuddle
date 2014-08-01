@@ -137,7 +137,8 @@
     self.thread[SHThreadCreator] = [Student currentUser];
     self.thread[SHThreadChatCategoryKey] = self.chatCategory;
     
-    self.question[SHQuestionCreator] = [Student currentUser];
+    self.question[SHQuestionCreatorID] = [[Student currentUser]objectId];
+    self.question[SHQuestionCreatorName] = [[Student currentUser]objectForKey:SHStudentNameKey];
     self.question[SHQuestionQuestion] = self.messageTextView.text;
     
     [self.chatCategory saveInBackground];

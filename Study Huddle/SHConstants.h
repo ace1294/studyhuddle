@@ -160,13 +160,15 @@ extern NSString* const SHThreadQuestions;
 extern NSString* const SHThreadChatCategoryKey;
 
 //Question
-extern NSString* const SHQuestionCreator;
+extern NSString* const SHQuestionCreatorID;
+extern NSString* const SHQuestionCreatorName;
 extern NSString* const SHQuestionReplies;
 extern NSString* const SHQuestionQuestion;
 extern NSString* const SHQuestionClassName;
 
 //Reply
-extern NSString* const SHReplyCreator;
+extern NSString* const SHReplyCreatorID;
+extern NSString* const SHReplyCreatorName;
 extern NSString* const SHReplyAnswer;
 extern NSString* const SHReplyClassName;
 
@@ -176,6 +178,12 @@ extern int const SHReplying;
 extern int const SHQuestioning;
 extern int const SHEditingReply;
 
+//PUSH constants
+extern NSString* const SHPushChannelsKey;
+extern NSString* const SHPushTypeKey;
+
+//PUSH types
+extern NSString* const SHPushTypeHuddleChatPost;
 
 #define modalWidth 270
 #define textFieldHeight 30.0

@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Study Huddle/SHProfileViewController.m"
-            timestampString = "427943084.683153"
+            timestampString = "428543240.585803"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "-updateHoursStudied"
+            startingLineNumber = "274"
+            endingLineNumber = "274"
+            landmarkName = "-didReceiveMemoryWarning"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Study Huddle/SHProfileViewController.m"
-            timestampString = "427943084.683153"
+            timestampString = "428543240.585803"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
@@ -105,13 +105,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHProfileViewController.m"
-            timestampString = "427943706.170399"
+            filePath = "Study Huddle/SHAppDelegate.m"
+            timestampString = "428558727.18868"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
-            landmarkName = "-activateStudy"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "-application:didReceiveRemoteNotification:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -121,13 +121,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHProfileViewController.m"
-            timestampString = "427943538.262847"
+            filePath = "Study Huddle/SHThreadViewController.m"
+            timestampString = "428562409.767424"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
-            landmarkName = "-setStudy"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "-postTextInTextView"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Study Huddle/SHThreadViewController.m"
+            timestampString = "428562409.767424"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "-updateLayout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

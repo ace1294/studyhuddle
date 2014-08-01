@@ -164,15 +164,18 @@ NSString* const SHThreadQuestions = @"questions";
 NSString* const SHThreadChatCategoryKey = @"chatCategory";
 
 //Question
-NSString* const SHQuestionCreator = @"creator";
+NSString* const SHQuestionCreatorID = @"creatorID";
+NSString* const SHQuestionCreatorName = @"creatorName";
 NSString* const SHQuestionReplies = @"replies";
 NSString* const SHQuestionQuestion = @"question";
 NSString* const SHQuestionClassName = @"Question";
 
 //Reply
-NSString* const SHReplyCreator = @"creator";
+NSString* const SHReplyCreatorID = @"creatorID";
+NSString* const SHReplyCreatorName = @"creatorName";
 NSString* const SHReplyAnswer = @"answer";
 NSString* const SHReplyClassName = @"Reply";
+
 
 //Chat Category
 NSString* const SHChatCategoryNameKey = @"category";
@@ -184,3 +187,10 @@ int const SHEditingQuestion = 0;
 int const SHReplying = 1;
 int const SHQuestioning = 2;
 int const SHEditingReply = 3;
+
+//PUSH constants
+NSString* const SHPushChannelsKey = @"channels";
+NSString* const SHPushTypeKey = @"type";
+
+//PUSH TYPES
+NSString* const SHPushTypeHuddleChatPost = @"huddleChatPost";
