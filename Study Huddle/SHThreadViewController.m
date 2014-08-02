@@ -187,6 +187,10 @@
 
 -(void)refresh
 {
+    //[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]];
+    
+    NSString* objectID = [self.threadObject objectId];
+    self.threadObject = [PFQuery getObjectOfClass:@"Thread" objectId:objectID];
     [self.threadObject refreshInBackgroundWithTarget:self selector:@selector(updateLayout)];
 
 }
