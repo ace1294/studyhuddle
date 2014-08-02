@@ -97,7 +97,7 @@
     [super viewWillAppear:animated];
     [self registerForKeyboardNotifications];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateLayout)
+                                             selector:@selector(refresh)
                                                  name:SHPushTypeHuddleChatPost
                                                object:nil];
  
@@ -185,6 +185,11 @@
     }
 }
 
+-(void)refresh
+{
+    [self.threadObject refreshInBackgroundWithTarget:self selector:@selector(updateLayout)];
+
+}
 
 -(void)updateLayout
 {
@@ -194,7 +199,7 @@
         [subview removeFromSuperview];
     }
     
-    [self.threadObject refresh];
+
     
     NSMutableArray* questions = self.threadObject[SHThreadQuestions];
     
