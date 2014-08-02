@@ -60,15 +60,21 @@
 + (void)setConsumerKey:(NSString *)key consumerSecret:(NSString *)secret service:(DZNPhotoPickerControllerServices)service subscription:(DZNPhotoPickerControllerSubscription)subscription
 {
     NSAssert(key, @"'key' cannot be nil");
-    NSAssert(secret, @"'secret' cannot be nil");
+    
+    if (isConsumerSecretRequiredForService(service)) {
+        NSAssert(secret, @"'secret' cannot be nil");
+    }
 
     [[NSUserDefaults standardUserDefaults] setObject:key forKey:NSUserDefaultsUniqueKey(service, DZNPhotoServiceClientConsumerKey)];
-    [[NSUserDefaults standardUserDefaults] setObject:secret forKey:NSUserDefaultsUniqueKey(service, DZNPhotoServiceClientConsumerSecret)];
+    
+    if (isConsumerSecretRequiredForService(service)) {
+        [[NSUserDefaults standardUserDefaults] setObject:secret forKey:NSUserDefaultsUniqueKey(service, DZNPhotoServiceClientConsumerSecret)];
+    }
+    
     [[NSUserDefaults standardUserDefaults] setObject:@(subscription) forKey:NSUserDefaultsUniqueKey(service, DZNPhotoServiceClientSubscription)];
 
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-
 
 #pragma mark - DZNPhotoServiceFactory methods
 
