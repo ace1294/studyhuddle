@@ -307,7 +307,7 @@
     //send a pushy push
     PFPush *push = [[PFPush alloc] init];
     NSDictionary* data = @{@"alert":@"hello honey, how are you", @"type":@"huddleChatPost"};
-    [push setChannel:@"Small-Thread"];
+    [push setChannel:@"Chat"];
     [push setData:data];
     //[push setMessage:@"New message"];
     [push sendPushInBackground];
