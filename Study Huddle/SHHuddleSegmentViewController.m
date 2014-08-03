@@ -28,6 +28,7 @@
 #import "SHResourceListViewController.h"
 #import "SHHuddleJoinRequestViewController.h"
 #import "SHCache.h"
+#import "RoomView.h"
 
 
 @interface SHHuddleSegmentViewController () <SHBaseCellDelegate, UINavigationControllerDelegate, SHStudentSearchDelegate>
@@ -337,10 +338,14 @@
     }
     else if([cell isKindOfClass:[SHChatCell class]])
     {
-        PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
+        /*PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
         NSLog(@"chatEntryObj: , %@",chatEntryObj);
         SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
-        [self.navigationController pushViewController:chatEntryVC animated:YES];
+        [self.navigationController pushViewController:chatEntryVC animated:YES];*/
+        RoomView *roomView = [[RoomView alloc] init];
+        roomView.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:roomView animated:YES];
+        
 
         
     }
