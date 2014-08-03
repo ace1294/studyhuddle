@@ -10,7 +10,6 @@
 #import "UIColor+HuddleColors.h"
 #import "SHClassCell.h"
 #import "SHRequestCell.h"
-#import "SHAddCell.h"
 #import "SHConstants.h"
 #import "Student.h"
 #import "SHStudentCell.h"
@@ -31,7 +30,7 @@
 #import "SHCache.h"
 
 
-@interface SHHuddleSegmentViewController () <SHBaseCellDelegate, SHAddCellDelegate, UINavigationControllerDelegate, SHStudentSearchDelegate>
+@interface SHHuddleSegmentViewController () <SHBaseCellDelegate, UINavigationControllerDelegate, SHStudentSearchDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 
@@ -152,7 +151,6 @@
     [self.view addSubview:self.control];
     
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
-    [self.tableView registerClass:[SHAddCell class] forCellReuseIdentifier:SHAddCellIdentifier];
     [self.tableView registerClass:[SHCategoryCell class] forCellReuseIdentifier:SHCategoryCellIdentifier];
     [self.tableView registerClass:[SHChatCell class] forCellReuseIdentifier:SHChatCellIdentifier];
     
@@ -272,40 +270,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger addCell = 0;
-
-    if([SHUtility studentInArray:self.membersDataArray student:[Student currentUser]]){
-        if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"MEMBERS"] || [[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"RESOURCES"]){
-            addCell = 1;
-            NSLog(@"added cell");
-        }
-        
-    }
-    
-    
-    return self.currentRowsToDisplay + addCell;
+    return self.currentRowsToDisplay;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
 
-    
-    if (indexPath.row == self.currentRowsToDisplay && ([CellIdentifier isEqual:SHStudentCellIdentifier] || [CellIdentifier isEqual:SHCategoryCellIdentifier]))
-    {
-        SHAddCell *cell = [tableView dequeueReusableCellWithIdentifier:SHAddCellIdentifier];
-        cell.delegate = self;
-        if ([CellIdentifier isEqual:SHStudentCellIdentifier])
-            [cell setAdd:@"Add Member" identifier:SHStudentCellIdentifier];
-        else if([CellIdentifier isEqual:SHCategoryCellIdentifier])
-            [cell setAdd:@"Add Resource" identifier:SHCategoryCellIdentifier];
-            
-            
-        [cell layoutIfNeeded];
-        return cell;
-    
-    }
-    else if([CellIdentifier isEqual:SHStudentCellIdentifier])
+    if([CellIdentifier isEqual:SHStudentCellIdentifier])
     {
         PFObject *studentObject = [self.membersDataArray objectAtIndex:(int)indexPath.row];
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -382,32 +354,6 @@
         
         [self.navigationController pushViewController:resourceListVC animated:YES];
         
-
-    }
-    
-}
-
--(void)didTapAddButton:(SHAddCell *)cell
-{
-    
-    if ([cell.typeIdentifier isEqual:SHStudentCellIdentifier] ) {
-        
-        self.searchVC = [[SHStudentSearchViewController alloc]init];
-        self.searchVC.navigationController.delegate = self;
-        self.searchVC.type = @"NewMember";
-        self.searchVC.delegate = self;
-        [self.owner presentViewController:self.searchVC animated:YES completion:nil];
-        
-    }
-    
-    else if ([cell.typeIdentifier isEqual:SHCategoryCellIdentifier] ) {
-        
-        
-        self.addResourceVC = [[SHNewResourceViewController alloc] initWithHuddle:self.segHuddle];
-        self.addResourceVC.owner = self;
-        self.addResourceVC.delegate = self;
-        
-        [self presentPopupViewController:self.addResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
 
     }
     

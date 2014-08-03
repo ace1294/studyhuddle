@@ -14,7 +14,6 @@
 #import "SHThreadCell.h"
 #import "SHClassCell.h"
 #import "SHRequestCell.h"
-#import "SHAddCell.h"
 #import "SHConstants.h"
 #import "Student.h"
 #import "SHStudentCell.h"
@@ -30,7 +29,7 @@
 #import "SHIndividualHuddleviewController.h"
 #import "SHThreadViewController.h"
 
-@interface SHChatEntrySegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
+@interface SHChatEntrySegmentViewController () <SHBaseCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) PFObject *segChatEntry;

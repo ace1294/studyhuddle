@@ -98,22 +98,6 @@
     return finalImage;
 }
 
-+(BOOL)studentInArray:(NSArray *)list student:(Student *)student
-{
-    
-    
-    for(PFObject *object in list)
-    {
-        if ([[object objectId] isEqual:[student objectId]]) {
-            return true;
-        }
-    }
-    
-    return false;
-}
-
-
-
 + (void)separateOnlineOfflineData:(NSMutableDictionary *)data forOnlineKey:(NSString *)onlineKey;
 {
     NSArray *both = [data objectForKey:@"both"];

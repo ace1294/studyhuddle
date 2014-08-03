@@ -174,7 +174,6 @@
 		96CBFA39194CC170008B10CE /* Arial Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 96CBFA38194CC170008B10CE /* Arial Bold.ttf */; };
 		96CBFA47194CDF76008B10CE /* Right_Pointing_Arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CBFA46194CDF76008B10CE /* Right_Pointing_Arrow@2x.png */; };
 		96CBFA4A194CE878008B10CE /* SHRequestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CBFA49194CE878008B10CE /* SHRequestCell.m */; };
-		96CBFA4D194CEA8C008B10CE /* SHAddCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CBFA4C194CEA8C008B10CE /* SHAddCell.m */; };
 		96CBFA59194D2E78008B10CE /* plusSign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96CBFA58194D2E78008B10CE /* plusSign@2x.png */; };
 		96D95540195CD2CA00667581 /* SHProfileSegmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D9553F195CD2CA00667581 /* SHProfileSegmentViewController.m */; };
 		96D95578195F3E7C00667581 /* advanceArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D9555B195F3E7C00667581 /* advanceArrow.png */; };
@@ -498,8 +497,6 @@
 		96CBFA46194CDF76008B10CE /* Right_Pointing_Arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Right_Pointing_Arrow@2x.png"; sourceTree = "<group>"; };
 		96CBFA48194CE878008B10CE /* SHRequestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHRequestCell.h; sourceTree = "<group>"; };
 		96CBFA49194CE878008B10CE /* SHRequestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHRequestCell.m; sourceTree = "<group>"; };
-		96CBFA4B194CEA8C008B10CE /* SHAddCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHAddCell.h; sourceTree = "<group>"; };
-		96CBFA4C194CEA8C008B10CE /* SHAddCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHAddCell.m; sourceTree = "<group>"; };
 		96CBFA58194D2E78008B10CE /* plusSign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plusSign@2x.png"; sourceTree = "<group>"; };
 		96D9553E195CD2CA00667581 /* SHProfileSegmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHProfileSegmentViewController.h; sourceTree = "<group>"; };
 		96D9553F195CD2CA00667581 /* SHProfileSegmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHProfileSegmentViewController.m; sourceTree = "<group>"; };
@@ -1322,8 +1319,6 @@
 				41AF339D19521F140008DF21 /* SHHuddleCell.m */,
 				41AF339C19521E2F0008DF21 /* SHClassCell.h */,
 				41AF339A19521E290008DF21 /* SHClassCell.m */,
-				96CBFA4B194CEA8C008B10CE /* SHAddCell.h */,
-				96CBFA4C194CEA8C008B10CE /* SHAddCell.m */,
 				41A1943919662FB80038AAA2 /* SHChatCell.h */,
 				41A1943A19662FB80038AAA2 /* SHChatCell.m */,
 				41A194421966759F0038AAA2 /* SHThreadCell.h */,
@@ -1857,7 +1852,6 @@
 				96421CC11970A84300B5EC89 /* WYStoryboardPopoverSegue.m in Sources */,
 				96D95629196F4FBC00667581 /* SHHuddleInviteViewController.m in Sources */,
 				41365D5B196207610057B8C9 /* PFFile+NSCoding.m in Sources */,
-				96CBFA4D194CEA8C008B10CE /* SHAddCell.m in Sources */,
 				96D955B61960BBA000667581 /* SHAppDelegate.m in Sources */,
 				96F429821955265000E74500 /* SHNewHuddleViewController.m in Sources */,
 				41365D59196207610057B8C9 /* NSObject+Properties.m in Sources */,

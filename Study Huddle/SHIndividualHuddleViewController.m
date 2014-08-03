@@ -420,11 +420,37 @@
 
 #pragma mark - Huddle Add Delegate Methods
 
+//-(void)didTapAddButton:(SHAddCell *)cell
+//{
+//    
+//    if ([cell.typeIdentifier isEqual:SHStudentCellIdentifier] ) {
+//        
+//        self.searchVC = [[SHStudentSearchViewController alloc]init];
+//        self.searchVC.navigationController.delegate = self;
+//        self.searchVC.type = @"NewMember";
+//        self.searchVC.delegate = self;
+//        [self.owner presentViewController:self.searchVC animated:YES completion:nil];
+//        
+//    }
+//    
+//    else if ([cell.typeIdentifier isEqual:SHCategoryCellIdentifier] ) {
+//        
+//        
+//        self.addResourceVC = [[SHNewResourceViewController alloc] initWithHuddle:self.segHuddle];
+//        self.addResourceVC.owner = self;
+//        self.addResourceVC.delegate = self;
+//        
+//        [self presentPopupViewController:self.addResourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
+//        
+//    }
+    
+//}
+
 - (void)addMemberTapped
 {
     SHStudentSearchViewController *searchVC = [[SHStudentSearchViewController alloc]init];
     searchVC.type = @"NewMember";
-    searchVC.delegate = self.segmentController;
+    searchVC.delegate = self;
     
     [popoverController dismissPopoverAnimated:YES completion:^{
         [self presentViewController:searchVC animated:YES completion:nil];
@@ -434,7 +460,7 @@
 - (void)addResourceTapped
 {
     SHNewResourceViewController *newResource = [[SHNewResourceViewController alloc]initWithHuddle:self.indvHuddle];
-    newResource.delegate = self.segmentController;
+    newResource.delegate = self;
     
     [popoverController dismissPopoverAnimated:YES completion:^{
         [self presentPopupViewController:newResource animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
@@ -447,7 +473,7 @@
 - (void)addThreadTapped
 {
     SHNewQuestionViewController *createThreadVC = [[SHNewQuestionViewController alloc]initWithHuddle:self.indvHuddle];
-    createThreadVC.delegate = self.segmentController;
+    createThreadVC.delegate = self;
     
     [popoverController dismissPopoverAnimated:YES completion:^{
         [self presentPopupViewController:createThreadVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{

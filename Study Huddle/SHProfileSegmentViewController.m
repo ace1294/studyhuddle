@@ -11,7 +11,6 @@
 #import "SHHuddleCell.h"
 #import "SHClassCell.h"
 #import "SHRequestCell.h"
-#import "SHAddCell.h"
 #import "SHConstants.h"
 #import "Student.h"
 #import "SHStudentCell.h"
@@ -30,7 +29,7 @@
 #import "SHCache.h"
 
 
-@interface SHProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
+@interface SHProfileSegmentViewController () <SHBaseCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) Student *segStudent;
@@ -129,9 +128,7 @@
     //Segment
     [self.view addSubview:self.control];
     
-    [self.tableView registerClass:[SHHuddleCell class] forCellReuseIdentifier:SHHuddleCellIdentifier];
     [self.tableView registerClass:[SHClassCell class] forCellReuseIdentifier:SHClassCellIdentifier];
-    [self.tableView registerClass:[SHAddCell class] forCellReuseIdentifier:SHAddCellIdentifier];
     [self.tableView registerClass:[SHStudyCell class] forCellReuseIdentifier:SHStudyCellIdentifier];
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
@@ -269,32 +266,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger addCell = 0;
-    
-    if([self.segStudent isEqual:[Student currentUser]] && [[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CLASSES"])
-        addCell = 1;
-    
-    
-    
-    return self.currentRowsToDisplay + addCell;
+    return self.currentRowsToDisplay;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
     
-    if ([self.segStudent isEqual:[Student currentUser]] && [CellIdentifier isEqual:SHClassCellIdentifier] && indexPath.row == self.currentRowsToDisplay)
-    {
-        SHAddCell *cell = [tableView dequeueReusableCellWithIdentifier:SHAddCellIdentifier];
-        [cell setAdd:@"Add Class" identifier:SHClassCellIdentifier];
-        
-        cell.delegate = self;
-        [cell layoutIfNeeded];
-        
-        return cell;
-        
-    }
-    else if([CellIdentifier isEqual:SHStudentCellIdentifier])
+    if([CellIdentifier isEqual:SHStudentCellIdentifier])
     {
         PFObject* studentObject = [self.onlineDataArray objectAtIndex:(int)indexPath.row];
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -331,30 +310,6 @@
     
     return nil;
 }
-
--(void)didTapAddButton
-{
-    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]  isEqual: @"HUDDLES"]){
-        // NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:@[@"Jason", @"Jose"]];
-        
-        SHNewHuddleViewController *newHuddleVC = [[SHNewHuddleViewController alloc]initWithStudent:[PFUser currentUser]];
-        
-        newHuddleVC.modalPresentationStyle = UIModalPresentationFormSheet;
-        newHuddleVC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        
-        UINavigationController *naviModal = [[UINavigationController alloc] initWithRootViewController:newHuddleVC];
-        [naviModal setDelegate:newHuddleVC];
-        naviModal.navigationBar.barTintColor = [UIColor huddleOrange];
-        [naviModal.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-        [self presentViewController:naviModal animated:YES completion:nil];
-    }
-    else{
-        NSLog(@"Black People");
-    }
-    
-    NSLog(@"Black People");
-}
-
 
 - (void)didTapTitleCell:(SHBaseTextCell *)cell
 {

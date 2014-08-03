@@ -11,7 +11,6 @@
 #import "SHHuddleCell.h"
 #import "SHClassCell.h"
 #import "SHRequestCell.h"
-#import "SHAddCell.h"
 #import "SHConstants.h"
 #import "Student.h"
 #import "SHStudentCell.h"
@@ -27,7 +26,7 @@
 #import "SHClassPageViewController.h"
 #import "SHUtility.h"
 
-@interface SHVisitorProfileSegmentViewController () <SHAddCellDelegate, SHBaseCellDelegate>
+@interface SHVisitorProfileSegmentViewController () <SHBaseCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) Student *segStudent;
