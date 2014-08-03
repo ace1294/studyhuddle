@@ -8,6 +8,7 @@
 
 #import "SHHuddlePortraitViewController.h"
 #import "SHUtility.h"
+#import "SHConstants.h"
 
 @interface SHHuddlePortraitViewController ()
 
@@ -42,7 +43,7 @@
     UIImage* newImage =  self.imageView.image;
     NSData* imageData = UIImageJPEGRepresentation(newImage, 1.0f);
     PFFile *imageFile = [PFFile fileWithData:imageData];
-    self.portraitHuddle[@"huddleImage"] = imageFile;
+    self.portraitHuddle[SHHuddleImageKey] = imageFile;
 
     [self.portraitHuddle saveInBackground];
     
