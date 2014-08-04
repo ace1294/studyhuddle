@@ -130,13 +130,12 @@
     [[SHCache sharedCache] setHuddles:user[SHStudentHuddlesKey]];
     
 //    PFQuery *query = [PFQuery queryWithClassName:SHClassParseClass];
-//    query.limit = 4;
 //    NSArray *classes = [query findObjects];
 //    PFRelation *relation = [[Student currentUser] relationForKey:SHStudentClassesKey];
 //    [relation addObject:classes[0]];
-//    [relation addObject:classes[1]];
-//    [relation addObject:classes[2]];
 //    [relation addObject:classes[3]];
+//    [relation addObject:classes[4]];
+//    [relation addObject:classes[5]];
 //    
 //    [[Student currentUser]saveInBackground];
     

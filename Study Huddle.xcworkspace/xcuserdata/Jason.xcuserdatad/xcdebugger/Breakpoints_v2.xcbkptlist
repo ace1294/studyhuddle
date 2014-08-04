@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Study Huddle/SHNotificationSegmentViewController.m"
-            timestampString = "428869461.035946"
+            timestampString = "428884874.095392"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "563"
-            endingLineNumber = "563"
+            startingLineNumber = "558"
+            endingLineNumber = "558"
             landmarkName = "-didTapAccept:"
             landmarkType = "5">
          </BreakpointContent>

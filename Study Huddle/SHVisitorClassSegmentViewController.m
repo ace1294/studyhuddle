@@ -106,10 +106,7 @@
     [SHUtility fetchObjectsInArray:[self.studentData objectForKey:@"both"]];
     self.studentOnlineStatus = [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
     
-
-    
     [self.tableView reloadData];
-    
     
     return loadError;
 }

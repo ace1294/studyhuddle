@@ -516,9 +516,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         Student *student1 = request[SHRequestStudent1Key];
         [student1 fetch];
         
-        [huddle addObject:student1 forKey:SHHuddleMembersKey];
-        [huddle saveInBackground];
-        
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationToStudentKey] = student1;
         notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
@@ -558,17 +555,11 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [huddle fetch];
         
         Student *student1 = [Student currentUser];
-        
-        [huddle addObject:student1 forKey:SHHuddleMembersKey];
         [student1 addObject:huddle forKey:SHStudentHuddlesKey];
-        [student1 addUniqueObjectsFromArray:huddle[SHHuddleMembersKey] forKey:SHStudentStudyFriendsKey];
         
         [[SHCache sharedCache] setNewHuddle:huddle];
         
-        [student1 saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [huddle saveInBackground];
-        }];
-        
+        [student1 saveInBackground];
         
         Student *creator = huddle[SHHuddleCreatorKey];
         
