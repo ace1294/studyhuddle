@@ -24,6 +24,7 @@
 #import "SHClassPageViewController.h"
 #import "SHIndividualHuddleViewController.h"
 #import "SHUtility.h"
+#import "SHCache.h"
 
 @interface SHNotificationSegmentViewController () <SHRequestCellDelegate>{
     int selectedIndex;
@@ -300,7 +301,16 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         }
     }
     else{
-        return SHNotificationCellHeight;
+        if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"NOTIFICATIONS"]){
+            id cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            SHNotificationCell *notificationCell = (SHNotificationCell *)cell;
+            return  [notificationCell heightForCollapsedCell:notificationCell.notification[SHNotificationDescriptionKey]];
+            
+        } else {
+            id cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+            SHRequestCell *requestCell = (SHRequestCell *)cell;
+            return  [requestCell heightForCollapsedCell:requestCell.request[SHRequestDescriptionKey]];
+        }
     }
     
 }
@@ -538,7 +548,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             
             [memberNotification saveInBackground];
         }
-        
+      
         
     } else if([type isEqualToString:SHRequestHSJoin])
     {
@@ -547,17 +557,20 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
         
-        Student *student1 = request[SHRequestStudent1Key];
-        [student1 fetch];
+        Student *student1 = [Student currentUser];
         
         [huddle addObject:student1 forKey:SHHuddleMembersKey];
         [student1 addObject:huddle forKey:SHStudentHuddlesKey];
         [student1 addUniqueObjectsFromArray:huddle[SHHuddleMembersKey] forKey:SHStudentStudyFriendsKey];
         
-        [PFObject saveAll:@[huddle,student1]];
+        [[SHCache sharedCache] setNewHuddle:huddle];
+        
+        [student1 saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [huddle saveInBackground];
+        }];
+        
         
         Student *creator = huddle[SHHuddleCreatorKey];
-        //[creator fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationToStudentKey] = creator;

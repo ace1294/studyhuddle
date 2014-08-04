@@ -128,8 +128,10 @@
     
     [self.segHuddle fetch];
     
-    
-    NSArray *members = [self.segHuddle objectForKey:SHHuddleMembersKey];
+    PFQuery *query = [Student query];
+    [query whereKey:SHStudentHuddlesKey equalTo:self.segHuddle];
+    [query whereKey:SHStudentEmailKey notEqualTo:[Student currentUser][SHStudentEmailKey]];
+    NSArray *members = [query findObjects];
     
     [self.membersDataArray removeAllObjects];
     [self.membersDataArray addObjectsFromArray:members];

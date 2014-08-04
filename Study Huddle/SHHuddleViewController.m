@@ -112,7 +112,7 @@
 {
     PFObject *curHuddle = self.huddles[indexPath.row];
     
-    if ([[curHuddle objectForKey:SHHuddleMembersKey]count]>5) {
+    if ([[[SHCache sharedCache]membersForHuddle:curHuddle]count]>5) {
         return SHHuddlePageCellHeight + 60;
     }
 
@@ -138,6 +138,8 @@
 {
     return [self.huddles count];
 }
+
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

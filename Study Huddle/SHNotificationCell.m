@@ -171,4 +171,22 @@ BOOL expanded;
     return height;
 }
 
+- (CGFloat)heightForCollapsedCell:(NSString *)message
+{
+    CGSize messageSize = [message boundingRectWithSize:CGSizeMake(descriptionMaxWidth, CGFLOAT_MAX)
+                                               options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                            attributes:@{NSFontAttributeName:self.descriptionFont}
+                                               context:nil].size;
+    
+    CGSize timeSize = [@"1 hour ago" boundingRectWithSize:CGSizeMake(nameMaxWidth, CGFLOAT_MAX)
+                                                  options:NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin // word wrap?
+                                               attributes:@{NSFontAttributeName:self.descriptionFont}
+                                                  context:nil].size;
+    
+    CGFloat height = self.titleButton.frame.origin.y+self.titleButton.frame.size.height+messageSize.height+timeSize.height+vertBorderSpacing;
+    
+    
+    return height;
+}
+
 @end

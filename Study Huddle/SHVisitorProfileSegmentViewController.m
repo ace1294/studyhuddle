@@ -185,7 +185,7 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     [SHUtility fetchObjectsInArray:self.studyingDataArray];
     
     //Classes Data
-    NSArray *classes = [self.segStudent objectForKey:SHStudentClassesKey];
+    NSArray *classes = [[[self.segStudent relationForKey:SHStudentClassesKey] query] findObjects];
     [self.classesDataArray removeAllObjects];
     [self.classesDataArray addObjectsFromArray:classes];
     [SHUtility fetchObjectsInArray:self.classesDataArray];

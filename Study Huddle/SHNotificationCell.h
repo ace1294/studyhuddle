@@ -21,5 +21,6 @@
 - (void)expand;
 - (void)collapse;
 - (CGFloat)heightForExpandedCell:(NSString *)message;
+- (CGFloat)heightForCollapsedCell:(NSString *)message;
 
 @end

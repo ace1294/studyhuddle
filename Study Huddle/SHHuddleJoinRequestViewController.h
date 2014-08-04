@@ -11,6 +11,10 @@
 
 @interface SHHuddleJoinRequestViewController : SHModalViewController
 
+@property (strong, nonatomic) PFObject *requestedStudent;
+
 - (id)initWithHuddle:(PFObject *)aHuddle withType:(NSString *)type;
+
+
 
 @end

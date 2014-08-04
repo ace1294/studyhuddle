@@ -164,7 +164,14 @@
     }];
     
     [self.classesDataArray removeAllObjects];
-    [self.classesDataArray addObjectsFromArray:[[SHCache sharedCache] classes]];
+    
+    NSArray *classes = [[SHCache sharedCache] classes];
+    if ([classes count] > 0) {
+        [self.classesDataArray addObjectsFromArray:[[SHCache sharedCache] classes]];
+    } else {
+        NSLog(@"NO CLasses");
+    }
+    
     
     [self.onlineDataArray removeAllObjects];
     [self.onlineDataArray addObjectsFromArray:[[SHCache sharedCache]studyFriends]];

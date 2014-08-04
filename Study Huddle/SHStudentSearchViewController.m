@@ -12,8 +12,10 @@
 #import <Parse/Parse.h>
 #import "Student.h"
 #import "UIColor+HuddleColors.h"
+#import "SHHuddleJoinRequestViewController.h"
+#import "UIViewController+MJPopupViewController.h"
 
-@interface SHStudentSearchViewController ()
+@interface SHStudentSearchViewController () <SHModalViewControllerDelegate>
 
 @property (nonatomic, strong) UISearchBar *searchedBar;
 @property (nonatomic, strong) NSMutableArray *searchResults;
@@ -160,22 +162,32 @@
     
     [self.searchedBar resignFirstResponder];
     
-    PFObject *object = [PFObject objectWithClassName:SHStudentParseClass];
-    object = [self.searchResults objectAtIndex:indexPath.row];
+    PFObject *selectedStudent = [PFObject objectWithClassName:SHStudentParseClass];
+    selectedStudent = [self.searchResults objectAtIndex:indexPath.row];
     
     
     
-    self.addedMember = object;
+    self.addedMember = selectedStudent;
     if ([self.type isEqual:@"NewHuddle"]) {
         [self.navigationController popViewControllerAnimated:YES];
     }
     else if([self.type isEqual:@"NewMember"]){
-        [self.delegate didAddMember:object];
+        [self.delegate didAddMember:selectedStudent];
         
-        [self dismissViewControllerAnimated:YES completion:nil];
+        SHHuddleJoinRequestViewController *joinVC = [[SHHuddleJoinRequestViewController alloc]initWithHuddle:self.huddle withType:SHRequestHSJoin];
+        joinVC.delegate = self;
+        joinVC.requestedStudent = selectedStudent;
+        
+        [self presentPopupViewController:joinVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+            self.navigationController.navigationBarHidden = NO;
+        }];
+        
+        
     }
     
-    self.navigationController.navigationBarHidden = NO;
+    
     
 }
 
@@ -188,11 +200,17 @@
     }
 }
 
-
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return SHStudentCellHeight;
+}
+
+#pragma mark - Popup delegate methods
+
+
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 #pragma mark - UIScrollViewDelegate

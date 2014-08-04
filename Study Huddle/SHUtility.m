@@ -98,11 +98,12 @@
     return finalImage;
 }
 
-+ (void)separateOnlineOfflineData:(NSMutableDictionary *)data forOnlineKey:(NSString *)onlineKey;
++ (NSNumber *)separateOnlineOfflineData:(NSMutableDictionary *)data forOnlineKey:(NSString *)onlineKey;
 {
     NSArray *both = [data objectForKey:@"both"];
     NSMutableArray *online = [[NSMutableArray alloc]init];
     NSMutableArray *offline = [[NSMutableArray alloc]init];
+    NSNumber *status = [NSNumber numberWithInt:0];
     
     for(PFObject *object in both)
     {
@@ -118,6 +119,12 @@
     [data setObject:online forKey:@"online"];
     [data setObject:offline forKey:@"offline"];
     
+    if ([offline count] == 0)
+        status = [NSNumber numberWithInt:1];
+    if([online count] == 0)
+        status = [NSNumber numberWithInt:2];
+    
+    return status;
 }
 
 + (NSMutableArray *)namesForObjects:(NSArray *)objects withKey:(NSString *)key
@@ -219,7 +226,7 @@
     for(PFObject *object in objects){
         [objectIDs addObject:[object objectId]];
     }
-    return objectIDs;
+    return [NSArray arrayWithArray:objectIDs];
 }
 
 
