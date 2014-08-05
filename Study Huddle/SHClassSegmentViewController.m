@@ -32,6 +32,9 @@
 @property (strong, nonatomic) NSMutableDictionary *huddlesData;
 @property (strong, nonatomic) NSMutableDictionary *studentData;
 
+@property (strong, nonatomic) NSNumber *huddleOnlineStatus;  // 0 == both, 1 == online, 2 == offline
+@property (strong, nonatomic) NSNumber *studentOnlineStatus;
+
 @property (strong, nonatomic) NSMutableArray *encapsulatingDataArray;
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
@@ -40,7 +43,6 @@
 
 
 @implementation SHClassSegmentViewController
-
 
 @synthesize CellIdentifier;
 @synthesize refreshControl;
@@ -144,14 +146,15 @@
     
     //Student Dataa
     [[self.studentData objectForKey:@"both"] removeAllObjects];
-    [self.studentData setObject:[[SHCache sharedCache] studentsForClass:self.segClass] forKey:@"both"];
-    [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
+    NSArray *students = [[SHCache sharedCache] studentsForClass:self.segClass];
+    [self.studentData setObject:students forKey:@"both"];
+    self.studentOnlineStatus = [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
     
     
     //Huddle Data
     [[self.huddlesData objectForKey:@"both"] removeAllObjects];
     [self.huddlesData setObject:[[SHCache sharedCache] huddlesForClass:self.segClass] forKey:@"both"];
-    [SHUtility separateOnlineOfflineData:self.huddlesData forOnlineKey:SHHuddleStudyingKey];
+    self.huddleOnlineStatus = [SHUtility separateOnlineOfflineData:self.huddlesData forOnlineKey:SHHuddleStudyingKey];
     
     self.currentRowsToDisplay = [[self.huddlesData objectForKey:@"both"] count];
     
@@ -205,6 +208,11 @@
     return SHHuddleCellHeight;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40.0;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"STUDENTS"])
@@ -237,12 +245,67 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"STUDENTS"])
+    {
+        if([[self.studentData objectForKey:@"online"] count] > 0 && [[self.studentData objectForKey:@"offline"] count] > 0)
+            return 2;
+    }
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
+    {
+        if([[self.huddlesData objectForKey:@"online"] count] > 0 && [[self.huddlesData objectForKey:@"offline"] count] > 0)
+            return 2;
+    }
+    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"STUDENTS"])
+    {
+        if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+            if(section == 0)
+                return [[self.studentData objectForKey:@"online"] count];
+            else
+                return [[self.studentData objectForKey:@"offline"] count];
+        } else if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
+            if(section == 0)
+                return [[self.studentData objectForKey:@"online"] count];
+        } else{
+            if(section == 0)
+                return [[self.studentData objectForKey:@"offline"] count];
+        }
+        
+        
+            
+    }
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
+    {
+        if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+            if(section == 0)
+                return [[self.huddlesData objectForKey:@"online"] count];
+            else
+                return [[self.huddlesData objectForKey:@"offline"] count];
+        } else if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
+            if(section == 0)
+                return [[self.huddlesData objectForKey:@"online"] count];
+        } else{
+            if(section == 0)
+                return [[self.huddlesData objectForKey:@"offline"] count];
+        }
+    }
+    
+    
+    
     return self.currentRowsToDisplay;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if(section == 0)
+        return @"Online";
+    else
+        return @"Offline";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -257,12 +320,24 @@
         PFObject *studentObject;
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        if(indexPath.row+1 <= [[self.studentData objectForKey:@"online"]count]){
-            studentObject = [[self.studentData objectForKey:@"online"] objectAtIndex:(int)indexPath.row];
-            [cell setOnline];
+        
+        if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+            if(indexPath.section == 0){
+                studentObject = [[self.studentData objectForKey:@"online"] objectAtIndex:(int)indexPath.row];
+                [cell setOnline];
+            }
+            else
+                studentObject = [[self.studentData objectForKey:@"offline"] objectAtIndex:(int)indexPath.row];
+                
+        } else if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
+            if(indexPath.section == 0){
+                studentObject = [[self.studentData objectForKey:@"online"] objectAtIndex:(int)indexPath.row];
+                [cell setOnline];
+            }
+        } else{
+            if(indexPath.section == 0)
+                studentObject = [[self.studentData objectForKey:@"offline"] objectAtIndex:(int)indexPath.row];
         }
-        else
-            studentObject = [[self.studentData objectForKey:@"offline"] objectAtIndex:((int)indexPath.row-[[self.studentData objectForKey:@"online"]count])];
         
         cell.delegate = self;
         [cell setStudent:studentObject];
@@ -275,13 +350,23 @@
         PFObject *huddleObject;
         SHHuddleCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
-        if(indexPath.row+1 <= [[self.huddlesData objectForKey:@"online"]count]){
-            huddleObject = [[self.huddlesData objectForKey:@"online"] objectAtIndex:(int)indexPath.row];
-            [cell setOnline];
+        if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+            if(indexPath.section == 0){
+                huddleObject = [[self.huddlesData objectForKey:@"online"] objectAtIndex:(int)indexPath.row];
+                [cell setOnline];
+            }
+            else
+                huddleObject = [[self.huddlesData objectForKey:@"offline"] objectAtIndex:(int)indexPath.row];
             
+        } else if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
+            if(indexPath.section == 0){
+                huddleObject = [[self.huddlesData objectForKey:@"online"] objectAtIndex:(int)indexPath.row];
+                [cell setOnline];
+            }
+        } else{
+            if(indexPath.section == 0)
+                huddleObject = [[self.huddlesData objectForKey:@"offline"] objectAtIndex:(int)indexPath.row];
         }
-        else
-            huddleObject = [[self.huddlesData objectForKey:@"offline"] objectAtIndex:(int)indexPath.row];
         
         cell.delegate = self;
         [cell setHuddle:huddleObject];
@@ -297,9 +382,6 @@
         
         return cell;
     }
-    
-    
-    
     
     
     return nil;

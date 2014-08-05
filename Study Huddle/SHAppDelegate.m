@@ -127,9 +127,20 @@
 {
     
     //Present HUD
-    [[SHCache sharedCache] setStudyFriends:user[SHStudentStudyFriendsKey]];
     [[SHCache sharedCache] setHuddles:user[SHStudentHuddlesKey]];
-    [[SHCache sharedCache] setClasses:user[SHStudentClassesKey]];
+    
+//    PFQuery *query = [PFQuery queryWithClassName:SHClassParseClass];
+//    NSArray *classes = [query findObjects];
+//    PFRelation *relation = [[Student currentUser] relationForKey:SHStudentClassesKey];
+//    [relation addObject:classes[0]];
+//    [relation addObject:classes[3]];
+//    [relation addObject:classes[4]];
+//    [relation addObject:classes[5]];
+//    
+//    [[Student currentUser]saveInBackground];
+    
+    
+    [[SHCache sharedCache] setClasses:[[[user relationForKey:SHStudentClassesKey] query] findObjects]];
     [[SHCache sharedCache] setStudyLogs:user[SHStudentStudyLogsKey]];
     
     [self presentTabBarController];

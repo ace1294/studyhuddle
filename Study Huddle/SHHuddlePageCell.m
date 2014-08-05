@@ -127,7 +127,7 @@
     
     [self.huddlePortrait setFile:aHuddle[SHHuddleImageKey]];
     
-    [self setMembers:aHuddle[SHHuddleMembersKey]];
+    [self setMembers:[[SHCache sharedCache]membersForHuddle:self.huddle]];
     
     [self.titleButton setTitle:aHuddle[SHHuddleNameKey] forState:UIControlStateNormal];
     

@@ -15,6 +15,7 @@
 @property (strong, nonatomic) id delegate;
 @property (strong, nonatomic) PFObject *addedMember;
 @property (strong, nonatomic) NSString *type;
+@property (strong, nonatomic) PFObject *huddle;
 
 @end
 

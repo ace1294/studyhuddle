@@ -61,7 +61,7 @@
     [self.messageHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.messageHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
     self.messageHeaderLabel.textAlignment = NSTextAlignmentLeft;
-    self.messageHeaderLabel.text = @"Description";
+    self.messageHeaderLabel.text = @"Message";
     [self.view addSubview:self.messageHeaderLabel];
     
     
@@ -84,14 +84,22 @@
     //set huddles page so it shows location
     
     PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
-    
-    request[SHRequestTypeKey] = SHRequestSHJoin;
     request[SHRequestTitleKey] = self.huddle[SHHuddleNameKey];
-    request[SHRequestStudent1Key] = [Student currentUser];
-    request[SHRequestStudent2Key] = self.huddle[SHHuddleCreatorKey];
     request[SHRequestHuddleKey] = self.huddle;
     request[SHRequestMessageKey] = self.messageTextView.text;
-    request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to join the huddle", [Student currentUser][SHStudentNameKey]];
+    
+    if([self.type isEqual:SHRequestSHJoin]){
+        request[SHRequestTypeKey] = SHRequestSHJoin;
+        request[SHRequestStudent1Key] = [Student currentUser];
+        request[SHRequestStudent2Key] = self.huddle[SHHuddleCreatorKey];
+        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to join the huddle", [Student currentUser][SHStudentNameKey]];
+    } else if ([self.type isEqual:SHRequestHSJoin]){
+        request[SHRequestTypeKey] = SHRequestHSJoin;
+        request[SHRequestStudent1Key] = self.requestedStudent;
+        request[SHRequestStudent2Key] = [Student currentUser];
+        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested you to join the huddle", [Student currentUser][SHStudentNameKey]];
+        
+    }
     
     [request saveInBackground];
     

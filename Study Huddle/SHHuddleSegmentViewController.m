@@ -33,8 +33,6 @@
 
 @interface SHHuddleSegmentViewController () <SHBaseCellDelegate, UINavigationControllerDelegate, SHStudentSearchDelegate>
 
-@property (strong, nonatomic) NSString *docsPath;
-
 @property (strong, nonatomic) PFObject *segHuddle;
 
 @property (strong, nonatomic) NSString *CellIdentifier;
@@ -81,9 +79,6 @@
         self.segmentData = [[NSMutableDictionary alloc]init];
         
         self.segMenu = [[NSArray alloc]initWithObjects:@"MEMBERS", @"RESOURCES", @"CHAT", nil];
-        
-        self.docsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        self.docsPath = [self.docsPath stringByAppendingPathComponent:@"huddleSegment"];
         
 
         
@@ -181,7 +176,7 @@
 {
     BOOL loadError = true;
     
-    [self.segHuddle fetch];
+    //[self.segHuddle fetch];
     
     [self.resourceCategoriesDataArray removeAllObjects];
     [self.resourceCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] resourceCategoriesForHuddle:self.segHuddle]];

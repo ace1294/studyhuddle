@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSArray *segMenu;
 
 @property (strong, nonatomic) NSMutableDictionary *studentData;
+@property (strong, nonatomic) NSNumber *studentOnlineStatus;
 
 @end
 
@@ -95,17 +96,17 @@
     
     [self.segClass fetchIfNeeded];
     
-    //Student Dataa
-    NSArray *students = [self.segClass objectForKey:SHClassStudentsKey];
+    
+    PFQuery *query = [Student query];
+    [query whereKey:SHStudentClassesKey equalTo:self.segClass];
+    NSArray *students = [query findObjects];
+    
     [[self.studentData objectForKey:@"both"] removeAllObjects];
     [self.studentData setObject:students forKey:@"both"];
     [SHUtility fetchObjectsInArray:[self.studentData objectForKey:@"both"]];
-    [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
-    
-
+    self.studentOnlineStatus = [SHUtility separateOnlineOfflineData:self.studentData forOnlineKey:SHStudentStudyingKey];
     
     [self.tableView reloadData];
-    
     
     return loadError;
 }
