@@ -154,7 +154,7 @@
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
     [self.tableView registerClass:[SHCategoryCell class] forCellReuseIdentifier:SHCategoryCellIdentifier];
     [self.tableView registerClass:[SHChatCell class] forCellReuseIdentifier:SHChatCellIdentifier];
-    
+    self.control.backgroundColor = [UIColor whiteColor];
     
 }
 
@@ -338,11 +338,12 @@
     }
     else if([cell isKindOfClass:[SHChatCell class]])
     {
-        /*PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
-        NSLog(@"chatEntryObj: , %@",chatEntryObj);
-        SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
-        [self.navigationController pushViewController:chatEntryVC animated:YES];*/
-        RoomView *roomView = [[RoomView alloc] init];
+        PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
+        //NSLog(@"chatEntryObj: , %@",chatEntryObj);
+        //SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
+        //[self.navigationController pushViewController:chatEntryVC animated:YES];*/
+        [chatEntryObj fetchIfNeeded];
+        RoomView *roomView = [[RoomView alloc] initWithChatCategoryOwner:[chatEntryObj objectId]];
         roomView.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:roomView animated:YES];
         

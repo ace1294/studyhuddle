@@ -84,7 +84,7 @@
     [self.view addSubview:self.control];
     
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
-    
+    self.control.backgroundColor = [UIColor whiteColor];
     
     
 }
@@ -167,7 +167,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.studentData count];
+    return [[self.studentData objectForKey:@"both"] count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

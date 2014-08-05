@@ -16,7 +16,7 @@
 
 @property (strong, nonatomic) PFObject *huddle;
 @property (strong, nonatomic) PFObject *chatCategory;
-@property (strong, nonatomic) PFObject *thread;
+@property (strong, nonatomic) PFObject *chatRoom;
 @property (strong, nonatomic) PFObject *question;
 
 //Headers
@@ -52,8 +52,8 @@
         
         _huddle = aHuddle;
         self.chatCategory = [PFObject objectWithClassName:SHChatCategoryParseClass];
-        self.thread = [PFObject objectWithClassName:SHThreadParseClass];
-        self.question = [PFObject objectWithClassName:SHQuestionParseClass];
+        self.chatRoom = [PFObject objectWithClassName:SHChatRoomClassKey];
+        self.question = [PFObject objectWithClassName:SHChatClassKey];
         
         [self initHeaders];
         [self initContent];
@@ -145,7 +145,7 @@
         return;
     } else if(!self.subjectTextField.text || self.subjectTextField.text.length <= 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
-                                                        message: @"Must enter a thread subject"
+                                                        message: @"Must enter a chat room subject"
                                                        delegate: nil cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
@@ -153,48 +153,48 @@
     }
     else if(!self.messageTextView.text || self.messageTextView.text.length <= 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
-                                                        message: @"Must enter a thread question"
+                                                        message: @"Must enter a chat room question"
                                                        delegate: nil cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
         return;
     }
     
-    self.question[SHQuestionCreatorID] = [[Student currentUser]objectId];
-    self.question[SHQuestionCreatorName] = [[Student currentUser]objectForKey:SHStudentNameKey];
-    self.question[SHQuestionQuestion] = self.messageTextView.text;
     
+    self.chatRoom[SHChatRoomRoomKey] = self.subjectTextField.text;
+    [self.chatRoom save];
+    
+    self.question[SHChatTextKey] = self.messageTextView.text;
+    self.question[SHChatUserKey] = [[PFUser currentUser] objectId];
+    self.question[SHChatRoomKey] = [self.chatRoom objectId];
     [self.question save];
     
-    self.thread[SHThreadTitle] = self.subjectTextField.text;
-    self.thread[SHThreadQuestions] = @[self.question];
-    self.thread[SHThreadCreator] = [Student currentUser];
-    
-    [self.thread save];
-    
+
     if(self.chatCategoryButtons.addButtonSet){
         
         PFObject *newChatCategory = [PFObject objectWithClassName:SHResourceCategoryParseClass];
         
         newChatCategory[SHChatCategoryNameKey] = self.chatCategoryButtons.selectedButton;
-        newChatCategory[SHChatCategoryThreadsKey] = @[self.thread];
+        //newChatCategory[SHChatCategoryChatRoomKey] = @[self.chatRoom];
         newChatCategory[SHChatCategoryHuddleKey] = self.huddle;
-        self.thread[SHThreadChatCategoryKey] = newChatCategory;
+        self.chatRoom[SHChatRoomChatCategoryOwnerKey] = [newChatCategory objectId];
+ 
         
         
         [self.huddle addObject:newChatCategory forKey:SHHuddleChatCategoriesKey];
         
-        [PFObject saveAll:@[self.huddle,newChatCategory, self.thread]];
+        [PFObject saveAll:@[self.huddle,newChatCategory, self.chatRoom]];
     }
     else{
         PFQuery *chatCategoryQuery = [PFQuery queryWithClassName:SHChatCategoryParseClass];
         [chatCategoryQuery whereKey:SHChatCategoryNameKey equalTo:self.chatCategoryButtons.selectedButton];
         [chatCategoryQuery whereKey:SHChatCategoryHuddleKey equalTo:self.huddle];
         self.chatCategory = [chatCategoryQuery findObjects][0];
-        [self.chatCategory addObject:self.thread forKey:SHChatCategoryThreadsKey];
-        self.thread[SHThreadChatCategoryKey] = self.chatCategory;
+        //[self.chatCategory addObject:self.chatRoom forKey:SHChatCategoryChatRoomKey];
+        self.chatRoom[SHChatRoomChatCategoryOwnerKey] = [self.chatCategory objectId];
+        //self.chatRoom[SHThreadChatCategoryKey] = self.chatCategory;
         
-        [PFObject saveAll:@[self.chatCategory,self.thread]];
+        [PFObject saveAll:@[self.chatCategory,self.chatRoom]];
         
     }
     

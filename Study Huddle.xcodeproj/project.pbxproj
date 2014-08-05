@@ -2074,7 +2074,7 @@
 				ORGANIZATIONNAME = StudyHuddle;
 				TargetAttributes = {
 					96566E25194510F6006649C3 = {
-						DevelopmentTeam = 4QYMAFJ88B;
+						DevelopmentTeam = 2X9H6LLE5Q;
 					};
 					96566E40194510F6006649C3 = {
 						TestTargetID = 96566E25194510F6006649C3;

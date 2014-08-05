@@ -179,8 +179,19 @@ NSString* const SHReplyClassName = @"Reply";
 
 //Chat Category
 NSString* const SHChatCategoryNameKey = @"category";
-NSString* const SHChatCategoryThreadsKey = @"threads";
+NSString* const SHChatCategoryChatRoomKey = @"chatRooms";
 NSString* const SHChatCategoryHuddleKey = @"huddle";
+
+//Chat room
+NSString* const SHChatRoomClassKey = @"ChatRooms";
+NSString* const SHChatRoomRoomKey = @"room";
+NSString* const SHChatRoomChatCategoryOwnerKey = @"chatCategoryOwner";
+
+//Chat (the bubble)
+NSString* const SHChatClassKey = @"Chat";
+NSString* const SHChatUserKey = @"user";
+NSString* const SHChatTextKey = @"text";
+NSString* const SHChatRoomKey = @"room";
 
 //Constants for chat feature
 int const SHEditingQuestion = 0;

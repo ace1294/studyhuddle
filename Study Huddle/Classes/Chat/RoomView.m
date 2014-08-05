@@ -16,16 +16,27 @@
 
 #import "RoomView.h"
 #import "ChatView.h"
+#import "SHConstants.h"
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 @interface RoomView()
 {
 	NSMutableArray *chatrooms;
 }
+
+@property NSString* chatCategoryOwner;
+
 @end
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 
 @implementation RoomView
+
+-(id)initWithChatCategoryOwner: (NSString*) aChatCategoryOwner
+{
+    self = [super init];
+    _chatCategoryOwner = aChatCategoryOwner;
+    return self;
+}
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (void)viewDidLoad
@@ -54,7 +65,7 @@
 - (void)actionNew
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please enter a name for your group" delegate:self
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please enter a title for your question" delegate:self
 										  cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
 	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	[alert show];
@@ -73,6 +84,7 @@
 		{
 			PFObject *object = [PFObject objectWithClassName:PF_CHATROOMS_CLASS_NAME];
 			object[PF_CHATROOMS_ROOM] = textField.text;
+            object[SHChatRoomChatCategoryOwnerKey] = self.chatCategoryOwner;
 			[object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 			{
 				if (error == nil)
@@ -91,6 +103,7 @@
 {
 	[ProgressHUD show:nil];
 	PFQuery *query = [PFQuery queryWithClassName:PF_CHATROOMS_CLASS_NAME];
+    [query whereKey:SHChatRoomChatCategoryOwnerKey equalTo:self.chatCategoryOwner];
 	[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
 	{
 		if (error == nil)

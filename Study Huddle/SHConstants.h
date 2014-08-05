@@ -150,8 +150,19 @@ extern NSString* const SHSHDeniedJoinRequestTitle;
 
 //Chat Category
 extern NSString* const SHChatCategoryNameKey;
-extern NSString* const SHChatCategoryThreadsKey;
+extern NSString* const SHChatCategoryChatRoomKey;
 extern NSString* const SHChatCategoryHuddleKey;
+
+//Chat Room
+extern NSString* const SHChatRoomClassKey;
+extern NSString* const SHChatRoomRoomKey;
+extern NSString* const SHChatRoomChatCategoryOwnerKey;
+
+//Chat (the bubbles)
+extern NSString* const SHChatClassKey;
+extern NSString* const SHChatUserKey;
+extern NSString* const SHChatTextKey;
+extern NSString* const SHChatRoomKey;
 
 //Thread
 extern NSString* const SHThreadTitle;

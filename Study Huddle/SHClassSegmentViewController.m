@@ -119,7 +119,7 @@
     [self.tableView registerClass:[SHHuddleCell class] forCellReuseIdentifier:SHHuddleCellIdentifier];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     
-    
+    self.control.backgroundColor = [UIColor whiteColor];
     
 }
 
