@@ -9,7 +9,6 @@
 #import "SHAppDelegate.h"
 #import <Parse/Parse.h>
 #import "SHStartUpViewController.h"
-#import "Student.h"
 #import "UIColor+HuddleColors.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHLoginViewController.h"
@@ -199,7 +198,7 @@
     [self.searchNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
     //notification
-    self.notificationController = [[SHNotificationViewController alloc]initWithStudent:(Student*)[PFUser currentUser]]; 
+    self.notificationController = [[SHNotificationViewController alloc]initWithStudent:[PFUser currentUser]];
     self.notificationNavigator = [[UINavigationController alloc] initWithRootViewController:self.notificationController];
     self.notificationNavigator.navigationBar.barTintColor = [UIColor huddleOrange];
     [self.notificationNavigator.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
@@ -207,7 +206,7 @@
     self.tabBarController = [[UITabBarController alloc]init];
     [[UITabBar appearance] setTintColor:[UIColor huddleOrange]];
     
-    [self.profileController setStudent:(Student *)[Student currentUser]];
+    [self.profileController setStudent:[PFUser currentUser]];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:self.profileNavigator, self.huddlesNavigator,self.searchNavigator,self.notificationNavigator ,nil];
     
     
@@ -220,8 +219,6 @@
 
 - (void)setupParseWithOptions:(NSDictionary *)launchOptions
 {
-    [Student registerSubclass];
-    
     [Parse setApplicationId:@"tYVLuBAkB3oeGEo8dQa0mQdW8AfyppZHI92DKvTk"
                   clientKey:@"BZ4boxrBIGK0dJKV47r7hVJ4D4C9bSensOhR46kN"];
     

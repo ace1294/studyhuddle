@@ -12,12 +12,10 @@
 #import "SHHuddleCell.h"
 #import "SHConstants.h"
 #import <Parse/Parse.h>
-#import "Student.h"
 #import "UIColor+HuddleColors.h"
 #import "SHVisitorClassPageViewController.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHVisitorHuddleViewController.h"
-#import "Student.h"
 
 @interface SHSearchViewController ()
 
@@ -93,7 +91,7 @@
     [self.huddles removeAllObjects];
     [self.classes removeAllObjects];
     
-    PFQuery *studentQuery = [Student query];
+    PFQuery *studentQuery = [PFUser query];
     studentQuery.cachePolicy =kPFCachePolicyCacheElseNetwork;
     [studentQuery whereKey:SHStudentLowerNameKey containsString:[searchText lowercaseString]];
     

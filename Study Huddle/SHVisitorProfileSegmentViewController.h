@@ -10,7 +10,6 @@
 #import "DZNSegmentedControl.h"
 #import <Parse/Parse.h>
 @class SHVisitorProfileViewController;
-@class Student;
 
 @interface SHVisitorProfileSegmentViewController : UIViewController <DZNSegmentedControlDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -21,9 +20,9 @@
 
 
 
-- (id)initWithStudent:(Student *)student;
+- (id)initWithStudent:(PFUser *)student;
 
-- (void)setStudent:(Student *)aSegStudent;
+- (void)setStudent:(PFUser *)aSegStudent;
 - (BOOL)loadStudentData;
 -(float)getOccupatingHeight;
 

@@ -8,7 +8,6 @@
 
 #import "SHNewQuestionViewController.h"
 #import "UIColor+HuddleColors.h"
-#import "Student.h"
 #import "SHHuddleButtons.h"
 #import "SHUtility.h"
 
@@ -160,15 +159,15 @@
         return;
     }
     
-    self.question[SHQuestionCreatorID] = [[Student currentUser]objectId];
-    self.question[SHQuestionCreatorName] = [[Student currentUser]objectForKey:SHStudentNameKey];
+    self.question[SHQuestionCreatorID] = [[PFUser currentUser]objectId];
+    self.question[SHQuestionCreatorName] = [[PFUser currentUser]objectForKey:SHStudentNameKey];
     self.question[SHQuestionQuestion] = self.messageTextView.text;
     
     [self.question save];
     
     self.thread[SHThreadTitle] = self.subjectTextField.text;
     self.thread[SHThreadQuestions] = @[self.question];
-    self.thread[SHThreadCreator] = [Student currentUser];
+    self.thread[SHThreadCreator] = [PFUser currentUser];
     
     [self.thread save];
     

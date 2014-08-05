@@ -12,7 +12,6 @@
 #import "SHClassCell.h"
 #import "SHRequestCell.h"
 #import "SHConstants.h"
-#import "Student.h"
 #import "SHStudentCell.h"
 #import "SHNewHuddleViewController.h"
 #import "SHStudyCell.h"
@@ -29,7 +28,7 @@
 @interface SHVisitorProfileSegmentViewController () <SHBaseCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
-@property (strong, nonatomic) Student *segStudent;
+@property (strong, nonatomic) PFUser *segStudent;
 
 @property (strong, nonatomic) NSString *CellIdentifier;
 @property (nonatomic, assign) NSInteger currentRowsToDisplay;
@@ -60,7 +59,7 @@ static NSString* const StudyDiskKey = @"studyArray";
 static NSString* const ClassesDiskKey = @"classKey";
 static NSString* const HuddlesDiskKey = @"huddlesKey";
 
-- (id)initWithStudent:(Student *)student
+- (id)initWithStudent:(PFUser *)student
 {
     self = [super init];
     if(self)
@@ -165,7 +164,7 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     
 }
 
-- (void)setStudent:(Student *)aSegStudent
+- (void)setStudent:(PFUser *)aSegStudent
 {
     _segStudent = aSegStudent;
     [self loadStudentData];

@@ -14,7 +14,6 @@
 #import "UIView+AUISelectiveBorder.h"
 #import "SHDocumentView.h"
 #import "SHHuddleButtons.h"
-#import "Student.h"
 #import "SHUtility.h"
 #import "SHModalViewController.h"
 
@@ -244,7 +243,7 @@
     PFObject *newResource = [PFObject objectWithClassName:SHResourceParseClass];
     newResource[SHResourceNameKey] = self.resourceTitleField.text;
     newResource[SHResourceHuddleKey] = self.huddle;
-    newResource[SHResourceCreatorKey] = [Student currentUser];
+    newResource[SHResourceCreatorKey] = [PFUser currentUser];
     newResource[SHResourceDescriptionKey] = self.descriptionTextView.text;
     newResource[SHResourceLinkKey] = self.resourceLinkField.text;
     NSData *fileData = UIImageJPEGRepresentation(self.documentView.documentImageView.image, 1.0f);
@@ -280,9 +279,9 @@
     
     [self cancelAction];
     
-    for(Student *member in self.huddle[SHHuddleMembersKey])
+    for(PFUser *member in self.huddle[SHHuddleMembersKey])
     {
-        if ([[member objectId] isEqual:[[Student currentUser] objectId]])
+        if ([[member objectId] isEqual:[[PFUser currentUser] objectId]])
             continue;
         
         PFObject *memberNotification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -293,7 +292,7 @@
         memberNotification[SHNotificationTypeKey] = SHNotificationNewResourceType;
         memberNotification[SHNotificationHuddleKey] = self.huddle;
         
-        NSString *description = [NSString stringWithFormat:@"%@ added a new resource", [Student currentUser][SHStudentNameKey]];
+        NSString *description = [NSString stringWithFormat:@"%@ added a new resource", [PFUser currentUser][SHStudentNameKey]];
         memberNotification[SHNotificationDescriptionKey] = description;
         
         [memberNotification saveInBackground];

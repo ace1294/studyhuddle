@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Student.h"
 #import "SHProfilePortraitViewToBeDeleted.h"
 
 @interface SHPageHeaderViewController : UIViewController

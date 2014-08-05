@@ -19,7 +19,6 @@
 #import "SHHuddleStartStudyingViewController.h"
 #import "UIViewController+MJPopupViewController.h"
 #import "SHStudentSearchViewController.h"
-#import "Student.h"
 
 
 #define profileImageWidth 100

@@ -11,7 +11,6 @@
 #import "SHClassCell.h"
 #import "SHRequestCell.h"
 #import "SHConstants.h"
-#import "Student.h"
 #import "SHStudentCell.h"
 #import "SHStudyCell.h"
 #import "SHChatCell.h"
@@ -317,14 +316,14 @@
     if ([cell isKindOfClass:[SHStudentCell class]] ) {
         SHStudentCell *studentCell = (SHStudentCell *)cell;
         
-        if([studentCell.student isEqual:[Student currentUser]])
+        if([studentCell.student isEqual:[PFUser currentUser]])
         {
-            SHProfileViewController *profileVC = [[SHProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
+            SHProfileViewController *profileVC = [[SHProfileViewController alloc]initWithStudent:studentCell.student];
             
             [self.navigationController pushViewController:profileVC animated:YES];
         }
         else{
-            SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
+            SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:studentCell.student];
             
             [self.navigationController pushViewController:visitorVC animated:YES];
         }

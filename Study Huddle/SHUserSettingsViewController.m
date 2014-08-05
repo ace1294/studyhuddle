@@ -7,8 +7,8 @@
 //
 
 #import "SHUserSettingsViewController.h"
-#import "Student.h"
 #import "SHProfileViewController.h"
+#import "SHConstants.h"
 
 @interface SHUserSettingsViewController ()<UITableViewDelegate,UITextFieldDelegate>
 
@@ -38,7 +38,7 @@
     
     self.title = @"Edit Profile";
     
-    Student* currentStudent = (Student*)[PFUser currentUser];
+    PFUser* currentStudent = [PFUser currentUser];
     
     self.nameTF = [[UITextField alloc]init];
     self.majorTF = [[UITextField alloc]init];
@@ -48,19 +48,19 @@
     self.nameTF.textColor = [UIColor blackColor];
     self.nameTF.font = [UIFont systemFontOfSize:17.0];
     self.nameTF.backgroundColor = [UIColor clearColor];
-    self.nameTF.placeholder = currentStudent.fullName;
+    self.nameTF.placeholder = currentStudent[SHStudentNameKey];
     
     self.majorTF.borderStyle = UITextBorderStyleRoundedRect;
     self.majorTF.textColor = [UIColor blackColor];
     self.majorTF.font = [UIFont systemFontOfSize:17.0];
     self.majorTF.backgroundColor = [UIColor clearColor];
-    self.majorTF.placeholder = currentStudent.major;
+    self.majorTF.placeholder = currentStudent[SHStudentMajorKey];
     
     self.emailTF.borderStyle = UITextBorderStyleRoundedRect;
     self.emailTF.textColor = [UIColor blackColor];
     self.emailTF.font = [UIFont systemFontOfSize:17.0];
     self.emailTF.backgroundColor = [UIColor clearColor];
-    self.emailTF.placeholder = currentStudent.email;
+    self.emailTF.placeholder = currentStudent[SHStudentEmailKey];
     
     
     
@@ -148,17 +148,17 @@
 
 -(void)donePressed
 {
-    Student* currentUser = (Student*)[Student currentUser];
+    PFUser* currentUser = [PFUser currentUser];
     if(self.nameTF.text.length > 0)
-        currentUser.fullName = self.nameTF.text;
+        currentUser[SHStudentNameKey] = self.nameTF.text;
     if(self.majorTF.text.length > 0)
-        currentUser.major = self.majorTF.text;
+        currentUser[SHStudentMajorKey] = self.majorTF.text;
     
     //special case for email because we need to check if someone with that email already exists
     if(self.emailTF.text.length > 0)
     {
         
-        PFQuery *query = [Student query];
+        PFQuery *query = [PFUser query];
         [query whereKey:@"username" equalTo:self.emailTF.text];
         
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -170,8 +170,8 @@
                 }
                 else
                 {
-                    currentUser.email = self.emailTF.text;
-                    currentUser.username = self.emailTF.text;
+                    currentUser[SHStudentEmailKey] = self.emailTF.text;
+                    //currentUser[username] = self.emailTF.text;
                 }
             } else {
                 // Log details of the failure

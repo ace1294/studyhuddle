@@ -9,7 +9,6 @@
 #import "SHCache.h"
 #import "SHConstants.h"
 #import "SHUtility.h"
-#import "Student.h"
 
 @interface SHCache()
 
@@ -99,9 +98,9 @@ NSString *studentHeader = @"student";
     
     [huddle fetchIfNeeded];
     
-    PFQuery *query = [Student query];
+    PFQuery *query = [PFUser query];
     [query whereKey:SHStudentHuddlesKey equalTo:huddle];
-    [query whereKey:SHStudentEmailKey notEqualTo:[Student currentUser][SHStudentEmailKey]];
+    [query whereKey:SHStudentEmailKey notEqualTo:[PFUser currentUser][SHStudentEmailKey]];
     NSArray *members = [query findObjects];
     [self.huddleMembers setObject:[SHUtility objectIDsForObjects:members] forKey:[self keyForObject:huddle withHeader:huddleHeader]];
     
@@ -136,7 +135,7 @@ NSString *studentHeader = @"student";
     [self setAttributesForHuddle:huddle];
     
     for(PFUser *user in huddle[SHHuddleMembersKey]){
-        if([[user objectId] isEqual:[[Student currentUser]objectId]])
+        if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;
         [self setNewStudyFriend:user];
     }
@@ -211,7 +210,7 @@ NSString *studentHeader = @"student";
     
     [huddleClass fetchIfNeeded];
     
-    PFQuery *query = [Student query];
+    PFQuery *query = [PFUser query];
     [query whereKey:SHStudentClassesKey equalTo:huddleClass];
     NSArray *students = [query findObjects];
     [self.classMembers setObject:[SHUtility objectIDsForObjects:students] forKey:[self keyForObject:huddleClass withHeader:classHeader]];
@@ -283,7 +282,7 @@ NSString *studentHeader = @"student";
 - (void)setStudyFriends:(NSArray *)friends
 {
     for(PFUser *user in friends){
-        if([[user objectId] isEqual:[[Student currentUser]objectId]])
+        if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;
         [self setAttributesForUser:user];
     }
@@ -321,7 +320,7 @@ NSString *studentHeader = @"student";
 
 - (void)setNewStudyFriend:(PFUser *)user
 {
-    if([[user objectId] isEqual:[[Student currentUser]objectId]])
+    if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
         return;
     
     NSString *key = SHUserDefaultsUserStudyFriendsKey;

@@ -8,7 +8,7 @@
 
 #import "SHBasePortraitView.h"
 #import "SHBasePortraitViewController.h"
-#import "Student.h"
+#import <Parse/Parse.h>
 
 #define imageScale 0.95
 

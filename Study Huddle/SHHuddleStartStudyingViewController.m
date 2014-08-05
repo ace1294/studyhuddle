@@ -8,7 +8,6 @@
 
 #import "SHHuddleStartStudyingViewController.h"
 #import "UIColor+HuddleColors.h"
-#import "Student.h"
 
 @interface SHHuddleStartStudyingViewController () <UITextViewDelegate, UITextFieldDelegate>
 
@@ -107,7 +106,7 @@
     
     for(PFObject *member in self.huddle[SHHuddleMembersKey]){
         
-        if([[member objectId] isEqual:[[Student currentUser]objectId]])
+        if([[member objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];

@@ -10,7 +10,6 @@
 #import "SHStudentCell.h"
 #import "SHConstants.h"
 #import <Parse/Parse.h>
-#import "Student.h"
 #import "UIColor+HuddleColors.h"
 #import "SHHuddleJoinRequestViewController.h"
 #import "UIViewController+MJPopupViewController.h"
@@ -83,7 +82,7 @@
     
     //Create query from class
     //PFQuery *query = [PFQuery queryWithClassName:@"Classes"];
-    PFQuery *query = [Student query];
+    PFQuery *query = [PFUser query];
     query.cachePolicy =kPFCachePolicyCacheElseNetwork;
     [query whereKey:SHStudentLowerNameKey containsString:[searchText lowercaseString]];
     

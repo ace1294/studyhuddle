@@ -9,7 +9,6 @@
 #import "SHRequestCell.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
-#import "Student.h"
 #import "NSDateFormatter+RelativeString.h"
 
 @interface SHRequestCell ()

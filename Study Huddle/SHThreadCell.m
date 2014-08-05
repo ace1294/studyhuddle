@@ -9,7 +9,6 @@
 #import "SHThreadCell.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
-#import "Student.h"
 
 @interface SHThreadCell ()
 
@@ -36,9 +35,9 @@
     //Title Button
     [self.titleButton setTitle:[aThread objectForKey:SHThreadTitle] forState:UIControlStateNormal];
     
-    Student* student = [aThread objectForKey:SHThreadCreator];
+    PFUser* student = [aThread objectForKey:SHThreadCreator];
     [student fetchIfNeeded];
-    [self.descriptionLabel setText:student.fullName];
+    [self.descriptionLabel setText:student[SHStudentNameKey]];
     
     
     

@@ -7,7 +7,7 @@
 //
 
 #import "SHProfilePortraitViewToBeDeleted.h"
-#import "Student.h"
+#import "SHConstants.h"
 
 @implementation SHProfilePortraitViewToBeDeleted
 
@@ -23,10 +23,10 @@
 -(void)savePhotoToParse:(UIImage *)newProfileImage
 {
     NSLog(@"save photo parse called");
-    Student* currentUser = [Student currentUser];
+    PFUser* currentUser = [PFUser currentUser];
     NSData* imageData = UIImageJPEGRepresentation(newProfileImage, 1.0f);
     PFFile *imageFile = [PFFile fileWithData:imageData];
-    currentUser.userImage = imageFile;
+    currentUser[SHStudentImageKey] = imageFile;
     
     [currentUser saveInBackground];
     
@@ -36,11 +36,11 @@
 {
     self = [super initWithImage:image andFrame:frame];
     
-    Student* student = [Student currentUser];
-    NSLog(@"users image was: %@",student.userImage);
+    PFUser* student = [PFUser currentUser];
+    NSLog(@"users image was: %@",student[SHStudentImageKey]);
     
-    if (student.userImage) {
-        PFFile* imageFile = student.userImage;
+    if (student[SHStudentImageKey]) {
+        PFFile* imageFile = student[SHStudentImageKey];
         UIImage* unprepImage = [UIImage imageWithData:[imageFile getData] ];
         self.profileImageView.image = [self prepareImage:unprepImage];
     }

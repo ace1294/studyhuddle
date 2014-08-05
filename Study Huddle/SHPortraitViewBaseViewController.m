@@ -8,7 +8,6 @@
 
 #import "SHPortraitViewBaseViewController.h"
 #import "SHPortraitViewBase.h"
-#import "Student.h"
 #import "DZNPhotoPickerController.h"
 #import "UIImagePickerControllerExtended.h"
 #import "SHAppDelegate.h"

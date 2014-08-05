@@ -9,7 +9,6 @@
 #import "SHVisitorHuddleSegmentViewController.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
-#import "Student.h"
 #import "SHStudentCell.h"
 #import "SHResourceCell.h"
 #import "SHVisitorProfileViewController.h"
@@ -128,9 +127,9 @@
     
     [self.segHuddle fetch];
     
-    PFQuery *query = [Student query];
+    PFQuery *query = [PFUser query];
     [query whereKey:SHStudentHuddlesKey equalTo:self.segHuddle];
-    [query whereKey:SHStudentEmailKey notEqualTo:[Student currentUser][SHStudentEmailKey]];
+    [query whereKey:SHStudentEmailKey notEqualTo:[PFUser currentUser][SHStudentEmailKey]];
     NSArray *members = [query findObjects];
     
     [self.membersDataArray removeAllObjects];

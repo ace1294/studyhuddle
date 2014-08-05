@@ -7,7 +7,8 @@
 //
 
 #import "SHVisibilitySetting.h"
-#import "Student.h"
+#import <Parse/Parse.h>
+#import "SHConstants.h"
 
 
 #define cellHeight 50
@@ -43,7 +44,7 @@
     [super viewDidLoad];
     
     self.title = @"Settings";
-    Student* currentStudent = (Student*)[PFUser currentUser];
+    PFUser* currentStudent = [PFUser currentUser];
     
     //set up the content in the dictionary
     self.tableData = [[NSMutableArray alloc]init];
@@ -55,10 +56,10 @@
     
     //create the switches
     self.displayHoursSwitch = [[UISwitch alloc]init];
-    [self.displayHoursSwitch setOn:[currentStudent.displayHoursToStudyEnabled boolValue]];
+    [self.displayHoursSwitch setOn:[[PFUser currentUser][@"displayHoursToStudyEnabled"] boolValue]];
     [self.displayHoursSwitch  addTarget:self action:@selector(displayHoursChanged:) forControlEvents:UIControlEventValueChanged];
     self.pokeSwitch = [[UISwitch alloc]init];
-    [self.pokeSwitch setOn:[currentStudent.pokeToStudyEnabled boolValue]];
+    [self.pokeSwitch setOn:[currentStudent[@"pokeToStudyEnabled"] boolValue]];
     [self.pokeSwitch  addTarget:self action:@selector(pokeChanged:) forControlEvents:UIControlEventValueChanged];
     
     
@@ -162,9 +163,9 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    Student* currentUser = (Student*)[PFUser currentUser];
-    currentUser.pokeToStudyEnabled = [NSNumber numberWithBool:self.pokeSwitch.isOn];
-    currentUser.displayHoursToStudyEnabled = [NSNumber numberWithBool:self.displayHoursSwitch.isOn];
+    PFUser* currentUser = [PFUser currentUser];
+    currentUser[@"pokeToStudyEnabled"] = [NSNumber numberWithBool:self.pokeSwitch.isOn];
+    currentUser[@"displayHoursToStudyEnabled"] = [NSNumber numberWithBool:self.displayHoursSwitch.isOn];
     
     [currentUser saveInBackground];
 }

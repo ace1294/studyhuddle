@@ -7,7 +7,7 @@
 //
 
 #import "SHPushNotificationsSetting.h"
-#import "Student.h"
+#import <Parse/Parse.h>
 
 
 #define cellHeight 50
@@ -47,7 +47,7 @@
     [super viewDidLoad];
     
     self.title = @"Settings";
-    Student* currentStudent = (Student*)[PFUser currentUser];
+    PFUser* currentStudent = [PFUser currentUser];
     
     //set up the content in the dictionary
     self.tableData = [[NSMutableArray alloc]init];
@@ -61,19 +61,19 @@
     
     //create the switches
     self.memberHuddleSwitch = [[UISwitch alloc] init];
-    [self.memberHuddleSwitch setOn:[currentStudent.receiveNewHuddleMemberNotifications boolValue]];
+    [self.memberHuddleSwitch setOn:[currentStudent[@"receiveNewHuddleMemberNotifications"] boolValue]];
     self.huddleIsStudyingSwitch = [[UISwitch alloc] init];
-    [self.huddleIsStudyingSwitch setOn:[currentStudent.receiveHuddleIsStudyingNotifications boolValue]];
+    [self.huddleIsStudyingSwitch setOn:[currentStudent[@"receiveHuddleIsStudyingNotifications"] boolValue]];
     self.threadPostSwitch = [[UISwitch alloc] init];
-    [self.threadPostSwitch setOn:[currentStudent.receiveNewThreadPostNotifications boolValue]];
+    [self.threadPostSwitch setOn:[currentStudent[@"receiveNewThreadPostNotifications"] boolValue]];
     self.resourceAddedSwitch = [[UISwitch alloc] init];
-    [self.resourceAddedSwitch setOn:[currentStudent.receiveResourceAddedNotifications boolValue]];
+    [self.resourceAddedSwitch setOn:[currentStudent[@"receiveResourceAddedNotifications"] boolValue]];
     self.postSwitch = [[UISwitch alloc] init];
-    [self.postSwitch setOn:[currentStudent.receiveNewPostNotifications boolValue]];
+    [self.postSwitch setOn:[currentStudent[@"receiveNewPostNotifications"] boolValue]];
     self.memberClassSwitch = [[UISwitch alloc] init];
-    [self.memberClassSwitch setOn:[currentStudent.receiveNewClassMemberNotifications boolValue]];
+    [self.memberClassSwitch setOn:[currentStudent[@"receiveNewClassMemberNotifications"] boolValue]];
     self.replyToPostSwitch = [[UISwitch alloc] init];
-    [self.replyToPostSwitch setOn:[currentStudent.receiveReplyToYourPostNotifications boolValue]];
+    [self.replyToPostSwitch setOn:[currentStudent[@"receiveReplyToYourPostNotifications"] boolValue]];
     
     
     //create BackButton
@@ -206,18 +206,18 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    Student* currentUser = (Student*)[PFUser currentUser];
+    PFUser* currentUser = [PFUser currentUser];
     
 
     
-    currentUser.receiveNewHuddleMemberNotifications = [NSNumber numberWithBool:self.memberHuddleSwitch.isOn];
-    currentUser.receiveHuddleIsStudyingNotifications = [NSNumber numberWithBool:self.huddleIsStudyingSwitch.isOn];
-    currentUser.receiveNewThreadPostNotifications = [NSNumber numberWithBool:self.threadPostSwitch.isOn];
-    currentUser.receiveResourceAddedNotifications = [NSNumber numberWithBool:self.resourceAddedSwitch.isOn];
+    currentUser[@"receiveNewHuddleMemberNotifications"] = [NSNumber numberWithBool:self.memberHuddleSwitch.isOn];
+    currentUser[@"receiveHuddleIsStudyingNotifications"] = [NSNumber numberWithBool:self.huddleIsStudyingSwitch.isOn];
+    currentUser[@"receiveNewThreadPostNotifications"] = [NSNumber numberWithBool:self.threadPostSwitch.isOn];
+    currentUser[@"receiveResourceAddedNotifications"] = [NSNumber numberWithBool:self.resourceAddedSwitch.isOn];
     
-    currentUser.receiveNewPostNotifications = [NSNumber numberWithBool:self.postSwitch.isOn];
-    currentUser.receiveNewClassMemberNotifications = [NSNumber numberWithBool:self.memberClassSwitch.isOn];
-    currentUser.receiveReplyToYourPostNotifications = [NSNumber numberWithBool:self.replyToPostSwitch.isOn];
+    currentUser[@"receiveNewPostNotifications"] = [NSNumber numberWithBool:self.postSwitch.isOn];
+    currentUser[@"receiveNewClassMemberNotifications"] = [NSNumber numberWithBool:self.memberClassSwitch.isOn];
+    currentUser[@"receiveReplyToYourPostNotifications"] = [NSNumber numberWithBool:self.replyToPostSwitch.isOn];
     
     [currentUser saveInBackground];
 }
@@ -229,53 +229,7 @@
 }
 
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
 
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

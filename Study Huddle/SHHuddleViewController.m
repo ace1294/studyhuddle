@@ -25,7 +25,7 @@
     WYPopoverController* popoverController;
 }
 
-@property (strong, nonatomic) Student* student;
+@property (strong, nonatomic) PFUser* student;
 @property (strong, nonatomic) NSMutableArray *huddles;
 
 @property (strong, nonatomic) UITableView *tableView;
@@ -38,11 +38,11 @@
 
 - (id)init
 {
-    self = [self initWithStudent:(Student *)[PFUser currentUser]];
+    self = [self initWithStudent:[PFUser currentUser]];
     return self;
 }
 
-- (id)initWithStudent:(Student *)aStudent
+- (id)initWithStudent:(PFUser *)aStudent
 {
     self = [super init];
     if (self) {
@@ -179,7 +179,7 @@
 
 - (void)addHuddleTapped
 {
-    SHNewHuddleViewController *newHuddleVC = [[SHNewHuddleViewController alloc]initWithStudent:[Student currentUser]];
+    SHNewHuddleViewController *newHuddleVC = [[SHNewHuddleViewController alloc]initWithStudent:[PFUser currentUser]];
     
     [popoverController dismissPopoverAnimated:YES completion:^{
         [self.navigationController pushViewController:newHuddleVC animated:YES];

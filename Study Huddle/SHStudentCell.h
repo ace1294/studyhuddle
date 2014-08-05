@@ -14,8 +14,8 @@
 @interface SHStudentCell : SHBaseTextCell
 
 @property (nonatomic, strong) id delegate;
-@property (nonatomic, strong) PFObject *student;
-- (void)setStudent:(PFObject *)aStudent;
+@property (nonatomic, strong) PFUser *student;
+- (void)setStudent:(PFUser *)aStudent;
 - (void)setOnline;
 
 @end
