@@ -9,7 +9,6 @@
 #import "SHUtility.h"
 #import "SHConstants.h"
 #import <Parse/Parse.h>
-#import "Student.h"
 #import "SHCache.h"
 
 @implementation SHUtility

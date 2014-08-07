@@ -8,7 +8,6 @@
 
 #import "SHNewThreadViewController.h"
 #import "UIColor+HuddleColors.h"
-#import "Student.h"
 
 @interface SHNewThreadViewController () <UITextFieldDelegate, UITextViewDelegate>
 
@@ -132,6 +131,7 @@
     
     [self.chatCategory addObject:self.chatRoom forKey:SHChatCategoryChatRoomKey];
     
+
     self.chatRoom[SHChatRoomRoomKey] = self.subjectTextField.text;
     
     self.question[SHChatTextKey] = self.messageTextView.text;
@@ -146,6 +146,13 @@
     //self.question[SHQuestionCreatorID] = [[Student currentUser]objectId];
     //self.question[SHQuestionCreatorName] = [[Student currentUser]objectForKey:SHStudentNameKey];
     //self.question[SHQuestionQuestion] = self.messageTextView.text;
+
+
+    
+    self.question[SHQuestionCreatorID] = [[PFUser currentUser]objectId];
+    self.question[SHQuestionCreatorName] = [[PFUser currentUser]objectForKey:SHStudentNameKey];
+    self.question[SHQuestionQuestion] = self.messageTextView.text;
+
     
     [self.chatCategory saveInBackground];
     [self.chatRoom saveInBackground];

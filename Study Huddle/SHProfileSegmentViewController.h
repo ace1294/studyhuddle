@@ -10,7 +10,6 @@
 #import "DZNSegmentedControl.h"
 #import <Parse/Parse.h>
 @class SHProfileViewController;
-@class Student;
 
 @interface SHProfileSegmentViewController : UIViewController <DZNSegmentedControlDelegate, UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate>
 
@@ -21,9 +20,9 @@
 
 
 
-- (id)initWithStudent:(Student *)student;
+- (id)initWithStudent:(PFUser *)student;
 
-- (void)setStudent:(Student *)aSegStudent;
+- (void)setStudent:(PFUser *)aSegStudent;
 - (BOOL)loadStudentDataRefresh:(BOOL)refresh;
 - (void)currentStudy:(PFObject *)study;
 

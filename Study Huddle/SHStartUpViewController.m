@@ -57,7 +57,7 @@
     [super viewDidLoad];
     
     [self setTitle:@"StartUp"];
-    if (![Student currentUser]) {
+    if (![PFUser currentUser]) {
         NSLog(@"got called");
         // Customize the Log In View Controller
         SHLoginViewController *logInViewController = [[SHLoginViewController alloc]init];
@@ -92,7 +92,7 @@
         return;
     }
     
-    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:[Student currentUser]];
+    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:[PFUser currentUser]];
 }
 
 

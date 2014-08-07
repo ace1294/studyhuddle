@@ -10,7 +10,6 @@
 #import "UIColor+HuddleColors.h"
 #import "SHHuddleButtons.h"
 #import "SHUtility.h"
-#import "Student.h"
 
 @interface SHHuddleInviteViewController () <UITextViewDelegate>
 

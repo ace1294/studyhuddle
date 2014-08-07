@@ -10,7 +10,6 @@
 #import <UIKit/UIKit.h>
 #import "DZNSegmentedControl.h"
 #import <Parse/Parse.h>
-#import "Student.h"
 #import "SHNotificationViewController.h"
 
 
@@ -25,9 +24,9 @@
 
 
 
-- (id)initWithStudent:(Student *)student;
+- (id)initWithStudent:(PFUser *)student;
 
-- (void)setStudent:(Student *)aSegStudent;
+- (void)setStudent:(PFUser *)aSegStudent;
 - (BOOL)loadStudentData;
 
 @end

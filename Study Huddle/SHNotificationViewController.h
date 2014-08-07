@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Student.h"
+#import <Parse/Parse.h>
 
 @interface SHNotificationViewController : UIViewController
 
--(id)initWithStudent:(Student*) aStudent;
+-(id)initWithStudent:(PFUser *)aStudent;
 
 @end

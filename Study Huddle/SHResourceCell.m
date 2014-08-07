@@ -10,7 +10,6 @@
 #import "SHPortraitView.h"
 #import "SHConstants.h"
 #import "UIColor+HuddleColors.h"
-#import "Student.h"
 
 @interface SHResourceCell ()
 
@@ -24,7 +23,7 @@
 {
     _resource = aResource;
     
-    Student *creator = aResource[SHResourceCreatorKey];
+    PFUser *creator = aResource[SHResourceCreatorKey];
     [creator fetchIfNeeded];
     
     [self.titleButton setTitle:[aResource objectForKey:SHResourceNameKey] forState:UIControlStateNormal];

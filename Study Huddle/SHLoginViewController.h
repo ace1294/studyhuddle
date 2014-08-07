@@ -7,7 +7,6 @@
 //
 
 #import <Parse/Parse.h>
-#import "Student.h"
 
 @interface SHLoginViewController : PFLogInViewController
 

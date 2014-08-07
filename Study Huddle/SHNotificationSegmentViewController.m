@@ -13,7 +13,6 @@
 #import "SHNotificationCell.h"
 #import "SHRequestCell.h"
 #import "SHConstants.h"
-#import "Student.h"
 #import "SHNewHuddleViewController.h"
 #import "PFACL+NSCoding.h"
 #import "PFFile+NSCoding.h"
@@ -31,7 +30,7 @@
 }
 
 @property (strong, nonatomic) NSString *docsPath;
-@property (strong, nonatomic) Student *segStudent;
+@property (strong, nonatomic) PFUser *segStudent;
 
 @property (strong, nonatomic) NSString *CellIdentifier;
 @property (nonatomic, assign) NSInteger currentRowsToDisplay;
@@ -60,7 +59,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
 
 
-- (id)initWithStudent:(Student *)student
+- (id)initWithStudent:(PFUser *)student
 {
     self = [super init];
     if(self)
@@ -164,7 +163,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [self.tableView reloadData];
 }
 
-- (void)setStudent:(Student *)aSegStudent
+- (void)setStudent:(PFUser *)aSegStudent
 {
     _segStudent = aSegStudent;
     [self loadStudentData];
@@ -179,7 +178,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     NSMutableArray *notifications = [[NSMutableArray alloc]init];
     
     PFQuery *notificationQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
-    [notificationQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    [notificationQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
     [notifications addObjectsFromArray:[notificationQuery findObjects]];
     [self findExpandableNotificaitonTypes];
     
@@ -221,13 +220,13 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     PFQuery *hsJoin = [PFQuery queryWithClassName:SHRequestParseClass];
     
     [ssInviteStudy whereKey:SHRequestTypeKey equalTo:SHRequestSSInviteStudy];
-    [ssInviteStudy whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    [ssInviteStudy whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
     
     [shJoin whereKey:SHRequestTypeKey equalTo:SHRequestSHJoin];
-    [shJoin whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    [shJoin whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
     
     [hsJoin whereKey:SHRequestTypeKey equalTo:SHRequestHSJoin];
-    [hsJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[Student currentUser] objectId]]];
+    [hsJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
     
     PFQuery *query = [PFQuery orQueryWithSubqueries:@[ssInviteStudy,shJoin,hsJoin]];
     
@@ -435,7 +434,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
        PFObject* notification = notificationCell.notification;
        NSString *type = notification[SHNotificationTypeKey];
        
-       Student *fromStudent = notification[SHNotificationFromStudentKey];
+       PFUser *fromStudent = notification[SHNotificationFromStudentKey];
        [fromStudent fetchIfNeeded];
        
        if([type isEqual:SHNotificationSSStudyRequestType])
@@ -459,9 +458,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
        PFObject* request = requestCell.request;
        NSString *type = request[SHRequestTypeKey];
        
-       Student *student1 = request[SHRequestStudent1Key];
-       //Student *student2 = request[SHRequestStudent2Key];
-       //Student *student3 = request[SHRequestStudent3Key];
+       PFUser *student1 = request[SHRequestStudent1Key];
        PFObject *huddle = request[SHRequestHuddleKey];
        
        if([type isEqual:SHRequestSSInviteStudy])
@@ -493,7 +490,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         //Student 2 accepted Student 1's request to study
         
-        Student *student2 = request[SHRequestStudent2Key];
+        PFUser *student2 = request[SHRequestStudent2Key];
         [student2 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -513,7 +510,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
         
-        Student *student1 = request[SHRequestStudent1Key];
+        PFUser *student1 = request[SHRequestStudent1Key];
         [student1 fetch];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -526,7 +523,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
         [notification saveInBackground];
         
-        for(Student *member in huddle[SHHuddleMembersKey])
+        for(PFUser *member in huddle[SHHuddleMembersKey])
         {
             if([member isEqual:huddle[SHHuddleCreatorKey]])
                 continue;
@@ -554,7 +551,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
         
-        Student *student1 = [Student currentUser];
+        PFUser *student1 = [PFUser currentUser];
         [student1 addObject:huddle forKey:SHStudentHuddlesKey];
         
         [[SHCache sharedCache] setNewHuddle:huddle];
@@ -576,7 +573,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [notification saveInBackground];
         
         
-        for(Student *member in huddle[SHHuddleMembersKey])
+        for(PFUser *member in huddle[SHHuddleMembersKey])
         {
             PFObject *memberNotification = [PFObject objectWithClassName:SHNotificationParseClass];
             
@@ -613,7 +610,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         //Student 2 denied Student 1's request to study
         
-        Student *student2 = request[SHRequestStudent2Key];
+        PFUser *student2 = request[SHRequestStudent2Key];
         [student2 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -633,7 +630,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetchIfNeeded];
         
-        Student *student1 = request[SHRequestStudent1Key];
+        PFUser *student1 = request[SHRequestStudent1Key];
         [student1 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -653,10 +650,10 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetchIfNeeded];
         
-        Student *creator = huddle[SHHuddleCreatorKey];
+        PFUser *creator = huddle[SHHuddleCreatorKey];
         [creator fetchIfNeeded];
         
-        Student *student1 = request[SHRequestStudent1Key];
+        PFUser *student1 = request[SHRequestStudent1Key];
         [student1 fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -712,9 +709,9 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             PFObject *newHuddle = notification[SHNotificationHuddleKey];
             [newHuddle fetchIfNeeded];
             
-            [[Student currentUser] addObject:newHuddle forKey:SHStudentHuddlesKey];
-            [[Student currentUser] addUniqueObjectsFromArray:newHuddle[SHHuddleMembersKey] forKey:SHStudentStudyFriendsKey];
-            [[Student currentUser] saveInBackground];
+            [[PFUser currentUser] addObject:newHuddle forKey:SHStudentHuddlesKey];
+            [[PFUser currentUser] addUniqueObjectsFromArray:newHuddle[SHHuddleMembersKey] forKey:SHStudentStudyFriendsKey];
+            [[PFUser currentUser] saveInBackground];
         }
         i++;
     }

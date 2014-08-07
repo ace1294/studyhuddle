@@ -7,7 +7,6 @@
 //
 
 #import "SHProfileSettingsController.h"
-#import "Student.h"
 #import "SHProfileViewController.h"
 #import "SHVisibilitySetting.h"
 #import "SHPushNotificationsSetting.h"

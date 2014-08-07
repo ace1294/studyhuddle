@@ -55,7 +55,7 @@
 @property UIView *segmentContainer;
 @property UIScrollView* scrollView;
 
-@property (nonatomic, strong) Student *profStudent;
+@property (nonatomic, strong) PFUser *profStudent;
 
 @property (nonatomic, strong) UILabel* fullNameLabel;
 @property (nonatomic, strong) UILabel* majorLabel;
@@ -75,12 +75,12 @@
 
 - (id)init
 {
-    self = [self initWithStudent:(Student *)[Student user]];
+    self = [self initWithStudent:[PFUser user]];
     
     return self;
 }
 
-- (id)initWithStudent:(Student *)aStudent
+- (id)initWithStudent:(PFUser *)aStudent
 {
     self = [super init];
     if (self) {
@@ -98,7 +98,7 @@
     return self;
 }
 
-- (void)setStudent:(Student *)aProfStudent
+- (void)setStudent:(PFUser *)aProfStudent
 {
     
     _profStudent = aProfStudent;
@@ -135,7 +135,7 @@
     
     //set up name label
     self.fullNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - fullNameWidth/2,profileFrame.origin.y + profileFrame.size.height + fullNameLabelVerticalOffsetFromPicture, fullNameWidth, fullNameHeight)];
-    self.fullNameLabel.text = [self.profStudent.fullName uppercaseString];
+    self.fullNameLabel.text = [self.profStudent[SHStudentNameKey] uppercaseString];
     [self.fullNameLabel setTextAlignment:NSTextAlignmentCenter];
     [self.fullNameLabel setFont: nameLabelFont];
     [self.fullNameLabel setTextColor:[UIColor grayColor]];
@@ -143,7 +143,7 @@
     
     //set up major label
     self.majorLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - majorLabelWidth/2,self.fullNameLabel.frame.origin.y + self.fullNameLabel.frame.size.height + majorLabelVerticalOffsetFromName, majorLabelWidth, majorLabelHeight)];
-    self.majorLabel.text = [self.profStudent.major uppercaseString];
+    self.majorLabel.text = [self.profStudent[SHStudentMajorKey] uppercaseString];
     [self.majorLabel setTextAlignment:NSTextAlignmentCenter];
     [self.majorLabel setFont: majorLabelFont];
     [self.majorLabel setTextColor:[UIColor grayColor]];
@@ -197,7 +197,7 @@
     //set up segmented view
     self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.scrollView.bounds.origin.y + topPartSize, self.view.frame.size.width, self.view.frame.size.height*10)];
     self.segmentContainer.backgroundColor = [UIColor clearColor];
-    self.segmentController = [[SHVisitorProfileSegmentViewController alloc]initWithStudent:(Student *)self.profStudent];
+    self.segmentController = [[SHVisitorProfileSegmentViewController alloc]initWithStudent:self.profStudent];
     
     [self addChildViewController:self.segmentController];
     self.segmentController.view.frame = self.segmentContainer.bounds;
@@ -228,7 +228,7 @@
 
 -(void)inviteToStudyPressed
 {
-    SHStudyInviteViewController *studyInviteVC = [[SHStudyInviteViewController alloc]initWithFromStudent:[Student currentUser] toStudent:self.profStudent];
+    SHStudyInviteViewController *studyInviteVC = [[SHStudyInviteViewController alloc]initWithFromStudent:[PFUser currentUser] toStudent:self.profStudent];
     studyInviteVC.owner = self;
     studyInviteVC.delegate = self;
     
@@ -241,7 +241,7 @@
 
 -(void)inviteToHuddlePressed
 {
-    SHHuddleInviteViewController *huddleInviteVC = [[SHHuddleInviteViewController alloc]initWithToStudent:self.profStudent fromStudent:[Student currentUser]];
+    SHHuddleInviteViewController *huddleInviteVC = [[SHHuddleInviteViewController alloc]initWithToStudent:self.profStudent fromStudent:[PFUser currentUser]];
     huddleInviteVC.delegate = self;
     
     [self presentPopupViewController:huddleInviteVC animationType:MJPopupViewAnimationSlideBottomBottom];

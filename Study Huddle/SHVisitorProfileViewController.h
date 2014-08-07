@@ -9,16 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "SHVisitorProfileSegmentViewController.h"
 #import "SHProfilePortraitView.h"
-#import "Student.h"
-
-@class Student;
 
 @interface SHVisitorProfileViewController : UIViewController
 @property (strong,nonatomic) SHProfilePortraitView* profileImage;
 
 
-- (id)initWithStudent:(Student *)aStudent;
-- (void)setStudent:(Student *)aProfStudent;
+- (id)initWithStudent:(PFUser *)aStudent;
+- (void)setStudent:(PFUser *)aProfStudent;
 -(void)setNavigationBarItems;
 
 @end

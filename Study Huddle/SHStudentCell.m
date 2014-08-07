@@ -10,7 +10,6 @@
 #import "UIColor+HuddleColors.h"
 #import "SHProfilePortraitViewToBeDeleted.h"
 #import "SHUtility.h"
-#import "Student.h"
 #import "SHPortraitView.h"
 
 @interface SHStudentCell ()
@@ -59,7 +58,7 @@
     [self.descriptionLabel setFrame:CGRectMake(studentTitleX, descriptionY, descriptionSize.width, descriptionSize.height)];
 }
 
-- (void)setStudent:(PFObject *)aStudent
+- (void)setStudent:(PFUser *)aStudent
 {
     _student = aStudent;
     

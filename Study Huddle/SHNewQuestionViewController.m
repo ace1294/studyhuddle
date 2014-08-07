@@ -8,7 +8,6 @@
 
 #import "SHNewQuestionViewController.h"
 #import "UIColor+HuddleColors.h"
-#import "Student.h"
 #import "SHHuddleButtons.h"
 #import "SHUtility.h"
 
@@ -160,10 +159,11 @@
         return;
     }
     
+
     PFUser* currentUser = [PFUser currentUser];
     self.chatRoom[SHChatRoomRoomKey] = self.subjectTextField.text;
     [self.chatRoom save];
-    
+
     self.question[SHChatTextKey] = self.messageTextView.text;
     self.question[SHChatUserKey] = currentUser;
     self.question[SHChatRoomKey] = [self.chatRoom objectId];

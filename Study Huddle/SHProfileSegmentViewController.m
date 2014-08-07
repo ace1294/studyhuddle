@@ -12,7 +12,6 @@
 #import "SHClassCell.h"
 #import "SHRequestCell.h"
 #import "SHConstants.h"
-#import "Student.h"
 #import "SHStudentCell.h"
 #import "SHNewHuddleViewController.h"
 #import "SHStudyCell.h"
@@ -32,7 +31,7 @@
 @interface SHProfileSegmentViewController () <SHBaseCellDelegate>
 
 @property (strong, nonatomic) NSString *docsPath;
-@property (strong, nonatomic) Student *segStudent;
+@property (strong, nonatomic) PFUser *segStudent;
 
 @property (strong, nonatomic) NSString *CellIdentifier;
 @property (nonatomic, assign) NSInteger currentRowsToDisplay;
@@ -54,7 +53,7 @@
 
 @synthesize CellIdentifier;
 
-- (id)initWithStudent:(Student *)student
+- (id)initWithStudent:(PFUser *)student
 {
     self = [super init];
     if(self)
@@ -146,7 +145,7 @@
 
 }
 
-- (void)setStudent:(Student *)aSegStudent
+- (void)setStudent:(PFUser *)aSegStudent
 {
     _segStudent = aSegStudent;
     [self loadStudentDataRefresh:false];

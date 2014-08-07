@@ -188,7 +188,6 @@
 		9638162F195BC6140069D477 /* SHPushNotificationsSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 9638162E195BC6140069D477 /* SHPushNotificationsSetting.m */; };
 		96381632195BC62F0069D477 /* SHProfileSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96381631195BC62F0069D477 /* SHProfileSettingsController.m */; };
 		96381635195BC6530069D477 /* SHVisibilitySetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 96381634195BC6530069D477 /* SHVisibilitySetting.m */; };
-		96381639195BC6B90069D477 /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = 96381638195BC6B90069D477 /* Student.m */; };
 		96381647195BD06C0069D477 /* huddles.png in Resources */ = {isa = PBXBuildFile; fileRef = 9638163C195BD06C0069D477 /* huddles.png */; };
 		96381648195BD06C0069D477 /* huddles@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9638163D195BD06C0069D477 /* huddles@2x.png */; };
 		96381649195BD06C0069D477 /* Notifications.png in Resources */ = {isa = PBXBuildFile; fileRef = 9638163F195BD06C0069D477 /* Notifications.png */; };
@@ -600,8 +599,6 @@
 		96381633195BC63A0069D477 /* SHProfileSettingsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHProfileSettingsController.h; sourceTree = "<group>"; };
 		96381634195BC6530069D477 /* SHVisibilitySetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHVisibilitySetting.m; sourceTree = "<group>"; };
 		96381636195BC6590069D477 /* SHVisibilitySetting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHVisibilitySetting.h; sourceTree = "<group>"; };
-		96381637195BC6B30069D477 /* Student.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
-		96381638195BC6B90069D477 /* Student.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Student.m; sourceTree = "<group>"; };
 		9638163C195BD06C0069D477 /* huddles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huddles.png; sourceTree = "<group>"; };
 		9638163D195BD06C0069D477 /* huddles@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "huddles@2x.png"; sourceTree = "<group>"; };
 		9638163F195BD06C0069D477 /* Notifications.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Notifications.png; sourceTree = "<group>"; };
@@ -845,15 +842,6 @@
 			);
 			name = AUISelectiveBordersLayer;
 			path = "../Study Huddle";
-			sourceTree = "<group>";
-		};
-		41AF32DF194A77C60008DF21 /* HuddleClasses */ = {
-			isa = PBXGroup;
-			children = (
-				96381637195BC6B30069D477 /* Student.h */,
-				96381638195BC6B90069D477 /* Student.m */,
-			);
-			name = HuddleClasses;
 			sourceTree = "<group>";
 		};
 		41AF32E3194A7C000008DF21 /* Controllers */ = {
@@ -1648,7 +1636,6 @@
 				96566E7A1945166E006649C3 /* Categories */,
 				96CBFA3B194CC1A9008B10CE /* Views */,
 				41AF32E3194A7C000008DF21 /* Controllers */,
-				41AF32DF194A77C60008DF21 /* HuddleClasses */,
 				96CBFA35194CC148008B10CE /* Startup */,
 				96535951198884B000ADA134 /* SHCache.h */,
 				96535952198884B000ADA134 /* SHCache.m */,
@@ -2319,7 +2306,6 @@
 				41A1943B19662FB80038AAA2 /* SHChatCell.m in Sources */,
 				41CD3AB9196DB018004AD6F0 /* HPTextViewInternal.m in Sources */,
 				41CB77D4198DA37B000C3194 /* JSQMessagesInputToolbar.m in Sources */,
-				96381639195BC6B90069D477 /* Student.m in Sources */,
 				41CB77BF198DA37B000C3194 /* UIColor+JSQMessages.m in Sources */,
 				96D95592195F3F0900667581 /* SHBasePortraitView.m in Sources */,
 				41CB77D8198DA37B000C3194 /* JSQMessagesToolbarContentView.m in Sources */,

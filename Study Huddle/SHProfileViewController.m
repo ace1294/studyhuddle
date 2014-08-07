@@ -53,7 +53,7 @@
 @property UIView *segmentContainer;
 @property UIScrollView* scrollView;
 
-@property (nonatomic, strong) Student *profStudent;
+@property (nonatomic, strong) PFUser *profStudent;
 
 @property (nonatomic, strong) UILabel* fullNameLabel;
 @property (nonatomic, strong) UILabel* majorLabel;
@@ -77,7 +77,7 @@
 
 @implementation SHProfileViewController
 
-- (id)initWithStudent:(Student *)aStudent
+- (id)initWithStudent:(PFUser *)aStudent
 {
     self = [super init];
     if (self) {
@@ -103,7 +103,7 @@
     return self;
 }
 
-- (void)setStudent:(Student *)aProfStudent
+- (void)setStudent:(PFUser *)aProfStudent
 {
     
     _profStudent = aProfStudent;
@@ -134,7 +134,7 @@
     
     //set up name label
     self.fullNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - fullNameWidth/2,profileFrame.origin.y + profileFrame.size.height + fullNameLabelVerticalOffsetFromPicture, fullNameWidth, fullNameHeight)];
-    self.fullNameLabel.text = [self.profStudent.fullName uppercaseString];
+    self.fullNameLabel.text = [self.profStudent[SHStudentNameKey] uppercaseString];
     [self.fullNameLabel setTextAlignment:NSTextAlignmentCenter];
     [self.fullNameLabel setFont: nameLabelFont];
     [self.fullNameLabel setTextColor:[UIColor grayColor]];
@@ -142,7 +142,7 @@
     
     //set up major label
     self.majorLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - majorLabelWidth/2,self.fullNameLabel.frame.origin.y + self.fullNameLabel.frame.size.height + majorLabelVerticalOffsetFromName, majorLabelWidth, majorLabelHeight)];
-    self.majorLabel.text = [self.profStudent.major uppercaseString];
+    self.majorLabel.text = [self.profStudent[SHStudentMajorKey] uppercaseString];
     [self.majorLabel setTextAlignment:NSTextAlignmentCenter];
     [self.majorLabel setFont: majorLabelFont];
     [self.majorLabel setTextColor:[UIColor grayColor]];
@@ -173,7 +173,7 @@
     
     //a label to display the #hours studied
     self.hoursStudiedLabel = [[UILabel alloc]initWithFrame:CGRectMake(hoursStudiedCircle.frame.origin.x + hoursStudiedCircle.frame.size.width/2 - hoursStudiedLabelWidth/2, hoursStudiedCircle.frame.origin.y + hoursStudiedCircle.frame.size.height/2 - hoursStudiedLabelHeight/2, hoursStudiedLabelWidth, hoursStudiedLabelHeight)];
-    double secondsStudied = [self.profStudent.hoursStudied doubleValue];
+    double secondsStudied = [self.profStudent[SHStudentHoursStudiedKey] doubleValue];
     int hoursStudied = secondsStudied/3600;
     self.hoursStudiedLabel.text = [NSString stringWithFormat:@"%d",hoursStudied];
     [self.hoursStudiedLabel setTextAlignment:NSTextAlignmentCenter];
@@ -257,13 +257,13 @@
 
         self.lastStart = date;
         self.profStudent[SHStudentLastStartKey] = date;
-        NSString* hoursPrevStudied = self.profStudent.hoursStudied;
+        NSString* hoursPrevStudied = self.profStudent[SHStudentHoursStudiedKey];
         double previousTimeStudied = [hoursPrevStudied doubleValue];
         double secondsStudied = diff + previousTimeStudied;
         int hoursStudied = secondsStudied/3600;
         self.hoursStudiedLabel.text = [NSString stringWithFormat:@"%d",hoursStudied];
 
-        self.profStudent.hoursStudied = [NSString stringWithFormat:@"%f",(diff+previousTimeStudied)];
+        self.profStudent[SHStudentHoursStudiedKey] = [NSString stringWithFormat:@"%f",(diff+previousTimeStudied)];
         [self.profStudent save];
 
     }
@@ -332,7 +332,7 @@
     {
         //the user will start studying
         self.study = [PFObject objectWithClassName:SHStudyParseClass];
-        self.startStudyingVC = [[SHStartStudyingViewController alloc]initWithStudent:[Student currentUser] studyObject:self.study];
+        self.startStudyingVC = [[SHStartStudyingViewController alloc]initWithStudent:[PFUser currentUser] studyObject:self.study];
         self.startStudyingVC.delegate = self;
         [self presentPopupViewController:self.startStudyingVC animationType:MJPopupViewAnimationSlideBottomBottom];
         

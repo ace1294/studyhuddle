@@ -8,7 +8,6 @@
 
 #import "SHHuddleJoinRequestViewController.h"
 #import "UIColor+HuddleColors.h"
-#import "Student.h"
 
 @interface SHHuddleJoinRequestViewController () <UITextViewDelegate>
 
@@ -90,14 +89,14 @@
     
     if([self.type isEqual:SHRequestSHJoin]){
         request[SHRequestTypeKey] = SHRequestSHJoin;
-        request[SHRequestStudent1Key] = [Student currentUser];
+        request[SHRequestStudent1Key] = [PFUser currentUser];
         request[SHRequestStudent2Key] = self.huddle[SHHuddleCreatorKey];
-        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to join the huddle", [Student currentUser][SHStudentNameKey]];
+        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to join the huddle", [PFUser currentUser][SHStudentNameKey]];
     } else if ([self.type isEqual:SHRequestHSJoin]){
         request[SHRequestTypeKey] = SHRequestHSJoin;
         request[SHRequestStudent1Key] = self.requestedStudent;
-        request[SHRequestStudent2Key] = [Student currentUser];
-        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested you to join the huddle", [Student currentUser][SHStudentNameKey]];
+        request[SHRequestStudent2Key] = [PFUser currentUser];
+        request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested you to join the huddle", [PFUser currentUser][SHStudentNameKey]];
         
     }
     

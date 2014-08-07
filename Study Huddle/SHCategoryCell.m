@@ -10,7 +10,6 @@
 #import "SHPortraitView.h"
 #import "SHConstants.h"
 #import "UIColor+HuddleColors.h"
-#import "Student.h"
 #import "SHUtility.h"
 
 @interface SHCategoryCell ()

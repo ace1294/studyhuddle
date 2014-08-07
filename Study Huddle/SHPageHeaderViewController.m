@@ -8,6 +8,8 @@
 
 #import "SHPageHeaderViewController.h"
 #import "UIColor+HuddleColors.h"
+#import "SHConstants.h"
+#import <Parse/Parse.h>
 
 
 
@@ -73,16 +75,12 @@
     
     
     //[self doLayout];
-    
-    
-    
+
 }
-
-
 
 -(void)doLayout
 {
-    Student* currentUser = [Student currentUser];
+    PFUser *currentUser = [PFUser currentUser];
     
     float centerX = self.view.bounds.origin.x + self.view.bounds.size.width/2;
     
@@ -95,7 +93,7 @@
     self.profileImage.owner = self;
     
     self.nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - nameLabelWidth/2, self.profileImage.frame.origin.y + self.profileImage.frame.size.height + nameLabelVerticalOffsetFromImage, nameLabelWidth, nameLabelHeight)];
-    self.nameLabel.text = currentUser.fullName;
+    self.nameLabel.text = currentUser[SHStudentNameKey];
     [self.nameLabel setFont:nameLabelFont];
     [self.nameLabel setTextAlignment:NSTextAlignmentCenter];
     
@@ -105,12 +103,12 @@
     [self.leftLabel setTextAlignment:NSTextAlignmentCenter];
     
     self.rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.view.bounds.origin.x + self.view.bounds.size.width - horizontalOffsetFromEdge - hoursStudiedLabelWidth, self.nameLabel.frame.origin.y + self.nameLabel.frame.size.height + infoLabelsVerticalOffsetFromNameLabel, hoursStudiedLabelWidth, hoursStudiedLabelHeight)];
-    self.rightLabel.text = [NSString stringWithFormat:@"%@ HOURS STUDIED",currentUser.hoursStudied ];
+    self.rightLabel.text = [NSString stringWithFormat:@"%@ HOURS STUDIED",currentUser[SHStudentHoursStudiedKey] ];
     [self.rightLabel setFont:hoursStudiedLabelFont];
     [self.rightLabel setTextAlignment:NSTextAlignmentCenter];
     
     self.middleLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - middleLabelWidth/2, self.nameLabel.frame.origin.y + self.nameLabel.frame.size.height + infoLabelsVerticalOffsetFromNameLabel, middleLabelWidth, middleLabelHeight)];
-    self.middleLabel.text = [currentUser.major uppercaseString];
+    self.middleLabel.text = [currentUser[SHStudentMajorKey] uppercaseString];
     [self.middleLabel setFont:hoursStudiedLabelFont];
     [self.middleLabel setTextAlignment:NSTextAlignmentCenter];
     
@@ -155,9 +153,9 @@
 
 -(void)updateFromParse
 {
-    Student* currentStudent = (Student*)[Student currentUser];
-    self.nameLabel.text = currentStudent.fullName;
-    self.middleLabel.text = currentStudent.major;
+    PFUser* currentStudent = [PFUser currentUser];
+    self.nameLabel.text = currentStudent[SHStudentNameKey];
+    self.middleLabel.text = currentStudent[SHStudentMajorKey];
     
 }
 

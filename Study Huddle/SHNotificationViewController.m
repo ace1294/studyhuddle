@@ -13,7 +13,7 @@
 
 @interface SHNotificationViewController ()
 
-@property (nonatomic,strong) Student* studentObj;
+@property (nonatomic,strong) PFUser* studentObj;
 @property (nonatomic,strong) SHNotificationSegmentViewController* segmentController;
 @property (nonatomic,strong) UIView* segmentContainer;
 
@@ -30,7 +30,7 @@
     return self;
 }
 
--(id)initWithStudent:(Student*) aStudent
+-(id)initWithStudent:(PFUser *)aStudent
 {
     self = [super init];
     if (self) {

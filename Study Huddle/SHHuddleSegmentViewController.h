@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "DZNSegmentedControl.h"
 #import <Parse/Parse.h>
-@class Student;
 @class SHIndividualHuddleViewController;
 
 @interface SHHuddleSegmentViewController : UIViewController <DZNSegmentedControlDelegate, UITableViewDataSource, UITableViewDelegate>

@@ -13,7 +13,6 @@
 #import "UIColor+HuddleColors.h"
 #import "SHTextBar.h"
 #import "SHUtility.h"
-#import "Student.h"
 
 #define questionHorizontalOffset 10
 #define repliesHorizontalOffset 30
@@ -281,8 +280,8 @@
         notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
         notification[SHNotificationTypeKey] = SHNotificationAnswerType;
         notification[SHNotificationToStudentKey] = self.relevantQuestionObject[SHQuestionCreatorID]; //THIS WAS CHANGED. SO IT MIGHT CRASH
-        notification[SHNotificationFromStudentKey] = [Student currentUser];
-        notification[SHNotificationDescriptionKey] = [NSString stringWithFormat:@"%@ replied to your question", [Student currentUser][SHStudentNameKey]];
+        notification[SHNotificationFromStudentKey] = [PFUser currentUser];
+        notification[SHNotificationDescriptionKey] = [NSString stringWithFormat:@"%@ replied to your question", [PFUser currentUser][SHStudentNameKey]];
         
         [notification saveInBackground];
         

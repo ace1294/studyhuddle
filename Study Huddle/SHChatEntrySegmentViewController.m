@@ -15,7 +15,6 @@
 #import "SHClassCell.h"
 #import "SHRequestCell.h"
 #import "SHConstants.h"
-#import "Student.h"
 #import "SHStudentCell.h"
 #import "SHNewHuddleViewController.h"
 #import "SHStudyCell.h"

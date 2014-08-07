@@ -97,7 +97,7 @@
     [self.segClass fetchIfNeeded];
     
     
-    PFQuery *query = [Student query];
+    PFQuery *query = [PFUser query];
     [query whereKey:SHStudentClassesKey equalTo:self.segClass];
     NSArray *students = [query findObjects];
     
