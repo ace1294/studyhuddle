@@ -79,6 +79,7 @@ extern NSString *const SHStudentRequestsKey;
 extern NSString *const SHStudentNotificationsKey;
 extern NSString* const SHStudentLastStartKey;
 extern NSString *const SHStudentHoursStudiedKey;
+extern NSString* const SHStudentUnresolvedChannel; //a temporary channel the user will subscribed so that he can a push notification when his question was answered
 
 //Study
 extern NSString *const SHStudyClassesKey;
@@ -157,6 +158,7 @@ extern NSString* const SHChatCategoryHuddleKey;
 extern NSString* const SHChatRoomClassKey;
 extern NSString* const SHChatRoomRoomKey;
 extern NSString* const SHChatRoomChatCategoryOwnerKey;
+extern NSString* const SHChatRoomResolved;
 
 //Chat (the bubbles)
 extern NSString* const SHChatClassKey;

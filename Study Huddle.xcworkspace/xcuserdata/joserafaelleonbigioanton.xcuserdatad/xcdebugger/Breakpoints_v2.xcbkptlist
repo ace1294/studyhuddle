@@ -105,22 +105,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHAppDelegate.m"
-            timestampString = "428558727.18868"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
-            landmarkName = "-application:didReceiveRemoteNotification:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Study Huddle/SHThreadViewController.m"
             timestampString = "428639368.84504"
             startingColumnNumber = "9223372036854775807"
@@ -201,29 +185,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHNewQuestionViewController.m"
-            timestampString = "428873726.604425"
+            filePath = "Study Huddle/Classes/Chat/ChatView.m"
+            timestampString = "428995269.411953"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "-continueAction"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Study Huddle/Classes/Chat/RoomView.m"
-            timestampString = "428873740.58478"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-refreshTable"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "-didPressSendButton:withMessageText:sender:date:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

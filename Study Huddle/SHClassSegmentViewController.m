@@ -294,7 +294,10 @@
                 return [[self.huddlesData objectForKey:@"offline"] count];
         }
     }
-    
+    else
+    {
+        
+    }
     
     
     return self.currentRowsToDisplay;

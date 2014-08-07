@@ -36,7 +36,7 @@
 @property (strong, nonatomic) PFObject *segHuddle;
 
 @property (strong, nonatomic) NSString *CellIdentifier;
-@property (nonatomic, assign) NSInteger currentRowsToDisplay;
+
 @property (nonatomic, strong) NSMutableDictionary *segCellIdentifiers;
 
 @property (strong, nonatomic) NSArray *segMenu;
@@ -203,6 +203,42 @@
             break;
     }
 
+    
+    return loadError;
+}
+
+-(BOOL)updateDataAndStartIn:(int)section
+{
+    BOOL loadError = true;
+    
+    //[self.segHuddle fetch];
+    
+    [self.resourceCategoriesDataArray removeAllObjects];
+    [self.resourceCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] resourceCategoriesForHuddle:self.segHuddle]];
+    
+    [self.membersDataArray removeAllObjects];
+    [self.membersDataArray addObjectsFromArray:[[SHCache sharedCache] membersForHuddle:self.segHuddle]];
+    
+    [self.chatCategoriesDataArray removeAllObjects];
+    [self.chatCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] chatCategoriessForHuddle:self.segHuddle]];
+    
+   
+    
+    switch (section) {
+        case 0:
+            self.currentRowsToDisplay = self.membersDataArray.count;
+            break;
+        case 1:
+            self.currentRowsToDisplay = self.resourceCategoriesDataArray.count;
+            break;
+        case 2:
+            self.currentRowsToDisplay = self.chatCategoriesDataArray.count;
+            break;
+        default:
+            break;
+    }
+    
+     [self.tableView reloadData];
     
     return loadError;
 }

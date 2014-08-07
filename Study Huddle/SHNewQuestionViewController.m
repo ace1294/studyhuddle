@@ -160,20 +160,24 @@
         return;
     }
     
-    
+    PFUser* currentUser = [PFUser currentUser];
     self.chatRoom[SHChatRoomRoomKey] = self.subjectTextField.text;
     [self.chatRoom save];
     
     self.question[SHChatTextKey] = self.messageTextView.text;
-    self.question[SHChatUserKey] = [[PFUser currentUser] objectId];
+    self.question[SHChatUserKey] = currentUser;
     self.question[SHChatRoomKey] = [self.chatRoom objectId];
     [self.question save];
     
+    //create a channel to inform the user when his question has been answered
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation addUniqueObject:[self.chatRoom objectId] forKey:@"channels"];
+    [currentInstallation saveInBackground];
 
     if(self.chatCategoryButtons.addButtonSet){
         
         PFObject *newChatCategory = [PFObject objectWithClassName:SHResourceCategoryParseClass];
-        
+        [newChatCategory save]; //so it has an object id
         newChatCategory[SHChatCategoryNameKey] = self.chatCategoryButtons.selectedButton;
         //newChatCategory[SHChatCategoryChatRoomKey] = @[self.chatRoom];
         newChatCategory[SHChatCategoryHuddleKey] = self.huddle;
