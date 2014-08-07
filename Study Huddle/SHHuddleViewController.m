@@ -168,14 +168,7 @@
     [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
 }
 
-#pragma mark - SHHuddlePageCellDelegate Methods
-
-- (void)didTapTitleCell:(SHHuddlePageCell *)cell
-{
-    SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:cell.huddle];
-    
-    [self.navigationController pushViewController:huddleVC animated:YES];
-}
+#pragma mark - HuddleAddViewControllerDelgate Methods
 
 - (void)addHuddleTapped
 {
@@ -186,6 +179,15 @@
     }];
     
     
+}
+
+#pragma mark - SHHuddlePageCellDelegate Methods
+
+- (void)didTapTitleCell:(SHHuddlePageCell *)cell
+{
+    SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:cell.huddle];
+    
+    [self.navigationController pushViewController:huddleVC animated:YES];
 }
 
 - (void)didTapInviteToStudy:(PFObject *)huddle
@@ -200,7 +202,7 @@
 
 - (void)didTapMember:(PFUser *)member
 {
-    SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)member];
+    SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:member];
     
     [self.navigationController pushViewController:visitorVC animated:YES];
 }
