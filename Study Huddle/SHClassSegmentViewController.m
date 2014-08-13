@@ -121,7 +121,7 @@
     [self.tableView registerClass:[SHHuddleCell class] forCellReuseIdentifier:SHHuddleCellIdentifier];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     
-    
+    self.control.backgroundColor = [UIColor whiteColor];
     
 }
 
@@ -294,7 +294,10 @@
                 return [[self.huddlesData objectForKey:@"offline"] count];
         }
     }
-    
+    else
+    {
+        
+    }
     
     
     return self.currentRowsToDisplay;

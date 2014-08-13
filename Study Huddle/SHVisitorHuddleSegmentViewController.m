@@ -92,7 +92,7 @@
     [self.view addSubview:self.control];
     
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
-    
+    self.control.backgroundColor = [UIColor whiteColor];
     
 }
 

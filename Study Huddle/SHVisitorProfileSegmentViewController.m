@@ -135,7 +135,7 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     
 
-    
+    self.control.backgroundColor = [UIColor whiteColor];
 
     
 }

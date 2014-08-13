@@ -156,7 +156,7 @@
     BOOL loadError = true;
     
       //ChatEntry Data
-    NSArray *threads = [self.segChatEntry objectForKey:SHChatCategoryThreadsKey];
+    NSArray *threads = [self.segChatEntry objectForKey:SHChatCategoryChatRoomKey];
    
     
     

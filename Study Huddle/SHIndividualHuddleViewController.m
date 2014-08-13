@@ -488,6 +488,7 @@
 - (void)cancelTapped
 {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+    [self.segmentController updateDataAndStartIn:2];
 }
 
 

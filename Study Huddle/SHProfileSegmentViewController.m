@@ -77,7 +77,7 @@
 
 + (void)load
 {
-    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor clearColor]];
+    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor whiteColor]];
     [[DZNSegmentedControl appearance] setTintColor:[UIColor huddleOrange]];
     [[DZNSegmentedControl appearance] setHairlineColor:[UIColor huddleSilver]];
     
@@ -133,6 +133,7 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     
     [self.tableView setScrollEnabled:NO];
+    self.control.backgroundColor = [UIColor whiteColor];
 
     
     [self loadStudentDataRefresh:false];

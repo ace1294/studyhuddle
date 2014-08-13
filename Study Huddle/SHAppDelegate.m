@@ -91,6 +91,11 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+        currentInstallation.badge = 0;
+        [currentInstallation saveEventually];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -107,12 +112,10 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-   //check the type
-    NSString* type = [userInfo objectForKey:SHPushTypeKey];
-    if([type isEqualToString:SHPushTypeHuddleChatPost])
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:SHPushTypeHuddleChatPost object:self];
-    }
+   //check to see if the badge should be incremented
+    NSDictionary* app = [userInfo objectForKey:@"aps"];
+    NSNumber* badgeNumber = [app objectForKey:@"badge"];
+    [application setApplicationIconBadgeNumber:[badgeNumber intValue]];
     
     
 }

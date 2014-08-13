@@ -194,7 +194,7 @@
     //remove it to the current users classes array
     PFUser* currentUser = [PFUser currentUser];
     [currentUser removeObject:self.classObj forKey:SHStudentClassesKey];
-    [currentUser saveInBackground];
+    [currentUser save];
     
     //remove the user from the classes students array
     NSString* currentUserId = [currentUser objectId];

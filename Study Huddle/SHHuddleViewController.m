@@ -227,6 +227,7 @@
 - (void)cancelTapped
 {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+    
 }
 
 

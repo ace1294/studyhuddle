@@ -17,12 +17,14 @@
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic,strong) UIScrollView* parentScrollView;
 @property (nonatomic, strong) SHIndividualHuddleViewController *owner;
+@property (nonatomic, assign) NSInteger currentRowsToDisplay;
 
 - (id)initWithHuddle:(PFObject *)aHuddle;
 -(id)initWithHuddle:(PFObject *)aHuddle andInitialSection:(int)section;
 - (void)setHuddle:(PFObject *)aHuddle;
 -(float)getOccupatingHeight;
 - (BOOL)loadHuddleDataRefresh:(BOOL)refresh;
+-(BOOL)updateDataAndStartIn:(int)section;
 
 - (void)didAddMember:(PFObject *)member;
 

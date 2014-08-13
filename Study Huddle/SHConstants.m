@@ -85,6 +85,7 @@ NSString *const SHStudentRequestsKey = @"requests";
 NSString *const SHStudentNotificationsKey = @"notifications";
 NSString* const SHStudentLastStartKey = @"lastStart";
 NSString *const SHStudentHoursStudiedKey = @"hoursStudied";
+NSString* const SHStudentUnresolvedChannel = @"unresolvedChannels";
 
 //Study
 NSString *const SHStudyClassesKey = @"classes";
@@ -93,6 +94,7 @@ NSString *const SHStudyEndKey = @"end";
 NSString *const SHStudyOnlineKey = @"online";
 NSString *const SHStudyDescriptionKey = @"description";
 NSString *const SHStudyStudentKey = @"studentID";
+
 
 //Resources
 NSString *const SHResourceHuddleKey = @"huddle";
@@ -179,8 +181,20 @@ NSString* const SHReplyClassName = @"Reply";
 
 //Chat Category
 NSString* const SHChatCategoryNameKey = @"category";
-NSString* const SHChatCategoryThreadsKey = @"threads";
+NSString* const SHChatCategoryChatRoomKey = @"chatRooms";
 NSString* const SHChatCategoryHuddleKey = @"huddle";
+
+//Chat room
+NSString* const SHChatRoomClassKey = @"ChatRooms";
+NSString* const SHChatRoomRoomKey = @"room";
+NSString* const SHChatRoomChatCategoryOwnerKey = @"chatCategoryOwner";
+NSString* const SHChatRoomResolved = @"resolved";
+
+//Chat (the bubble)
+NSString* const SHChatClassKey = @"Chat";
+NSString* const SHChatUserKey = @"user";
+NSString* const SHChatTextKey = @"text";
+NSString* const SHChatRoomKey = @"room";
 
 //Constants for chat feature
 int const SHEditingQuestion = 0;

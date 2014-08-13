@@ -12,7 +12,7 @@
 @interface SHNewThreadViewController () <UITextFieldDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) PFObject *chatCategory;
-@property (strong, nonatomic) PFObject *thread;
+@property (strong, nonatomic) PFObject *chatRoom;
 @property (strong, nonatomic) PFObject *question;
 
 //Headers
@@ -41,8 +41,8 @@
         [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         
         self.chatCategory = aCategory;
-        self.thread = [PFObject objectWithClassName:SHThreadParseClass];
-        self.question = [PFObject objectWithClassName:SHQuestionParseClass];
+        self.chatRoom = [PFObject objectWithClassName:SHChatRoomClassKey];
+        self.question = [PFObject objectWithClassName:SHChatClassKey];
         
         [self initHeaders];
         [self initContent];
@@ -72,7 +72,7 @@
     [self.subjectHeaderLabel setFont:self.headerFont];
     [self.subjectHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.subjectHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    self.subjectHeaderLabel.text = @"Thread Subject";
+    self.subjectHeaderLabel.text = @"Chat Subject";
     [self.view addSubview:self.subjectHeaderLabel];
     
     //Description Header
@@ -113,7 +113,7 @@
     
     if(!self.subjectTextField.text || self.subjectTextField.text.length <= 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
-                                                        message: @"Must enter a thread subject"
+                                                        message: @"Must enter a chat subject"
                                                        delegate: nil cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
@@ -121,7 +121,7 @@
     }
     else if(!self.messageTextView.text || self.messageTextView.text.length <= 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
-                                                        message: @"Must enter a thread question"
+                                                        message: @"Must enter a chat question"
                                                        delegate: nil cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
@@ -129,19 +129,33 @@
     }
     
     
-    [self.chatCategory addObject:self.thread forKey:SHChatCategoryThreadsKey];
+    [self.chatCategory addObject:self.chatRoom forKey:SHChatCategoryChatRoomKey];
     
-    self.thread[SHThreadTitle] = self.subjectTextField.text;
-    self.thread[SHThreadQuestions] = @[self.question];
-    self.thread[SHThreadCreator] = [PFUser currentUser];
-    self.thread[SHThreadChatCategoryKey] = self.chatCategory;
+
+    self.chatRoom[SHChatRoomRoomKey] = self.subjectTextField.text;
+    
+    self.question[SHChatTextKey] = self.messageTextView.text;
+    self.question[SHChatUserKey] = [PFUser currentUser];
+    self.question[SHChatRoomKey] = [self.chatRoom objectId];
+    
+    
+    //self.chatRoom[SHThreadQuestions] = @[self.question];
+    //self.chatRoom[SHThreadCreator] = [Student currentUser];
+    //self.chatRoom[SHThreadChatCategoryKey] = self.chatCategory;
+    
+    //self.question[SHQuestionCreatorID] = [[Student currentUser]objectId];
+    //self.question[SHQuestionCreatorName] = [[Student currentUser]objectForKey:SHStudentNameKey];
+    //self.question[SHQuestionQuestion] = self.messageTextView.text;
+
+
     
     self.question[SHQuestionCreatorID] = [[PFUser currentUser]objectId];
     self.question[SHQuestionCreatorName] = [[PFUser currentUser]objectForKey:SHStudentNameKey];
     self.question[SHQuestionQuestion] = self.messageTextView.text;
+
     
     [self.chatCategory saveInBackground];
-    [self.thread saveInBackground];
+    [self.chatRoom saveInBackground];
     [self.question saveInBackground];
     
     [self cancelAction];

@@ -143,6 +143,19 @@
 	object[PF_CHAT_ROOM] = chatroom;
 	object[PF_CHAT_USER] = [PFUser currentUser];
 	object[PF_CHAT_TEXT] = text;
+    
+    if([messages count] == 1)
+    {
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"Your question received an answer!", @"alert",
+                              @"Increment", @"badge",
+                              nil];
+        PFPush *push = [[PFPush alloc] init];
+        [push setChannels:[NSArray arrayWithObjects:chatroom, nil]];
+        [push setData:data];
+        [push sendPushInBackground];
+    }
+    
 	[object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 	{
 		if (error == nil)

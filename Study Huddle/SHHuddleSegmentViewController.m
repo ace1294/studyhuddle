@@ -35,7 +35,7 @@
 @property (strong, nonatomic) PFObject *segHuddle;
 
 @property (strong, nonatomic) NSString *CellIdentifier;
-@property (nonatomic, assign) NSInteger currentRowsToDisplay;
+
 @property (nonatomic, strong) NSMutableDictionary *segCellIdentifiers;
 
 @property (strong, nonatomic) NSArray *segMenu;
@@ -148,7 +148,7 @@
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
     [self.tableView registerClass:[SHCategoryCell class] forCellReuseIdentifier:SHCategoryCellIdentifier];
     [self.tableView registerClass:[SHChatCell class] forCellReuseIdentifier:SHChatCellIdentifier];
-    
+    self.control.backgroundColor = [UIColor whiteColor];
     
 }
 
@@ -202,6 +202,42 @@
             break;
     }
 
+    
+    return loadError;
+}
+
+-(BOOL)updateDataAndStartIn:(int)section
+{
+    BOOL loadError = true;
+    
+    //[self.segHuddle fetch];
+    
+    [self.resourceCategoriesDataArray removeAllObjects];
+    [self.resourceCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] resourceCategoriesForHuddle:self.segHuddle]];
+    
+    [self.membersDataArray removeAllObjects];
+    [self.membersDataArray addObjectsFromArray:[[SHCache sharedCache] membersForHuddle:self.segHuddle]];
+    
+    [self.chatCategoriesDataArray removeAllObjects];
+    [self.chatCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] chatCategoriessForHuddle:self.segHuddle]];
+    
+   
+    
+    switch (section) {
+        case 0:
+            self.currentRowsToDisplay = self.membersDataArray.count;
+            break;
+        case 1:
+            self.currentRowsToDisplay = self.resourceCategoriesDataArray.count;
+            break;
+        case 2:
+            self.currentRowsToDisplay = self.chatCategoriesDataArray.count;
+            break;
+        default:
+            break;
+    }
+    
+     [self.tableView reloadData];
     
     return loadError;
 }
@@ -332,11 +368,12 @@
     }
     else if([cell isKindOfClass:[SHChatCell class]])
     {
-        /*PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
-        NSLog(@"chatEntryObj: , %@",chatEntryObj);
-        SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
-        [self.navigationController pushViewController:chatEntryVC animated:YES];*/
-        RoomView *roomView = [[RoomView alloc] init];
+        PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
+        //NSLog(@"chatEntryObj: , %@",chatEntryObj);
+        //SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
+        //[self.navigationController pushViewController:chatEntryVC animated:YES];*/
+        [chatEntryObj fetchIfNeeded];
+        RoomView *roomView = [[RoomView alloc] initWithChatCategoryOwner:[chatEntryObj objectId]];
         roomView.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:roomView animated:YES];
         
