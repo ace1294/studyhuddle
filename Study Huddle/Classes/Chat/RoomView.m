@@ -85,6 +85,7 @@
 			PFObject *object = [PFObject objectWithClassName:PF_CHATROOMS_CLASS_NAME];
 			object[PF_CHATROOMS_ROOM] = textField.text;
             object[SHChatRoomChatCategoryOwnerKey] = self.chatCategoryOwner;
+            object[SHChatRoomCreatorIDKey] = [PFUser currentUser].objectId;
 			[object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
 			{
 				if (error == nil)

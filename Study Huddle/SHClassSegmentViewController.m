@@ -12,6 +12,7 @@
 #import "UIColor+HuddleColors.h"
 #import "SHStudentCell.h"
 #import "SHHuddleCell.h"
+#import "SHChatCell.h"
 #import "SHIndividualHuddleViewController.h"
 #import "SHVisitorHuddleViewController.h"
 #import "SHVisitorProfileViewController.h"
@@ -31,6 +32,7 @@
 
 @property (strong, nonatomic) NSMutableDictionary *huddlesData;
 @property (strong, nonatomic) NSMutableDictionary *studentData;
+@property (strong, nonatomic) NSMutableArray *chatCategoriesDataArray;
 
 @property (strong, nonatomic) NSNumber *huddleOnlineStatus;  // 0 == both, 1 == online, 2 == offline
 @property (strong, nonatomic) NSNumber *studentOnlineStatus;
@@ -112,7 +114,7 @@
     //Set segment menu titles
     [self.segCellIdentifiers setObject:SHStudentCellIdentifier forKey:@"STUDENTS"];
     [self.segCellIdentifiers setObject:SHHuddleCellIdentifier forKey:@"HUDDLES"];
-    [self.segCellIdentifiers setObject:@"UITableViewCell" forKey:[@"Chat" uppercaseString]];
+    [self.segCellIdentifiers setObject:SHChatCellIdentifier forKey:[@"Chat" uppercaseString]];
     
     //Segment
     [self.view addSubview:self.control];
@@ -377,6 +379,17 @@
         
         return cell;
     }
+    else if([CellIdentifier isEqual:SHChatCellIdentifier])
+    {
+        PFObject *chatEntryObj = [self.chatCategoriesDataArray objectAtIndex:(int)indexPath.row];
+        SHChatCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell.delegate = self;
+        
+        [cell setChatEntry:chatEntryObj];
+        [cell layoutIfNeeded];
+        
+        return cell;
+    }/*
     else if([CellIdentifier isEqual:@"UITableViewCell"])
     {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -384,7 +397,7 @@
         cell.textLabel.text = @"Chat";
         
         return cell;
-    }
+    }*/
     
     
     return nil;

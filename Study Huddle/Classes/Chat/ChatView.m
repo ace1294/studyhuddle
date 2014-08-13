@@ -154,6 +154,24 @@
         [push setChannels:[NSArray arrayWithObjects:chatroom, nil]];
         [push setData:data];
         [push sendPushInBackground];
+        
+        //create the actual notification
+        PFQuery* thisChatQuery = [PFQuery queryWithClassName:SHChatRoomClassKey];
+        PFObject* thisChatRoom = [thisChatQuery getObjectWithId:chatroom];
+        NSString* chatCreatorID = [thisChatRoom objectForKey:SHChatRoomCreatorIDKey];
+        PFQuery* studentQuery = [PFQuery queryWithClassName:SHStudentParseClass];
+        PFObject* chatCreator = [studentQuery getObjectWithId:chatCreatorID];
+        PFObject* notificationObj = [PFObject objectWithClassName:SHNotificationParseClass];
+        
+        notificationObj[SHNotificationTitleKey] = [thisChatRoom objectForKey:SHChatRoomRoomKey];
+        notificationObj[SHNotificationFromStudentKey] = [PFUser currentUser];
+        notificationObj[SHNotificationDescriptionKey] = @"Your question has just been answered!!";
+        notificationObj[SHNotificationTypeKey] = SHNotificationAnswerType;
+        notificationObj[SHNotificationToStudentKey] = chatCreator;
+        notificationObj[SHNotificationQuestionKey] = [[messages objectAtIndex:0] text];
+        notificationObj[SHNotificationRoomKey] = [thisChatRoom objectId];
+        [notificationObj save];
+        
     }
     
 	[object saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error)
