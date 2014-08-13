@@ -24,6 +24,7 @@
 #import "SHIndividualHuddleViewController.h"
 #import "SHUtility.h"
 #import "SHCache.h"
+#import "ChatView.h"
 
 @interface SHNotificationSegmentViewController () <SHRequestCellDelegate>{
     int selectedIndex;
@@ -442,7 +443,15 @@ static NSString* const RequestsDiskKey = @"requestsArray";
            SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:fromStudent];
            
            [self.navigationController pushViewController:visitorVC animated:YES];
-       } else {
+       }
+       else if([type isEqual:SHNotificationAnswerType])
+       {
+           NSString* chatRoomID = notification[SHNotificationRoomKey];
+           ChatView *chatView = [[ChatView alloc] initWith:chatRoomID];
+           chatView.hidesBottomBarWhenPushed = YES;
+           [self.navigationController pushViewController:chatView animated:YES];
+       }
+       else {
            PFObject *huddle = notification[SHNotificationHuddleKey];
            [huddle fetchIfNeeded];
            

@@ -162,6 +162,7 @@
 
     PFUser* currentUser = [PFUser currentUser];
     self.chatRoom[SHChatRoomRoomKey] = self.subjectTextField.text;
+    self.chatRoom[SHChatRoomCreatorIDKey] = currentUser.objectId;
     [self.chatRoom save];
 
     self.question[SHChatTextKey] = self.messageTextView.text;

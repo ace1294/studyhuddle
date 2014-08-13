@@ -139,6 +139,8 @@ NSString* const SHNotificationReadKey = @"read";
 NSString* const SHNotificationLocationKey = @"location";
 NSString* const SHNotificationRequestAcceptedKey = @"requestAccepted";
 NSString *const SHNotificationMessageKey = @"message";
+NSString* const SHNotificationParseClassKey = @"Notification";
+NSString* const SHNotificationRoomKey = @"room";
 
 //Notification Types
 NSString* const SHNotificationNewResourceType = @"newResource";
@@ -149,6 +151,7 @@ NSString* const SHNotificationSSStudyRequestType = @"ssStudyRequest";
 NSString* const SHNotificationSHJoinRequestType = @"shJoinRequest";
 NSString* const SHNotificationHSJoinRequestType = @"hsJoinRequest";
 NSString* const SHNotificationHSStudyRequestType = @"hsStudyRequest";
+NSString* const SHNotificationQuestionKey = @"question";
 
 
 //SHHuddleStartStudyingViewController
@@ -189,6 +192,7 @@ NSString* const SHChatRoomClassKey = @"ChatRooms";
 NSString* const SHChatRoomRoomKey = @"room";
 NSString* const SHChatRoomChatCategoryOwnerKey = @"chatCategoryOwner";
 NSString* const SHChatRoomResolved = @"resolved";
+NSString* const SHChatRoomCreatorIDKey = @"creatorID";
 
 //Chat (the bubble)
 NSString* const SHChatClassKey = @"Chat";

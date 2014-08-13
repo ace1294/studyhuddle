@@ -132,6 +132,8 @@ extern NSString* const SHNotificationReadKey;
 extern NSString* const SHNotificationLocationKey;
 extern NSString* const SHNotificationRequestAcceptedKey;
 extern NSString *const SHNotificationMessageKey;
+extern NSString* const SHNotificationParseClassKey;
+extern NSString* const SHNotificationRoomKey;
 
 //Notification types
 extern NSString* const SHNotificationNewResourceType;
@@ -142,6 +144,7 @@ extern NSString* const SHNotificationSSStudyRequestType;
 extern NSString* const SHNotificationSHJoinRequestType;
 extern NSString* const SHNotificationHSJoinRequestType;
 extern NSString* const SHNotificationHSStudyRequestType;
+extern NSString* const SHNotificationQuestionKey;
 
 //Notification Descriptions
 extern NSString* const SHSSAcceptedStudyInviteRequestTitle;
@@ -159,6 +162,7 @@ extern NSString* const SHChatRoomClassKey;
 extern NSString* const SHChatRoomRoomKey;
 extern NSString* const SHChatRoomChatCategoryOwnerKey;
 extern NSString* const SHChatRoomResolved;
+extern NSString* const SHChatRoomCreatorIDKey;
 
 //Chat (the bubbles)
 extern NSString* const SHChatClassKey;
