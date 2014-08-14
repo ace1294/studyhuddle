@@ -34,8 +34,9 @@ PODS:
     - DZNPhotoPickerController/UIImagePickerControllerExtended
     - SDWebImage (~> 3.7)
   - DZNSegmentedControl (1.1.2)
-  - Facebook-iOS-SDK (3.16.2):
+  - Facebook-iOS-SDK (3.17.0):
     - Bolts
+  - MBProgressHUD (0.9)
   - Parse+NSCoding (0.1.4):
     - Parse-iOS-SDK (~> 1.2.18)
   - Parse-iOS-SDK (1.2.19):
@@ -47,6 +48,7 @@ PODS:
 DEPENDENCIES:
   - DZNPhotoPickerController (~> 1.4)
   - DZNSegmentedControl (~> 1.1)
+  - MBProgressHUD (~> 0.9)
   - Parse+NSCoding (~> 0.1.4)
 
 SPEC CHECKSUMS:
@@ -55,7 +57,8 @@ SPEC CHECKSUMS:
   DZNEmptyDataSet: 381e880cb3bb2d33885cb0325218443df265bc98
   DZNPhotoPickerController: 3d7428991e2604939fc56e581693d61d29138186
   DZNSegmentedControl: 75d84f4e6b16b01d5168c89c1f46f9fead983dc9
-  Facebook-iOS-SDK: 34eef640c2cc4c8618ba0f574ad2b290e07f1b4e
+  Facebook-iOS-SDK: f20274d809f112ba540842e2b6cbe50128d51b7b
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   Parse+NSCoding: 2d7fd08777c8df10aaa667c02382878c98128a88
   Parse-iOS-SDK: 5e1f7e649a02f1cc19e73cc95bd43d7778848314
   SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
