@@ -97,6 +97,36 @@
             endingLineNumber = "555"
             landmarkName = "-didTapAccept:"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[SHNotificationSegmentViewController didTapAccept:]"
+                  moduleName = "Study Huddle"
+                  urlString = "file:///Users/Jason/Documents/Study%20Huddle/Code/studyhuddle/Study%20Huddle/SHNotificationSegmentViewController.m"
+                  timestampString = "429730275.43209"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "556"
+                  endingLineNumber = "556"
+                  offsetFromSymbolStart = "3455">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[SHNotificationSegmentViewController didTapAccept:]"
+                  moduleName = "Study Huddle"
+                  urlString = "file:///Users/Jason/Documents/Study%20Huddle/Code/studyhuddle/Study%20Huddle/SHNotificationSegmentViewController.m"
+                  timestampString = "429730275.432246"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "556"
+                  endingLineNumber = "556"
+                  offsetFromSymbolStart = "3554">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

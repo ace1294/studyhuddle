@@ -90,13 +90,8 @@ float classButtonsHeight;
         scrollViewContentSize.height+=0;
         [self.scrollView setContentSize:scrollViewContentSize];
         
-        
-        //done button
-        UIBarButtonItem *createButton = [[UIBarButtonItem alloc] initWithTitle:@"Create" style:UIBarButtonItemStylePlain target:self action:@selector(createPressed)];
-        createButton.tintColor = [UIColor whiteColor];
-        self.navigationItem.rightBarButtonItem = createButton;
-        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        self.title = @"Create Huddle";
+        [self initHeaders];
+        [self initContent];
         
         
         
@@ -140,10 +135,13 @@ float classButtonsHeight;
 
 - (void)initContent
 {
-    //Huddle Image
-    float centerX = self.view.bounds.origin.x + self.view.bounds.size.width/2;
+    UIBarButtonItem *createButton = [[UIBarButtonItem alloc] initWithTitle:@"Create" style:UIBarButtonItemStylePlain target:self action:@selector(createPressed)];
+    createButton.tintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = createButton;
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.title = @"Create Huddle";
     
-    self.huddlePortrait = [[SHBasePortraitView alloc]initWithFrame:CGRectMake(centerX-(portraitDim/2), portraitY, portraitDim, portraitDim)];
+    self.huddlePortrait = [[SHBasePortraitView alloc]initWithFrame:CGRectMake(huddleImageX, huddleImageY, huddleImageDim, huddleImageDim)];
     [self.huddlePortrait setBackgroundColor:[UIColor clearColor]];
     [self.huddlePortrait setOpaque:YES];
     self.huddlePortrait.owner = self;
