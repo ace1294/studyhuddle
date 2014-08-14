@@ -20,11 +20,13 @@
 #import "SHCache.h"
 
 
-@interface SHAppDelegate()
+@interface SHAppDelegate()<MBProgressHUDDelegate>
 
 @property SHStartUpViewController* startUpViewController;
 
-@property (nonatomic, strong) MBProgressHUD *hud;
+
+@property (nonatomic,strong) PFObject* student;
+@property (nonatomic,strong) MBProgressHUD* HUD;
 
 @end
 
@@ -127,9 +129,16 @@
 
 -(void)userLoggedIn:(PFUser *)user
 {
+    self.student = user;
     
-    //Present HUD
-    [[SHCache sharedCache] setHuddles:user[SHStudentHuddlesKey]];
+ 	MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:self.window];
+	[self.window addSubview:HUD];
+    self.HUD = HUD;
+	
+	HUD.delegate = self;
+	HUD.labelText = @"FINALLY $#@#$@";
+	
+	[HUD showWhileExecuting:@selector(loadData) onTarget:self withObject:nil animated:YES];
     
 //    PFQuery *query = [PFQuery queryWithClassName:SHClassParseClass];
 //    NSArray *classes = [query findObjects];
@@ -142,12 +151,18 @@
 //    [[Student currentUser]saveInBackground];
     
     
-    [[SHCache sharedCache] setClasses:[[[user relationForKey:SHStudentClassesKey] query] findObjects]];
-    [[SHCache sharedCache] setStudyLogs:user[SHStudentStudyLogsKey]];
+
     
-    [self presentTabBarController];
+    
 }
 
+-(void)loadData
+{
+     [[SHCache sharedCache] setHuddles:self.student[SHStudentHuddlesKey]];
+    [[SHCache sharedCache] setClasses:[[[self.student relationForKey:SHStudentClassesKey] query] findObjects]];
+    [[SHCache sharedCache] setStudyLogs:self.student[SHStudentStudyLogsKey]];
+    
+}
 
 -(void)logout
 {
@@ -216,6 +231,13 @@
     self.window.rootViewController = self.tabBarController;
     self.window.backgroundColor = [UIColor whiteColor];
     
+}
+
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+	// Remove HUD from screen when the HUD was hidded
+	[hud removeFromSuperview];
+    [self presentTabBarController];
+
 }
 
 #pragma mark - ()

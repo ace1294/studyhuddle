@@ -169,7 +169,7 @@
     if ([classes count] > 0) {
         [self.classesDataArray addObjectsFromArray:[[SHCache sharedCache] classes]];
     } else {
-        NSLog(@"NO CLasses");
+        NSLog(@"No Classes");
     }
     
     

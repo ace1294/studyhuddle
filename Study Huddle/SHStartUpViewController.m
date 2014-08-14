@@ -13,11 +13,12 @@
 #import "SHAppDelegate.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
+#import "MBProgressHUD.h"
 
 #define logoWidth 200
 #define logoHeight 100
 
-@interface SHStartUpViewController ()
+@interface SHStartUpViewController () <MBProgressHUDDelegate>
 
 @property SHProfileHeaderViewController* profileVC;
 
@@ -41,12 +42,7 @@
     [logo setFrame:CGRectMake(self.view.frame.size.width/2-logoWidth/2 , self.view.frame.size.height/2 - logoHeight/2, logoWidth, logoHeight)];
     [self.view addSubview:logo];
     
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]
-                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = CGPointMake(160, 240);
-    spinner.hidesWhenStopped = YES;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
+
     
 }
 
@@ -92,9 +88,13 @@
         return;
     }
     
-    [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:[PFUser currentUser]];
+    [self doLogin];
 }
 
+-(void)doLogin
+{
+     [(SHAppDelegate*)[[UIApplication sharedApplication] delegate] userLoggedIn:[PFUser currentUser]];
+}
 
 #pragma mark - PFLogInViewControllerDelegate
 
