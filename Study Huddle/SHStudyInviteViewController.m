@@ -173,6 +173,15 @@
     
     //Set button as Invite Sent
     
+    //send a pushy push as well
+    PFObject* receiver = self.request[SHRequestStudent2Key];
+    [receiver fetchIfNeeded];
+    NSString* channel = [NSString stringWithFormat:@"a%@",[receiver objectId]];
+    PFPush *push = [[PFPush alloc] init];
+    [push setChannel:channel];
+    [push setMessage:@"You have an invite request!!!"];
+    [push sendPushInBackground];
+    
     [self cancelAction];
 }
 

@@ -129,16 +129,22 @@
 
 -(void)userLoggedIn:(PFUser *)user
 {
-    self.student = user;
     
+    //start the loading screen
+    self.student = user;
  	MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:self.window];
 	[self.window addSubview:HUD];
     self.HUD = HUD;
-	
 	HUD.delegate = self;
-	HUD.labelText = @"FINALLY $#@#$@";
-	
+	HUD.labelText = @"Loading...";
 	[HUD showWhileExecuting:@selector(loadData) onTarget:self withObject:nil animated:YES];
+    
+    //subscribe to a channel so people can target that user
+    //the channel name will be the objectID of the user with an "a" appended because it needs to start with a letter
+    NSString* channel = [NSString stringWithFormat:@"a%@",[[PFUser currentUser] objectId]];
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation addUniqueObject:channel forKey:@"channels"];
+    [currentInstallation saveInBackground];
     
 //    PFQuery *query = [PFQuery queryWithClassName:SHClassParseClass];
 //    NSArray *classes = [query findObjects];
@@ -176,6 +182,10 @@
     
     //[[PFInstallation currentInstallation] removeObjectForKey:]
     //[[PFInstallation currentInstallation] saveInBackground];
+    NSString* channel = [NSString stringWithFormat:@"a%@",[[PFUser currentUser] objectId]];
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation removeObject:channel forKey:@"channels"];
+    [currentInstallation saveInBackground];
     
     [PFQuery clearAllCachedResults];
 
