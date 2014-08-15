@@ -18,6 +18,7 @@
 #import "SHIndividualHuddleViewController.h"
 #import "SHHuddleButtons.h"
 #import "SHUtility.h"
+#import "SHCache.h"
 
 
 
@@ -59,14 +60,14 @@ float classButtonsHeight;
 
 #define contentWidth 300.0
 
-#define huddleImageX 15.0
-#define huddleImageY 100.0
+#define huddleImageX 110.0
+#define huddleImageY 10.0
 #define huddleImageDim 100.0
 
-#define nameHeaderY 130.0
+#define nameHeaderY huddleImageY+huddleImageDim+vertBorderSpacing
 #define nameY nameHeaderY+headerHeight
 
-#define classHeaderY nameY+vertElemSpacing
+#define classHeaderY nameY+textFieldHeight+vertElemSpacing
 
 #define huddleClassButtonY classHeaderY+headerHeight
 #define huddleClassButtonWidth 150.0
@@ -78,13 +79,12 @@ float classButtonsHeight;
     self = [super init];
     if(self)
     {
-        self.view.backgroundColor = [UIColor huddleLightGrey];
-        
-        _student = aStudent;
+                _student = aStudent;
         self.classObjects = [[NSMutableDictionary alloc]init];
         
         //set up scroll view
         self.scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+        [self.scrollView setBackgroundColor:[UIColor huddleLightGrey]];
         self.view = self.scrollView;
         scrollViewContentSize = self.scrollView.frame.size;
         scrollViewContentSize.height+=0;
@@ -111,21 +111,21 @@ float classButtonsHeight;
 
 - (void)initHeaders
 {
-    self.huddleNameHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, nameHeaderY, headerWidth, headerHeight)];
+    self.huddleNameHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiBorderSpacing, nameHeaderY, headerWidth, headerHeight)];
     [self.huddleNameHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:14]];
     [self.huddleNameHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.huddleNameHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
     self.huddleNameHeaderLabel.text = @"Huddle Name";
-    [self.view addSubview:self.classHuddleHeaderLabel];
+    [self.view addSubview:self.huddleNameHeaderLabel];
     
-    self.classHuddleHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, classHeaderY, headerWidth, headerHeight)];
+    self.classHuddleHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiBorderSpacing, classHeaderY, headerWidth, headerHeight)];
     [self.classHuddleHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:14]];
     [self.classHuddleHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.classHuddleHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
     self.classHuddleHeaderLabel.text = @"Huddle Class";
     [self.view addSubview:self.classHuddleHeaderLabel];
     
-    self.membersHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, 40.0, headerWidth, headerHeight)];
+    self.membersHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiBorderSpacing, 40.0, headerWidth, headerHeight)];
     [self.membersHeaderLabel setFont:[UIFont fontWithName:@"Arial-BoldMT" size:14]];
     [self.membersHeaderLabel setTextColor:[UIColor huddleSilver]];
     [self.membersHeaderLabel setLineBreakMode:NSLineBreakByWordWrapping];
@@ -148,30 +148,32 @@ float classButtonsHeight;
     [self.view addSubview:self.huddlePortrait];
     
     //Huddle Name
-    self.huddleNameTextField = [[UITextField alloc] init];
+    self.huddleNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(horiBorderSpacing, nameY, contentWidth, textFieldHeight)];
     [self.huddleNameTextField setBackgroundColor: [UIColor whiteColor]];
     [self.huddleNameTextField setFont:[UIFont fontWithName:@"Arial" size:12]];
     [self.huddleNameTextField setPlaceholder:@"Huddle Name"];
     [self.huddleNameTextField setDelegate:self];
-    [self.huddleNameTextField.layer setCornerRadius:5];
+    [self.huddleNameTextField.layer setCornerRadius:2];
     self.huddleNameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(15, 0,0);    //inset
     [self.view addSubview:self.huddleNameTextField];
     
-    CGRect initialFrame = CGRectMake(horiViewSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
-    NSMutableArray *classes = [NSMutableArray arrayWithArray:[SHUtility namesForObjects:self.student[SHStudentClassesKey] withKey:SHClassFullNameKey]];
+    CGRect initialFrame = CGRectMake(horiBorderSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
+    NSMutableArray *classes = [NSMutableArray arrayWithArray:[SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassFullNameKey]];
     [classes addObject:@"Personal"];
     self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classes addButton:nil];
+    self.huddleClassButtons.textFont = [UIFont fontWithName:@"Arial" size:12.0];
     self.huddleClassButtons.viewController = self;
     self.huddleClassButtons.delegate = self;
     classButtonsHeight = [self.huddleClassButtons getButtonHeight];
     
-    [self.membersHeaderLabel setFrame:CGRectMake(horiViewSpacing, classButtonsHeight+vertElemSpacing+huddleClassButtonY, headerWidth, headerHeight)];
+    [self.membersHeaderLabel setFrame:CGRectMake(horiBorderSpacing, classButtonsHeight+vertElemSpacing+huddleClassButtonY, headerWidth, headerHeight)];
     
     CGFloat tableY = self.membersHeaderLabel.frame.origin.y+self.membersHeaderLabel.frame.size.height;
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(horiViewSpacing, tableY, contentWidth, 30.0) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(horiBorderSpacing, tableY, contentWidth, 30.0) style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.tableView setScrollEnabled:NO];
+    self.tableView.layer.cornerRadius = 2;
     [self.view addSubview:self.tableView];
     
     self.huddleMembers = [[NSMutableArray alloc]init];
@@ -212,10 +214,12 @@ float classButtonsHeight;
 {
     if (indexPath.row == 0)
     {
-        self.searchVC = [[SHStudentSearchViewController alloc]init];
-        self.searchVC.type = @"NewHuddle";
+        if(!self.searchVC){
+            self.searchVC = [[SHStudentSearchViewController alloc]init];
+            self.searchVC.type = @"NewHuddle";
+            self.searchVC.navigationController.delegate = self;
+        }
         
-        self.searchVC.navigationController.delegate = self;
         [self.navigationController pushViewController:self.searchVC animated:YES];
     }
 }
@@ -243,7 +247,7 @@ float classButtonsHeight;
             searchCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SearchCell"];
         
         searchCell.textLabel.textColor = [UIColor huddleOrange];
-        searchCell.textLabel.text = @"Find student to join huddle";
+        searchCell.textLabel.text = @"Add Member";
         searchCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         return searchCell;

@@ -8,7 +8,7 @@
 
 #import "SHEditStudyViewController.h"
 #import "UIColor+HuddleColors.h"
-
+#import "SHCache.h"
 #import "SHUtility.h"
 
 @interface SHEditStudyViewController () <UITextViewDelegate>
@@ -80,11 +80,9 @@
 
 - (void)initContent
 {
-    PFObject *student = [PFUser currentUser];
    
-    
     CGRect initialButton = CGRectMake(vertViewSpacing, subjectHeaderY+headerHeight, huddleButtonWidth, huddleButtonHeight);
-    self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:[SHUtility namesForObjects:student[SHStudentClassesKey] withKey:SHClassShortNameKey] addButton:nil];
+    self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:[SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassShortNameKey] addButton:nil];
     self.subjectButtons.delegate = self;
     [self.subjectButtons setViewController:self];
     self.subjectButtons.multipleSelection = YES;

@@ -187,7 +187,7 @@
     
     
     
-    [self.control setCount:[NSNumber numberWithInt:self.chatEntryDataArray.count] forSegmentAtIndex:0];
+    [self.control setCount:[NSNumber numberWithInteger:self.chatEntryDataArray.count] forSegmentAtIndex:0];
     
     
     
@@ -263,7 +263,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
-    NSLog(@"selected segment index: %d",self.control.selectedSegmentIndex);
+    //NSLog(@"selected segment index: %d",self.control.selectedSegmentIndex);
     
     if([CellIdentifier isEqual:SHThreadCellIdentifier])
     {

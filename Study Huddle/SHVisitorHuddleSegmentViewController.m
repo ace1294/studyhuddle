@@ -202,7 +202,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PFObject *studentObject = [self.membersDataArray objectAtIndex:(int)indexPath.row];
+    PFUser *studentObject = [self.membersDataArray objectAtIndex:(int)indexPath.row];
     SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:SHStudentCellIdentifier];
     cell.delegate = self;
         
