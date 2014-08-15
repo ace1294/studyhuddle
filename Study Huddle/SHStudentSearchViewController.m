@@ -144,7 +144,7 @@
         cell = [[SHStudentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SHStudentCellIdentifier];
 
 
-    PFObject *object = [PFObject objectWithClassName:SHStudentParseClass];
+    PFUser *object = [PFUser object];
     object = [self.searchResults objectAtIndex:indexPath.row];
         
     [cell setStudent:object];
@@ -168,6 +168,7 @@
     
     self.addedMember = selectedStudent;
     if ([self.type isEqual:@"NewHuddle"]) {
+        self.navigationController.navigationBarHidden = NO;
         [self.navigationController popViewControllerAnimated:YES];
     }
     else if([self.type isEqual:@"NewMember"]){

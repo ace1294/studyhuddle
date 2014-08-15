@@ -196,11 +196,10 @@
         return cell;
     }
     
-    NSLog(@"%i", indexPath.row);
     
     if(indexPath.section == 0)
     {
-        PFObject *studentObject = self.students[indexPath.row];
+        PFUser *studentObject = self.students[indexPath.row];
         [studentObject fetchIfNeeded];
         
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:SHStudentCellIdentifier];

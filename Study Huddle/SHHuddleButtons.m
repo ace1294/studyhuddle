@@ -49,6 +49,7 @@ NSString *addButtonString;
         
         self.buttonTitles = [[NSMutableArray alloc]initWithArray:buttonList];
         self.buttons = [[NSMutableDictionary alloc] init];
+        self.selectedButtons = [[NSMutableArray alloc]init];
         
         initialButtonX = CGRectGetMinX(frame);
         initialButtonY = CGRectGetMinY(frame);
@@ -60,8 +61,6 @@ NSString *addButtonString;
             [self.buttonTitles addObject:addButtonString];
         }
         
-
-        
         self.textColor = [UIColor huddleSilver];
         self.backgroundColor = [UIColor whiteColor];
         self.selectedTextColor = [UIColor whiteColor];
@@ -71,7 +70,7 @@ NSString *addButtonString;
         self.headerFont = [UIFont fontWithName:@"Arial-BoldMT"size:14];
         self.addButtonPlaceHolder = @"Name";
         
-        self.selectedButtons = [[NSMutableArray alloc]init];
+        
         
     }
     return self;
@@ -390,10 +389,7 @@ NSString *addButtonString;
         }];
     }
 
-
 }
-
-
 
 
 #pragma mark - Helpers
@@ -434,5 +430,13 @@ NSString *addButtonString;
     view.layer.mask = shape;
 }
 
+- (void)setButtonState:(UIButton *)button state:(BOOL)selected
+{
+    if (selected) {
+        
+    } else {
+        
+    }
+}
 
 @end

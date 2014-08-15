@@ -172,7 +172,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PFObject *studentObject;
+    PFUser *studentObject;
     SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:SHStudentCellIdentifier];
         
     if(indexPath.row < [[self.studentData objectForKey:@"online"]count]){
@@ -201,7 +201,7 @@
     SHStudentCell *studentCell = (SHStudentCell *)cell;
     
 
-    SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
+    SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:studentCell.student];
         
         
     [self.owner.navigationController pushViewController:studentVC animated:YES];

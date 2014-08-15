@@ -219,7 +219,7 @@
 {
     if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"STUDENTS"])
     {
-        Student *student = [self.studentData objectForKey:@"both"][indexPath.row];
+        PFUser *student = [self.studentData objectForKey:@"both"][indexPath.row];
         
         SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:student];
         
@@ -412,7 +412,7 @@
     if ([cell isKindOfClass:[SHStudentCell class]] ) {
         SHStudentCell *studentCell = (SHStudentCell *)cell;
         
-        SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
+        SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:studentCell.student];
         
         
         [self.owner.navigationController pushViewController:studentVC animated:YES];

@@ -16,6 +16,5 @@
 
 - (id)initWithStudent:(PFUser *)aStudent;
 - (void)setStudent:(PFUser *)aProfStudent;
--(void)setNavigationBarItems;
 
 @end
