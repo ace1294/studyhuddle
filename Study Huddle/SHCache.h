@@ -24,6 +24,7 @@
 - (NSArray *)membersForHuddle:(PFObject *)huddle;
 - (NSArray *)resourceCategoriesForHuddle:(PFObject *)huddle;
 - (NSArray *)chatCategoriessForHuddle:(PFObject *)huddle;
+- (void)setHuddleStudying:(PFObject *)huddle;
 
 
 #pragma mark - Class

@@ -203,7 +203,7 @@
     //set up segmented view
     self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.scrollView.bounds.origin.y + topPartSize, self.view.frame.size.width, self.view.frame.size.height*10)];
     [self.segmentContainer setBackgroundColor:[UIColor blueColor]];
-    self.segmentController = [[SHProfileSegmentViewController alloc]initWithStudent:(Student *)self.profStudent];
+    self.segmentController = [[SHProfileSegmentViewController alloc]initWithStudent:self.profStudent];
     [self.navigationController setDelegate:self.segmentController];
     
     [self addChildViewController:self.segmentController];

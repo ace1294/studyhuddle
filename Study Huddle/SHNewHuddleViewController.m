@@ -270,7 +270,6 @@ float classButtonsHeight;
 {
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;
-    self.huddle[SHHuddleClassKey] = [self.classObjects objectForKey:self.className];
     
     [self.huddle saveInBackground];
     

@@ -19,6 +19,7 @@
 #import "SHHuddleStartStudyingViewController.h"
 #import "UIViewController+MJPopupViewController.h"
 #import "SHStudentSearchViewController.h"
+#import "SHCache.h"
 
 
 #define profileImageWidth 100
@@ -61,6 +62,7 @@
 @property (nonatomic, strong) UILabel* fullNameLabel;
 @property (nonatomic, strong) UILabel* hoursStudiedLabel;
 @property (nonatomic,strong) UILabel* startStudyingLabel;
+@property (nonatomic, strong) UILabel *locationLabel;
 
 @property (nonatomic,strong) UIButton* startStudyingButton;
 @property BOOL isStudying;
@@ -154,11 +156,18 @@
     
     //set up name label
     self.fullNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - fullNameWidth/2,profileFrame.origin.y + profileFrame.size.height + fullNameLabelVerticalOffsetFromPicture, fullNameWidth, fullNameHeight)];
-    self.fullNameLabel.text = [self.indvHuddle[@"huddleName"] uppercaseString];
+    self.fullNameLabel.text = [self.indvHuddle[SHHuddleNameKey] uppercaseString];
     [self.fullNameLabel setTextAlignment:NSTextAlignmentCenter];
     [self.fullNameLabel setFont: nameLabelFont];
     [self.fullNameLabel setTextColor:[UIColor grayColor]];
     [self.view addSubview:self.fullNameLabel];
+    
+    self.locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - fullNameWidth/2,self.fullNameLabel.frame.origin.y + self.fullNameLabel.frame.size.height + fullNameLabelVerticalOffsetFromPicture, fullNameWidth, fullNameHeight)];
+    self.locationLabel.text = [NSString stringWithFormat:@"Studying at: %@",[self.indvHuddle[SHHuddleLocationKey] uppercaseString]];
+    [self.locationLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.locationLabel setFont: nameLabelFont];
+    [self.locationLabel setTextColor:[UIColor grayColor]];
+    [self.view addSubview:self.locationLabel];
     
     
     //set up the side items
@@ -176,7 +185,6 @@
     self.startStudyingLabel.text = @"START STUDYING";
     [self.startStudyingLabel setTextAlignment:NSTextAlignmentCenter];
     [self.startStudyingLabel setFont:sideItemsFont];
-    // [self.startStudyingLabel setBackgroundColor:[UIColor redColor]];
     [self.view addSubview:self.startStudyingLabel];
     
     
@@ -199,6 +207,7 @@
     [hoursStudiedBelowLabel setFont:sideItemsFont];
     //[self.startStudyingLabel setBackgroundColor:[UIColor redColor]];
     [self.view addSubview:hoursStudiedBelowLabel];
+    
     
     
     //set up scroll view
@@ -297,7 +306,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.isStudying = [self.indvHuddle[@"isStudying"] boolValue];
+    self.isStudying = [self.indvHuddle[SHHuddleOnlineKey] boolValue];
     //update the studying button
     if(self.isStudying)
     {
@@ -318,8 +327,17 @@
     if(self.isStudying)
     {
         //the user will stop their studying session
-        self.indvHuddle[@"isStudying"] = [NSNumber numberWithBool:NO];
-        self.isStudying =   NO;
+        self.indvHuddle[SHHuddleOnlineKey] = [NSNumber numberWithBool:NO];
+        PFObject *studyLog = self.indvHuddle[SHHuddleLastStudyLogKey];
+        studyLog[SHStudyEndKey] = [NSDate date];
+        
+        [studyLog saveInBackground];
+        //NEED TO UPDATE THE HOURS STUDIED FOR THE HUDDLE
+        
+        [[SHCache sharedCache] setHuddleStudying:self.indvHuddle];
+        [self.indvHuddle saveInBackground];
+        
+        self.isStudying = NO;
         [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
          self.startStudyingLabel.text = @"START STUDYING";
@@ -331,33 +349,19 @@
         
         [self presentPopupViewController:studyVC animationType:MJPopupViewAnimationSlideBottomBottom];
         
-        //the user will start studying
-        self.lastStart = [NSDate date];
-        self.indvHuddle[@"lastStudyDate"] = self.lastStart;
-        self.indvHuddle[@"isStudying"] =[NSNumber numberWithBool:YES];
-        self.isStudying = YES;
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
-        [self.startStudyingLabel setTextColor:[UIColor redColor]];
-         self.startStudyingLabel.text = @"STOP STUDYING";
     }
     
-    [self.indvHuddle saveInBackground];
 }
 
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
     DZNSegmentedControl* control = self.segmentController.control;
-    
-    
-    
+
     float heightOfTable = [self.segmentController getOccupatingHeight];
     
     float distanceFromBottomToPortrait = topPartSize - (profileImageVerticalOffsetFromTop + self.profileImage.frame.size.height);
     float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
-    
-    
     
     float normalHeight = viewableHeight + topPartSize;
     float extraDistance = (heightOfTable + control.frame.size.height)-viewableHeight;
@@ -374,9 +378,7 @@
         contentSize.height = normalHeight;
         [self.scrollView setContentSize:contentSize];
     }
-    
-    
-    
+
     if(scrollView.contentOffset.y>distanceFromBottomToPortrait)
     {
         [self.view bringSubviewToFront:self.scrollView];
@@ -468,6 +470,26 @@
     
 }
 
+#pragma mark - Popup delegate methods
+
+- (void)continueTapped
+{
+    self.isStudying = YES;
+    
+    //the user will start studying
+    self.lastStart = [NSDate date];
+    [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
+    [self.startStudyingLabel setTextColor:[UIColor redColor]];
+    self.startStudyingLabel.text = @"STOP STUDYING";
+    
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+}
+
+- (void)cancelTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+    
+}
 
 #pragma mark - Popoover Delegate Methods
 
@@ -480,15 +502,6 @@
 {
     //popoverController.delegate = nil;
     //popoverController = nil;
-}
-
-#pragma mark - Popup delegate methods
-
-
-- (void)cancelTapped
-{
-    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
-    [self.segmentController updateDataAndStartIn:2];
 }
 
 

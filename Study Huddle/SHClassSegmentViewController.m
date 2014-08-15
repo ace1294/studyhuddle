@@ -156,7 +156,7 @@
     //Huddle Data
     [[self.huddlesData objectForKey:@"both"] removeAllObjects];
     [self.huddlesData setObject:[[SHCache sharedCache] huddlesForClass:self.segClass] forKey:@"both"];
-    self.huddleOnlineStatus = [SHUtility separateOnlineOfflineData:self.huddlesData forOnlineKey:SHHuddleStudyingKey];
+    self.huddleOnlineStatus = [SHUtility separateOnlineOfflineData:self.huddlesData forOnlineKey:SHHuddleOnlineKey];
     
     self.currentRowsToDisplay = [[self.huddlesData objectForKey:@"both"] count];
     

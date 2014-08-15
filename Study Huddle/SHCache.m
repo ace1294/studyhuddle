@@ -173,6 +173,18 @@ NSString *studentHeader = @"student";
     return [NSArray arrayWithArray:huddle[SHHuddleChatCategoriesKey]];
 }
 
+- (void)setHuddleStudying:(PFObject *)huddle
+{
+    NSString *key = [self keyForObject:huddle withHeader:huddleHeader];
+    
+    PFObject *cachedHuddle = [self.cache objectForKey:key];
+    
+    cachedHuddle[SHHuddleOnlineKey] = huddle[SHHuddleOnlineKey];
+    cachedHuddle[SHHuddleLocationKey] = huddle[SHHuddleLocationKey];
+    
+    [self.cache setObject:cachedHuddle forKey:key];
+}
+
 #pragma mark - Class
 
 - (void)setClasses:(NSArray *)huddleClasses;
@@ -421,9 +433,9 @@ NSString *studentHeader = @"student";
 
 #pragma mark - Helpers
 
-- (NSString *)keyForObject:(PFObject *)user withHeader:(NSString *)header
+- (NSString *)keyForObject:(PFObject *)object withHeader:(NSString *)header
 {
-    return [NSString stringWithFormat:@"%@_%@", header, [user objectId]];
+    return [NSString stringWithFormat:@"%@_%@", header, [object objectId]];
 }
 
 - (NSArray *)objectsForKeys:(NSArray *)keys withHeader:(NSString *)header

@@ -8,6 +8,7 @@
 
 #import "SHHuddleStartStudyingViewController.h"
 #import "UIColor+HuddleColors.h"
+#import "SHCache.h"
 
 @interface SHHuddleStartStudyingViewController () <UITextViewDelegate, UITextFieldDelegate>
 
@@ -104,6 +105,17 @@
 {
     //set huddles page so it shows location
     
+    self.huddle[SHHuddleLocationKey] = self.locationTextField.text;
+    self.huddle[SHHuddleOnlineKey] = [NSNumber numberWithBool:YES];
+    PFObject *studyLog = [PFObject objectWithClassName:SHStudyParseClass];
+    studyLog[SHStudyStartKey] = [NSDate date];
+    studyLog[SHStudyDescriptionKey] = self.locationTextField.text;
+    
+    self.huddle[SHHuddleLastStudyLogKey] = studyLog;
+    
+    [[SHCache sharedCache] setAttributesForHuddle:self.huddle];
+    [PFObject saveAll:@[studyLog, self.huddle]];
+    
     for(PFObject *member in self.huddle[SHHuddleMembersKey]){
         
         if([[member objectId] isEqual:[[PFUser currentUser]objectId]])
@@ -122,7 +134,7 @@
         
     }
     
-    [self cancelAction];
+    [self.delegate continueTapped];
 }
 
 
