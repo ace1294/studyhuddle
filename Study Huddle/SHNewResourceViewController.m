@@ -17,9 +17,7 @@
 #import "SHUtility.h"
 #import "SHModalViewController.h"
 
-@interface SHNewResourceViewController () <UITextFieldDelegate, SHHuddleButtonsDelegate, UITextViewDelegate, SHModalViewControllerDelegate>
-
-- (void)heightOfButtons:(CGFloat)height;
+@interface SHNewResourceViewController () <UITextFieldDelegate, SHHuddleButtonsDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) UILabel *aboutHeaderLabel;
 @property (strong, nonatomic) UILabel *descriptionHeaderLabel;
@@ -52,7 +50,6 @@
 @end
 
 @implementation SHNewResourceViewController
-
 
 
 - (id)initWithHuddle:(PFObject *)aHuddle

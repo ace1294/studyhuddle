@@ -60,14 +60,16 @@ NSString *const SHClassHuddlesKey = @"huddles";
 NSString *const SHHuddleCreatorKey = @"creator";
 NSString *const SHHuddleNameKey = @"huddleName";
 NSString *const SHHuddleMembersKey = @"huddleMembers";
-NSString *const SHHuddleClassKey = @"huddleClass";
 NSString *const SHHuddleStatusKey = @"huddleStatus";
 NSString *const SHHuddleLowerName = @"lowerName";
 NSString *const SHHuddleStudyKey = @"study";
 NSString *const SHHuddleResourceCategoriesKey = @"resourceCategories";
-NSString *const SHHuddleImageKey = @"huddleImage";
-NSString *const SHHuddleStudyingKey = @"isStudying";
 NSString *const SHHuddleChatCategoriesKey = @"chatCategories";
+NSString *const SHHuddleImageKey = @"huddleImage";
+NSString *const SHHuddleOnlineKey = @"online";
+NSString *const SHHuddleLastStudyLogKey = @"lastStudyLog";
+NSString *const SHHuddleLocationKey = @"location";
+
 
 //Student
 NSString *const SHStudentNameKey = @"fullName";

@@ -11,6 +11,7 @@
 #import "UIColor+HuddleColors.h"
 #import "SHUtility.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "SHCache.h"
 
 @interface SHStartStudyingViewController ()
 
@@ -44,7 +45,7 @@
         [self.privacyButtons setViewController:self];
         
         initialButton = CGRectMake(vertViewSpacing, subjectHeaderY+headerHeight, huddleButtonWidth, huddleButtonHeight);
-        self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:[SHUtility namesForObjects:aStudent[SHStudentClassesKey] withKey:SHClassShortNameKey] addButton:nil];
+        self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:[SHUtility namesForObjects:[[SHCache sharedCache] classes] withKey:SHClassShortNameKey] addButton:nil];
         self.subjectButtons.delegate = self;
         [self.subjectButtons setViewController:self];
         self.subjectButtons.multipleSelection = YES;
@@ -94,7 +95,6 @@
     [classes whereKey:SHClassShortNameKey containedIn:self.subjectButtons.selectedButtons];
     self.study[SHStudyClassesKey] = [classes findObjects];
     self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
-    self.study[SHStudyStudentKey] = [self.student objectId];
     
     self.student[SHStudentCurrentStudyLogKey] = self.study;
     [self.student addObject:self.study forKey:SHStudentStudyLogsKey];

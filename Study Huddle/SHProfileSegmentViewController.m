@@ -167,7 +167,7 @@
     
     NSArray *classes = [[SHCache sharedCache] classes];
     if ([classes count] > 0) {
-        [self.classesDataArray addObjectsFromArray:[[SHCache sharedCache] classes]];
+        [self.classesDataArray addObjectsFromArray:classes];
     } else {
         NSLog(@"No Classes");
     }
@@ -238,7 +238,7 @@
 {
     if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"ONLINE"])
     {
-        Student *student = self.onlineDataArray[indexPath.row];
+        PFUser *student = self.onlineDataArray[indexPath.row];
         
         SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:student];
         
@@ -282,7 +282,7 @@
     
     if([CellIdentifier isEqual:SHStudentCellIdentifier])
     {
-        PFObject* studentObject = [self.onlineDataArray objectAtIndex:(int)indexPath.row];
+        PFUser* studentObject = [self.onlineDataArray objectAtIndex:(int)indexPath.row];
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
         
@@ -323,7 +323,7 @@
     if ([cell isKindOfClass:[SHStudentCell class]] ) {
         SHStudentCell *studentCell = (SHStudentCell *)cell;
         
-        SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
+        SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:studentCell.student];
         
         
         [self.owner.navigationController pushViewController:studentVC animated:YES];

@@ -398,6 +398,11 @@ NSString *addButtonString;
 
 #pragma mark - Helpers
 
+- (float)getButtonHeight
+{
+    return totalButtonsHeight;
+}
+
 - (void)setInitialPressedButtons:(NSArray *)buttons
 {
     for (NSNumber *tag in self.buttons) {

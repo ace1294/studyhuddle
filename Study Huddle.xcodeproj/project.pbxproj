@@ -1452,10 +1452,10 @@
 		96421C951970546200B5EC89 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				96D955BA1960BBA800667581 /* SHVisitorProfileViewController.h */,
-				96D955BB1960BBA800667581 /* SHVisitorProfileViewController.m */,
 				96D955B41960BBA000667581 /* SHProfileViewController.h */,
 				96D955B51960BBA000667581 /* SHProfileViewController.m */,
+				96D955BA1960BBA800667581 /* SHVisitorProfileViewController.h */,
+				96D955BB1960BBA800667581 /* SHVisitorProfileViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -2061,7 +2061,7 @@
 				ORGANIZATIONNAME = StudyHuddle;
 				TargetAttributes = {
 					96566E25194510F6006649C3 = {
-						DevelopmentTeam = 2X9H6LLE5Q;
+						DevelopmentTeam = 4QYMAFJ88B;
 					};
 					96566E40194510F6006649C3 = {
 						TestTargetID = 96566E25194510F6006649C3;

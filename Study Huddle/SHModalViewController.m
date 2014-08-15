@@ -95,7 +95,8 @@ CGRect initialFrame;
 
 - (void)continueAction
 {
-    //
+    NSLog(@"Super Modal View Continue action called. Probably should override!");
+    [self.delegate continueTapped];
 }
 
 - (void)cancelAction

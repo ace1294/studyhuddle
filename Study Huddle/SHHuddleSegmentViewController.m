@@ -310,7 +310,7 @@
 
     if([CellIdentifier isEqual:SHStudentCellIdentifier])
     {
-        PFObject *studentObject = [self.membersDataArray objectAtIndex:(int)indexPath.row];
+        PFUser *studentObject = [self.membersDataArray objectAtIndex:(int)indexPath.row];
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
         
