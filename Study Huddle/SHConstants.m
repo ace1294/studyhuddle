@@ -68,6 +68,8 @@ NSString *const SHHuddleChatCategoriesKey = @"chatCategories";
 NSString *const SHHuddleImageKey = @"huddleImage";
 NSString *const SHHuddleOnlineKey = @"online";
 NSString *const SHHuddleLastStudyLogKey = @"lastStudyLog";
+NSString *const SHHuddleLastStartKey = @"lastStart";
+NSString *const SHHuddleHoursStudiedKey = @"hoursStudied";
 NSString *const SHHuddleLocationKey = @"location";
 
 

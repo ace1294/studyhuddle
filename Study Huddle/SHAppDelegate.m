@@ -38,6 +38,11 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    NSDictionary *notificationPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+
+    
+    
+    
     [self setupAppearance];
     
     [self setupParseWithOptions:launchOptions];
@@ -119,8 +124,15 @@
     NSNumber* badgeNumber = [app objectForKey:@"badge"];
     [application setApplicationIconBadgeNumber:[badgeNumber intValue]];
     
-    
+
 }
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
+
+}
+
 
 
 #pragma mark - AppDelegate
@@ -236,6 +248,7 @@
     
     [self.profileController setStudent:[PFUser currentUser]];
     self.tabBarController.viewControllers = [NSArray arrayWithObjects:self.profileNavigator, self.huddlesNavigator,self.searchNavigator,self.notificationNavigator ,nil];
+
     
     
     self.window.rootViewController = self.tabBarController;

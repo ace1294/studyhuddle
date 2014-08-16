@@ -121,6 +121,13 @@
         if([[member objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;
         
+        NSString* channel = [NSString stringWithFormat:@"a%@",[member objectId]];
+        NSString* message = [NSString stringWithFormat:@"%@ will be studying at %@",self.huddle[SHHuddleNameKey],self.locationTextField.text];
+        PFPush *push = [[PFPush alloc] init];
+        [push setChannel:channel];
+        [push setMessage:message];
+        [push sendPushInBackground];
+        
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationTypeKey] = SHNotificationHSStudyRequestType;
         notification[SHNotificationTitleKey] = self.huddle[SHHuddleNameKey];
