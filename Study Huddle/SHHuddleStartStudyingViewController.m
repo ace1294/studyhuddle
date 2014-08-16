@@ -116,7 +116,9 @@
     [[SHCache sharedCache] setAttributesForHuddle:self.huddle];
     [PFObject saveAll:@[studyLog, self.huddle]];
     
-    for(PFObject *member in self.huddle[SHHuddleMembersKey]){
+    NSArray* huddleMembers = [[SHCache sharedCache] membersForHuddle:self.huddle];
+    
+    for(PFObject *member in huddleMembers){
         
         if([[member objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;
