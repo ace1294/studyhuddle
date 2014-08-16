@@ -62,7 +62,9 @@ extern NSString *const SHHuddleChatCategoriesKey;
 extern NSString *const SHHuddleImageKey;
 extern NSString *const SHHuddleOnlineKey;
 extern NSString *const SHHuddleLastStudyLogKey;
+extern NSString *const SHHuddleLastStartKey;
 extern NSString *const SHHuddleLocationKey;
+extern NSString *const SHHuddleHoursStudiedKey;
 
 
 //Student

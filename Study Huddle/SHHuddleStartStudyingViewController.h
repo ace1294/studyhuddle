@@ -14,3 +14,9 @@
 - (id)initWithHuddle:(PFObject *)aHuddle;
 
 @end
+
+@protocol SHStartStudyingDelegate <NSObject>
+
+- (void)activateStudyLog:(PFObject *)study;
+
+@end

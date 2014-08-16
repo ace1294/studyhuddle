@@ -40,11 +40,14 @@
 #define sideLabelHeight 10
 
 
-#define topPartSize 170
 
 #define nameLabelFont [UIFont boldSystemFontOfSize:15]
 
 #define sideItemsFont [UIFont systemFontOfSize:7]
+
+#define onlineOffset 40
+#define topSize 170
+#define locationLabelVerticalOffset 30
 
 
 @interface SHIndividualHuddleViewController () <UIScrollViewDelegate, SHModalViewControllerDelegate, WYPopoverControllerDelegate, SHIndividualHuddleAddDelegate>
@@ -71,7 +74,7 @@
 @property (nonatomic,strong) NSDate* lastStart;
 
 @property (strong, nonatomic) UIBarButtonItem *addButton;
-
+@property int topPartSize;
 
 
 @end
@@ -134,6 +137,49 @@
 {
     [super viewDidLoad];
     
+    self.isStudying = [self.indvHuddle[SHHuddleOnlineKey] boolValue];
+    if(self.isStudying)
+        self.topPartSize = topSize + onlineOffset;
+    else
+        self.topPartSize = topSize;
+    
+    [self doLayout];
+    
+    //get the last study date
+    self.lastStart = self.indvHuddle[@"lastStart"];
+    
+    
+    
+    
+    //set timer
+    [NSTimer scheduledTimerWithTimeInterval:60
+                                     target:self
+                                   selector:@selector(updateHoursStudied)
+                                   userInfo:nil
+                                    repeats:YES];
+    
+    SHIndividualHuddleAddViewController *addVC = [[SHIndividualHuddleAddViewController alloc]init];
+    [addVC.view setFrame:CGRectMake(305, 55.0, 100.0, 200.0)];
+    addVC.preferredContentSize = CGSizeMake(120, 110);
+    addVC.delegate = self;
+    popoverController = [[WYPopoverController alloc]initWithContentViewController:addVC];
+    popoverController.delegate = self;
+    [WYPopoverController setDefaultTheme:[WYPopoverTheme theme]];
+    
+    WYPopoverBackgroundView *appearance = [WYPopoverBackgroundView appearance];
+    [appearance setTintColor:[UIColor huddleSilver]];
+    
+    
+}
+
+-(void)doLayout
+{
+    
+    NSArray *viewsToRemove = [self.view subviews];
+    for (UIView *v in viewsToRemove) {
+        [v removeFromSuperview];
+    }
+    
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.navigationController.navigationBar.topItem.title = @"";
     
@@ -162,12 +208,11 @@
     [self.fullNameLabel setTextColor:[UIColor grayColor]];
     [self.view addSubview:self.fullNameLabel];
     
-    self.locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - fullNameWidth/2,self.fullNameLabel.frame.origin.y + self.fullNameLabel.frame.size.height + fullNameLabelVerticalOffsetFromPicture, fullNameWidth, fullNameHeight)];
+    self.locationLabel = [[UILabel alloc]initWithFrame:CGRectMake(centerX - fullNameWidth/2,self.fullNameLabel.frame.origin.y + self.fullNameLabel.frame.size.height + locationLabelVerticalOffset, fullNameWidth, fullNameHeight)];
     self.locationLabel.text = [NSString stringWithFormat:@"Studying at: %@",[self.indvHuddle[SHHuddleLocationKey] uppercaseString]];
     [self.locationLabel setTextAlignment:NSTextAlignmentCenter];
     [self.locationLabel setFont: nameLabelFont];
     [self.locationLabel setTextColor:[UIColor grayColor]];
-    [self.view addSubview:self.locationLabel];
     
     
     //set up the side items
@@ -211,19 +256,11 @@
     
     
     //set up scroll view
-    float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
-    CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, viewableHeight);
-    self.scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
-    self.scrollView.delegate = self;
-    CGSize sViewContentSize = scrollViewFrame.size;
-    sViewContentSize.height+=(topPartSize);
-    //sViewContentSize.height+=999999;
-    [self.scrollView setContentSize:sViewContentSize];
-    [self.view addSubview:self.scrollView];
+    [self setUpScrollView];
     
     
     //set up segmented view
-    self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.scrollView.bounds.origin.y + topPartSize, self.view.frame.size.width, self.view.frame.size.height*10)];
+    self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.scrollView.bounds.origin.y + self.topPartSize, self.view.frame.size.width, self.view.frame.size.height*10)];
     self.segmentContainer.backgroundColor = [UIColor clearColor];
     self.segmentController = [[SHHuddleSegmentViewController alloc]initWithHuddle:self.indvHuddle andInitialSection:self.initialSection];
     
@@ -240,59 +277,45 @@
     self.profileImage = [[SHHuddlePortraitView alloc]initWithFrame:profileFrame];
     self.profileImage.owner = self;
     [self.profileImage setHuddle:self.indvHuddle];
-    
-    //add it in the right order
-    //[self.view addSubview:extendedBG];
-    
+
     
     [self.view addSubview:self.scrollView];
     [self.view addSubview:self.profileImage];
     [self.view addSubview:self.startStudyingButton];
-    
-    //get the last study date
-    self.lastStart = self.indvHuddle[@"lastStart"];
-    
-    
-    
-    
-    //set timer
-    [NSTimer scheduledTimerWithTimeInterval:60
-                                     target:self
-                                   selector:@selector(updateHoursStudied)
-                                   userInfo:nil
-                                    repeats:YES];
-    
-    SHIndividualHuddleAddViewController *addVC = [[SHIndividualHuddleAddViewController alloc]init];
-    [addVC.view setFrame:CGRectMake(305, 55.0, 100.0, 200.0)];
-    addVC.preferredContentSize = CGSizeMake(120, 110);
-    addVC.delegate = self;
-    popoverController = [[WYPopoverController alloc]initWithContentViewController:addVC];
-    popoverController.delegate = self;
-    [WYPopoverController setDefaultTheme:[WYPopoverTheme theme]];
-    
-    WYPopoverBackgroundView *appearance = [WYPopoverBackgroundView appearance];
-    [appearance setTintColor:[UIColor huddleSilver]];
-    
-    
 }
 
+-(void)setUpScrollView
+{
+    //[self.scrollView removeFromSuperview];
+    float bottomOfNavBar = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+    float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
+    CGRect scrollViewFrame = CGRectMake(self.view.bounds.origin.x, bottomOfNavBar, self.view.bounds.size.width, viewableHeight);
+    self.scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
+    self.scrollView.delegate = self;
+    CGSize sViewContentSize = scrollViewFrame.size;
+    sViewContentSize.height+=(self.topPartSize);
+    [self.scrollView setContentSize:sViewContentSize];
+    //[self.view addSubview:self.scrollView];
+}
 
 -(void)updateHoursStudied
 {
     
-    NSDate* date = [NSDate date];
-    NSTimeInterval diff = [date timeIntervalSinceDate:self.lastStart];
+   
     if(self.isStudying)
     {
+        NSDate* date = [NSDate date];
+        NSTimeInterval diff = [date timeIntervalSinceDate:self.lastStart];
         self.lastStart = date;
-        NSString* hoursPrevStudied = self.indvHuddle[@"hoursStudied"];
+        self.indvHuddle[SHHuddleLastStartKey] = date;
+        NSString* hoursPrevStudied = self.indvHuddle[SHHuddleHoursStudiedKey];
         double previousTimeStudied = [hoursPrevStudied doubleValue];
         double secondsStudied = diff + previousTimeStudied;
         int hoursStudied = secondsStudied/3600;
         self.hoursStudiedLabel.text = [NSString stringWithFormat:@"%d",hoursStudied];
         
-        self.indvHuddle[@"hoursStudied"] = [NSString stringWithFormat:@"%f",(diff+previousTimeStudied)];
-        [self.indvHuddle saveInBackground];
+        self.indvHuddle[SHHuddleHoursStudiedKey] = [NSString stringWithFormat:@"%f",(diff+previousTimeStudied)];
+        [self.indvHuddle save];
     }
     
 }
@@ -313,17 +336,25 @@
         [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor redColor]];
          self.startStudyingLabel.text = @"STOP STUDYING";
+        [self.view addSubview:self.locationLabel];
+        [self.view bringSubviewToFront:self.scrollView];
+        [self.view bringSubviewToFront:self.profileImage];
+        [self.view bringSubviewToFront:self.startStudyingButton];
+        
     }
     else
     {
         [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
          self.startStudyingLabel.text = @"START STUDYING";
+        [self.locationLabel removeFromSuperview];
+        
     }
 }
 
 -(void)setStudy
 {
+    [self updateHoursStudied];
     if(self.isStudying)
     {
         //the user will stop their studying session
@@ -332,15 +363,23 @@
         studyLog[SHStudyEndKey] = [NSDate date];
         
         [studyLog saveInBackground];
-        //NEED TO UPDATE THE HOURS STUDIED FOR THE HUDDLE
+  
         
         [[SHCache sharedCache] setHuddleStudying:self.indvHuddle];
         [self.indvHuddle saveInBackground];
         
+        
+        
+        self.topPartSize = topSize;
         self.isStudying = NO;
+        [self doLayout];
         [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
          self.startStudyingLabel.text = @"START STUDYING";
+        [self.indvHuddle save];
+        //return the scroll view back and clear the text
+        [self.locationLabel removeFromSuperview];
+        
     }
     else
     {
@@ -360,10 +399,10 @@
 
     float heightOfTable = [self.segmentController getOccupatingHeight];
     
-    float distanceFromBottomToPortrait = topPartSize - (profileImageVerticalOffsetFromTop + self.profileImage.frame.size.height);
+    float distanceFromBottomToPortrait = self.topPartSize - (profileImageVerticalOffsetFromTop + self.profileImage.frame.size.height);
     float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
     
-    float normalHeight = viewableHeight + topPartSize;
+    float normalHeight = viewableHeight + self.topPartSize;
     float extraDistance = (heightOfTable + control.frame.size.height)-viewableHeight;
     NSLog(@"extraDistance: %f",extraDistance);
     if(extraDistance > 0)
@@ -474,13 +513,30 @@
 
 - (void)continueTapped
 {
-    self.isStudying = YES;
+
     
     //the user will start studying
     self.lastStart = [NSDate date];
+    self.indvHuddle[SHHuddleLastStartKey] = self.lastStart;
+    self.indvHuddle[SHHuddleOnlineKey] = [NSNumber numberWithBool:true];
+    self.isStudying = YES;
+    
+
+    [self.indvHuddle save];
+    
+    //move the bar down
+    self.topPartSize = topSize + onlineOffset;
+    [self doLayout];
     [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
     [self.startStudyingLabel setTextColor:[UIColor redColor]];
     self.startStudyingLabel.text = @"STOP STUDYING";
+
+    [self.view addSubview:self.locationLabel];
+    [self.view bringSubviewToFront:self.scrollView];
+    [self.view bringSubviewToFront:self.profileImage];
+    [self.view bringSubviewToFront:self.startStudyingButton];
+    self.locationLabel.text = [NSString stringWithFormat:@"Studying at: %@",[self.indvHuddle[SHHuddleLocationKey] uppercaseString]];
+    
     
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
 }
