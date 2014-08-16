@@ -121,13 +121,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHIndividualHuddleViewController.m"
-            timestampString = "429917718.937718"
+            filePath = "Study Huddle/SHAppDelegate.m"
+            timestampString = "429920842.387923"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
-            landmarkName = "-continueTapped"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -137,13 +137,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHAppDelegate.m"
-            timestampString = "429920842.387923"
+            filePath = "Study Huddle/SHHuddleStartStudyingViewController.m"
+            timestampString = "429924214.033533"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-continueAction"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
