@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "111"
             endingLineNumber = "111"
-            landmarkName = "-application:didReceiveRemoteNotification:"
+            landmarkName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,12 +105,12 @@
                   symbolName = "-[SHNotificationSegmentViewController didTapAccept:]"
                   moduleName = "Study Huddle"
                   urlString = "file:///Users/Jason/Documents/Study%20Huddle/Code/studyhuddle/Study%20Huddle/SHNotificationSegmentViewController.m"
-                  timestampString = "429823689.020168"
+                  timestampString = "429905165.749104"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "556"
                   endingLineNumber = "556"
-                  offsetFromSymbolStart = "3246">
+                  offsetFromSymbolStart = "3455">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -119,12 +119,12 @@
                   symbolName = "-[SHNotificationSegmentViewController didTapAccept:]"
                   moduleName = "Study Huddle"
                   urlString = "file:///Users/Jason/Documents/Study%20Huddle/Code/studyhuddle/Study%20Huddle/SHNotificationSegmentViewController.m"
-                  timestampString = "429823689.020314"
+                  timestampString = "429905165.74927"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "556"
                   endingLineNumber = "556"
-                  offsetFromSymbolStart = "3310">
+                  offsetFromSymbolStart = "3554">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -152,11 +152,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Study Huddle/SHNewHuddleViewController.m"
-            timestampString = "429822882.017448"
+            timestampString = "429905165.460649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "-initContent"
             landmarkType = "5">
          </BreakpointContent>

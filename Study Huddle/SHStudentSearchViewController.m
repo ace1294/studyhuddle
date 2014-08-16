@@ -161,14 +161,14 @@
     
     [self.searchedBar resignFirstResponder];
     
-    PFObject *selectedStudent = [PFObject objectWithClassName:SHStudentParseClass];
+    PFUser *selectedStudent = [PFUser object];
     selectedStudent = [self.searchResults objectAtIndex:indexPath.row];
     
     
-    
-    self.addedMember = selectedStudent;
+
     if ([self.type isEqual:@"NewHuddle"]) {
         self.navigationController.navigationBarHidden = NO;
+        [self.delegate didAddMember:selectedStudent];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else if([self.type isEqual:@"NewMember"]){
@@ -187,7 +187,8 @@
         
     }
     
-    
+    [self.searchResults removeAllObjects];
+    self.searchResults = [NSMutableArray arrayWithCapacity:15];
     
 }
 

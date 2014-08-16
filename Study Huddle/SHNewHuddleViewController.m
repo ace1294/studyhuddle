@@ -22,7 +22,7 @@
 
 
 
-@interface SHNewHuddleViewController () < UITextFieldDelegate, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface SHNewHuddleViewController () < UITextFieldDelegate, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, SHStudentSearchDelegate>{
     CGSize scrollViewContentSize;
 }
 
@@ -48,9 +48,6 @@
 @property (strong, nonatomic) SHStudentSearchViewController *searchVC;
 
 @property (strong,nonatomic) UIScrollView* scrollView;
-
-- (void)classPressed:(id)sender;
-- (void)didTapSearchClass:(id)sender;
 
 @end
 
@@ -217,10 +214,11 @@ float classButtonsHeight;
         if(!self.searchVC){
             self.searchVC = [[SHStudentSearchViewController alloc]init];
             self.searchVC.type = @"NewHuddle";
-            self.searchVC.navigationController.delegate = self;
+            self.searchVC.delegate = self;
         }
         
         [self.navigationController pushViewController:self.searchVC animated:YES];
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
 }
 
@@ -274,6 +272,8 @@ float classButtonsHeight;
 {
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;
+    self.huddle[SHHuddleCreatorKey] = [PFUser currentUser];
+    //self.huddle
     
     [self.huddle saveInBackground];
     
@@ -284,22 +284,22 @@ float classButtonsHeight;
     
 }
 
-#pragma mark - UINavigationControllerDelegate
+#pragma mark - SHStudentSearchDelegate
 
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+- (void)didAddMember:(PFUser *)member
 {
-    NSLog(@"HEREREREREEE");
+    [self.navigationController.navigationBar setHidden:NO];
+    [self.huddleMembers addObject:member];
     
-    if(self.searchVC.addedMember)
-    {
-        [self.navigationController.navigationBar setHidden:NO];
-        [self.huddleMembers addObject:self.searchVC.addedMember];
+    float tableY = self.tableView.frame.origin.y;
+    float tableHeight = self.tableView.frame.size.height;
+    [self.tableView setFrame:CGRectMake(horiBorderSpacing, tableY, contentWidth, tableHeight+SHStudentCellHeight)];
     
-        scrollViewContentSize.height += SHStudentCellHeight;
-        [self.scrollView setContentSize:scrollViewContentSize];
+    scrollViewContentSize.height += SHStudentCellHeight;
+    [self.scrollView setContentSize:scrollViewContentSize];
         
-        [self.tableView reloadData];
-    }
+    [self.tableView reloadData];
+    
 }
 
 @end

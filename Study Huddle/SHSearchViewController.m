@@ -261,10 +261,10 @@
     
     if(indexPath.row+1 <= [self.students count])
     {
-        PFObject *studentObject = [self.students objectAtIndex:(int)indexPath.row];
+        PFUser *studentObject = [self.students objectAtIndex:(int)indexPath.row];
         [studentObject fetchIfNeeded];
         
-        SHVisitorProfileViewController *visitorStudentV = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentObject];
+        SHVisitorProfileViewController *visitorStudentV = [[SHVisitorProfileViewController alloc]initWithStudent:studentObject];
         
         [self.navigationController pushViewController:visitorStudentV animated:YES];
     }

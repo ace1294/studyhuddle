@@ -503,7 +503,7 @@
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     image = [SHUtility imageWithImage:image scaledToSize:CGSizeMake(100, 100)];
     NSLog(@"image: %@",image);
-    UIImageView* imageView = [[UIImageView alloc]initWithImage:image];
+    //UIImageView* imageView = [[UIImageView alloc]initWithImage:image];
 
  
 }

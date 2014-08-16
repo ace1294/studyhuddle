@@ -222,7 +222,7 @@
 
     SHStudentCell *studentCell = (SHStudentCell *)cell;
         
-    SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:(Student *)studentCell.student];
+    SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:studentCell.student];
             
     [self.navigationController pushViewController:visitorVC animated:YES];
 

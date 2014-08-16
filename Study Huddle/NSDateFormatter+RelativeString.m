@@ -24,12 +24,12 @@
     if ([dateDiff second] < 60) {
         [result appendString:@"less than 1 minute ago"];
     } else if ([dateDiff second] < SECONDS_PER_HOUR) {
-        [result appendFormat:@"%ld minute%@ ago",
+        [result appendFormat:@"%d minute%@ ago",
          ([dateDiff second] / 60) + 1,
          ([dateDiff minute] < 2) ? @"" : @"s"];
     } else if ([dateDiff second] < (SECONDS_PER_HOUR * 6)) {
-        [result appendFormat:@"%ld hour%@ ago",
-         (long)hours,
+        [result appendFormat:@"%d hour%@ ago",
+         hours,
          (hours < 2) ? @"" : @"s"];
     } else {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
