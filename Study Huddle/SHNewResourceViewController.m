@@ -276,7 +276,12 @@
     
     [self cancelAction];
     
-    for(PFUser *member in self.huddle[SHHuddleMembersKey])
+    PFQuery *query = [PFUser query];
+    [query whereKey:SHStudentHuddlesKey equalTo:self.huddle];
+    [query whereKey:SHStudentEmailKey notEqualTo:[PFUser currentUser][SHStudentEmailKey]];
+    NSArray *members = [query findObjects];
+    
+    for(PFUser *member in members)
     {
         if ([[member objectId] isEqual:[[PFUser currentUser] objectId]])
             continue;

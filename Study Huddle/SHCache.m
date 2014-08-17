@@ -57,7 +57,6 @@ NSString *studentHeader = @"student";
     
     [self setHuddles:[PFUser currentUser][SHStudentHuddlesKey]];
     [self setClasses:[PFUser currentUser][SHStudentClassesKey]];
-    [self setStudyFriends:[PFUser currentUser][SHStudentStudyFriendsKey]];
     
 }
 
@@ -105,9 +104,10 @@ NSString *studentHeader = @"student";
     [self.huddleMembers setObject:[SHUtility objectIDsForObjects:members] forKey:[self keyForObject:huddle withHeader:huddleHeader]];
     
     for(PFUser *user in members){
+        if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
+            continue;
         [self setNewStudyFriend:user];
     }
-    
     
     for(PFObject *resourceCategory in huddle[SHHuddleResourceCategoriesKey])
         [resourceCategory fetchIfNeeded];
@@ -133,13 +133,6 @@ NSString *studentHeader = @"student";
         return;
     
     [self setAttributesForHuddle:huddle];
-    
-    for(PFUser *user in huddle[SHHuddleMembersKey]){
-        if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
-            continue;
-        [self setNewStudyFriend:user];
-    }
-    
     
     [currentHuddles addObject:[huddle objectId]];
     [self.cache setObject:[NSArray arrayWithArray:currentHuddles] forKey:key];
@@ -249,6 +242,24 @@ NSString *studentHeader = @"student";
     [self setAttributesForClass:huddleClass];
     
     [currentClasses addObject:[huddleClass objectId]];
+    [self.cache setObject:[NSArray arrayWithArray:currentClasses] forKey:key];
+    
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentClasses forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(void)leaveClass:(PFObject *)huddleClass
+{
+    NSString *key = SHUserDefaultsUserStudyLogsKey;
+    NSMutableArray *currentClasses = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
+    if (!currentClasses) {
+        currentClasses = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        [self.cache setObject:currentClasses forKey:key];
+    }
+    
+    [currentClasses removeObject:[huddleClass objectId]];
+    
     [self.cache setObject:[NSArray arrayWithArray:currentClasses] forKey:key];
     
     

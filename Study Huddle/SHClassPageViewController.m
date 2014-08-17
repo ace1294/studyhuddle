@@ -13,6 +13,7 @@
 #import "SHClassPageViewController.h"
 #import "SHConstants.h"
 #import "UIColor+HuddleColors.h"
+#import "SHCache.h"
 
 #define topPartSize 100
 #define classNameWidth 500
@@ -190,19 +191,12 @@
 
 -(void)leaveClassPressed
 {
-    
     //remove it to the current users classes array
-    PFUser* currentUser = [PFUser currentUser];
-    [currentUser removeObject:self.classObj forKey:SHStudentClassesKey];
-    [currentUser save];
+    PFRelation* classesRelation = [[PFUser currentUser] relationForKey:SHStudentClassesKey];
+    [classesRelation removeObject:self.classObj];
+    [[PFUser currentUser] saveInBackground];
     
-    //remove the user from the classes students array
-    NSString* currentUserId = [currentUser objectId];
-    PFQuery *query = [PFQuery queryWithClassName:@"_User"];
-    PFObject* student = [query getObjectWithId:currentUserId];
-    [self.classObj removeObject:student forKey:SHClassStudentsKey];
-    [self.classObj save];
-
+    [[SHCache sharedCache]leaveClass:self.classObj];
     
     SHVisitorClassPageViewController* classVC = [[SHVisitorClassPageViewController alloc]initWithClass:self.classObj];
     NSMutableArray* navControllers = [[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
@@ -217,13 +211,9 @@
     
     DZNSegmentedControl* control = self.segmentController.control;
     
-    
-    
     float heightOfTable = [self.segmentController getOccupatingHeight];
     
     float viewableHeight = self.tabBarController.tabBar.frame.origin.y - self.navigationController.navigationBar.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
-    
-    
     
     float normalHeight = viewableHeight + topPartSize;
     float extraDistance = (heightOfTable + control.frame.size.height)-viewableHeight;

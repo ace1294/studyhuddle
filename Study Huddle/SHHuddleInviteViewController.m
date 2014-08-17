@@ -10,6 +10,7 @@
 #import "UIColor+HuddleColors.h"
 #import "SHHuddleButtons.h"
 #import "SHUtility.h"
+#import "SHCache.h"
 
 @interface SHHuddleInviteViewController () <UITextViewDelegate>
 
@@ -113,14 +114,19 @@
         return;
     }
     
-    PFQuery *huddleQuery = [PFQuery queryWithClassName:SHHuddleParseClass];
-    [huddleQuery whereKey:SHHuddleNameKey equalTo:self.huddleButtons.selectedButton];
-    [huddleQuery whereKey:SHHuddleMembersKey equalTo:self.student];
-    PFObject *huddle = [huddleQuery findObjects][0];
+    NSArray *huddles = [[SHCache sharedCache] huddles];
+    PFObject *selectedHuddle = [PFObject objectWithClassName:SHHuddleParseClass];
+    
+    for(PFObject *huddle in huddles){
+        if([huddle[SHHuddleNameKey] isEqualToString:self.huddleButtons.selectedButton]){
+            selectedHuddle = huddle;
+            break;
+        }
+    }
 
     PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
-    request[SHRequestTitleKey] = huddle[SHHuddleNameKey];
-    request[SHRequestHuddleKey] = huddle;
+    request[SHRequestTitleKey] = selectedHuddle[SHHuddleNameKey];
+    request[SHRequestHuddleKey] = selectedHuddle;
     request[SHRequestMessageKey] = self.messageTextView.text;
     request[SHRequestTypeKey] = SHRequestHSJoin;
     request[SHRequestStudent1Key] = self.toStudent;

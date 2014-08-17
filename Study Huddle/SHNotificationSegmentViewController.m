@@ -532,7 +532,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
         [notification saveInBackground];
         
-        for(PFUser *member in huddle[SHHuddleMembersKey])
+        for(PFUser *member in [[SHCache sharedCache]membersForHuddle:huddle])
         {
             if([member isEqual:huddle[SHHuddleCreatorKey]])
                 continue;
@@ -582,7 +582,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [notification saveInBackground];
         
         
-        for(PFUser *member in huddle[SHHuddleMembersKey])
+        for(PFUser *member in [[SHCache sharedCache]membersForHuddle:huddle])
         {
             PFObject *memberNotification = [PFObject objectWithClassName:SHNotificationParseClass];
             
@@ -719,7 +719,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             [newHuddle fetchIfNeeded];
             
             [[PFUser currentUser] addObject:newHuddle forKey:SHStudentHuddlesKey];
-            [[PFUser currentUser] addUniqueObjectsFromArray:newHuddle[SHHuddleMembersKey] forKey:SHStudentStudyFriendsKey];
             [[PFUser currentUser] saveInBackground];
         }
         i++;

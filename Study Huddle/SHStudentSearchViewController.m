@@ -101,12 +101,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-    if ([self.type isEqual:@"NewHuddle"]) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if([self.type isEqual:@"NewMember"]){
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -169,7 +164,7 @@
     if ([self.type isEqual:@"NewHuddle"]) {
         self.navigationController.navigationBarHidden = NO;
         [self.delegate didAddMember:selectedStudent];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     else if([self.type isEqual:@"NewMember"]){
         [self.delegate didAddMember:selectedStudent];

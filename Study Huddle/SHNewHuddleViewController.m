@@ -136,7 +136,7 @@ float classButtonsHeight;
     createButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = createButton;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.title = @"Create Huddle";
+    self.title = @"New Huddle";
     
     self.huddlePortrait = [[SHBasePortraitView alloc]initWithFrame:CGRectMake(huddleImageX, huddleImageY, huddleImageDim, huddleImageDim)];
     [self.huddlePortrait setBackgroundColor:[UIColor clearColor]];
@@ -217,7 +217,9 @@ float classButtonsHeight;
             self.searchVC.delegate = self;
         }
         
-        [self.navigationController pushViewController:self.searchVC animated:YES];
+        [self presentViewController:self.searchVC animated:YES completion:^{
+            //
+        }];
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
 }
@@ -273,13 +275,22 @@ float classButtonsHeight;
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;
     self.huddle[SHHuddleCreatorKey] = [PFUser currentUser];
-    //self.huddle
+    
+    for(PFUser *user in self.huddleMembers)
+    {
+        PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
+        request[SHRequestTypeKey] = SHRequestHSJoin;
+        request[SHRequestHuddleKey] = self.huddle;
+        request[SHRequestStudent1Key] = user;
+        
+        
+    }
     
     [self.huddle saveInBackground];
     
     SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:self.huddle];
     
-    [self.parentViewController.navigationController pushViewController:huddleVC animated:YES];
+    [self.navigationController pushViewController:huddleVC animated:YES];
     
     
 }

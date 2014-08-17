@@ -176,7 +176,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
 
 -(void)loadData
 {
-     [[SHCache sharedCache] setHuddles:self.student[SHStudentHuddlesKey]];
+    [[SHCache sharedCache] setHuddles:self.student[SHStudentHuddlesKey]];
     [[SHCache sharedCache] setClasses:[[[self.student relationForKey:SHStudentClassesKey] query] findObjects]];
     [[SHCache sharedCache] setStudyLogs:self.student[SHStudentStudyLogsKey]];
     
