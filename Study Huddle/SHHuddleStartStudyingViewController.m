@@ -125,10 +125,15 @@
         
         NSString* channel = [NSString stringWithFormat:@"a%@",[member objectId]];
         NSString* message = [NSString stringWithFormat:@"%@ will be studying at %@",self.huddle[SHHuddleNameKey],self.locationTextField.text];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              message, @"alert",
+                              @"Increment", @"badge",
+                              nil];
         PFPush *push = [[PFPush alloc] init];
-        [push setChannel:channel];
-        [push setMessage:@"will it work?"];
+        [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+        [push setData:data];
         [push sendPushInBackground];
+
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationTypeKey] = SHNotificationHSStudyRequestType;
