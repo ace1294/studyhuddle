@@ -169,7 +169,7 @@ float classButtonsHeight;
     [self.membersHeaderLabel setFrame:CGRectMake(horiBorderSpacing, classButtonsHeight+vertElemSpacing+huddleClassButtonY, headerWidth, headerHeight)];
     
     CGFloat tableY = self.membersHeaderLabel.frame.origin.y+self.membersHeaderLabel.frame.size.height;
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(horiBorderSpacing, tableY, contentWidth, 30.0) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(horiBorderSpacing, tableY, contentWidth, 50.0) style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.tableView setScrollEnabled:NO];
@@ -203,7 +203,7 @@ float classButtonsHeight;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == 0)
-        return 40.0;
+        return 50.0;
     else
         return 70.0;
 }
