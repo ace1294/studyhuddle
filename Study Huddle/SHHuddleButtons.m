@@ -42,7 +42,7 @@ NSString *addButtonString;
 
 @implementation SHHuddleButtons
 
-- (id)initWithFrame:(CGRect)frame items:(NSArray *)buttonList addButton:(NSString *)addString
+- (id)initWithFrame:(CGRect)frame items:(NSMutableArray *)buttonList addButton:(NSString *)addString
 {
     self = [super init];
     if (self) {
