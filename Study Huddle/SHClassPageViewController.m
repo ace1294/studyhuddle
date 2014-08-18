@@ -76,6 +76,8 @@
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     self.navigationController.navigationBar.topItem.title = @"";
+    UIBarButtonItem *button = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(doChat)];
+    self.navigationItem.rightBarButtonItem = button;
 }
 
 - (void)viewDidLoad
@@ -181,6 +183,11 @@
     [self.view addSubview:self.leaveClassButton];
     
     
+}
+
+-(void)doChat
+{
+    NSLog(@"getting called");
 }
 
 - (void)didReceiveMemoryWarning

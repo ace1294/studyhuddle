@@ -88,7 +88,8 @@
     
     self.huddlesData = [[NSMutableDictionary alloc]init];
     self.studentData = [[NSMutableDictionary alloc]init];
-    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects: self.studentData, self.huddlesData, nil];
+    self.chatCategoriesDataArray = [[NSMutableArray alloc]init];
+    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects: self.studentData, self.huddlesData, self.chatCategoriesDataArray,nil];
     
     [self loadClassDataRefresh:false];
     
@@ -121,7 +122,7 @@
     
     [self.tableView registerClass:[SHStudentCell class] forCellReuseIdentifier:SHStudentCellIdentifier];
     [self.tableView registerClass:[SHHuddleCell class] forCellReuseIdentifier:SHHuddleCellIdentifier];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+    [self.tableView registerClass:[SHChatCell class] forCellReuseIdentifier:SHChatCellIdentifier];
     
     self.control.backgroundColor = [UIColor whiteColor];
     
@@ -161,7 +162,8 @@
     self.currentRowsToDisplay = [[self.huddlesData objectForKey:@"both"] count];
     
     //Chat
-    
+    [self.chatCategoriesDataArray removeAllObjects];
+    [self.chatCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] chatCategoriessForClass:self.segClass]];
     [self.tableView reloadData];
     
     return loadError;
@@ -192,7 +194,12 @@
 
 - (void)selectedSegment:(DZNSegmentedControl *)control
 {
-    self.currentRowsToDisplay = [[[self.encapsulatingDataArray objectAtIndex:control.selectedSegmentIndex] objectForKey:@"both"] count];
+    
+    
+    if(control.selectedSegmentIndex<=1 )
+        self.currentRowsToDisplay = [[[self.encapsulatingDataArray objectAtIndex:control.selectedSegmentIndex] objectForKey:@"both"] count];
+    else
+        self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:control.selectedSegmentIndex] count];
     [self.tableView reloadData];
 }
 
@@ -207,11 +214,17 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(self.control.selectedSegmentIndex == 2)
+        return SHChatCellHeight;
+    
     return SHHuddleCellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CHAT"])
+        return 0.0;
+    
     return 40.0;
 }
 
@@ -257,6 +270,8 @@
         if([[self.huddlesData objectForKey:@"online"] count] > 0 && [[self.huddlesData objectForKey:@"offline"] count] > 0)
             return 2;
     }
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CHAT"])
+        return 1;
     
     return 1;
 }
@@ -307,16 +322,37 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
-        if(section == 0)
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"STUDENTS"])
+    {
+        if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+            if(section == 0)
+                return @"Online";
+            else
+                return @"Offline";
+        } else if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
             return @"Online";
-        else
+        } else{
             return @"Offline";
-    } else if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
-        return @"Online";
-    } else{
-        return @"Offline";
+        }
     }
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
+    {
+        if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+            if(section == 0)
+                return @"Online";
+            else
+                return @"Offline";
+        } else if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
+            return @"Online";
+        } else{
+            return @"Offline";
+        }
+    } else
+    {
+        return @"Shouldn't See This";
+    }
+    
+    
     return @"Check Title";
 }
 
@@ -388,10 +424,11 @@
     }
     else if([CellIdentifier isEqual:SHChatCellIdentifier])
     {
+        
         PFObject *chatEntryObj = [self.chatCategoriesDataArray objectAtIndex:(int)indexPath.row];
         SHChatCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
-        
+        [chatEntryObj fetchIfNeeded];
         [cell setChatEntry:chatEntryObj];
         [cell layoutIfNeeded];
         
