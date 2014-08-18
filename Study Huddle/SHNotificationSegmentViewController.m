@@ -25,8 +25,9 @@
 #import "SHUtility.h"
 #import "SHCache.h"
 #import "ChatView.h"
+#import "MBProgressHUD.h"
 
-@interface SHNotificationSegmentViewController () <SHRequestCellDelegate>{
+@interface SHNotificationSegmentViewController () <SHRequestCellDelegate,MBProgressHUDDelegate>{
     int selectedIndex;
 }
 
@@ -210,6 +211,12 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     return loadError;
 }
+
+-(void)doTheLoad
+{
+    
+}
+
 
 #pragma mark - DZNSegmentController
 

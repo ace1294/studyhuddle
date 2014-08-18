@@ -307,6 +307,11 @@ NSString *requestHeader = @"request";
     return [NSArray arrayWithArray:huddleClass[SHClassHuddlesKey]];
 }
 
+- (NSArray *)chatCategoriessForClass:(PFObject *)aClass
+{
+    return [NSArray arrayWithArray:aClass[SHClassChatCategoriesKey]];
+}
+
 #pragma mark - User
 
 - (void)setStudyFriends:(NSArray *)friends

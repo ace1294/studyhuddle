@@ -50,6 +50,7 @@ extern NSString *const SHClassEmailKey;
 extern NSString *const SHClassRoomKey;
 extern NSString *const SHClassUniqueName;
 extern NSString *const SHClassHuddlesKey;
+extern NSString *const SHClassChatCategoriesKey;
 
 //Huddle
 extern NSString *const SHHuddleCreatorKey;

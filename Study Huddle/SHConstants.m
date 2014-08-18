@@ -56,6 +56,7 @@ NSString *const SHClassEmailKey = @"teacherEmail";
 NSString *const SHClassRoomKey = @"classRoom";
 NSString *const SHClassUniqueName = @"uniqueName";
 NSString *const SHClassHuddlesKey = @"huddles";
+NSString *const SHClassChatCategoriesKey = @"chatCategories";
 
 //Huddle
 NSString *const SHHuddleCreatorKey = @"creator";

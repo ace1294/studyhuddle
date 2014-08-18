@@ -36,6 +36,7 @@
 - (PFObject *)objectForClass:(PFObject *)huddleClass;
 - (NSArray *)studentsForClass:(PFObject *)huddleClass;
 - (NSArray *)huddlesForClass:(PFObject *)huddleClass;
+- (NSArray *)chatCategoriessForClass:(PFObject *)aClass;
 
 
 #pragma mark - User
