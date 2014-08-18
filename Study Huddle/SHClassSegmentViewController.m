@@ -307,10 +307,17 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if(section == 0)
+    if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+        if(section == 0)
+            return @"Online";
+        else
+            return @"Offline";
+    } else if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
         return @"Online";
-    else
+    } else{
         return @"Offline";
+    }
+    return @"Check Title";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

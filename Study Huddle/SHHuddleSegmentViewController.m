@@ -292,6 +292,46 @@
         return SHHuddleCellHeight;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"MEMBERS"])
+    {
+        PFUser *student = self.membersDataArray[indexPath.row];
+        
+        if([student isEqual:[PFUser currentUser]])
+        {
+            SHProfileViewController *profileVC = [[SHProfileViewController alloc]initWithStudent:student];
+            
+            [self.navigationController pushViewController:profileVC animated:YES];
+        }
+        else{
+            SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:student];
+            
+            [self.navigationController pushViewController:visitorVC animated:YES];
+        }
+    }
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"RESOURCES"])
+    {
+//        PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
+//        //NSLog(@"chatEntryObj: , %@",chatEntryObj);
+//        //SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
+//        //[self.navigationController pushViewController:chatEntryVC animated:YES];*/
+//        [chatEntryObj fetchIfNeeded];
+//        RoomView *roomView = [[RoomView alloc] initWithChatCategoryOwner:[chatEntryObj objectId]];
+//        roomView.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:roomView animated:YES];
+    }
+    else
+    {
+        PFObject *category = self.resourceCategoriesDataArray[indexPath.row];
+        
+        SHResourceListViewController *resourceListVC = [[SHResourceListViewController alloc] initWithResourceCategory:category];
+        
+        [self.navigationController pushViewController:resourceListVC animated:YES];
+        
+    }
+}
+
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -376,13 +416,9 @@
         RoomView *roomView = [[RoomView alloc] initWithChatCategoryOwner:[chatEntryObj objectId]];
         roomView.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:roomView animated:YES];
-        
 
-        
     }
     if ([cell isKindOfClass:[SHCategoryCell class]] ) {
-        
-        
         SHCategoryCell *categoryCell = (SHCategoryCell *)cell;
         
         SHResourceListViewController *resourceListVC = [[SHResourceListViewController alloc] initWithResourceCategory:categoryCell.category];
