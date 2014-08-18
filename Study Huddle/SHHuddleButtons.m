@@ -433,9 +433,15 @@ NSString *addButtonString;
 - (void)setButtonState:(UIButton *)button state:(BOOL)selected
 {
     if (selected) {
+        [button setBackgroundColor:self.selectedBackgroundColor];
+        [button setTitleColor:self.selectedTextColor forState:UIControlStateNormal];
+        [button setTitleColor:self.selectedTextColor forState:UIControlStateSelected];
+        [button setSelected:YES];
         
     } else {
-        
+        [button setBackgroundColor:self.backgroundColor];
+        [button setTitleColor:self.textColor forState:UIControlStateNormal];
+        [button setSelected:NO];
     }
 }
 

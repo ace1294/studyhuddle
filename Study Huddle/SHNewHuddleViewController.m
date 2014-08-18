@@ -22,7 +22,7 @@
 
 
 
-@interface SHNewHuddleViewController () < UITextFieldDelegate, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate>{
+@interface SHNewHuddleViewController () < UITextFieldDelegate, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, SHStudentSearchDelegate>{
     CGSize scrollViewContentSize;
 }
 
@@ -48,9 +48,6 @@
 @property (strong, nonatomic) SHStudentSearchViewController *searchVC;
 
 @property (strong,nonatomic) UIScrollView* scrollView;
-
-- (void)classPressed:(id)sender;
-- (void)didTapSearchClass:(id)sender;
 
 @end
 
@@ -139,7 +136,7 @@ float classButtonsHeight;
     createButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = createButton;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.title = @"Create Huddle";
+    self.title = @"New Huddle";
     
     self.huddlePortrait = [[SHBasePortraitView alloc]initWithFrame:CGRectMake(huddleImageX, huddleImageY, huddleImageDim, huddleImageDim)];
     [self.huddlePortrait setBackgroundColor:[UIColor clearColor]];
@@ -217,10 +214,13 @@ float classButtonsHeight;
         if(!self.searchVC){
             self.searchVC = [[SHStudentSearchViewController alloc]init];
             self.searchVC.type = @"NewHuddle";
-            self.searchVC.navigationController.delegate = self;
+            self.searchVC.delegate = self;
         }
         
-        [self.navigationController pushViewController:self.searchVC animated:YES];
+        [self presentViewController:self.searchVC animated:YES completion:^{
+            //
+        }];
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
     }
 }
 
@@ -274,32 +274,43 @@ float classButtonsHeight;
 {
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;
+    self.huddle[SHHuddleCreatorKey] = [PFUser currentUser];
+    
+    for(PFUser *user in self.huddleMembers)
+    {
+        PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
+        request[SHRequestTypeKey] = SHRequestHSJoin;
+        request[SHRequestHuddleKey] = self.huddle;
+        request[SHRequestStudent1Key] = user;
+        
+        
+    }
     
     [self.huddle saveInBackground];
     
     SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:self.huddle];
     
-    [self.parentViewController.navigationController pushViewController:huddleVC animated:YES];
+    [self.navigationController pushViewController:huddleVC animated:YES];
     
     
 }
 
-#pragma mark - UINavigationControllerDelegate
+#pragma mark - SHStudentSearchDelegate
 
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+- (void)didAddMember:(PFUser *)member
 {
-    NSLog(@"HEREREREREEE");
+    [self.navigationController.navigationBar setHidden:NO];
+    [self.huddleMembers addObject:member];
     
-    if(self.searchVC.addedMember)
-    {
-        [self.navigationController.navigationBar setHidden:NO];
-        [self.huddleMembers addObject:self.searchVC.addedMember];
+    float tableY = self.tableView.frame.origin.y;
+    float tableHeight = self.tableView.frame.size.height;
+    [self.tableView setFrame:CGRectMake(horiBorderSpacing, tableY, contentWidth, tableHeight+SHStudentCellHeight)];
     
-        scrollViewContentSize.height += SHStudentCellHeight;
-        [self.scrollView setContentSize:scrollViewContentSize];
+    scrollViewContentSize.height += SHStudentCellHeight;
+    [self.scrollView setContentSize:scrollViewContentSize];
         
-        [self.tableView reloadData];
-    }
+    [self.tableView reloadData];
+    
 }
 
 @end

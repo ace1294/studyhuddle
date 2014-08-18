@@ -13,15 +13,13 @@
 @interface SHStudentSearchViewController : PFQueryTableViewController <UISearchBarDelegate>
 
 @property (strong, nonatomic) id delegate;
-@property (strong, nonatomic) PFObject *addedMember;
 @property (strong, nonatomic) NSString *type;
 @property (strong, nonatomic) PFObject *huddle;
 
 @end
 
 @protocol SHStudentSearchDelegate <NSObject>
-@optional
 
-- (void)didAddMember:(PFObject *)member;
+- (void)didAddMember:(PFUser *)member;
 
 @end

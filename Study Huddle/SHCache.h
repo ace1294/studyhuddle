@@ -32,6 +32,7 @@
 - (NSArray *)classes;
 - (void)setAttributesForClass:(PFObject *)huddleClass;
 - (void)setNewClass:(PFObject *)huddleClass;
+- (void)leaveClass:(PFObject *)huddleClass;
 - (PFObject *)objectForClass:(PFObject *)huddleClass;
 - (NSArray *)studentsForClass:(PFObject *)huddleClass;
 - (NSArray *)huddlesForClass:(PFObject *)huddleClass;

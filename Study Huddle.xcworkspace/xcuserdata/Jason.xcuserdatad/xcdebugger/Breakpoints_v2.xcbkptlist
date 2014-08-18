@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "111"
             endingLineNumber = "111"
-            landmarkName = "-application:didReceiveRemoteNotification:"
+            landmarkName = "-applicationWillTerminate:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,22 +57,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHHuddleJoinRequestViewController.m"
-            timestampString = "429080607.083192"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-continueAction"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Study Huddle/SHHuddlePageCell.m"
             timestampString = "428868021.855746"
             startingColumnNumber = "9223372036854775807"
@@ -81,52 +65,6 @@
             endingLineNumber = "145"
             landmarkName = "-setMembers:"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHNotificationSegmentViewController.m"
-            timestampString = "429080607.083192"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "555"
-            endingLineNumber = "555"
-            landmarkName = "-didTapAccept:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[SHNotificationSegmentViewController didTapAccept:]"
-                  moduleName = "Study Huddle"
-                  urlString = "file:///Users/Jason/Documents/Study%20Huddle/Code/studyhuddle/Study%20Huddle/SHNotificationSegmentViewController.m"
-                  timestampString = "429823689.020168"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "556"
-                  endingLineNumber = "556"
-                  offsetFromSymbolStart = "3246">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[SHNotificationSegmentViewController didTapAccept:]"
-                  moduleName = "Study Huddle"
-                  urlString = "file:///Users/Jason/Documents/Study%20Huddle/Code/studyhuddle/Study%20Huddle/SHNotificationSegmentViewController.m"
-                  timestampString = "429823689.020314"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "556"
-                  endingLineNumber = "556"
-                  offsetFromSymbolStart = "3310">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -142,22 +80,6 @@
             startingLineNumber = "131"
             endingLineNumber = "131"
             landmarkName = "+namesForObjects:withKey:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Study Huddle/SHNewHuddleViewController.m"
-            timestampString = "429822882.017448"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
-            landmarkName = "-initContent"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -101,12 +101,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-    if ([self.type isEqual:@"NewHuddle"]) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if([self.type isEqual:@"NewMember"]){
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -161,15 +156,15 @@
     
     [self.searchedBar resignFirstResponder];
     
-    PFObject *selectedStudent = [PFObject objectWithClassName:SHStudentParseClass];
+    PFUser *selectedStudent = [PFUser object];
     selectedStudent = [self.searchResults objectAtIndex:indexPath.row];
     
     
-    
-    self.addedMember = selectedStudent;
+
     if ([self.type isEqual:@"NewHuddle"]) {
         self.navigationController.navigationBarHidden = NO;
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.delegate didAddMember:selectedStudent];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     else if([self.type isEqual:@"NewMember"]){
         [self.delegate didAddMember:selectedStudent];
@@ -187,7 +182,8 @@
         
     }
     
-    
+    [self.searchResults removeAllObjects];
+    self.searchResults = [NSMutableArray arrayWithCapacity:15];
     
 }
 

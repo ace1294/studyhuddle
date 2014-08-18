@@ -53,7 +53,6 @@ extern NSString *const SHClassHuddlesKey;
 //Huddle
 extern NSString *const SHHuddleCreatorKey;
 extern NSString *const SHHuddleNameKey;
-extern NSString *const SHHuddleMembersKey;
 extern NSString *const SHHuddleStatusKey;
 extern NSString *const SHHuddleLowerName;
 extern NSString *const SHHuddleStudyKey;
@@ -78,7 +77,6 @@ extern NSString *const SHStudentHuddlesKey;
 extern NSString *const SHStudentStudyLogsKey;
 extern NSString *const SHStudentStudyingKey;
 extern NSString *const SHStudentCurrentStudyLogKey;
-extern NSString *const SHStudentStudyFriendsKey;
 extern NSString *const SHStudentRequestsKey;
 extern NSString *const SHStudentNotificationsKey;
 extern NSString* const SHStudentLastStartKey;

@@ -322,7 +322,7 @@
     
     if([CellIdentifier isEqual:SHStudentCellIdentifier])
     {
-        PFObject *studentObject;
+        PFUser *studentObject;
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         
         
