@@ -96,6 +96,8 @@
     self.study[SHStudyClassesKey] = [classes findObjects];
     self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
     
+    [[SHCache sharedCache] setNewStudyLog:self.study];
+    
     self.student[SHStudentCurrentStudyLogKey] = self.study;
     [self.student addObject:self.study forKey:SHStudentStudyLogsKey];
     [PFObject saveAll:@[self.student,self.study]];

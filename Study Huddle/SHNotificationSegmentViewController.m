@@ -175,21 +175,9 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 {
     BOOL loadError = true;
     
-    
-    //Notifications Data
-    NSMutableArray *notifications = [[NSMutableArray alloc]init];
-    
-    PFQuery *notificationQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
-    [notificationQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    [notifications addObjectsFromArray:[notificationQuery findObjects]];
-    [self findExpandableNotificaitonTypes];
-    
-    [self.segStudent addUniqueObjectsFromArray:[notificationQuery findObjects] forKey:SHStudentNotificationsKey];
-    [self.segStudent saveInBackground];
-    
     //sort them based on date created
     NSArray *sortedArray;
-    sortedArray = [notifications sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+    sortedArray = [[[SHCache sharedCache] notifications] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         [a fetchIfNeeded];
         [b fetchIfNeeded];
     
@@ -207,37 +195,17 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [self.notificationsDataArray removeAllObjects];
     [self.notificationsDataArray addObjectsFromArray:sortedArray];
     
+    [self findExpandableNotificaitonTypes];
+    
     [self.control setCount:[NSNumber numberWithInt:(int)self.notificationsDataArray.count] forSegmentAtIndex:0];
     
-    
     //Requests Data
-    NSArray *requests = [self.segStudent objectForKey:SHStudentRequestsKey];
-    self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:self.control.selectedSegmentIndex] count];
-    
     [self.requestsDataArray removeAllObjects];
-    [self.requestsDataArray addObjectsFromArray:requests];
-    
-    PFQuery *ssInviteStudy = [PFQuery queryWithClassName:SHRequestParseClass];
-    PFQuery *shJoin = [PFQuery queryWithClassName:SHRequestParseClass];
-    PFQuery *hsJoin = [PFQuery queryWithClassName:SHRequestParseClass];
-    
-    [ssInviteStudy whereKey:SHRequestTypeKey equalTo:SHRequestSSInviteStudy];
-    [ssInviteStudy whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    
-    [shJoin whereKey:SHRequestTypeKey equalTo:SHRequestSHJoin];
-    [shJoin whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    
-    [hsJoin whereKey:SHRequestTypeKey equalTo:SHRequestHSJoin];
-    [hsJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    
-    PFQuery *query = [PFQuery orQueryWithSubqueries:@[ssInviteStudy,shJoin,hsJoin]];
-    
-    [self.segStudent addUniqueObjectsFromArray:[query findObjects] forKey:SHStudentRequestsKey];
-    [self.segStudent saveInBackground];
-    [self.requestsDataArray removeAllObjects];
-    [self.requestsDataArray addObjectsFromArray:[query findObjects]];
+    [self.requestsDataArray addObjectsFromArray:[[SHCache sharedCache]requests]];
     
     [self.control setCount:[NSNumber numberWithInt:(int)self.requestsDataArray.count] forSegmentAtIndex:1];
+    
+    self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:self.control.selectedSegmentIndex] count];
 
     [self.tableView reloadData];
     
