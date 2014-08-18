@@ -127,7 +127,7 @@
         NSString* message = [NSString stringWithFormat:@"%@ will be studying at %@",self.huddle[SHHuddleNameKey],self.locationTextField.text];
         PFPush *push = [[PFPush alloc] init];
         [push setChannel:channel];
-        [push setMessage:message];
+        [push setMessage:@"will it work?"];
         [push sendPushInBackground];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];

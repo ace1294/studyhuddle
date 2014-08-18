@@ -19,8 +19,9 @@
 #import "SHNewHuddleViewController.h"
 #import "UIColor+HuddleColors.h"
 #import "SHCache.h"
+#import "MBProgressHUD.h"
 
-@interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate, SHHuddlePageCellDelegate, SHModalViewControllerDelegate, SHHuddleAddDelegate, WYPopoverControllerDelegate>
+@interface SHHuddleViewController () <UITableViewDataSource, UITableViewDelegate, SHHuddlePageCellDelegate, SHModalViewControllerDelegate, SHHuddleAddDelegate, WYPopoverControllerDelegate,MBProgressHUDDelegate>
 {
     WYPopoverController* popoverController;
 }
@@ -100,10 +101,25 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+	MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
+	
+	// Regiser for HUD callbacks so we can remove it from the window at the right time
+	HUD.delegate = self;
+	
+	// Show the HUD while the provided method executes in a new thread
+	[HUD showWhileExecuting:@selector(refreshSetup) onTarget:self withObject:nil animated:YES];
+
+   
+}
+
+-(void)refreshSetup
+{
     [self.student refresh];
     [self.tableView reloadData];
 }
-
 
 #pragma mark - UITableViewDelegate Methods
 

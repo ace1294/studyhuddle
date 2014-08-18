@@ -8,10 +8,11 @@
 
 #import "SHNotificationViewController.h"
 #import "SHNotificationSegmentViewController.h"
+#import "MBProgressHUD.h"
 
 
 
-@interface SHNotificationViewController ()
+@interface SHNotificationViewController ()<MBProgressHUDDelegate>
 
 @property (nonatomic,strong) PFUser* studentObj;
 @property (nonatomic,strong) SHNotificationSegmentViewController* segmentController;
@@ -57,10 +58,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self doTheLayout];
+    
+}
+
+-(void)doTheLayout
+{
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     
     float bottomOfNavBar = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
-
+    
     
     self.segmentContainer = [[UIView alloc]initWithFrame:CGRectMake(0, bottomOfNavBar+10, self.view.frame.size.width, self.view.frame.size.height)];
     self.segmentContainer.backgroundColor = [UIColor clearColor];
@@ -75,11 +82,6 @@
     self.segmentController.owner = self;
     
     [self.view addSubview:self.segmentContainer];
-
-    
-    
-    
-    
 }
 
 - (void) refresh:(id)sender
