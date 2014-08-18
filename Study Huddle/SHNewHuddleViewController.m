@@ -61,7 +61,7 @@ float classButtonsHeight;
 #define huddleImageY 10.0
 #define huddleImageDim 100.0
 
-#define nameHeaderY huddleImageY+huddleImageDim+vertBorderSpacing
+#define nameHeaderY huddleImageY+huddleImageDim+vertElemSpacing
 #define nameY nameHeaderY+headerHeight
 
 #define classHeaderY nameY+textFieldHeight+vertElemSpacing
@@ -156,8 +156,10 @@ float classButtonsHeight;
     
     CGRect initialFrame = CGRectMake(horiBorderSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
     NSMutableArray *classes = [NSMutableArray arrayWithArray:[SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassFullNameKey]];
-    [classes addObject:@"Personal"];
-    [classes addObject:@"Test"];
+    //[classes addObject:@"Personal"];
+    //[classes addObject:@"Test 1"];
+    //[classes addObject:@"Test 2"];
+    //[classes addObject:@"Test 3"];
     self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classes addButton:nil];
     self.huddleClassButtons.textFont = [UIFont fontWithName:@"Arial" size:12.0];
     self.huddleClassButtons.viewController = self;
@@ -167,7 +169,7 @@ float classButtonsHeight;
     [self.membersHeaderLabel setFrame:CGRectMake(horiBorderSpacing, classButtonsHeight+vertElemSpacing+huddleClassButtonY, headerWidth, headerHeight)];
     
     CGFloat tableY = self.membersHeaderLabel.frame.origin.y+self.membersHeaderLabel.frame.size.height;
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(horiBorderSpacing, tableY, contentWidth, 30.0) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(horiBorderSpacing, tableY, contentWidth, 50.0) style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.tableView setScrollEnabled:NO];
@@ -201,7 +203,7 @@ float classButtonsHeight;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == 0)
-        return 40.0;
+        return 50.0;
     else
         return 70.0;
 }

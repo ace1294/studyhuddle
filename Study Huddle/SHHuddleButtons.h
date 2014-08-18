@@ -28,7 +28,7 @@
 @property BOOL multipleSelection;
 @property BOOL addButtonSet;
 
-- (id)initWithFrame:(CGRect)frame items:(NSArray *)buttonList addButton:(NSString *) addString;
+- (id)initWithFrame:(CGRect)frame items:(NSMutableArray *)buttonList addButton:(NSString *) addString;
 - (void)setInitialPressedButtons:(NSArray *)buttons;
 - (float)getButtonHeight;
 
