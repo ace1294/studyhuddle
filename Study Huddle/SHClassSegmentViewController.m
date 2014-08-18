@@ -17,6 +17,7 @@
 #import "SHVisitorHuddleViewController.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHCache.h"
+#import "RoomView.h"
 
 @interface SHClassSegmentViewController () <SHBaseCellDelegate, UINavigationControllerDelegate>
 
@@ -471,6 +472,19 @@
         [self.owner.navigationController pushViewController:huddleVC animated:YES];
         
     }
+    else if([cell isKindOfClass:[SHChatCell class]])
+    {
+        PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
+        //NSLog(@"chatEntryObj: , %@",chatEntryObj);
+        //SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
+        //[self.navigationController pushViewController:chatEntryVC animated:YES];*/
+        [chatEntryObj fetchIfNeeded];
+        RoomView *roomView = [[RoomView alloc] initWithChatCategoryOwner:[chatEntryObj objectId]];
+        roomView.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:roomView animated:YES];
+        
+    }
+
 }
 
 -(float)getOccupatingHeight
