@@ -61,7 +61,7 @@ float classButtonsHeight;
 #define huddleImageY 10.0
 #define huddleImageDim 100.0
 
-#define nameHeaderY huddleImageY+huddleImageDim+vertBorderSpacing
+#define nameHeaderY huddleImageY+huddleImageDim+vertElemSpacing
 #define nameY nameHeaderY+headerHeight
 
 #define classHeaderY nameY+textFieldHeight+vertElemSpacing
@@ -156,9 +156,9 @@ float classButtonsHeight;
     
     CGRect initialFrame = CGRectMake(horiBorderSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
     NSMutableArray *classes = [NSMutableArray arrayWithArray:[SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassFullNameKey]];
-    [classes addObject:@"Personal"];
-    [classes addObject:@"Test 1"];
-    [classes addObject:@"Test 2"];
+    //[classes addObject:@"Personal"];
+    //[classes addObject:@"Test 1"];
+    //[classes addObject:@"Test 2"];
     //[classes addObject:@"Test 3"];
     self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classes addButton:nil];
     self.huddleClassButtons.textFont = [UIFont fontWithName:@"Arial" size:12.0];

@@ -111,11 +111,9 @@ NSString *addButtonString;
         button.tag = i;
         [button.titleLabel setFont:self.textFont];
         [button setTitleColor:self.textColor forState:UIControlStateNormal];
-        [button setTitleColor:self.selectedTextColor forState:UIControlStateHighlighted];
-        [button setTitleColor:self.selectedTextColor forState:UIControlStateSelected];
+        [button setTitleColor:self.selectedTextColor forState:UIControlStateHighlighted|UIControlStateSelected];
         [button setBackgroundImage:[UIImage imageWithColor:self.backgroundColor] forState:UIControlStateNormal];
-        [button setBackgroundImage:[UIImage imageWithColor:self.selectedBackgroundColor] forState:UIControlStateSelected];
-        [button setBackgroundImage:[UIImage imageWithColor:self.selectedBackgroundColor] forState:UIControlStateHighlighted];
+        [button setBackgroundImage:[UIImage imageWithColor:self.selectedBackgroundColor] forState:UIControlStateSelected|UIControlStateHighlighted];
         [button setTitle:buttonTitle forState:UIControlStateNormal];
 
         [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -134,7 +132,7 @@ NSString *addButtonString;
 - (void)setButtonFrames
 {
     
-    for(NSNumber *tag in self.buttons)
+    for(NSNumber *tag in [self.buttons allKeys])
     {
         NSUInteger roundCorners = 0;
         
@@ -143,8 +141,11 @@ NSString *addButtonString;
         //Long button on buttom
         if((([tag intValue]+1) == [self.buttons count]) && ([self.buttons count]%2 == 1)){
             [button setFrame:CGRectMake(initialButtonX,initialButtonY+buttonHeight*([tag intValue]/2), buttonWidth*2, buttonHeight)];
-            [self setMaskTo:button byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight];
-            return;
+            if([self.buttons count] == 1)
+                [self setMaskTo:button byRoundingCorners: UIRectCornerAllCorners];
+            else
+                [self setMaskTo:button byRoundingCorners: UIRectCornerBottomLeft | UIRectCornerBottomRight];
+            continue;
         }
         else
             [button setFrame:CGRectMake(initialButtonX+buttonWidth*([tag intValue]%2),initialButtonY+buttonHeight*([tag intValue]/2), buttonWidth, buttonHeight)];
@@ -157,7 +158,7 @@ NSString *addButtonString;
              roundCorners = roundCorners | UIRectCornerTopRight;
         
         //Round Bottom Corners
-        if(([tag intValue]+2) == [self.buttons count] && [tag intValue]!=1)
+        if(([tag intValue]+2) == [self.buttons count] && [tag intValue]!=1 && [self.buttons count]%2 != 1)
             roundCorners = roundCorners | UIRectCornerBottomLeft;
         else if(([tag intValue]+1) == [self.buttons count])
             roundCorners = roundCorners | UIRectCornerBottomRight;
@@ -183,7 +184,7 @@ NSString *addButtonString;
     
     if(addingNewButton){
         addingNewButton = !addingNewButton;
-        button.selected = NO;
+        [self setButtonState:button state:NO];
         [self expandUp:addingNewButton];
         
         [self dismissAddField];
@@ -202,21 +203,20 @@ NSString *addButtonString;
         {
             UIButton *button = [self.buttons objectForKey:tag];
 
-            if(tag == [NSNumber numberWithInteger:buttonNumber]){
-                button.selected = YES;
-                continue;
-            }
-            button.selected = NO;
+            if([tag intValue] == buttonNumber)
+               [self setButtonState:button state:YES];
+            else
+                [self setButtonState:button state:NO];
         }
     }
     else{
         
         if ([self.selectedButtons containsObject:self.selectedButton]) {
             [self.selectedButtons removeObject:self.selectedButton];
-            selectedButton.selected = NO;
+            [self setButtonState:selectedButton state:NO];
         }else{
             [self.selectedButtons addObject:self.selectedButton];
-            selectedButton.selected = YES;
+            [self setButtonState:selectedButton state:YES];
         }
     }
 
@@ -234,7 +234,7 @@ NSString *addButtonString;
     
     if(addingNewButton){
         addingNewButton = !addingNewButton;
-        button.selected = NO;
+        [self setButtonState:button state:NO];
         [self expandUp:addingNewButton];
         [self dismissAddField];
         
@@ -404,7 +404,7 @@ NSString *addButtonString;
     for (NSNumber *tag in self.buttons) {
         UIButton *button = [self.buttons objectForKey:tag];
         if([buttons containsObject:button.titleLabel.text]){
-            button.selected = YES;
+            [self setButtonState:button state:YES];
         }
     }
     [self.selectedButtons addObjectsFromArray:buttons];
@@ -433,15 +433,16 @@ NSString *addButtonString;
 - (void)setButtonState:(UIButton *)button state:(BOOL)selected
 {
     if (selected) {
-        [button setBackgroundColor:self.selectedBackgroundColor];
         [button setTitleColor:self.selectedTextColor forState:UIControlStateNormal];
-        [button setTitleColor:self.selectedTextColor forState:UIControlStateSelected];
-        [button setSelected:YES];
+        [button setTitleColor:self.textColor forState:UIControlStateHighlighted|UIControlStateSelected];
+        [button setBackgroundImage:[UIImage imageWithColor:self.selectedBackgroundColor] forState:UIControlStateNormal];
+        [button setBackgroundImage:[UIImage imageWithColor:self.backgroundColor] forState:UIControlStateSelected|UIControlStateHighlighted];
         
     } else {
-        [button setBackgroundColor:self.backgroundColor];
         [button setTitleColor:self.textColor forState:UIControlStateNormal];
-        [button setSelected:NO];
+        [button setTitleColor:self.selectedTextColor forState:UIControlStateHighlighted|UIControlStateSelected];
+        [button setBackgroundImage:[UIImage imageWithColor:self.backgroundColor] forState:UIControlStateNormal];
+        [button setBackgroundImage:[UIImage imageWithColor:self.selectedTextColor] forState:UIControlStateSelected|UIControlStateHighlighted];
     }
 }
 
