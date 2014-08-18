@@ -220,6 +220,9 @@
 
 + (NSArray *)objectIDsForObjects:(NSArray *)objects
 {
+    if([objects count] < 1)
+        return @[];
+    
     NSMutableArray *objectIDs = [[NSMutableArray alloc]initWithCapacity:[objects count]];
     
     for(PFObject *object in objects){

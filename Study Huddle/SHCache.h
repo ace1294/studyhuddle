@@ -50,8 +50,21 @@
 - (NSArray *)studyLogs;
 - (void)setAttributesForStudyLog:(PFObject *)log;
 - (void)setNewStudyLog:(PFObject *)studyLog;
-- (PFUser *)objectForStudyLog:(PFObject *)log;
+- (PFObject *)objectForStudyLog:(PFObject *)log;
 
+#pragma mark - Notifications
+- (void)setNotifications:(NSArray *)notifications;
+- (NSArray *)notifications;
+- (void)setAttributesForNotification:(PFObject *)notification;
+- (void)setNewNotification:(PFObject *)notification;
+- (NSArray *)reloadNotifications;
+
+#pragma mark - Requests
+- (void)setRequests:(NSArray *)requests;
+- (NSArray *)requests;
+- (void)setAttributesForRequest:(PFObject *)request;
+- (void)setNewRequest:(PFObject *)request;
+- (NSArray *)reloadRequests;
 
 
 

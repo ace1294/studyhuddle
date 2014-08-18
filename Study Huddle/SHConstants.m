@@ -10,10 +10,12 @@
 
 #pragma mark - NSUserDefaults
 
-NSString *const SHUserDefaultsUserHuddlesKey = @"com.StudyHuddle.userDefaults.huddles";
-NSString *const SHUserDefaultsUserClassesKey = @"com.StudyHuddle.userDefaults.classes";
-NSString *const SHUserDefaultsUserStudyFriendsKey = @"com.StudyHuddle.userDefaults.studyFriends";
-NSString *const SHUserDefaultsUserStudyLogsKey = @"com.StudyHuddle.userDefaults.studyLogs";
+NSString *const SHUserDefaultsHuddlesKey = @"com.StudyHuddle.userDefaults.huddles";
+NSString *const SHUserDefaultsClassesKey = @"com.StudyHuddle.userDefaults.classes";
+NSString *const SHUserDefaultsStudyFriendsKey = @"com.StudyHuddle.userDefaults.studyFriends";
+NSString *const SHUserDefaultsStudyLogsKey = @"com.StudyHuddle.userDefaults.studyLogs";
+NSString *const SHUserDefaultsNotificationsKey = @"com.StudyHuddle.userDefaults.notifications";
+NSString *const SHUserDefaultsRequestsKey = @"com.StudyHuddle.userDefaults.requests";
 
 #pragma mark - Cells
 

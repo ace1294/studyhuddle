@@ -7,10 +7,12 @@
 //
 
 #pragma mark - NSUserDefaults
-extern NSString *const SHUserDefaultsUserHuddlesKey;
-extern NSString *const SHUserDefaultsUserClassesKey;
-extern NSString *const SHUserDefaultsUserStudyFriendsKey;
-extern NSString *const SHUserDefaultsUserStudyLogsKey;
+extern NSString *const SHUserDefaultsHuddlesKey;
+extern NSString *const SHUserDefaultsClassesKey;
+extern NSString *const SHUserDefaultsStudyFriendsKey;
+extern NSString *const SHUserDefaultsStudyLogsKey;
+extern NSString *const SHUserDefaultsNotificationsKey;
+extern NSString *const SHUserDefaultsRequestsKey;
 
 //Parse Classes
 extern NSString *const SHHuddleParseClass;

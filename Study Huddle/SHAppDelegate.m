@@ -180,16 +180,48 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
     [[SHCache sharedCache] setClasses:[[[self.student relationForKey:SHStudentClassesKey] query] findObjects]];
     [[SHCache sharedCache] setStudyLogs:self.student[SHStudentStudyLogsKey]];
     
+    //Notifications
+    PFQuery *notificationQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
+    [notificationQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    
+    [self.student addUniqueObjectsFromArray:[notificationQuery findObjects] forKey:SHStudentNotificationsKey];
+    
+    [[SHCache sharedCache] setNotifications:self.student[SHStudentNotificationsKey]];
+    
+    //Requests
+    PFQuery *ssInviteStudy = [PFQuery queryWithClassName:SHRequestParseClass];
+    PFQuery *shJoin = [PFQuery queryWithClassName:SHRequestParseClass];
+    PFQuery *hsJoin = [PFQuery queryWithClassName:SHRequestParseClass];
+    
+    [ssInviteStudy whereKey:SHRequestTypeKey equalTo:SHRequestSSInviteStudy];
+    [ssInviteStudy whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    
+    [shJoin whereKey:SHRequestTypeKey equalTo:SHRequestSHJoin];
+    [shJoin whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    
+    [hsJoin whereKey:SHRequestTypeKey equalTo:SHRequestHSJoin];
+    [hsJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[ssInviteStudy,shJoin,hsJoin]];
+    
+    [self.student addUniqueObjectsFromArray:[query findObjects] forKey:SHStudentRequestsKey];
+    [self.student saveInBackground];
+    
+    [[SHCache sharedCache] setRequests:self.student[SHStudentRequestsKey]];
+    
+    
 }
 
 -(void)logout
 {
     [[SHCache sharedCache]clear];
     
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserHuddlesKey];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserClassesKey];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserStudyFriendsKey];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsUserStudyLogsKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsHuddlesKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsClassesKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsStudyFriendsKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsStudyLogsKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsNotificationsKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsRequestsKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     //[[PFInstallation currentInstallation] removeObjectForKey:]
