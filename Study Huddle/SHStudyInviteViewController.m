@@ -177,9 +177,13 @@
     PFObject* receiver = self.request[SHRequestStudent2Key];
     [receiver fetchIfNeeded];
     NSString* channel = [NSString stringWithFormat:@"a%@",[receiver objectId]];
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                          @"You have invite request!!!", @"alert",
+                          @"Increment", @"badge",
+                          nil];
     PFPush *push = [[PFPush alloc] init];
-    [push setChannel:channel];
-    [push setMessage:@"You have an invite request!!!"];
+    [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+    [push setData:data];
     [push sendPushInBackground];
     
     [self cancelAction];

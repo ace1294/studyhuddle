@@ -126,7 +126,7 @@
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
-
+    NSLog(@"this got called");
 }
 
 
