@@ -64,9 +64,6 @@
     self.searchedBar.delegate = self;
     self.tableView.tableHeaderView = self.searchedBar;
     
-    self.navigationController.navigationBarHidden = YES;
-    
-    
     [self.searchedBar becomeFirstResponder];
     
 }
@@ -154,6 +151,7 @@
     [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    self.searchedBar.text = @"";
     [self.searchedBar resignFirstResponder];
     
     PFUser *selectedStudent = [PFUser object];
@@ -183,7 +181,9 @@
     }
     
     [self.searchResults removeAllObjects];
-    self.searchResults = [NSMutableArray arrayWithCapacity:15];
+    self.searchResults = nil;
+    
+    [tableView reloadData];
     
 }
 
