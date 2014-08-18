@@ -123,16 +123,7 @@
         if([[member objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;
         
-        NSString* channel = [NSString stringWithFormat:@"a%@",[member objectId]];
-        NSString* message = [NSString stringWithFormat:@"%@ will be studying at %@",self.huddle[SHHuddleNameKey],self.locationTextField.text];
-        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                              message, @"alert",
-                              @"Increment", @"badge",
-                              nil];
-        PFPush *push = [[PFPush alloc] init];
-        [push setChannels:[NSArray arrayWithObjects:channel, nil]];
-        [push setData:data];
-        [push sendPushInBackground];
+  
 
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
@@ -144,7 +135,20 @@
         notification[SHNotificationLocationKey] = self.locationTextField.text;
         notification[SHNotificationDescriptionKey] = [NSString stringWithFormat:@"We are studying at %@ ", self.locationTextField.text];
         
-        [notification saveInBackground];
+        [notification save];
+        
+        NSString* channel = [NSString stringWithFormat:@"a%@",[member objectId]];
+        NSString* message = [NSString stringWithFormat:@"%@ will be studying at %@",self.huddle[SHHuddleNameKey],self.locationTextField.text];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              message, @"alert",
+                              @"Increment", @"badge",
+                              notification,@"notification",
+                              nil];
+        
+        PFPush *push = [[PFPush alloc] init];
+        [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+        [push setData:data];
+        [push sendPushInBackground];
         
     }
     
