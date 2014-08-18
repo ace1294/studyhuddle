@@ -157,6 +157,7 @@ float classButtonsHeight;
     CGRect initialFrame = CGRectMake(horiBorderSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
     NSMutableArray *classes = [NSMutableArray arrayWithArray:[SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassFullNameKey]];
     [classes addObject:@"Personal"];
+    [classes addObject:@"Test"];
     self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classes addButton:nil];
     self.huddleClassButtons.textFont = [UIFont fontWithName:@"Arial" size:12.0];
     self.huddleClassButtons.viewController = self;
@@ -211,6 +212,15 @@ float classButtonsHeight;
 {
     if (indexPath.row == 0)
     {
+        if([self.huddleMembers count] > 9){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Max Amount of Members"
+                                                            message: @"Huddles can only have 10 members."
+                                                           delegate: nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        
         if(!self.searchVC){
             self.searchVC = [[SHStudentSearchViewController alloc]init];
             self.searchVC.type = @"NewHuddle";
@@ -299,6 +309,17 @@ float classButtonsHeight;
 
 - (void)didAddMember:(PFUser *)member
 {
+    for(PFUser *student in self.huddleMembers){
+        if([[student objectId] isEqual:[member objectId]]){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: [NSString stringWithFormat:@"Huddle already has %@", member[SHStudentNameKey]]
+                                                           delegate: nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    
     [self.navigationController.navigationBar setHidden:NO];
     [self.huddleMembers addObject:member];
     

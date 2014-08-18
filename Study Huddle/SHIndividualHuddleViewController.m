@@ -462,6 +462,16 @@
 
 - (void)addMemberTapped
 {
+    if([[[SHCache sharedCache] membersForHuddle:self.indvHuddle] count] > 9)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Max Amount of Members"
+                                                       message: @"Huddles can only have 10 members."
+                                                      delegate: nil cancelButtonTitle:@"OK"
+                                             otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     SHStudentSearchViewController *searchVC = [[SHStudentSearchViewController alloc]init];
     searchVC.type = @"NewMember";
     searchVC.delegate = self;
@@ -505,6 +515,17 @@
 - (void)didAddMember:(PFObject *)member
 {
     // let the VC know you have requested a student?
+    
+//    for(PFUser *student in self.huddleMembers){
+//        if([[student objectId] isEqual:[member objectId]]){
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
+//                                                            message: [NSString stringWithFormat:@"Huddle already has %@", member[SHStudentNameKey]]
+//                                                           delegate: nil cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil];
+//            [alert show];
+//            return;
+//        }
+//    }
     
     
 }

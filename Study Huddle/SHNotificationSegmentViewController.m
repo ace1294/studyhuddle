@@ -400,10 +400,10 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             }
             if(selectedIndex != -1){
                 NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
-                selectedIndex = indexPath.row;
+                selectedIndex = (int)indexPath.row;
                 [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
             }
-            selectedIndex = indexPath.row;
+            selectedIndex = (int)indexPath.row;
             [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         } else{
             PFObject* notification = [self.notificationsDataArray objectAtIndex:(int)indexPath.row];
@@ -422,10 +422,10 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         if(selectedIndex != -1)
         {
             NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
-            selectedIndex = indexPath.row;
+            selectedIndex = (int)indexPath.row;
             [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
         }
-        selectedIndex = indexPath.row;
+        selectedIndex = (int)indexPath.row;
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
     }
@@ -614,7 +614,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [request deleteInBackground];
     
     self.currentRowsToDisplay--;
-    [self.control setCount:[NSNumber numberWithInt:self.currentRowsToDisplay] forSegmentAtIndex:1];
+    [self.control setCount:[NSNumber numberWithInteger:self.currentRowsToDisplay] forSegmentAtIndex:1];
     [self.tableView reloadData];
 }
 
@@ -705,7 +705,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [request deleteInBackground];
     
     self.currentRowsToDisplay--;
-    [self.control setCount:[NSNumber numberWithInt:self.currentRowsToDisplay] forSegmentAtIndex:1];
+    [self.control setCount:[NSNumber numberWithInteger:self.currentRowsToDisplay] forSegmentAtIndex:1];
     [self.tableView reloadData];
 }
 

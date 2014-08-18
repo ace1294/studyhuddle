@@ -47,7 +47,6 @@ extern NSString *const SHClassTeacherKey;
 extern NSString *const SHClassEmailKey;
 extern NSString *const SHClassRoomKey;
 extern NSString *const SHClassUniqueName;
-extern NSString *const SHClassStudentsKey;
 extern NSString *const SHClassHuddlesKey;
 
 //Huddle

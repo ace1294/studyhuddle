@@ -51,6 +51,7 @@
         self.huddles = [NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]];
         
         self.title = @"Huddles";
+        self.navigationController.title = @"Huddles";
         self.tabBarItem.image = [UIImage imageNamed:@"huddles.png"];
         
         self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -100,6 +101,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    self.title = @"Huddles";
+    
     [super viewWillAppear:animated];
     
     // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
