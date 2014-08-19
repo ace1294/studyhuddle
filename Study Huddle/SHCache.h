@@ -19,7 +19,9 @@
 - (void)setHuddles:(NSArray *)huddles;
 - (NSArray *)huddles;
 - (void)setAttributesForHuddle:(PFObject *)huddle;
+- (void)setAttributesForHuddle:(PFObject *)huddle withMembers:(NSArray *)members;
 - (void)setNewHuddle:(PFObject *)huddle;
+- (void)setNewHuddle:(PFObject *)huddle withMembers:(NSArray *)members;
 - (PFObject *)objectForHuddle:(PFObject *)huddle;
 - (NSArray *)membersForHuddle:(PFObject *)huddle;
 - (NSArray *)resourceCategoriesForHuddle:(PFObject *)huddle;

@@ -243,7 +243,7 @@
         SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:student];
         
         
-        [self.owner.navigationController pushViewController:studentVC animated:YES];
+        [self.navigationController pushViewController:studentVC animated:YES];
     }
     else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CLASSES"])
     {
@@ -251,7 +251,7 @@
         
         SHClassPageViewController *classVC = [[SHClassPageViewController alloc]initWithClass:class];
         
-        [self.owner.navigationController pushViewController:classVC animated:YES];
+        [self.navigationController pushViewController:classVC animated:YES];
     }
     else
     {
@@ -259,7 +259,7 @@
         
         SHStudyViewController *studyVC = [[SHStudyViewController alloc]initWithStudy:studyLog];
         
-        [self.owner.navigationController pushViewController:studyVC animated:YES];
+        [self.navigationController pushViewController:studyVC animated:YES];
         
     }
 }
@@ -326,7 +326,7 @@
         SHVisitorProfileViewController *studentVC = [[SHVisitorProfileViewController alloc]initWithStudent:studentCell.student];
         
         
-        [self.owner.navigationController pushViewController:studentVC animated:YES];
+        [self.navigationController pushViewController:studentVC animated:YES];
         
     }
     else if ([cell isKindOfClass:[SHClassCell class]] ) {
@@ -335,7 +335,7 @@
         SHClassPageViewController *classVC = [[SHClassPageViewController alloc]initWithClass:classCell.huddleClass];
         
         
-        [self.owner.navigationController pushViewController:classVC animated:YES];
+        [self.navigationController pushViewController:classVC animated:YES];
         
     }
     else if ([cell isKindOfClass:[SHStudyCell class]] ){
@@ -344,7 +344,7 @@
         
         SHStudyViewController *studyVC = [[SHStudyViewController alloc]initWithStudy:studyCell.study];
         
-        [self.owner.navigationController pushViewController:studyVC animated:YES];
+        [self.navigationController pushViewController:studyVC animated:YES];
     }
 }
 
