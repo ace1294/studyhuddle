@@ -82,7 +82,9 @@
 {
    
     CGRect initialButton = CGRectMake(vertViewSpacing, subjectHeaderY+headerHeight, huddleButtonWidth, huddleButtonHeight);
-    self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:[SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassShortNameKey] addButton:nil];
+    NSArray *classNames = [SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassShortNameKey];
+    NSMutableDictionary *classObjects = [[NSMutableDictionary alloc]initWithObjects:[[SHCache sharedCache]classes] forKeys:classNames];
+    self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:classObjects addButton:nil];
     self.subjectButtons.delegate = self;
     [self.subjectButtons setViewController:self];
     self.subjectButtons.multipleSelection = YES;
@@ -113,9 +115,7 @@
     self.study[SHStudyDescriptionKey] = self.descriptionTextView.text;
     
     [self.study[SHStudyClassesKey] removeAllObjects];
-    PFQuery *classes = [PFQuery queryWithClassName:SHClassParseClass];
-    [classes whereKey:SHClassShortNameKey containedIn:self.subjectButtons.selectedButtons];
-    self.study[SHStudyClassesKey] = [classes findObjects];
+    self.study[SHStudyClassesKey] = self.subjectButtons.multipleSelectedButtonsObjects;
     
     [self.study saveInBackground];
     

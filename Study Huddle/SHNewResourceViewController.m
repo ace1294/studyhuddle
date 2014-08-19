@@ -16,6 +16,7 @@
 #import "SHHuddleButtons.h"
 #import "SHUtility.h"
 #import "SHModalViewController.h"
+#import "SHCache.h"
 
 @interface SHNewResourceViewController () <UITextFieldDelegate, SHHuddleButtonsDelegate, UITextViewDelegate>
 
@@ -32,14 +33,12 @@
 
 
 @property (strong, nonatomic) PFObject *huddle;
-@property (strong, nonatomic) NSMutableArray *categories;
-@property (strong, nonatomic) NSMutableArray *categoryNames;
+@property (strong, nonatomic) NSMutableDictionary *categoryObjects;
 
 @property (strong, nonatomic) SHHuddleButtons *categoryButtons;
 
 //@property (strong, nonatomic) NSMutableDictionary *categoryButtons;
 @property (strong, nonatomic) UITextField *addCategoryField;
-@property (strong, nonatomic) NSString *selectedCategory;
 
 @property (strong, nonatomic) NSDate *time;
 
@@ -57,8 +56,8 @@
     self = [super init];
     if (self) {
         _huddle = aHuddle;
-        self.categories = aHuddle[SHHuddleResourceCategoriesKey];
-        self.categoryNames = [SHUtility namesForObjects:self.categories withKey:SHResourceCategoryNameKey];
+        NSArray *categoryNames = [SHUtility namesForObjects:[[SHCache sharedCache] resourceCategoriesForHuddle:_huddle] withKey:SHResourceCategoryNameKey];
+        self.categoryObjects = [[NSMutableDictionary alloc] initWithObjects:[[SHCache sharedCache] resourceCategoriesForHuddle:_huddle] forKeys:categoryNames];
         
         self.modalFrameHeight = categoryHeaderY+headerHeight+vertViewSpacing;
         
@@ -173,7 +172,7 @@
     [self.view addSubview:self.documentView];
 
     CGRect initialButton = CGRectMake(buttonX, buttonY, huddleButtonWidth, huddleButtonHeight);
-    self.categoryButtons = [[SHHuddleButtons alloc] initWithFrame:initialButton items:self.categoryNames addButton:@"New Category"];
+    self.categoryButtons = [[SHHuddleButtons alloc] initWithFrame:initialButton items:self.categoryObjects addButton:@"New Category"];
     self.categoryButtons.delegate = self;
     [self.categoryButtons setViewController:self];
 }
@@ -226,9 +225,9 @@
 
 - (void)continueAction
 {
-    self.selectedCategory = self.categoryButtons.selectedButton;
+    PFObject *selectedCategory = self.categoryButtons.selectedButtonObject;
     
-    if (!self.selectedCategory) {
+    if (!selectedCategory) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
                                                         message: @"Must select a category"
                                                        delegate: nil cancelButtonTitle:@"OK"
@@ -253,7 +252,7 @@
         
         PFObject *newCategory = [PFObject objectWithClassName:SHResourceCategoryParseClass];
         
-        newCategory[SHResourceCategoryNameKey] = self.categoryButtons.selectedButton;
+        newCategory[SHResourceCategoryNameKey] = [self.categoryButtons.selectedButtonObject parseClassName];
         newCategory[SHResourceCategoryHuddleKey] = self.huddle;
         newCategory[SHResourceCategoryResourcesKey] = @[newResource];
         newResource[SHResourceCategoryKey] = newCategory;
@@ -263,23 +262,16 @@
         [PFObject saveAll:@[self.huddle,newCategory,newResource]];
     }
     else{
-        PFQuery *categoryQuery = [PFQuery queryWithClassName:SHResourceCategoryParseClass];
-        [categoryQuery whereKey:SHResourceCategoryNameKey equalTo:self.selectedCategory];
-        [categoryQuery whereKey:SHResourceCategoryHuddleKey equalTo:self.huddle];
-        PFObject *category = [categoryQuery findObjects][0];
-        [category addObject:newResource forKey:SHResourceCategoryResourcesKey];
+        [selectedCategory addObject:newResource forKey:SHResourceCategoryResourcesKey];
         
-        newResource[SHResourceCategoryKey] = category;
+        newResource[SHResourceCategoryKey] = selectedCategory;
         
-        [PFObject saveAll:@[category,newResource]];
+        [PFObject saveAll:@[selectedCategory,newResource]];
     }
     
     [self cancelAction];
     
-    PFQuery *query = [PFUser query];
-    [query whereKey:SHStudentHuddlesKey equalTo:self.huddle];
-    [query whereKey:SHStudentEmailKey notEqualTo:[PFUser currentUser][SHStudentEmailKey]];
-    NSArray *members = [query findObjects];
+    NSArray *members = [[SHCache sharedCache]membersForHuddle:self.huddle];
     
     for(PFUser *member in members)
     {

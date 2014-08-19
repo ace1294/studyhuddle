@@ -210,7 +210,7 @@
 - (void)continueTapped
 {
     self.descriptionLabel.text = self.editVC.descriptionTextView.text;
-    self.subjectLabel.text = [self.editVC.subjectButtons.selectedButtons componentsJoinedByString:@", "];
+    self.subjectLabel.text = [self.editVC.subjectButtons.multipleSelectedButtonsObjects componentsJoinedByString:@", "];
     
     [self setFrames];
 }

@@ -40,12 +40,17 @@
         
         [self initHeaders];
         CGRect initialButton = CGRectMake(vertViewSpacing, privacyHeaderY+headerHeight, huddleButtonWidth, huddleButtonHeight);
-        self.privacyButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:@[@"Public",@"My Huddles",@"Private"] addButton:nil];
+        NSArray *privacyNames = @[@"Public",@"My Huddles",@"Private"];
+        NSArray *privacyObjects = @[[PFObject objectWithClassName:@"Public"],[PFObject objectWithClassName:@"My Huddles"],[PFObject objectWithClassName:@"Private"]];
+        self.privacyButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:[[NSMutableDictionary alloc] initWithObjects:privacyObjects forKeys:privacyNames] addButton:nil];
         self.privacyButtons.delegate = self;
         [self.privacyButtons setViewController:self];
         
         initialButton = CGRectMake(vertViewSpacing, subjectHeaderY+headerHeight, huddleButtonWidth, huddleButtonHeight);
-        self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:[SHUtility namesForObjects:[[SHCache sharedCache] classes] withKey:SHClassShortNameKey] addButton:nil];
+        
+        NSArray *classNames = [SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassShortNameKey];
+        NSMutableDictionary *classObjects = [[NSMutableDictionary alloc]initWithObjects:[[SHCache sharedCache]classes] forKeys:classNames];
+        self.subjectButtons = [[SHHuddleButtons alloc]initWithFrame:initialButton items:classObjects addButton:nil];
         self.subjectButtons.delegate = self;
         [self.subjectButtons setViewController:self];
         self.subjectButtons.multipleSelection = YES;
@@ -88,12 +93,12 @@
 
 - (void)continueAction
 {
-    //self.study = [PFObject objectWithClassName:SHStudyParseClass];
+    NSString *privacyString = [self.privacyButtons.selectedButtonObject parseClassName];
+    
+    
     self.study[SHStudyStartKey] = [NSDate date];
     
-    PFQuery *classes = [PFQuery queryWithClassName:SHClassParseClass];
-    [classes whereKey:SHClassShortNameKey containedIn:self.subjectButtons.selectedButtons];
-    self.study[SHStudyClassesKey] = [classes findObjects];
+    self.study[SHStudyClassesKey] = self.subjectButtons.multipleSelectedButtonsObjects;
     self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
     
     [[SHCache sharedCache] setNewStudyLog:self.study];
