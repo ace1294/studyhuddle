@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface SHHuddleButtons : UIView
 
@@ -21,8 +22,8 @@
 @property (strong, nonatomic) UIFont *headerFont;
 @property (strong, nonatomic) NSString *addButtonPlaceHolder;
 
-@property (strong, nonatomic) id selectedButton;
-@property (strong, nonatomic) NSMutableArray *selectedButtons;
+@property (strong, nonatomic) PFObject *selectedButtonObject;
+@property (strong, nonatomic) NSMutableArray *multipleSelectedButtonsObjects;
 
 
 @property BOOL multipleSelection;

@@ -15,7 +15,6 @@
 
 @interface SHHuddleButtons () <UITextFieldDelegate>
 
-- (void)selectedButtonAction:(NSString *)selection;
 - (void)addButtonAction:(id)sender;
 - (void)buttonPressed:(id)sender;
 
@@ -49,7 +48,7 @@ NSString *addButtonString;
         
         self.buttonObjects = buttonDictionary;
         self.buttons = [[NSMutableDictionary alloc] init];
-        self.selectedButtons = [[NSMutableArray alloc]init];
+        self.multipleSelectedButtonsObjects = [[NSMutableArray alloc]init];
         
         initialButtonX = CGRectGetMinX(frame);
         initialButtonY = CGRectGetMinY(frame);
@@ -81,9 +80,7 @@ NSString *addButtonString;
     _viewController = viewController;
     initialHeight = viewController.view.frame.size.height;
     
-    
     [self initButtons];
-    
     [self setButtonFrames];
     
     totalButtonsHeight = (buttonHeight*([self.buttonObjects count]/2))+(buttonHeight*([self.buttonObjects count]%2));
@@ -194,9 +191,9 @@ NSString *addButtonString;
     
     NSInteger buttonNumber = [sender tag];
 
-    UIButton *selectedButton = (UIButton *)sender;
+    UIButton *pressedButton = (UIButton *)sender;
 
-    self.selectedButton = selectedButton.titleLabel.text;
+    self.selectedButtonObject = [self.buttonObjects objectForKey:pressedButton.titleLabel.text];
     
     if (!self.multipleSelection) {
         for(NSNumber *tag in self.buttons)
@@ -204,19 +201,19 @@ NSString *addButtonString;
             UIButton *button = [self.buttons objectForKey:tag];
 
             if([tag intValue] == buttonNumber)
-               [self setButtonState:button state:YES];
+                [self setButtonState:button state:YES];
             else
                 [self setButtonState:button state:NO];
         }
     }
     else{
         
-        if ([self.selectedButtons containsObject:self.selectedButton]) {
-            [self.selectedButtons removeObject:self.selectedButton];
-            [self setButtonState:selectedButton state:NO];
+        if ([self.multipleSelectedButtonsObjects containsObject:self.selectedButtonObject]) {
+            [self.multipleSelectedButtonsObjects removeObject:self.selectedButtonObject];
+            [self setButtonState:pressedButton state:NO];
         }else{
-            [self.selectedButtons addObject:self.selectedButton];
-            [self setButtonState:selectedButton state:YES];
+            [self.multipleSelectedButtonsObjects addObject:self.selectedButtonObject];
+            [self setButtonState:pressedButton state:YES];
         }
     }
 
@@ -274,7 +271,7 @@ NSString *addButtonString;
 
 
 
-#pragma mark - Delegate Methods
+#pragma mark - ()
 
 - (void)expandViewForHeight:(CGFloat)height
 {
@@ -283,19 +280,8 @@ NSString *addButtonString;
     vc.modalFrameHeight += height;
     
     [vc.view setFrame:CGRectMake(0.0, 0.0, modalWidth, vc.modalFrameHeight)];
-    
-    
 
 }
-
-- (void)selectedButtonAction:(NSString *)selection
-{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didChangeButton:)]) {
-        [self.delegate didChangeButton:selection];
-    }
-}
-
-
 
 #pragma mark - UITextfield Delgate
 
@@ -324,7 +310,7 @@ NSString *addButtonString;
     [textField resignFirstResponder];
     
     if(textField.text.length > 0){
-        self.selectedButton = textField.text;
+        self.selectedButtonObject = [PFObject objectWithClassName:textField.text];
         [button setTitle:textField.text forState:UIControlStateNormal];
         [button setTitle:textField.text forState:UIControlStateSelected];
         self.addButtonSet = true;
@@ -407,13 +393,12 @@ NSString *addButtonString;
             [self setButtonState:button state:YES];
         }
     }
-    [self.selectedButtons addObjectsFromArray:buttons];
+    [self.multipleSelectedButtonsObjects addObjectsFromArray:buttons];
 }
 
 - (void)dismissAddField
 {
     addingNewButton = false;
-    
     
     self.addButtonField.hidden = YES;
     self.addButtonHeader.hidden = YES;

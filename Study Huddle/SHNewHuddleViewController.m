@@ -156,9 +156,11 @@ float classButtonsHeight;
     [self.view addSubview:self.huddleNameTextField];
     
     CGRect initialFrame = CGRectMake(horiBorderSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
-    NSMutableArray *classes = [NSMutableArray arrayWithArray:[SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassFullNameKey]];
-    [classes addObject:@"Personal"];
-    self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classes addButton:nil];
+    NSArray *classNames = [SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassShortNameKey];
+    NSMutableDictionary *classObjects = [[NSMutableDictionary alloc]initWithObjects:[[SHCache sharedCache]classes] forKeys:classNames];
+    [classObjects setObject:[PFObject objectWithClassName:@"Personal"] forKey:@"Personal"];
+    
+    self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classObjects addButton:nil];
     self.huddleClassButtons.textFont = [UIFont fontWithName:@"Arial" size:12.0];
     self.huddleClassButtons.viewController = self;
     self.huddleClassButtons.delegate = self;
@@ -282,7 +284,7 @@ float classButtonsHeight;
 #pragma mark - Actions
 -(void)createPressed
 {
-    //ADD HUDDLE TO CURRENT USERS HUDDLES ARRAY
+    //ADD HUDDLE TO CURRENT USERS HUDDLES ARRAY AND ADD TO THE CLASSES ARRAY OF HUDDLES
     
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;

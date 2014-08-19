@@ -10,11 +10,11 @@
 #import "UIColor+HuddleColors.h"
 #import "SHHuddleButtons.h"
 #import "SHUtility.h"
+#import "SHCache.h"
 
 @interface SHNewQuestionViewController () <UITextFieldDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) PFObject *huddle;
-@property (strong, nonatomic) PFObject *chatCategory;
 @property (strong, nonatomic) PFObject *chatRoom;
 @property (strong, nonatomic) PFObject *question;
 
@@ -50,7 +50,6 @@
         [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         
         _huddle = aHuddle;
-        self.chatCategory = [PFObject objectWithClassName:SHChatCategoryParseClass];
         self.chatRoom = [PFObject objectWithClassName:SHChatRoomClassKey];
         self.question = [PFObject objectWithClassName:SHChatClassKey];
         
@@ -108,7 +107,9 @@
 {
     
     CGRect initial = CGRectMake(horiViewSpacing, categoryY, huddleButtonWidth, huddleButtonHeight);
-    self.chatCategoryButtons = [[SHHuddleButtons alloc]initWithFrame:initial items:[SHUtility namesForObjects:self.huddle[SHChatCategoryNameKey] withKey:SHChatCategoryNameKey] addButton:@"Add Chat Category"];
+    NSArray *chatCategoryNames = [SHUtility namesForObjects:[[SHCache sharedCache] chatCategoriessForHuddle:self.huddle] withKey:SHChatCategoryNameKey];
+    NSMutableDictionary *chatCategoryObjects = [[NSMutableDictionary alloc] initWithObjects:[[SHCache sharedCache] chatCategoriessForHuddle:self.huddle] forKeys:chatCategoryNames];
+    self.chatCategoryButtons = [[SHHuddleButtons alloc]initWithFrame:initial items:chatCategoryObjects addButton:@"Add Chat Category"];
     self.chatCategoryButtons.viewController = self;
     
     self.subjectTextField = [[UITextField alloc] initWithFrame:CGRectMake(horiViewSpacing, subjectY, modalContentWidth, textFieldHeight)];
@@ -135,7 +136,7 @@
 - (void)continueAction
 {
     
-    if (!self.chatCategoryButtons.selectedButton) {
+    if (!self.chatCategoryButtons.selectedButtonObject) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
                                                         message: @"Must enter a new category"
                                                         delegate: nil cancelButtonTitle:@"OK"
@@ -179,7 +180,7 @@
         
         PFObject *newChatCategory = [PFObject objectWithClassName:SHResourceCategoryParseClass];
         [newChatCategory save]; //so it has an object id
-        newChatCategory[SHChatCategoryNameKey] = self.chatCategoryButtons.selectedButton;
+        newChatCategory[SHChatCategoryNameKey] = [self.chatCategoryButtons.selectedButtonObject parseClassName];
         //newChatCategory[SHChatCategoryChatRoomKey] = @[self.chatRoom];
         newChatCategory[SHChatCategoryHuddleKey] = self.huddle;
         self.chatRoom[SHChatRoomChatCategoryOwnerKey] = [newChatCategory objectId];
@@ -191,15 +192,12 @@
         [PFObject saveAll:@[self.huddle,newChatCategory, self.chatRoom]];
     }
     else{
-        PFQuery *chatCategoryQuery = [PFQuery queryWithClassName:SHChatCategoryParseClass];
-        [chatCategoryQuery whereKey:SHChatCategoryNameKey equalTo:self.chatCategoryButtons.selectedButton];
-        [chatCategoryQuery whereKey:SHChatCategoryHuddleKey equalTo:self.huddle];
-        self.chatCategory = [chatCategoryQuery findObjects][0];
+        PFObject *chatCategory = self.chatCategoryButtons.selectedButtonObject;
         //[self.chatCategory addObject:self.chatRoom forKey:SHChatCategoryChatRoomKey];
-        self.chatRoom[SHChatRoomChatCategoryOwnerKey] = [self.chatCategory objectId];
+        self.chatRoom[SHChatRoomChatCategoryOwnerKey] = [chatCategory objectId];
         //self.chatRoom[SHThreadChatCategoryKey] = self.chatCategory;
         
-        [PFObject saveAll:@[self.chatCategory,self.chatRoom]];
+        [PFObject saveAll:@[chatCategory,self.chatRoom]];
         
     }
     

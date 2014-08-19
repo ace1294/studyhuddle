@@ -94,7 +94,9 @@
     [self.view addSubview:self.messageTextView];
 
     CGRect initialFrame = CGRectMake(horiViewSpacing, huddleY, huddleButtonWidth, huddleButtonHeight);
-    self.huddleButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:[SHUtility namesForObjects:self.student[SHStudentHuddlesKey] withKey:SHHuddleNameKey] addButton:nil];
+    NSArray *huddleNames = [SHUtility namesForObjects:[[SHCache sharedCache] huddles] withKey:SHHuddleNameKey];
+    NSMutableDictionary *huddleObjects = [[NSMutableDictionary alloc] initWithObjects:[[SHCache sharedCache] huddles] forKeys:huddleNames];
+    self.huddleButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:huddleObjects addButton:nil];
     self.huddleButtons.viewController = self;
     self.huddleButtons.delegate = self;
     
@@ -105,7 +107,7 @@
 
 - (void)continueAction
 {
-    if (!self.huddleButtons.selectedButton) {
+    if (!self.huddleButtons.selectedButtonObject) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Missing Info"
                                                         message: @"Must select a huddle."
                                                        delegate: nil cancelButtonTitle:@"OK"
@@ -114,15 +116,7 @@
         return;
     }
     
-    NSArray *huddles = [[SHCache sharedCache] huddles];
-    PFObject *selectedHuddle = [PFObject objectWithClassName:SHHuddleParseClass];
-    
-    for(PFObject *huddle in huddles){
-        if([huddle[SHHuddleNameKey] isEqualToString:self.huddleButtons.selectedButton]){
-            selectedHuddle = huddle;
-            break;
-        }
-    }
+    PFObject *selectedHuddle = self.huddleButtons.selectedButtonObject;
 
     PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
     request[SHRequestTitleKey] = selectedHuddle[SHHuddleNameKey];
