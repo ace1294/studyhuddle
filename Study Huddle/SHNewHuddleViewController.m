@@ -296,7 +296,6 @@ float classButtonsHeight;
         
         for(PFUser *user in self.huddleMembers)
         {
-            //JOSE THIS IS WHERE YOU'LL MAKE A PUSH NOTIFICATION
             
             PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
             request[SHRequestTitleKey] = self.huddle[SHHuddleNameKey];
@@ -306,7 +305,21 @@ float classButtonsHeight;
             request[SHRequestStudent2Key] = [PFUser currentUser];
             request[SHRequestDescriptionKey] = @"Join the new huddle!";
             
-            [request saveInBackground];
+            [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                NSString* channel = [NSString stringWithFormat:@"a%@",[user objectId]];
+                NSString* message = [NSString stringWithFormat:@"%@ has created a new huddle and he wants you to join!",user[SHStudentNameKey]];
+                NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      message, @"alert",
+                                      @"Increment", @"badge",
+                                      request,@"request",
+                                      nil];
+                
+                PFPush *push = [[PFPush alloc] init];
+                [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+                [push setData:data];
+                [push sendPushInBackground];
+
+            }];
         }
         
         [[SHCache sharedCache] setNewHuddle:self.huddle withMembers:self.huddleMembers];

@@ -137,24 +137,34 @@
         
         [notification save];
         
-        NSString* channel = [NSString stringWithFormat:@"a%@",[member objectId]];
-        NSString* message = [NSString stringWithFormat:@"%@ will be studying at %@",self.huddle[SHHuddleNameKey],self.locationTextField.text];
-        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
-                              message, @"alert",
-                              @"Increment", @"badge",
-                              notification,@"notification",
-                              nil];
+        //check if the user wants a pushy push
+        if(member[SHSettingReceiveHuddleStudyingNotifications])
+        {
+            [self sendPush:notification toUser:member];
+        }
         
-        PFPush *push = [[PFPush alloc] init];
-        [push setChannels:[NSArray arrayWithObjects:channel, nil]];
-        [push setData:data];
-        [push sendPushInBackground];
+       
         
     }
     
     [self.delegate continueTapped];
 }
 
+-(void)sendPush: (PFObject*)notification toUser: (PFObject*)member
+{
+    NSString* channel = [NSString stringWithFormat:@"a%@",[member objectId]];
+    NSString* message = [NSString stringWithFormat:@"%@ will be studying at %@",self.huddle[SHHuddleNameKey],self.locationTextField.text];
+    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                          message, @"alert",
+                          @"Increment", @"badge",
+                          notification,@"notification",
+                          nil];
+    
+    PFPush *push = [[PFPush alloc] init];
+    [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+    [push setData:data];
+    [push sendPushInBackground];
+}
 
 #pragma mark - TextField Delegate
 

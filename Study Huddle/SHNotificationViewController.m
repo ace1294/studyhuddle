@@ -76,12 +76,13 @@
     [self addChildViewController:self.segmentController];
     
     self.segmentController.view.frame = self.segmentContainer.bounds;
-    self.segmentContainer.backgroundColor = [UIColor whiteColor];
+    self.segmentContainer.backgroundColor = [UIColor clearColor];
     [self.segmentContainer addSubview:self.segmentController.view];
     [self.segmentController didMoveToParentViewController:self];
     self.segmentController.owner = self;
     
     [self.view addSubview:self.segmentContainer];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"shBackground.png"]];
 }
 
 - (void) refresh:(id)sender

@@ -58,7 +58,7 @@ NSString *addButtonString;
         if(addString){
             addButton = true;
             addButtonString = addString;
-            [self.buttonObjects addObject:addButtonString];
+            [self.buttonObjects setObject:[NSNull null] forKey:addButtonString];
         }
         
         self.textColor = [UIColor huddleSilver];
@@ -103,7 +103,7 @@ NSString *addButtonString;
 
     for(int i = 0; i < [self.buttonObjects count]; i++)
     {
-        buttonTitle = self.buttonObjects[i];
+        buttonTitle = [self.buttonObjects allKeys][i];
         
         button = [[UIButton alloc]init];
         [self.buttons setObject:button forKey:[NSNumber numberWithInt:i]];

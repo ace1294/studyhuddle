@@ -205,6 +205,17 @@ extern NSString* const SHPushTypeKey;
 //PUSH types
 extern NSString* const SHPushTypeHuddleChatPost;
 
+//SETTINGS
+extern NSString* const SHSettingHoursToStudy;
+extern NSString* const SHSettingPokeToStudy;
+extern NSString* const SHSettingReceiveHuddleStudyingNotifications;
+extern NSString* const SHSettingReceiveNewClassMemberNotifications;
+extern NSString* const SHSettingReceiveNewHuddleMemberNotifications;
+extern NSString* const SHSettingReceiveNewPostNotifications;
+extern NSString* const SHSettingReceiveNewThreadPostNotifications;
+extern NSString* const SHSettingReplyToYourPostNotifications;
+extern NSString* const SHSettingReceiveResourceAddedNotifications;
+
 #define modalWidth 270
 #define textFieldHeight 30.0
 

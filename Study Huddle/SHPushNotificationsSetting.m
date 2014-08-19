@@ -46,7 +46,7 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Settings";
+    self.title = @"Push Notifications";
     PFUser* currentStudent = [PFUser currentUser];
     
     //set up the content in the dictionary

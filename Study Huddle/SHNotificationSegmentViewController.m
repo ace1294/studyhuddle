@@ -86,9 +86,9 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
 + (void)load
 {
-    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor clearColor]];
     [[DZNSegmentedControl appearance] setTintColor:[UIColor huddleOrange]];
     [[DZNSegmentedControl appearance] setHairlineColor:[UIColor huddleSilver]];
+    [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor clearColor]];
     
     [[DZNSegmentedControl appearance] setFont:segmentFont];
     [[DZNSegmentedControl appearance] setSelectionIndicatorHeight:2.5];
@@ -234,6 +234,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         //        _control.hairlineColor = self.view.tintColor;
         _control.showsCount = YES;
         //        _control.autoAdjustSelectionIndicatorWidth = YES;
+        
         
         
         [_control addTarget:self action:@selector(selectedSegment:) forControlEvents:UIControlEventValueChanged];

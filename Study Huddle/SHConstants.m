@@ -216,3 +216,16 @@ NSString* const SHPushTypeKey = @"type";
 
 //PUSH TYPES
 NSString* const SHPushTypeHuddleChatPost = @"huddleChatPost";
+
+//Settings
+NSString* const SHSettingHoursToStudy = @"displayHoursToStudyEnabled";
+NSString* const SHSettingPokeToStudy = @"pokeToStudyEnabled";
+NSString* const SHSettingReceiveHuddleStudyingNotifications = @"receiveHuddleIsStudyingNotifications";
+NSString* const SHSettingReceiveNewClassMemberNotifications = @"receiveNewClassMemberNotifications";
+NSString* const SHSettingReceiveNewHuddleMemberNotifications = @"receiveNewHuddleMemberNotifications";
+NSString* const SHSettingReceiveNewPostNotifications  = @"receiveNewPostNotifications";
+NSString* const SHSettingReceiveNewThreadPostNotifications = @"receiveNewThreadPostNotifications";
+NSString* const SHSettingReplyToYourPostNotifications = @"receiveReplyToYourNotifications";
+NSString* const SHSettingReceiveResourceAddedNotifications = @"receiveResourceAddedNotifications";
+
+
