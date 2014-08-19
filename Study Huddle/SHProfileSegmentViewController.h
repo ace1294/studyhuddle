@@ -16,7 +16,6 @@
 @property (nonatomic, strong) DZNSegmentedControl *control;
 @property (nonatomic, retain) UITableView *tableView;
 @property (nonatomic,strong) UIScrollView* parentScrollView;
-@property (nonatomic, strong) SHProfileViewController *owner;
 
 
 

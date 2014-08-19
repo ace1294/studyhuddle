@@ -124,6 +124,19 @@ NSString *requestHeader = @"request";
     [self.cache setObject:huddle forKey:key];
 }
 
+- (void)setAttributesForHuddle:(PFObject *)huddle withMembers:(NSArray *)members
+{
+    NSString *key = [self keyForObject:huddle withHeader:huddleHeader];
+    
+    for(PFUser *user in members){
+        if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
+            continue;
+        [self setNewStudyFriend:user];
+    }
+    
+    [self.cache setObject:huddle forKey:key];
+}
+
 //Saves the new huddle id to the NSUserDefaults and loads the huddles data into the cache
 - (void)setNewHuddle:(PFObject *)huddle
 {
@@ -146,6 +159,28 @@ NSString *requestHeader = @"request";
     [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
+}
+
+- (void)setNewHuddle:(PFObject *)huddle withMembers:(NSArray *)members
+{
+    NSString *key = SHUserDefaultsHuddlesKey;
+    NSMutableArray *currentHuddles = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
+    
+    if (!currentHuddles) {
+        currentHuddles = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        [self.cache setObject:currentHuddles forKey:key];
+    }
+    
+    if([currentHuddles containsObject:huddle])
+        return;
+    
+    [self setAttributesForHuddle:huddle withMembers:members];
+    
+    [currentHuddles addObject:[huddle objectId]];
+    [self.cache setObject:[NSArray arrayWithArray:currentHuddles] forKey:key];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 //Will return the entire fetched huddle

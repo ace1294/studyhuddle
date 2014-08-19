@@ -19,7 +19,7 @@
 - (void)addButtonAction:(id)sender;
 - (void)buttonPressed:(id)sender;
 
-@property (strong, nonatomic) NSMutableArray *buttonTitles;
+@property (strong, nonatomic) NSMutableDictionary *buttonObjects;
 @property (strong, nonatomic) NSMutableDictionary *buttons;
 
 @property (strong, nonatomic) UITextField *addButtonField;
@@ -42,12 +42,12 @@ NSString *addButtonString;
 
 @implementation SHHuddleButtons
 
-- (id)initWithFrame:(CGRect)frame items:(NSMutableArray *)buttonList addButton:(NSString *)addString
+- (id)initWithFrame:(CGRect)frame items:(NSMutableDictionary *)buttonDictionary addButton:(NSString *)addString
 {
     self = [super init];
     if (self) {
         
-        self.buttonTitles = [[NSMutableArray alloc]initWithArray:buttonList];
+        self.buttonObjects = buttonDictionary;
         self.buttons = [[NSMutableDictionary alloc] init];
         self.selectedButtons = [[NSMutableArray alloc]init];
         
@@ -58,7 +58,7 @@ NSString *addButtonString;
         if(addString){
             addButton = true;
             addButtonString = addString;
-            [self.buttonTitles addObject:addButtonString];
+            [self.buttonObjects addObject:addButtonString];
         }
         
         self.textColor = [UIColor huddleSilver];
@@ -86,7 +86,7 @@ NSString *addButtonString;
     
     [self setButtonFrames];
     
-    totalButtonsHeight = (buttonHeight*([self.buttonTitles count]/2))+(buttonHeight*([self.buttonTitles count]%2));
+    totalButtonsHeight = (buttonHeight*([self.buttonObjects count]/2))+(buttonHeight*([self.buttonObjects count]%2));
     
     if (vertViewSpacing+initialButtonY+totalButtonsHeight > initialHeight) {
         [self expandViewForHeight:(vertViewSpacing+initialButtonY+totalButtonsHeight-initialHeight)];
@@ -101,9 +101,9 @@ NSString *addButtonString;
     NSString *buttonTitle;
     UIButton *button;
 
-    for(int i = 0; i < [self.buttonTitles count]; i++)
+    for(int i = 0; i < [self.buttonObjects count]; i++)
     {
-        buttonTitle = self.buttonTitles[i];
+        buttonTitle = self.buttonObjects[i];
         
         button = [[UIButton alloc]init];
         [self.buttons setObject:button forKey:[NSNumber numberWithInt:i]];

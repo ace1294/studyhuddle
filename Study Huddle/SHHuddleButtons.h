@@ -21,14 +21,14 @@
 @property (strong, nonatomic) UIFont *headerFont;
 @property (strong, nonatomic) NSString *addButtonPlaceHolder;
 
-@property (strong, nonatomic) NSString *selectedButton;
+@property (strong, nonatomic) id selectedButton;
 @property (strong, nonatomic) NSMutableArray *selectedButtons;
 
 
 @property BOOL multipleSelection;
 @property BOOL addButtonSet;
 
-- (id)initWithFrame:(CGRect)frame items:(NSMutableArray *)buttonList addButton:(NSString *) addString;
+- (id)initWithFrame:(CGRect)frame items:(NSMutableDictionary *)buttonDictionary addButton:(NSString *) addString;
 - (void)setInitialPressedButtons:(NSArray *)buttons;
 - (float)getButtonHeight;
 

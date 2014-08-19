@@ -29,6 +29,8 @@
 
 @end
 
+BOOL beganSearch;
+
 @implementation SHSearchViewController
 
 - (id)init
@@ -37,6 +39,7 @@
     if (self) {
         self.title = @"Search";
         self.tabBarItem.image = [UIImage imageNamed:@"search.png"];
+        [self.searchedBar setTintColor:[UIColor huddleSilver]];
         
         self.parseClassName = @"dummy";
         
@@ -82,6 +85,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    beganSearch = true;
+    
     //Clean up past search results
     [self.searchResults removeAllObjects];
     //[self.searchedBar resignFirstResponder];
@@ -120,6 +125,11 @@
     
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
@@ -127,6 +137,8 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
+    searchBar.text = @"";
+    
     [searchBar resignFirstResponder];
 }
 
@@ -134,12 +146,30 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if(indexPath.section == 0)
         return SHStudentCellHeight;
     else if(indexPath.section == 1)
         return SHHuddleCellHeight;
     else
         return SHClassCellHeight;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if(!beganSearch)
+        return 0.0;
+    
+    if (section == 0 && [self.students count] > 0) {
+        return 20.0;
+    } else if (section == 1 && [self.huddles count] > 0) {
+        return 20.0;
+    } else if (section == 2 && [self.classes count] > 0) {
+        return 20.0;
+    } else
+        return 0.0;
+
 }
 
 #pragma mark - UITableViewDataSource Methods

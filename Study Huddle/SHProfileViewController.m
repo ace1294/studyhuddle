@@ -211,7 +211,6 @@
     self.segmentContainer.backgroundColor = [UIColor clearColor];
     [self.segmentContainer addSubview:self.segmentController.view];
     [self.segmentController didMoveToParentViewController:self];
-    self.segmentController.owner = self;
     [self.scrollView addSubview:self.segmentContainer];
     self.segmentController.parentScrollView = self.scrollView;
 

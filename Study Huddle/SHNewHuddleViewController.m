@@ -150,16 +150,14 @@ float classButtonsHeight;
     [self.huddleNameTextField setFont:[UIFont fontWithName:@"Arial" size:12]];
     [self.huddleNameTextField setPlaceholder:@"Huddle Name"];
     [self.huddleNameTextField setDelegate:self];
+    [self.huddleNameTextField setTextColor:[UIColor huddleSilver]];
     [self.huddleNameTextField.layer setCornerRadius:2];
     self.huddleNameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(15, 0,0);    //inset
     [self.view addSubview:self.huddleNameTextField];
     
     CGRect initialFrame = CGRectMake(horiBorderSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
     NSMutableArray *classes = [NSMutableArray arrayWithArray:[SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassFullNameKey]];
-    //[classes addObject:@"Personal"];
-    //[classes addObject:@"Test 1"];
-    //[classes addObject:@"Test 2"];
-    //[classes addObject:@"Test 3"];
+    [classes addObject:@"Personal"];
     self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classes addButton:nil];
     self.huddleClassButtons.textFont = [UIFont fontWithName:@"Arial" size:12.0];
     self.huddleClassButtons.viewController = self;
@@ -284,25 +282,45 @@ float classButtonsHeight;
 #pragma mark - Actions
 -(void)createPressed
 {
+    //ADD HUDDLE TO CURRENT USERS HUDDLES ARRAY
+    
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;
     self.huddle[SHHuddleCreatorKey] = [PFUser currentUser];
+    UIImage* huddleImage =  self.huddlePortrait.huddleImageView.image;
+    NSData* imageData = UIImageJPEGRepresentation(huddleImage, 1.0f);
+    PFFile *imageFile = [PFFile fileWithData:imageData];
+    self.huddle[SHHuddleImageKey] = imageFile;
     
-    for(PFUser *user in self.huddleMembers)
-    {
-        PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
-        request[SHRequestTypeKey] = SHRequestHSJoin;
-        request[SHRequestHuddleKey] = self.huddle;
-        request[SHRequestStudent1Key] = user;
+    [self.huddle saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
+        for(PFUser *user in self.huddleMembers)
+        {
+            //JOSE THIS IS WHERE YOU'LL MAKE A PUSH NOTIFICATION
+            
+            PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
+            request[SHRequestTitleKey] = self.huddle[SHHuddleNameKey];
+            request[SHRequestTypeKey] = SHRequestHSJoin;
+            request[SHRequestHuddleKey] = self.huddle;
+            request[SHRequestStudent1Key] = user;
+            request[SHRequestStudent2Key] = [PFUser currentUser];
+            request[SHRequestDescriptionKey] = @"Join the new huddle!";
+            
+            [request saveInBackground];
+        }
         
-    }
+        [[SHCache sharedCache] setNewHuddle:self.huddle withMembers:self.huddleMembers];
+        
+    }];
     
-    [self.huddle saveInBackground];
     
     SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:self.huddle];
     
-    [self.navigationController pushViewController:huddleVC animated:YES];
+    //BACK BUTTON GOES BACK TO THE CREATE HUDDLE PAGE, POP TO ROOT VIEW CONTROLLER THEN PUSH THE NEW PAGE ON STACK?
+    
+    UIViewController *rootViewController = self.navigationController.viewControllers[0];
+    
+    [rootViewController.navigationController pushViewController:huddleVC animated:YES];
     
     
 }
