@@ -68,6 +68,7 @@
 - (BOOL)setAttributesForRequest:(PFObject *)request;
 - (void)setNewRequest:(PFObject *)request;
 - (NSArray *)reloadRequests;
+- (void)removeRequest:(PFObject *)request;
 
 
 
