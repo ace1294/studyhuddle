@@ -126,7 +126,23 @@
     request[SHRequestStudent1Key] = self.toStudent;
     request[SHRequestDescriptionKey] = @"We want you to join our huddle";
     
-    [request saveInBackground];
+    
+    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        NSString* channel = [NSString stringWithFormat:@"a%@",[self.toStudent objectId]];
+        NSString* message = [NSString stringWithFormat:@"%@ wants you to become a member!!!",selectedHuddle[SHHuddleNameKey]];
+        NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                              message, @"alert",
+                              @"Increment", @"badge",
+                              request,@"request",
+                              nil];
+        
+        PFPush *push = [[PFPush alloc] init];
+        [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+        [push setData:data];
+        [push sendPushInBackground];
+        
+    }];
+
     
     //Set button as Invite Sent
     

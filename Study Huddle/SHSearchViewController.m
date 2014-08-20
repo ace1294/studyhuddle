@@ -16,8 +16,9 @@
 #import "SHVisitorClassPageViewController.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHVisitorHuddleViewController.h"
+#import "MBProgressHUD.h"
 
-@interface SHSearchViewController ()
+@interface SHSearchViewController ()<MBProgressHUDDelegate>
 
 @property (nonatomic, strong) UISearchBar *searchedBar;
 @property (nonatomic, strong) NSMutableArray *searchResults;
@@ -85,6 +86,21 @@ BOOL beganSearch;
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+
+    // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
+	MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	[self.navigationController.view addSubview:HUD];
+	
+	// Regiser for HUD callbacks so we can remove it from the window at the right time
+	HUD.delegate = self;
+	
+	// Show the HUD while the provided method executes in a new thread
+	[HUD showWhileExecuting:@selector(doHeavySearch:) onTarget:self withObject:searchText animated:YES];
+    
+}
+
+-(void)doHeavySearch:(NSString*)searchText
+{
     beganSearch = true;
     
     //Clean up past search results
@@ -122,12 +138,6 @@ BOOL beganSearch;
     [self loadObjects];
     
     [self.searchedBar becomeFirstResponder];
-    
-}
-
--(void)doHeavySearch
-{
-    
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
