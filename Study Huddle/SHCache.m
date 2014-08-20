@@ -26,6 +26,7 @@ NSString *studyLogHeader = @"studyLog";
 NSString *studentHeader = @"student";
 NSString *notificationHeader = @"notification";
 NSString *requestHeader = @"request";
+NSString *sentRequestHeader = @"sentRequest";
 
 @implementation SHCache
 
@@ -698,6 +699,98 @@ NSString *requestHeader = @"request";
     [[NSUserDefaults standardUserDefaults] setObject:currentRequests forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
+}
+
+#pragma mark - Sent Requests
+
+- (void)setSentRequests:(NSArray *)requests
+{
+    for(PFObject *request in requests){
+        [self setAttributesForSentRequest:request];
+    }
+    
+    NSString *key = SHUserDefaultsSentRequestsKey;
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[SHUtility objectIDsForObjects:requests] forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self.cache setObject:[SHUtility objectIDsForObjects:requests] forKey:key];
+}
+
+- (NSArray *)sentRequests
+{
+    NSString *key = SHUserDefaultsSentRequestsKey;
+    if ([self.cache objectForKey:key]) {
+        return [NSArray arrayWithArray:[self objectsForKeys:[self.cache objectForKey:key] withHeader:sentRequestHeader]];
+    }
+    
+    NSArray *sentRequests = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    
+    if (sentRequests) {
+        [self.cache setObject:sentRequests forKey:key];
+    } else
+        return @[];
+    
+    return [NSArray arrayWithArray:[self objectsForKeys:sentRequests withHeader:sentRequestHeader]];
+}
+
+- (BOOL)setAttributesForSentRequest:(PFObject *)request
+{
+    NSString *key = [self keyForObject:request withHeader:sentRequestHeader];
+    
+    if([self.cache objectForKey:key])
+        return false;
+    
+    [request fetchIfNeeded];
+    
+    [self.cache setObject:request forKey:key];
+    return true;
+}
+
+- (void)setNewSentRequest:(PFObject *)request
+{
+    if(![self setAttributesForSentRequest:request])
+        return;
+    
+    NSString *key = SHUserDefaultsSentRequestsKey;
+    NSMutableArray *currentSentRequests;
+    
+    if (![self.cache objectForKey:key])
+        currentSentRequests = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    else
+        currentSentRequests = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
+    
+    if(![currentSentRequests containsObject:request])
+    {
+        [currentSentRequests addObject:[request objectId]];
+        [self.cache setObject:[NSArray arrayWithArray:currentSentRequests] forKey:key];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:currentSentRequests forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else
+        [self.cache setObject:[NSArray arrayWithArray:currentSentRequests] forKey:key];
+}
+
+- (NSArray *)reloadSentRequests
+{
+    return nil;
+}
+
+- (void)removeSentRequest:(PFObject *)request
+{
+    NSString *key = SHUserDefaultsSentRequestsKey;
+    NSMutableArray *currentSentRequests = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
+    
+    if (!currentSentRequests)
+        currentSentRequests = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    
+    [currentSentRequests removeObject:[request objectId]];
+    [self.cache removeObjectForKey:[self keyForObject:request withHeader:requestHeader]];
+    
+    [self.cache setObject:[NSArray arrayWithArray:currentSentRequests] forKey:key];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentSentRequests forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Helpers

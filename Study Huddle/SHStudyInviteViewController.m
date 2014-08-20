@@ -8,6 +8,7 @@
 
 #import "SHStudyInviteViewController.h"
 #import "UIColor+HuddleColors.h"
+#import "SHCache.h"
 
 @interface SHStudyInviteViewController () <UITextViewDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 
@@ -48,6 +49,7 @@
         
         self.request = [PFObject objectWithClassName:SHRequestParseClass];
         self.request[SHRequestTitleKey] = aStudent1[SHStudentNameKey];
+        self.request[SHRequestSentTitleKey] = aStudent2[SHStudentNameKey];
         self.request[SHRequestTypeKey] = SHRequestSSInviteStudy;
         self.request[SHRequestStudent1Key] = aStudent1;
         self.request[SHRequestStudent2Key] = aStudent2;
@@ -165,11 +167,14 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"hh:mm a"];
     NSString *timeString = [formatter stringFromDate:self.timePicker.date];
-    NSString *timeLocation = [NSString stringWithFormat:@"Wants to study at %@; %@", timeString, self.locationTextField.text];
     
-    self.request[SHRequestDescriptionKey] = timeLocation;
+    self.request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"Wants to study at %@; %@", timeString, self.locationTextField.text];
+    self.request[SHRequestSentDescriptionKey] = [NSString stringWithFormat:@"You requested to study at %@; %@", timeString, self.locationTextField.text];
     
-    [self.request saveInBackground];
+    [self.request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [[PFUser currentUser] addObject:self.request forKey:SHStudentSentRequestsKey];
+        [[SHCache sharedCache] setNewSentRequest:self.request];
+    }];
     
     //Set button as Invite Sent
     
@@ -185,6 +190,8 @@
     [push setChannels:[NSArray arrayWithObjects:channel, nil]];
     [push setData:data];
     [push sendPushInBackground];
+    
+    
     
     [self cancelAction];
 }

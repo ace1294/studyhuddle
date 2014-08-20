@@ -31,7 +31,6 @@
     int selectedIndex;
 }
 
-@property (strong, nonatomic) NSString *docsPath;
 @property (strong, nonatomic) PFUser *segStudent;
 
 @property (strong, nonatomic) NSString *CellIdentifier;
@@ -44,6 +43,7 @@
 
 @property (strong, nonatomic) NSMutableArray *notificationsDataArray;
 @property (strong, nonatomic) NSMutableArray *requestsDataArray;
+@property (strong, nonatomic) NSMutableArray *sentRequestsDataArray;
 
 @property (strong, nonatomic) NSMutableArray *encapsulatingDataArray;
 @property (strong, nonatomic) NSMutableIndexSet *expandableNotificationCells;
@@ -75,9 +75,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
         self.segmentData = [[NSMutableDictionary alloc]init];
         
-        self.segMenu = [[NSArray alloc]initWithObjects:@"NOTIFICATIONS", @"REQUESTS", nil];
-        self.docsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        self.docsPath = [self.docsPath stringByAppendingPathComponent:@"notificationSegment"];
+        self.segMenu = [[NSArray alloc]initWithObjects:@"NOTIFICATIONS", @"REQUESTS", @"SENT REQUESTS",nil];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     }
     
@@ -90,7 +88,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [[DZNSegmentedControl appearance] setHairlineColor:[UIColor huddleSilver]];
     [[DZNSegmentedControl appearance] setBackgroundColor:[UIColor clearColor]];
     
-    [[DZNSegmentedControl appearance] setFont:segmentFont];
+    [[DZNSegmentedControl appearance] setFont:[UIFont fontWithName:@"Arial" size:12.0]];
     [[DZNSegmentedControl appearance] setSelectionIndicatorHeight:2.5];
     [[DZNSegmentedControl appearance] setAnimationDuration:0.125];
     
@@ -104,7 +102,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     self.notificationsDataArray = [[NSMutableArray alloc]init];
     self.requestsDataArray = [[NSMutableArray alloc]init];
-    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.notificationsDataArray,self.requestsDataArray, nil];
+    self.sentRequestsDataArray = [[NSMutableArray alloc]init];
+    self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.notificationsDataArray,self.requestsDataArray, self.sentRequestsDataArray, nil];
     self.expandableNotificationCells = [[NSMutableIndexSet alloc]init];
     
     [self loadStudentData];
@@ -132,7 +131,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     //Set segment menu titles
     [self.segCellIdentifiers setObject:SHNotificationCellIdentifier forKey:[@"Notifications" uppercaseString]];
     [self.segCellIdentifiers setObject:SHRequestCellIdentifier forKey:[@"Requests" uppercaseString]];
-   
+    [self.segCellIdentifiers setObject:SHRequestCellIdentifier forKey:[@"Sent Requests" uppercaseString]];
     
     //Segment
     [self.view addSubview:self.control];
@@ -152,12 +151,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     if ([self.segStudent username])
     {
-//        if([[NSFileManager defaultManager] fileExistsAtPath:self.docsPath])
-//        {
-//            [self loadDataFromDisk];
-//            return;
-//        }
-        
         [self loadStudentData];
     }
     
@@ -205,16 +198,16 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     [self.control setCount:[NSNumber numberWithInt:(int)self.requestsDataArray.count] forSegmentAtIndex:1];
     
+    [self.sentRequestsDataArray removeAllObjects];
+    [self.sentRequestsDataArray addObjectsFromArray:[[SHCache sharedCache]sentRequests]];
+    
+    [self.control setCount:[NSNumber numberWithInt:(int)self.sentRequestsDataArray.count] forSegmentAtIndex:2];
+    
     self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:self.control.selectedSegmentIndex] count];
 
     [self.tableView reloadData];
     
     return loadError;
-}
-
--(void)doTheLoad
-{
-    
 }
 
 
@@ -227,7 +220,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         _control = [[DZNSegmentedControl alloc] initWithItems:self.segMenu];
         _control.delegate = self;
-        _control.selectedSegmentIndex = 1;
+        _control.selectedSegmentIndex = 0;
         _control.inverseTitles = NO;
         _control.tintColor = [UIColor huddleOrange];
         _control.hairlineColor = [UIColor grayColor];
@@ -320,17 +313,14 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             [cell expand];
         else
             [cell collapse];
-        
-        
-        
-        
+
         [cell layoutIfNeeded];
        
         
         return cell;
     }
     
-    else if([CellIdentifier isEqual:SHRequestCellIdentifier])
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"REQUESTS"])
     {
         PFObject* requestObject = [self.requestsDataArray objectAtIndex:(int)indexPath.row];
         [requestObject fetchIfNeeded];
@@ -343,6 +333,22 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             [cell expand];
         else
             [cell collapse];
+        
+        
+        [cell layoutIfNeeded];
+        
+        return cell;
+    } else
+    {
+        PFObject* sentRequestObject = [self.sentRequestsDataArray objectAtIndex:(int)indexPath.row];
+        [sentRequestObject fetchIfNeeded];
+        
+        SHRequestCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell.delegate = self;
+        [cell setSentRequest:sentRequestObject];
+        [cell.arrowButton setHidden:YES];
+        
+        [cell collapse];
         
         
         [cell layoutIfNeeded];
@@ -531,7 +537,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
     } else if([type isEqualToString:SHRequestHSJoin])
     {
-        //Student1 (Current User) accepted Huddle creators request to join
+        //Student1 (Current User) accepted Huddle 's request to join
         
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
@@ -542,21 +548,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [[SHCache sharedCache] setNewHuddle:huddle];
         
         [student1 saveInBackground];
-        
-        Student *creator = huddle[SHHuddleCreatorKey];
-        
-        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
-        notification[SHNotificationToStudentKey] = creator;
-        notification[SHNotificationFromStudentKey] = student1;
-        notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
-        notification[SHNotificationTypeKey] = SHNotificationHSJoinRequestType;
-        notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
-        
-        NSString *description = [NSString stringWithFormat:@"%@ accepted request to join huddle", student1[SHStudentNameKey]];
-        notification[SHNotificationDescriptionKey] = description;
-        
-        [notification saveInBackground];
-        
         
         for(PFUser *member in [[SHCache sharedCache]membersForHuddle:huddle])
         {

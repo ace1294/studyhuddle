@@ -40,7 +40,6 @@
 - (NSArray *)huddlesForClass:(PFObject *)huddleClass;
 - (NSArray *)chatCategoriessForClass:(PFObject *)aClass;
 
-
 #pragma mark - User
 - (void)setStudyFriends:(NSArray *)friends;
 - (NSArray *)studyFriends;
@@ -69,6 +68,14 @@
 - (void)setNewRequest:(PFObject *)request;
 - (NSArray *)reloadRequests;
 - (void)removeRequest:(PFObject *)request;
+
+#pragma mark - Sent Requests
+- (void)setSentRequests:(NSArray *)requests;
+- (NSArray *)sentRequests;
+- (BOOL)setAttributesForSentRequest:(PFObject *)request;
+- (void)setNewSentRequest:(PFObject *)request;
+- (NSArray *)reloadSentRequests;
+- (void)removeSentRequest:(PFObject *)request;
 
 
 

@@ -119,6 +119,19 @@ BOOL expanded;
     [self layoutSubviews];
 }
 
+- (void)setSentRequest:(PFObject *)aSentRequest
+{
+    _request = aSentRequest;
+    
+    [self.titleButton setTitle:aSentRequest[SHRequestSentTitleKey] forState:UIControlStateNormal];
+    NSDate *created = [aSentRequest updatedAt];
+    [self.timeLabel setText:[NSDateFormatter relativeDateStringFromDate:created toDate:[NSDate date]]];
+
+    [self.descriptionLabel setText:aSentRequest[SHRequestSentDescriptionKey]];
+    
+    [self layoutSubviews];
+}
+
 - (void)initExpandedContent
 {
     expandable = true;
