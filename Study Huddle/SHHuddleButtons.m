@@ -17,14 +17,13 @@
 
 - (void)addButtonAction:(id)sender;
 - (void)buttonPressed:(id)sender;
+-(BOOL)textFieldShouldReturn:(UITextField *)textField;
 
 @property (strong, nonatomic) NSMutableDictionary *buttonObjects;
 @property (strong, nonatomic) NSMutableDictionary *buttons;
 
 @property (strong, nonatomic) UITextField *addButtonField;
 @property (strong, nonatomic) UILabel *addButtonHeader;
-
-
 
 @end
 
@@ -252,6 +251,7 @@ NSString *addButtonString;
         self.addButtonField.placeholder = self.addButtonPlaceHolder;
         self.addButtonField.backgroundColor = self.backgroundColor;
         [self.addButtonField setTextColor:self.textColor];
+        self.addButtonField.clearButtonMode = UITextFieldViewModeAlways;
         self.addButtonField.layer.cornerRadius = 3.0;
         UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
         [self.addButtonField setLeftViewMode:UITextFieldViewModeAlways];
@@ -289,11 +289,11 @@ NSString *addButtonString;
 {
     return YES;
 }
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self animateTextField: textField up: YES];
 }
-
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -325,6 +325,16 @@ NSString *addButtonString;
     
     return YES;
 }
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    
+    
+    return YES;
+}
+
+
+#pragma mark - View Animations
 
 - (void) animateTextField: (UITextField*) textField up: (BOOL) up
 {

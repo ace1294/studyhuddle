@@ -123,9 +123,6 @@
         if([[member objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;
         
-  
-
-        
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationTypeKey] = SHNotificationHSStudyRequestType;
         notification[SHNotificationTitleKey] = self.huddle[SHHuddleNameKey];
@@ -138,7 +135,7 @@
         [notification save];
         
         //check if the user wants a pushy push
-        if(member[SHSettingReceiveHuddleStudyingNotifications])
+        if([member[SHSettingReceiveHuddleStudyingNotifications] boolValue])
         {
             [self sendPush:notification toUser:member];
         }
