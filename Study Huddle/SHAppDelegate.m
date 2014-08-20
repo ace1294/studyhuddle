@@ -205,6 +205,8 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
     
     [[SHCache sharedCache] setRequests:self.student[SHStudentRequestsKey]];
     
+    [[SHCache sharedCache] setSentRequests:self.student[SHStudentSentRequestsKey]];
+    
     
 }
 

@@ -16,6 +16,7 @@ NSString *const SHUserDefaultsStudyFriendsKey = @"com.StudyHuddle.userDefaults.s
 NSString *const SHUserDefaultsStudyLogsKey = @"com.StudyHuddle.userDefaults.studyLogs";
 NSString *const SHUserDefaultsNotificationsKey = @"com.StudyHuddle.userDefaults.notifications";
 NSString *const SHUserDefaultsRequestsKey = @"com.StudyHuddle.userDefaults.requests";
+NSString *const SHUserDefaultsSentRequestsKey = @"com.StudyHuddle.userDefaults.sentRequests";
 
 #pragma mark - Cells
 
@@ -90,6 +91,7 @@ NSString *const SHStudentNotificationsKey = @"notifications";
 NSString* const SHStudentLastStartKey = @"lastStart";
 NSString *const SHStudentHoursStudiedKey = @"hoursStudied";
 NSString* const SHStudentUnresolvedChannel = @"unresolvedChannels";
+NSString *const SHStudentSentRequestsKey = @"sentRequests";
 
 //Study
 NSString *const SHStudyClassesKey = @"classes";
@@ -116,6 +118,7 @@ NSString *const SHResourceCategoryResourcesKey = @"resources";
 
 //Requests
 NSString *const SHRequestTitleKey = @"title";
+NSString *const SHRequestSentTitleKey = @"sentTitle";
 NSString *const SHRequestHuddleKey = @"huddle";
 NSString *const SHRequestTypeKey = @"type";
 NSString *const SHRequestStudent1Key = @"student1";
@@ -123,6 +126,7 @@ NSString *const SHRequestStudent2Key = @"student2";
 NSString *const SHRequestLocationKey = @"location";
 NSString *const SHRequestTimeKey = @"time";
 NSString *const SHRequestDescriptionKey = @"description";
+NSString *const SHRequestSentDescriptionKey = @"sentDescription";
 NSString *const SHRequestMessageKey = @"message";
 
 

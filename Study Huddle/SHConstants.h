@@ -13,6 +13,7 @@ extern NSString *const SHUserDefaultsStudyFriendsKey;
 extern NSString *const SHUserDefaultsStudyLogsKey;
 extern NSString *const SHUserDefaultsNotificationsKey;
 extern NSString *const SHUserDefaultsRequestsKey;
+extern NSString *const SHUserDefaultsSentRequestsKey;
 
 //Parse Classes
 extern NSString *const SHHuddleParseClass;
@@ -84,6 +85,7 @@ extern NSString *const SHStudentNotificationsKey;
 extern NSString* const SHStudentLastStartKey;
 extern NSString *const SHStudentHoursStudiedKey;
 extern NSString* const SHStudentUnresolvedChannel; //a temporary channel the user will subscribed so that he can a push notification when his question was answered
+extern NSString *const SHStudentSentRequestsKey;
 
 //Study
 extern NSString *const SHStudyClassesKey;
@@ -109,6 +111,7 @@ extern NSString *const SHResourceCategoryResourcesKey;
 
 //Requests
 extern NSString *const SHRequestTitleKey;
+extern NSString *const SHRequestSentTitleKey;
 extern NSString *const SHRequestTypeKey;
 extern NSString *const SHRequestHuddleKey;
 extern NSString *const SHRequestStudent1Key;
@@ -116,6 +119,7 @@ extern NSString *const SHRequestStudent2Key;
 extern NSString *const SHRequestLocationKey;
 extern NSString *const SHRequestTimeKey;
 extern NSString *const SHRequestDescriptionKey;
+extern NSString *const SHRequestSentDescriptionKey;
 extern NSString *const SHRequestMessageKey;
 
 //Request Types

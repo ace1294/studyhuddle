@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIButton *denyButton;
 
 - (void)setRequest:(PFObject *)aRequest;
+- (void)setSentRequest:(PFObject *)aSentRequest;
 - (void)expand;
 - (void)collapse;
 
