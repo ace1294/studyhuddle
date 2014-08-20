@@ -314,7 +314,6 @@ NSString *requestHeader = @"request";
     } else
         [self.cache setObject:[NSArray arrayWithArray:currentClasses] forKey:key];
     
-    
 }
 
 -(void)leaveClass:(PFObject *)huddleClass
@@ -325,9 +324,9 @@ NSString *requestHeader = @"request";
         currentClasses = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     
     [currentClasses removeObject:[huddleClass objectId]];
+    [self.cache removeObjectForKey:[self keyForObject:huddleClass withHeader:classHeader]];
     
     [self.cache setObject:[NSArray arrayWithArray:currentClasses] forKey:key];
-    
     
     [[NSUserDefaults standardUserDefaults] setObject:currentClasses forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -571,6 +570,8 @@ NSString *requestHeader = @"request";
     if([self.cache objectForKey:key])
         return false;
     
+    [notification fetchIfNeeded];
+    
     [self.cache setObject:notification forKey:key];
     return true;
 }
@@ -645,6 +646,8 @@ NSString *requestHeader = @"request";
     if([self.cache objectForKey:key])
         return false;
     
+    [request fetchIfNeeded];
+    
     [self.cache setObject:request forKey:key];
     return true;
 }
@@ -677,6 +680,24 @@ NSString *requestHeader = @"request";
 - (NSArray *)reloadRequests
 {
     return nil;
+}
+
+- (void)removeRequest:(PFObject *)request
+{
+    NSString *key = SHUserDefaultsRequestsKey;
+    NSMutableArray *currentRequests = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
+    
+    if (!currentRequests)
+        currentRequests = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        
+    [currentRequests removeObject:[request objectId]];
+    [self.cache removeObjectForKey:[self keyForObject:request withHeader:requestHeader]];
+        
+    [self.cache setObject:[NSArray arrayWithArray:currentRequests] forKey:key];
+        
+    [[NSUserDefaults standardUserDefaults] setObject:currentRequests forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
 }
 
 #pragma mark - Helpers

@@ -669,9 +669,12 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
     }
     
+    [[SHCache sharedCache]removeRequest:request];
+    
     [self.segStudent removeObject:request forKey:SHStudentRequestsKey];
     [self.requestsDataArray removeObject:request];
     [request deleteInBackground];
+    
     
     self.currentRowsToDisplay--;
     [self.control setCount:[NSNumber numberWithInteger:self.currentRowsToDisplay] forSegmentAtIndex:1];
