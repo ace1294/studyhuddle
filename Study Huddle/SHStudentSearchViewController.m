@@ -13,6 +13,7 @@
 #import "UIColor+HuddleColors.h"
 #import "SHHuddleJoinRequestViewController.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "MBProgressHUD.h"
 
 @interface SHStudentSearchViewController () <SHModalViewControllerDelegate>
 
@@ -72,6 +73,16 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self doHeavySearchWith:searchText andHud:hud];
+    });
+    
+}
+
+-(void)doHeavySearchWith: (NSString*)searchText andHud: (MBProgressHUD*)hud
+{
     //Clean up past search results
     [self.searchResults removeAllObjects];
     //[self.searchedBar resignFirstResponder];
@@ -86,13 +97,13 @@
     NSArray *results = [query findObjects];
     
     [self.searchResults addObjectsFromArray:results];
-
+    
     [query orderByAscending:SHStudentLowerNameKey];
     
     [self loadObjects];
     
     [self.searchedBar becomeFirstResponder];
-    
+    [hud removeFromSuperview];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar

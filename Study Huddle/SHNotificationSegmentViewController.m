@@ -117,13 +117,16 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [super viewDidLoad];
     
     //Tableview
-    CGRect tableViewFrame = CGRectMake(tableViewX, tableViewY, tableViewDimX, tableViewDimY);
+    CGRect tableViewFrame = CGRectMake(tableViewX, tableViewY, tableViewDimX, tableViewDimY-400);
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    //self.tableView.bounces = NO;
+
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     //self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
     self.tableView.contentInset = UIEdgeInsetsMake(-100, 0, 0, 0);
+    self.tableView.contentSize = CGSizeMake(320, 5000);
 
     [self.view addSubview:self.tableView];
     
@@ -497,7 +500,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     } else if([type isEqualToString:SHRequestSHJoin])
     {
         //Huddle Creator accepted Student1's request to join Huddle
-        
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
         
@@ -537,7 +539,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
     } else if([type isEqualToString:SHRequestHSJoin])
     {
-        //Student1 (Current User) accepted Huddle 's request to join
+        //Student1 (Current User) accepted Huddle's request to join
         
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
@@ -563,11 +565,29 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             NSString *description = [NSString stringWithFormat:@"%@ added to huddle", student1[SHStudentNameKey]];
             memberNotification[SHNotificationDescriptionKey] = description;
             
-            [memberNotification saveInBackground];
+            [memberNotification saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if([member[SHSettingReceiveNewHuddleMemberNotifications] boolValue])
+                {
+                    NSString* channel = [NSString stringWithFormat:@"a%@",[member objectId]];
+                    NSString* message = [NSString stringWithFormat:@"%@ has joined %@",student1[SHStudentNameKey],huddle[SHHuddleNameKey]];
+                    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          message, @"alert",
+                                          @"Increment", @"badge",
+                                          memberNotification,@"notification",
+                                          nil];
+                    
+                    PFPush *push = [[PFPush alloc] init];
+                    [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+                    [push setData:data];
+                    [push sendPushInBackground];
+                }
+            }];
+            
         }
         
     }
     
+    [[SHCache sharedCache] removeRequest:request];
     
     [self.segStudent removeObject:request forKey:SHStudentRequestsKey];
     [self.requestsDataArray removeObject:request];
@@ -577,6 +597,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [self.control setCount:[NSNumber numberWithInteger:self.currentRowsToDisplay] forSegmentAtIndex:1];
     [self.tableView reloadData];
 }
+
 
 - (void)didTapDeny:(PFObject *)request
 {
@@ -696,13 +717,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 }
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (scrollView.contentOffset.y<0) {
-        [self.parentScrollView setScrollEnabled:YES];
-    }
-    
-}
 
 
 

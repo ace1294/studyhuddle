@@ -16,8 +16,9 @@
 #import "SHVisitorClassPageViewController.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHVisitorHuddleViewController.h"
+#import "MBProgressHUD.h"
 
-@interface SHSearchViewController ()
+@interface SHSearchViewController ()<MBProgressHUDDelegate>
 
 @property (nonatomic, strong) UISearchBar *searchedBar;
 @property (nonatomic, strong) NSMutableArray *searchResults;
@@ -85,6 +86,16 @@ BOOL beganSearch;
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self doHeavySearchWith:searchText andHud:hud];
+    });
+}
+
+-(void)doHeavySearchWith:(NSString*)searchText andHud: (MBProgressHUD*)hud
+{
     beganSearch = true;
     
     //Clean up past search results
@@ -122,7 +133,7 @@ BOOL beganSearch;
     [self loadObjects];
     
     [self.searchedBar becomeFirstResponder];
-    
+    [hud removeFromSuperview];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar

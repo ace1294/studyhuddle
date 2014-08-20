@@ -133,7 +133,7 @@
         notification[SHNotificationDescriptionKey] = [NSString stringWithFormat:@"We are studying at %@ ", self.locationTextField.text];
         
         [notification save];
-        
+        //[currentStudent[@"receiveNewHuddleMemberNotifications"] boolValue]
         //check if the user wants a pushy push
         if([member[SHSettingReceiveHuddleStudyingNotifications] boolValue])
         {
