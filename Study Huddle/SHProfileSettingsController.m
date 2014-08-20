@@ -111,6 +111,7 @@
     
     NSArray* itemsInGroup = [self.tableData objectAtIndex:indexPath.section];
     cell.textLabel.text = [itemsInGroup objectAtIndex:indexPath.row];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 

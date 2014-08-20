@@ -571,6 +571,8 @@ NSString *requestHeader = @"request";
     if([self.cache objectForKey:key])
         return false;
     
+    [notification fetchIfNeeded];
+    
     [self.cache setObject:notification forKey:key];
     return true;
 }
@@ -644,6 +646,8 @@ NSString *requestHeader = @"request";
     
     if([self.cache objectForKey:key])
         return false;
+    
+    [request fetchIfNeeded];
     
     [self.cache setObject:request forKey:key];
     return true;

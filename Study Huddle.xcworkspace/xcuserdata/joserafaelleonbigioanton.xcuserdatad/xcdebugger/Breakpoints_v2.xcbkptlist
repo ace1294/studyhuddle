@@ -127,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "143"
             endingLineNumber = "143"
-            landmarkName = "-setNewHuddle:"
+            landmarkName = "-setAttributesForHuddle:withMembers:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
