@@ -491,7 +491,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     } else if([type isEqualToString:SHRequestSHJoin])
     {
         //Huddle Creator accepted Student1's request to join Huddle
-        
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
         
@@ -532,7 +531,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     } else if([type isEqualToString:SHRequestHSJoin])
     {
         //Student1 (Current User) accepted Huddle creators request to join
-        
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
         
@@ -572,7 +570,24 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             NSString *description = [NSString stringWithFormat:@"%@ added to huddle", student1[SHStudentNameKey]];
             memberNotification[SHNotificationDescriptionKey] = description;
             
-            [memberNotification saveInBackground];
+            [memberNotification saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if([member[SHSettingReceiveNewHuddleMemberNotifications] boolValue])
+                {
+                    NSString* channel = [NSString stringWithFormat:@"a%@",[member objectId]];
+                    NSString* message = [NSString stringWithFormat:@"%@ has joined %@",student1[SHStudentNameKey],huddle[SHHuddleNameKey]];
+                    NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          message, @"alert",
+                                          @"Increment", @"badge",
+                                          notification,@"notification",
+                                          nil];
+                    
+                    PFPush *push = [[PFPush alloc] init];
+                    [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+                    [push setData:data];
+                    [push sendPushInBackground];
+                }
+            }];
+            
         }
         
     }
@@ -586,6 +601,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     [self.control setCount:[NSNumber numberWithInteger:self.currentRowsToDisplay] forSegmentAtIndex:1];
     [self.tableView reloadData];
 }
+
 
 - (void)didTapDeny:(PFObject *)request
 {

@@ -87,19 +87,14 @@ BOOL beganSearch;
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
 
-    // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
-	MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-	[self.navigationController.view addSubview:HUD];
-	
-	// Regiser for HUD callbacks so we can remove it from the window at the right time
-	HUD.delegate = self;
-	
-	// Show the HUD while the provided method executes in a new thread
-	[HUD showWhileExecuting:@selector(doHeavySearch:) onTarget:self withObject:searchText animated:YES];
-    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self doHeavySearchWith:searchText andHud:hud];
+    });
 }
 
--(void)doHeavySearch:(NSString*)searchText
+-(void)doHeavySearchWith:(NSString*)searchText andHud: (MBProgressHUD*)hud
 {
     beganSearch = true;
     
@@ -138,6 +133,7 @@ BOOL beganSearch;
     [self loadObjects];
     
     [self.searchedBar becomeFirstResponder];
+    [hud removeFromSuperview];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
