@@ -44,7 +44,7 @@
 #pragma mark - User
 - (void)setStudyFriends:(NSArray *)friends;
 - (NSArray *)studyFriends;
-- (void)setAttributesForUser:(PFUser *)user;
+- (void)setAttributesForStudyFriend:(PFUser *)user;
 - (void)setNewStudyFriend:(PFUser *)user;
 - (PFUser *)objectForUser:(PFUser *)user;
 
