@@ -106,14 +106,14 @@
     [super viewWillAppear:animated];
     
     // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
-	MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-	[self.navigationController.view addSubview:HUD];
+	//MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+	//[self.navigationController.view addSubview:HUD];
 	
 	// Regiser for HUD callbacks so we can remove it from the window at the right time
-	HUD.delegate = self;
+	//HUD.delegate = self;
 	
 	// Show the HUD while the provided method executes in a new thread
-	[HUD showWhileExecuting:@selector(refreshSetup) onTarget:self withObject:nil animated:YES];
+	//[HUD showWhileExecuting:@selector(refreshSetup) onTarget:self withObject:nil animated:YES];
 
    
 }

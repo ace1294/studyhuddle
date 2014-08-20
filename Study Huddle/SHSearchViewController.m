@@ -125,6 +125,11 @@ BOOL beganSearch;
     
 }
 
+-(void)doHeavySearch
+{
+    
+}
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
