@@ -123,9 +123,6 @@
         if([[member objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;
         
-  
-
-        
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationTypeKey] = SHNotificationHSStudyRequestType;
         notification[SHNotificationTitleKey] = self.huddle[SHHuddleNameKey];
