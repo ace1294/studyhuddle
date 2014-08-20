@@ -62,7 +62,6 @@ NSString *requestHeader = @"request";
     [self setNotifications:[PFUser currentUser][SHStudentNotificationsKey]];
     [self setRequests:[PFUser currentUser][SHStudentRequestsKey]];
     
-    
 }
 
 #pragma mark - Huddle
@@ -99,9 +98,12 @@ NSString *requestHeader = @"request";
 }
 
 //Updates the huddle that is already stored in the cache, if set new cache call setNewHuddle
-- (void)setAttributesForHuddle:(PFObject *)huddle
+- (BOOL)setAttributesForHuddle:(PFObject *)huddle
 {
     NSString *key = [self keyForObject:huddle withHeader:huddleHeader];
+    
+    if([self.cache objectForKey:key])
+        return false;
     
     [huddle fetchIfNeeded];
     
@@ -124,11 +126,16 @@ NSString *requestHeader = @"request";
         [chatCategory fetchIfNeeded];
     
     [self.cache setObject:huddle forKey:key];
+    
+    return true;
 }
 
-- (void)setAttributesForHuddle:(PFObject *)huddle withMembers:(NSArray *)members
+- (BOOL)setAttributesForHuddle:(PFObject *)huddle withMembers:(NSArray *)members
 {
     NSString *key = [self keyForObject:huddle withHeader:huddleHeader];
+    
+    if([self.cache objectForKey:key])
+        return false;
     
     for(PFUser *user in members){
         if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
@@ -137,53 +144,58 @@ NSString *requestHeader = @"request";
     }
     
     [self.cache setObject:huddle forKey:key];
+    
+    return true;
 }
 
 //Saves the new huddle id to the NSUserDefaults and loads the huddles data into the cache
 - (void)setNewHuddle:(PFObject *)huddle
 {
+    if(![self setAttributesForHuddle:huddle])
+        return;
+    
     NSString *key = SHUserDefaultsHuddlesKey;
     NSMutableArray *currentHuddles;
     
-    if (![self.cache objectForKey:key]) {
+    if (![self.cache objectForKey:key])
         currentHuddles = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-        [self.cache setObject:currentHuddles forKey:key];
-    } else
+    else
         currentHuddles = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
     
-    if([currentHuddles containsObject:huddle])
-        return;
-    
-    [self setAttributesForHuddle:huddle];
-    
-    [currentHuddles addObject:[huddle objectId]];
-    [self.cache setObject:[NSArray arrayWithArray:currentHuddles] forKey:key];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if(![currentHuddles containsObject:[huddle objectId]])
+    {
+        [currentHuddles addObject:[huddle objectId]];
+        [self.cache setObject:[NSArray arrayWithArray:currentHuddles] forKey:key];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else
+        [self.cache setObject:[NSArray arrayWithArray:currentHuddles] forKey:key];
     
 }
 
 - (void)setNewHuddle:(PFObject *)huddle withMembers:(NSArray *)members
 {
+    if(![self setAttributesForHuddle:huddle withMembers:members])
+        return;
+    
     NSString *key = SHUserDefaultsHuddlesKey;
     NSMutableArray *currentHuddles = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
     
-    if (!currentHuddles) {
+    if (![self.cache objectForKey:key])
         currentHuddles = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-        [self.cache setObject:currentHuddles forKey:key];
-    }
+    else
+        currentHuddles = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
     
-    if([currentHuddles containsObject:huddle])
-        return;
-    
-    [self setAttributesForHuddle:huddle withMembers:members];
-    
-    [currentHuddles addObject:[huddle objectId]];
-    [self.cache setObject:[NSArray arrayWithArray:currentHuddles] forKey:key];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if(![currentHuddles containsObject:[huddle objectId]])
+    {
+        [currentHuddles addObject:[huddle objectId]];
+        [self.cache setObject:[NSArray arrayWithArray:currentHuddles] forKey:key];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else
+        [self.cache setObject:[NSArray arrayWithArray:currentHuddles] forKey:key];
 }
 
 //Will return the entire fetched huddle
@@ -256,9 +268,12 @@ NSString *requestHeader = @"request";
     return [NSArray arrayWithArray:[self objectsForKeys:classes withHeader:classHeader]];
 }
 
-- (void)setAttributesForClass:(PFObject *)huddleClass
+- (BOOL)setAttributesForClass:(PFObject *)huddleClass
 {
     NSString *key = [self keyForObject:huddleClass withHeader:classHeader];
+    
+    if([self.cache objectForKey:key])
+        return false;
     
     [huddleClass fetchIfNeeded];
     
@@ -268,44 +283,46 @@ NSString *requestHeader = @"request";
     [self.classMembers setObject:[SHUtility objectIDsForObjects:students] forKey:[self keyForObject:huddleClass withHeader:classHeader]];
     [self setClassStudents:students];
     
-    for(PFObject *huddle in huddleClass[SHClassHuddlesKey])
+    for(PFObject *huddle in huddleClass[SHClassHuddlesKey]) //Probably shouldn't do this.
         [huddle fetchIfNeeded];
     
     [self.cache setObject:huddleClass forKey:key];
+    
+    return true;
 }
 
 - (void)setNewClass:(PFObject *)huddleClass
 {
+    if(![self setAttributesForClass:huddleClass])
+        return;
+    
     NSString *key = SHUserDefaultsClassesKey;
     NSMutableArray *currentClasses;
     
-    if (![self.cache objectForKey:key]) {
+    if (![self.cache objectForKey:key])
         currentClasses = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-        [self.cache setObject:currentClasses forKey:key];
-    } else
+    else
         currentClasses = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
     
-    if ([currentClasses containsObject:[huddleClass objectId]])
-        return;
+    if (![currentClasses containsObject:[huddleClass objectId]])
+    {
+        [currentClasses addObject:[huddleClass objectId]];
+        [self.cache setObject:[NSArray arrayWithArray:currentClasses] forKey:key];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:currentClasses forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else
+        [self.cache setObject:[NSArray arrayWithArray:currentClasses] forKey:key];
     
-    [self setAttributesForClass:huddleClass];
     
-    [currentClasses addObject:[huddleClass objectId]];
-    [self.cache setObject:[NSArray arrayWithArray:currentClasses] forKey:key];
-    
-    
-    [[NSUserDefaults standardUserDefaults] setObject:currentClasses forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(void)leaveClass:(PFObject *)huddleClass
 {
     NSString *key = SHUserDefaultsClassesKey;
     NSMutableArray *currentClasses = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
-    if (!currentClasses) {
+    if (!currentClasses)
         currentClasses = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-        [self.cache setObject:currentClasses forKey:key];
-    }
     
     [currentClasses removeObject:[huddleClass objectId]];
     
@@ -389,18 +406,22 @@ NSString *requestHeader = @"request";
     return [NSArray arrayWithArray:[self objectsForKeys:studyFriends withHeader:studyFriendHeader]];
 }
 
-- (void)setAttributesForStudyFriend:(PFUser *)user
+- (BOOL)setAttributesForStudyFriend:(PFUser *)user
 {
     NSString *key = [self keyForObject:user withHeader:studyFriendHeader];
+    
+    if([self.cache objectForKey:key])
+        return false;
     
     [user fetchIfNeeded];
     
     [self.cache setObject:user forKey:key];
+    return true;
 }
 
 - (void)setNewStudyFriend:(PFUser *)user
 {
-    if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
+    if([[user objectId] isEqual:[[PFUser currentUser]objectId]] || ![self setAttributesForStudyFriend:user])
         return;
     
     NSString *key = SHUserDefaultsStudyFriendsKey;
@@ -411,16 +432,15 @@ NSString *requestHeader = @"request";
     else
         currentFriends = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
     
-    if([self.cache objectForKey:[self keyForObject:user withHeader:studyFriendHeader]])
-        return;
+    if(![currentFriends containsObject:[user objectId]]){
+        [currentFriends addObject:[user objectId]];
+        [self.cache setObject:[NSArray arrayWithArray:currentFriends] forKey:key];
     
-    [self setAttributesForStudyFriend:user];
+        [[NSUserDefaults standardUserDefaults] setObject:currentFriends forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else
+        [self.cache setObject:[NSArray arrayWithArray:currentFriends] forKey:key];
     
-    [currentFriends addObject:[user objectId]];
-    [self.cache setObject:[NSArray arrayWithArray:currentFriends] forKey:key];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:currentFriends forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (PFUser *)objectForUser:(PFUser *)user
@@ -462,36 +482,43 @@ NSString *requestHeader = @"request";
     return [NSArray arrayWithArray:[self objectsForKeys:studyLogs withHeader:studyLogHeader]];
 }
 
-- (void)setAttributesForStudyLog:(PFObject *)log
+- (BOOL)setAttributesForStudyLog:(PFObject *)log
 {
     NSString *key = [self keyForObject:log withHeader:studyLogHeader];
+    
+    if([self.cache objectForKey:key])
+        return false;
     
     [log fetchIfNeeded];
     
     [self.cache setObject:log forKey:key];
+    return true;
 }
+
 - (void)setNewStudyLog:(PFObject *)studyLog
 {
+    if(![self setAttributesForStudyLog:studyLog])
+        return;
+    
     NSString *key = SHUserDefaultsStudyLogsKey;
     NSMutableArray *currentLogs;
     
     if (![self.cache objectForKey:key]) {
         currentLogs = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-        [self.cache setObject:currentLogs forKey:key];
     } else
         currentLogs = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
     
-    if([currentLogs containsObject:[studyLog objectId]])
-        return;
+    if(![currentLogs containsObject:[studyLog objectId]])
+    {
+        [currentLogs addObject:[studyLog objectId]];
+        [self.cache setObject:[NSArray arrayWithArray:currentLogs] forKey:key];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:currentLogs forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else
+        [self.cache setObject:[NSArray arrayWithArray:currentLogs] forKey:key];
     
-    [self setAttributesForClass:studyLog];
     
-    
-    [currentLogs addObject:[studyLog objectId]];
-    [self.cache setObject:[NSArray arrayWithArray:currentLogs] forKey:key];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:currentLogs forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (PFUser *)objectForStudyLog:(PFObject *)log
@@ -537,34 +564,41 @@ NSString *requestHeader = @"request";
     return [NSArray arrayWithArray:[self objectsForKeys:notifications withHeader:notificationHeader]];
 }
 
-- (void)setAttributesForNotification:(PFObject *)notification
+- (BOOL)setAttributesForNotification:(PFObject *)notification
 {
     NSString *key = [self keyForObject:notification withHeader:notificationHeader];
     
+    if([self.cache objectForKey:key])
+        return false;
+    
     [self.cache setObject:notification forKey:key];
+    return true;
 }
 
 - (void)setNewNotification:(PFObject *)notification
 {
+    if(![self setAttributesForNotification:notification])
+        return;
+    
     NSString *key = SHUserDefaultsNotificationsKey;
     NSMutableArray *currentNotifications;
     
-    if (![self.cache objectForKey:key]) {
+    if (![self.cache objectForKey:key])
         currentNotifications = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-        [self.cache setObject:currentNotifications forKey:key];
-    } else
+    else
         currentNotifications = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
     
-    if([currentNotifications containsObject:notification])
-        return;
+    if(![currentNotifications containsObject:notification])
+    {
+        [currentNotifications addObject:[notification objectId]];
+        [self.cache setObject:[NSArray arrayWithArray:currentNotifications] forKey:key];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:currentNotifications forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else
+        [self.cache setObject:[NSArray arrayWithArray:currentNotifications] forKey:key];
     
-    [self setAttributesForNotification:notification];
     
-    [currentNotifications addObject:[notification objectId]];
-    [self.cache setObject:[NSArray arrayWithArray:currentNotifications] forKey:key];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:currentNotifications forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSArray *)reloadNotifications
@@ -604,35 +638,40 @@ NSString *requestHeader = @"request";
     return [NSArray arrayWithArray:[self objectsForKeys:requests withHeader:requestHeader]];
 }
 
-- (void)setAttributesForRequest:(PFObject *)request
+- (BOOL)setAttributesForRequest:(PFObject *)request
 {
     NSString *key = [self keyForObject:request withHeader:requestHeader];
     
+    if([self.cache objectForKey:key])
+        return false;
     
     [self.cache setObject:request forKey:key];
+    return true;
 }
 
 - (void)setNewRequest:(PFObject *)request
 {
+    if(![self setAttributesForRequest:request])
+        return;
+    
     NSString *key = SHUserDefaultsRequestsKey;
     NSMutableArray *currentRequests;
     
-    if (![self.cache objectForKey:key]) {
+    if (![self.cache objectForKey:key])
         currentRequests = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-        [self.cache setObject:currentRequests forKey:key];
-    } else
+    else
         currentRequests = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
     
-    if([currentRequests containsObject:request])
-        return;
+    if(![currentRequests containsObject:request])
+    {
+        [currentRequests addObject:[request objectId]];
+        [self.cache setObject:[NSArray arrayWithArray:currentRequests] forKey:key];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:currentRequests forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else
+        [self.cache setObject:[NSArray arrayWithArray:currentRequests] forKey:key];
     
-    [self setAttributesForRequest:request];
-    
-    [currentRequests addObject:[request objectId]];
-    [self.cache setObject:[NSArray arrayWithArray:currentRequests] forKey:key];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:currentRequests forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSArray *)reloadRequests

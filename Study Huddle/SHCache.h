@@ -18,8 +18,8 @@
 #pragma mark - Huddle
 - (void)setHuddles:(NSArray *)huddles;
 - (NSArray *)huddles;
-- (void)setAttributesForHuddle:(PFObject *)huddle;
-- (void)setAttributesForHuddle:(PFObject *)huddle withMembers:(NSArray *)members;
+- (BOOL)setAttributesForHuddle:(PFObject *)huddle;
+- (BOOL)setAttributesForHuddle:(PFObject *)huddle withMembers:(NSArray *)members;
 - (void)setNewHuddle:(PFObject *)huddle;
 - (void)setNewHuddle:(PFObject *)huddle withMembers:(NSArray *)members;
 - (PFObject *)objectForHuddle:(PFObject *)huddle;
@@ -32,7 +32,7 @@
 #pragma mark - Class
 - (void)setClasses:(NSArray *)huddleClasses;
 - (NSArray *)classes;
-- (void)setAttributesForClass:(PFObject *)huddleClass;
+- (BOOL)setAttributesForClass:(PFObject *)huddleClass;
 - (void)setNewClass:(PFObject *)huddleClass;
 - (void)leaveClass:(PFObject *)huddleClass;
 - (PFObject *)objectForClass:(PFObject *)huddleClass;
@@ -44,28 +44,28 @@
 #pragma mark - User
 - (void)setStudyFriends:(NSArray *)friends;
 - (NSArray *)studyFriends;
-- (void)setAttributesForStudyFriend:(PFUser *)user;
+- (BOOL)setAttributesForStudyFriend:(PFUser *)user;
 - (void)setNewStudyFriend:(PFUser *)user;
 - (PFUser *)objectForUser:(PFUser *)user;
 
 #pragma mark - Study
 - (void)setStudyLogs:(NSArray *)logs;
 - (NSArray *)studyLogs;
-- (void)setAttributesForStudyLog:(PFObject *)log;
+- (BOOL)setAttributesForStudyLog:(PFObject *)log;
 - (void)setNewStudyLog:(PFObject *)studyLog;
 - (PFObject *)objectForStudyLog:(PFObject *)log;
 
 #pragma mark - Notifications
 - (void)setNotifications:(NSArray *)notifications;
 - (NSArray *)notifications;
-- (void)setAttributesForNotification:(PFObject *)notification;
+- (BOOL)setAttributesForNotification:(PFObject *)notification;
 - (void)setNewNotification:(PFObject *)notification;
 - (NSArray *)reloadNotifications;
 
 #pragma mark - Requests
 - (void)setRequests:(NSArray *)requests;
 - (NSArray *)requests;
-- (void)setAttributesForRequest:(PFObject *)request;
+- (BOOL)setAttributesForRequest:(PFObject *)request;
 - (void)setNewRequest:(PFObject *)request;
 - (NSArray *)reloadRequests;
 
