@@ -182,11 +182,7 @@
         joinVC.delegate = self;
         joinVC.requestedStudent = selectedStudent;
         
-        [self presentPopupViewController:joinVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-            self.navigationController.navigationBarHidden = NO;
-        }];
+        [self presentPopupViewController:joinVC animationType:MJPopupViewAnimationSlideBottomBottom];
         
         
     }
@@ -214,6 +210,12 @@
 
 #pragma mark - Popup delegate methods
 
+- (void)continueTapped
+{
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (void)cancelTapped
 {

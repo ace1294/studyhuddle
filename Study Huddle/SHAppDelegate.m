@@ -126,7 +126,10 @@
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
+    
     NSLog(@"this got called");
+    [PFPush handlePush:userInfo];
+    
 }
 
 
@@ -172,31 +175,13 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
 
 -(void)loadData
 {
-    [[SHCache sharedCache] setHuddles:self.student[SHStudentHuddlesKey]];
-    [[SHCache sharedCache] setClasses:[[[self.student relationForKey:SHStudentClassesKey] query] findObjects]];
-    [[SHCache sharedCache] setStudyLogs:self.student[SHStudentStudyLogsKey]];
-    
-    //Notifications
-    PFQuery *notificationsQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
-    [notificationsQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    [[SHCache sharedCache] setNotifications:[notificationsQuery findObjects]];
-    
-    //Requests
-    PFQuery *requestsQuery = [PFQuery queryWithClassName:SHRequestParseClass];
-    [requestsQuery whereKey:SHRequestToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    [[SHCache sharedCache] setRequests:[requestsQuery findObjects]];
-    
-    //Sent Requests
-    PFQuery *sentRequestsQuery = [PFQuery queryWithClassName:SHRequestParseClass];
-    [sentRequestsQuery whereKey:SHRequestFromStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    [[SHCache sharedCache] setSentRequests:[sentRequestsQuery findObjects]];
-    
+    [[SHCache sharedCache] reloadCacheCurrentUser];
     
 }
 
 -(void)logout
 {
-    [[SHCache sharedCache]clear];
+    [[SHCache sharedCache]clearCache];
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsHuddlesKey];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:SHUserDefaultsClassesKey];

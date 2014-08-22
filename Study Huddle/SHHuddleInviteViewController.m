@@ -124,10 +124,13 @@
     request[SHRequestMessageKey] = self.messageTextView.text;
     request[SHRequestTypeKey] = SHRequestHSJoin;
     request[SHRequestToStudentKey] = self.toStudent;
+    request[SHRequestFromStudentKey] = [PFUser currentUser];
     request[SHRequestDescriptionKey] = @"We want you to join our huddle";
     
     
     [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [[SHCache sharedCache] setNewSentRequest:request];
+        
         NSString* channel = [NSString stringWithFormat:@"a%@",[self.toStudent objectId]];
         NSString* message = [NSString stringWithFormat:@"%@ wants you to become a member!!!",selectedHuddle[SHHuddleNameKey]];
         NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:

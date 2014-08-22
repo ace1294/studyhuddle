@@ -14,6 +14,7 @@
 + (id)sharedCache;
 
 - (void)reloadCacheCurrentUser;
+- (void)clearCache;
 
 #pragma mark - Huddle
 - (void)setHuddles:(NSArray *)huddles;

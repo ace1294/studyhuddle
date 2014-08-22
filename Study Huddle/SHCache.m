@@ -56,13 +56,22 @@ NSString *sentRequestHeader = @"sentRequest";
 //must call [PFUser currentUser] refreshInBackgroundWithTarget:(id) selector:(SEL) first have this be the selector
 - (void)reloadCacheCurrentUser
 {
-    [self clear];
+    [self clearCache];
     
-    [self setHuddles:[PFUser currentUser][SHStudentHuddlesKey]];
-    [self setClasses:[[[[PFUser currentUser] relationForKey:SHStudentClassesKey] query] findObjects]];
-    //[self setNotifications:[PFUser currentUser][SHStudentNotificationsKey]];
-    //[self setRequests:[PFUser currentUser][SHStudentRequestsKey]];
+    [[SHCache sharedCache] setHuddles:[PFUser currentUser][SHStudentHuddlesKey]];
+    [[SHCache sharedCache] setClasses:[[[[PFUser currentUser] relationForKey:SHStudentClassesKey] query] findObjects]];
+    [[SHCache sharedCache] setStudyLogs:[PFUser currentUser][SHStudentStudyLogsKey]];
     
+    [[SHCache sharedCache] reloadNotifications];
+    [[SHCache sharedCache] reloadRequests];
+    [[SHCache sharedCache] reloadSentRequests];
+    
+    
+}
+
+- (void)clearCache
+{
+    [self.cache removeAllObjects];
 }
 
 #pragma mark - Huddle
@@ -529,11 +538,6 @@ NSString *sentRequestHeader = @"sentRequest";
     return [self.cache objectForKey:key];
 }
 
-
-- (void)clear {
-    [self.cache removeAllObjects];
-}
-
 #pragma mark - Notifications
 - (void)setNotifications:(NSArray *)notifications
 {
@@ -607,7 +611,18 @@ NSString *sentRequestHeader = @"sentRequest";
 
 - (NSArray *)reloadNotifications
 {
-    return nil;
+    NSString *key = SHUserDefaultsNotificationsKey;
+    if ([self.cache objectForKey:key])
+        [self removeObjectsFromCache:[self.cache objectForKey:key] withHeaderKey:notificationHeader];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    PFQuery *notificationsQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
+    [notificationsQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    [[SHCache sharedCache] setNotifications:[notificationsQuery findObjects]];
+    
+    return [[SHCache sharedCache] notifications];
 }
 
 #pragma mark - Requests
@@ -682,7 +697,19 @@ NSString *sentRequestHeader = @"sentRequest";
 
 - (NSArray *)reloadRequests
 {
-    return nil;
+    NSString *key = SHUserDefaultsRequestsKey;
+    if ([self.cache objectForKey:key])
+        [self removeObjectsFromCache:[[SHCache sharedCache]requests] withHeaderKey:requestHeader];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //Requests
+    PFQuery *requestsQuery = [PFQuery queryWithClassName:SHRequestParseClass];
+    [requestsQuery whereKey:SHRequestToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    [[SHCache sharedCache] setRequests:[requestsQuery findObjects]];
+    
+    return [[SHCache sharedCache] requests];
 }
 
 - (void)removeRequest:(PFObject *)request
@@ -775,7 +802,18 @@ NSString *sentRequestHeader = @"sentRequest";
 
 - (NSArray *)reloadSentRequests
 {
-    return nil;
+    NSString *key = SHUserDefaultsSentRequestsKey;
+    if ([self.cache objectForKey:key])
+        [self removeObjectsFromCache:[[SHCache sharedCache]sentRequests] withHeaderKey:sentRequestHeader];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@[] forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    PFQuery *sentRequestsQuery = [PFQuery queryWithClassName:SHRequestParseClass];
+    [sentRequestsQuery whereKey:SHRequestFromStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    [[SHCache sharedCache] setSentRequests:[sentRequestsQuery findObjects]];
+    
+    return [[SHCache sharedCache] sentRequests];
 }
 
 - (void)removeSentRequest:(PFObject *)request
@@ -819,6 +857,16 @@ NSString *sentRequestHeader = @"sentRequest";
     }
     
     return objects;
+}
+
+- (void)removeObjectsFromCache:(NSArray *)objects withHeaderKey:(NSString *)header
+{
+    for(PFObject *object in objects)
+    {
+        NSString *key = [self keyForObject:object withHeader:header];
+    
+        [self.cache removeObjectForKey:key];
+    }
 }
 
 

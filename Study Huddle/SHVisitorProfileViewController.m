@@ -262,7 +262,7 @@
     for(PFObject* request in sentRequests)
     {
         [request fetchIfNeeded];
-        if([request[SHRequestTypeKey] isEqualToString:SHRequestSHJoin] && [[request[SHRequestToStudentKey] objectId] isEqualToString:[self.profStudent objectId]])
+        if([request[SHRequestTypeKey] isEqualToString:SHRequestHSJoin] && [[request[SHRequestToStudentKey] objectId] isEqualToString:[self.profStudent objectId]])
         {
             [self showAlert];
             return;
