@@ -331,11 +331,10 @@ float classButtonsHeight;
     
     SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:self.huddle];
     
-    //BACK BUTTON GOES BACK TO THE CREATE HUDDLE PAGE, POP TO ROOT VIEW CONTROLLER THEN PUSH THE NEW PAGE ON STACK?
-    
-    UIViewController *rootViewController = self.navigationController.viewControllers[0];
-    
-    [rootViewController.navigationController pushViewController:huddleVC animated:YES];
+    NSMutableArray* navControllers = [[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
+    [navControllers insertObject:huddleVC atIndex:navControllers.count-1];
+    self.navigationController.viewControllers = navControllers;
+    [self.navigationController popViewControllerAnimated:YES];
     
     
 }

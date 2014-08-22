@@ -15,6 +15,7 @@
 #import "SHStudyInviteViewController.h"
 #import "SHHuddleInviteViewController.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "SHCache.h"
 
 
 #define profileImageWidth 100
@@ -241,10 +242,33 @@
 
 -(void)inviteToHuddlePressed
 {
+    
+    //check if he already sent a request
+    NSArray* sentRequests = [[SHCache sharedCache] sentRequests];
+    for(PFObject* request in sentRequests)
+    {
+        [request fetchIfNeeded];
+        if([request[SHRequestTypeKey] isEqualToString:SHRequestSSInviteStudy] && [[request[SHRequestStudent2Key] objectID] isEqualToString:[self.profStudent objectId]])
+        {
+            [self showAlert];
+            return;
+        }
+    }
+    
+    
     SHHuddleInviteViewController *huddleInviteVC = [[SHHuddleInviteViewController alloc]initWithToStudent:self.profStudent fromStudent:[PFUser currentUser]];
     huddleInviteVC.delegate = self;
     
     [self presentPopupViewController:huddleInviteVC animationType:MJPopupViewAnimationSlideBottomBottom];
+}
+
+-(void)showAlert
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Wait!"
+                                                    message: @"You already sent him a request"
+                                                   delegate: nil cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
 }
 
 

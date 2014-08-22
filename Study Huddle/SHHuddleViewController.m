@@ -105,6 +105,11 @@
     
     [super viewWillAppear:animated];
     
+    [self.huddles removeAllObjects];
+    self.huddles = [NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]];
+    
+    [self.tableView reloadData];
+    
     // The hud will dispable all input on the view (use the higest view possible in the view hierarchy)
 	//MBProgressHUD* HUD = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
 	//[self.navigationController.view addSubview:HUD];
@@ -164,8 +169,8 @@
 {
     SHHuddlePageCell *cell = [tableView dequeueReusableCellWithIdentifier:SHHuddlePageCellIdentifier];
     
-    if(!cell)
-        cell = [[SHHuddlePageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SHHuddlePageCellIdentifier];
+    
+    cell = [[SHHuddlePageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SHHuddlePageCellIdentifier];
     
     cell.delegate = self;
     PFObject *huddleObject = [self.huddles objectAtIndex:indexPath.row];
