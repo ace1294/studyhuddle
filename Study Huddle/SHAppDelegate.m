@@ -128,7 +128,9 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
     
     NSLog(@"this got called");
+    [[SHCache sharedCache]reloadCacheCurrentUser];
     [PFPush handlePush:userInfo];
+    self.tabBarController.selectedIndex = 3;
     
 }
 
