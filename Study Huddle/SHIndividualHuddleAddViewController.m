@@ -8,7 +8,6 @@
 
 #import "SHIndividualHuddleAddViewController.h"
 #import "UIColor+HuddleColors.h"
-#import "SHNewResourceViewController.h"
 
 @interface SHIndividualHuddleAddViewController ()
 

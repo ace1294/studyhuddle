@@ -168,6 +168,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]])
+            return 2;
     return 1;
 }
 
