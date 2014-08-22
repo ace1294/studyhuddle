@@ -263,12 +263,12 @@
 {
     if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"STUDENTS"])
     {
-        if([[self.studentData objectForKey:@"online"] count] > 0 && [[self.studentData objectForKey:@"offline"] count] > 0)
+        if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]])
             return 2;
     }
     else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
     {
-        if([[self.huddlesData objectForKey:@"online"] count] > 0 && [[self.huddlesData objectForKey:@"offline"] count] > 0)
+        if([self.huddleOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]])
             return 2;
     }
     else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CHAT"])

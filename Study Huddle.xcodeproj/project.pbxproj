@@ -240,6 +240,7 @@
 		96566E7D19451683006649C3 /* UIColor+HuddleColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 96566E7C19451683006649C3 /* UIColor+HuddleColors.m */; };
 		96566E7F194517FB006649C3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E7E194517FB006649C3 /* Social.framework */; };
 		96566E811945180A006649C3 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96566E801945180A006649C3 /* Accounts.framework */; };
+		969B352C19A7E651002C6178 /* SHClassPageAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 969B352B19A7E651002C6178 /* SHClassPageAddViewController.m */; };
 		96CABDEC19535B4500971394 /* SHUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CABDEB19535B4500971394 /* SHUtility.m */; };
 		96CABE6B1953A0A300971394 /* SHStudentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CABE6A1953A0A300971394 /* SHStudentCell.m */; };
 		96CBFA37194CC168008B10CE /* Arial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 96CBFA36194CC168008B10CE /* Arial.ttf */; };
@@ -669,6 +670,8 @@
 		96566E7C19451683006649C3 /* UIColor+HuddleColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HuddleColors.m"; sourceTree = "<group>"; };
 		96566E7E194517FB006649C3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		96566E801945180A006649C3 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		969B352A19A7E651002C6178 /* SHClassPageAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHClassPageAddViewController.h; sourceTree = "<group>"; };
+		969B352B19A7E651002C6178 /* SHClassPageAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHClassPageAddViewController.m; sourceTree = "<group>"; };
 		96CABDEA19535B4500971394 /* SHUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHUtility.h; sourceTree = "<group>"; };
 		96CABDEB19535B4500971394 /* SHUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHUtility.m; sourceTree = "<group>"; };
 		96CABE691953A0A300971394 /* SHStudentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHStudentCell.h; sourceTree = "<group>"; };
@@ -1528,6 +1531,8 @@
 		96535937197597D100ADA134 /* Class Pages */ = {
 			isa = PBXGroup;
 			children = (
+				969B352A19A7E651002C6178 /* SHClassPageAddViewController.h */,
+				969B352B19A7E651002C6178 /* SHClassPageAddViewController.m */,
 				96D955B01960BBA000667581 /* SHClassPageViewController.h */,
 				96D955B11960BBA000667581 /* SHClassPageViewController.m */,
 				41BD734419736B5E006BEA9E /* SHVisitorClassPageViewController.h */,
@@ -2061,7 +2066,7 @@
 				ORGANIZATIONNAME = StudyHuddle;
 				TargetAttributes = {
 					96566E25194510F6006649C3 = {
-						DevelopmentTeam = 2X9H6LLE5Q;
+						DevelopmentTeam = 4QYMAFJ88B;
 					};
 					96566E40194510F6006649C3 = {
 						TestTargetID = 96566E25194510F6006649C3;
@@ -2349,6 +2354,7 @@
 				41A194441966759F0038AAA2 /* SHThreadCell.m in Sources */,
 				41BD7350197706FA006BEA9E /* SHIntro2ViewController.m in Sources */,
 				96D9559B195F3F5300667581 /* SHBasePortraitViewController.m in Sources */,
+				969B352C19A7E651002C6178 /* SHClassPageAddViewController.m in Sources */,
 				41A19441196673BB0038AAA2 /* SHChatEntrySegmentViewController.m in Sources */,
 				96421CC419718F2500B5EC89 /* SHHuddlePageCell.m in Sources */,
 				96D95623196DD17C00667581 /* SHEditStudyViewController.m in Sources */,

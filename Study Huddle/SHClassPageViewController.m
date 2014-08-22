@@ -10,10 +10,12 @@
 #import "SHVisitorClassPageViewController.h"
 #import "SHClassSegmentViewController.h"
 #import "SHVisitorClassSegmentViewController.h"
+#import "WYPopoverController.h"
 #import "SHClassPageViewController.h"
 #import "SHConstants.h"
 #import "UIColor+HuddleColors.h"
 #import "SHCache.h"
+#import "SHClassPageAddViewController.h"
 
 #define topPartSize 100
 #define classNameWidth 500
@@ -30,7 +32,10 @@
 #define sideButtonWidth 70
 #define horizontalOffsetBetweenRoomAndButton 5
 
-@interface SHClassPageViewController ()<UIScrollViewDelegate>
+@interface SHClassPageViewController () <UIScrollViewDelegate, WYPopoverControllerDelegate, SHClassPageAddDelegate>
+{
+    WYPopoverController* popoverController;
+}
 
 @property (nonatomic,strong) PFObject* classObj;
 @property (nonatomic,strong) SHClassSegmentViewController* segmentController;
@@ -41,6 +46,8 @@
 @property (nonatomic,strong) UILabel* profEmailLabel;
 @property (nonatomic,strong) UILabel* roomLabel;
 @property (nonatomic,strong) UIButton* leaveClassButton;
+
+@property (strong, nonatomic) UIBarButtonItem *addButton;
 
 @end
 
@@ -64,7 +71,12 @@
         self.title = @"CLASS";
         self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
       
-
+        //Edit Button
+        self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                       target:self
+                                                                       action:@selector(addItem)];
+        
+        self.navigationItem.rightBarButtonItem = self.addButton;
         
     }
     return self;
@@ -75,9 +87,6 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    self.navigationController.navigationBar.topItem.title = @"";
-    UIBarButtonItem *button = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(doChat)];
-    self.navigationItem.rightBarButtonItem = button;
 }
 
 - (void)viewDidLoad
@@ -87,6 +96,19 @@
     
     //save it because it might be returning from the visitor class
     [self.classObj saveInBackground];
+    
+    SHClassPageAddViewController *addVC = [[SHClassPageAddViewController alloc]init];
+    [addVC.view setFrame:CGRectMake(305, 55.0, 100.0, 200.0)];
+    addVC.preferredContentSize = CGSizeMake(120, 40);
+    addVC.delegate = self;
+    popoverController = [[WYPopoverController alloc]initWithContentViewController:addVC];
+    popoverController.delegate = self;
+    [WYPopoverController setDefaultTheme:[WYPopoverTheme theme]];
+    
+    WYPopoverBackgroundView *appearance = [WYPopoverBackgroundView appearance];
+    [appearance setTintColor:[UIColor huddleSilver]];
+    
+    
     
     float bottomOfNavBar = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
     //float middleHeight = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
@@ -175,15 +197,11 @@
     [self.scrollView addSubview:self.segmentContainer];
     self.segmentController.parentScrollView = self.scrollView;
     
-    
-    
-    
-    
     [self.view addSubview:self.scrollView];
     [self.view addSubview:self.leaveClassButton];
     
-    
 }
+
 
 -(void)doChat
 {
@@ -210,7 +228,23 @@
     [navControllers insertObject:classVC atIndex:navControllers.count-1];
     self.navigationController.viewControllers = navControllers;
     [self.navigationController popViewControllerAnimated:YES];
-    
+}
+
+#pragma mark - Actions
+
+- (void)addItem
+{
+    [popoverController presentPopoverFromBarButtonItem:self.addButton permittedArrowDirections:WYPopoverArrowDirectionUp animated:YES];
+}
+
+#pragma mark - ClassPageAddDelegate methods
+
+- (void)addThreadTapped
+{
+    [popoverController dismissPopoverAnimated:YES completion:^{
+        
+        NSLog(@"ADDDING THE DOCUMENT");
+    }];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -265,17 +299,5 @@
     }
     
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

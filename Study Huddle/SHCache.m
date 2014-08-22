@@ -197,9 +197,11 @@ NSString *sentRequestHeader = @"sentRequest";
     NSString *key = SHUserDefaultsHuddlesKey;
     NSMutableArray *currentHuddles = [self.cache objectForKey:key];
     
-    if (![self.cache objectForKey:key])
+    if (![self.cache objectForKey:key]){
         currentHuddles = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-    else
+        if(!currentHuddles)
+            currentHuddles = [[NSMutableArray alloc]init];
+    } else
         currentHuddles = [self.cache objectForKey:key];
     
     if(![currentHuddles containsObject:[huddle objectId]])
@@ -211,6 +213,23 @@ NSString *sentRequestHeader = @"sentRequest";
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else
         [self.cache setObject:currentHuddles forKey:key];
+}
+
+- (void)removeHuddle:(PFObject *)huddle
+{
+    NSString *key = SHUserDefaultsHuddlesKey;
+    NSMutableArray *currentHuddles = [self.cache objectForKey:key];
+    
+    if (!currentHuddles)
+        currentHuddles = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    
+    [currentHuddles removeObject:[huddle objectId]];
+    [self.cache removeObjectForKey:[self keyForObject:huddle withHeader:huddleHeader]];
+    
+    [self.cache setObject:currentHuddles forKey:key];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 //Will return the entire fetched huddle
@@ -736,7 +755,7 @@ NSString *sentRequestHeader = @"sentRequest";
 - (void)removeRequest:(PFObject *)request
 {
     NSString *key = SHUserDefaultsRequestsKey;
-    NSMutableArray *currentRequests = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
+    NSMutableArray *currentRequests = [self.cache objectForKey:key];
     
     if (!currentRequests)
         currentRequests = [[NSUserDefaults standardUserDefaults] objectForKey:key];
@@ -744,7 +763,7 @@ NSString *sentRequestHeader = @"sentRequest";
     [currentRequests removeObject:[request objectId]];
     [self.cache removeObjectForKey:[self keyForObject:request withHeader:requestHeader]];
         
-    [self.cache setObject:[NSArray arrayWithArray:currentRequests] forKey:key];
+    [self.cache setObject:currentRequests forKey:key];
         
     [[NSUserDefaults standardUserDefaults] setObject:currentRequests forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -844,7 +863,7 @@ NSString *sentRequestHeader = @"sentRequest";
 - (void)removeSentRequest:(PFObject *)request
 {
     NSString *key = SHUserDefaultsSentRequestsKey;
-    NSMutableArray *currentSentRequests = [NSMutableArray arrayWithArray:[self.cache objectForKey:key]];
+    NSMutableArray *currentSentRequests = [self.cache objectForKey:key];
     
     if (!currentSentRequests)
         currentSentRequests = [[NSUserDefaults standardUserDefaults] objectForKey:key];
@@ -852,7 +871,7 @@ NSString *sentRequestHeader = @"sentRequest";
     [currentSentRequests removeObject:[request objectId]];
     [self.cache removeObjectForKey:[self keyForObject:request withHeader:requestHeader]];
     
-    [self.cache setObject:[NSArray arrayWithArray:currentSentRequests] forKey:key];
+    [self.cache setObject:currentSentRequests forKey:key];
     
     [[NSUserDefaults standardUserDefaults] setObject:currentSentRequests forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
