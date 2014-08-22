@@ -116,9 +116,9 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
    //check to see if the badge should be incremented
-    NSDictionary* app = [userInfo objectForKey:@"aps"];
+   /* NSDictionary* app = [userInfo objectForKey:@"aps"];
     NSNumber* badgeNumber = [app objectForKey:@"badge"];
-    [application setApplicationIconBadgeNumber:[badgeNumber intValue]];
+    [application setApplicationIconBadgeNumber:[badgeNumber intValue]];*/
     
 
 }

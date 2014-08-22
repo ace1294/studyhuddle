@@ -229,6 +229,19 @@
 
 -(void)inviteToStudyPressed
 {
+    
+    //check if he already sent a request
+    NSArray* sentRequests = [[SHCache sharedCache] sentRequests];
+    for(PFObject* request in sentRequests)
+    {
+        [request fetchIfNeeded];
+        if([request[SHRequestTypeKey] isEqualToString:SHRequestSSInviteStudy] && [[request[SHRequestToStudentKey] objectId] isEqualToString:[self.profStudent objectId]])
+        {
+            [self showAlert];
+            return;
+        }
+    }
+    
     SHStudyInviteViewController *studyInviteVC = [[SHStudyInviteViewController alloc]initWithFromStudent:[PFUser currentUser] toStudent:self.profStudent];
     studyInviteVC.owner = self;
     studyInviteVC.delegate = self;
@@ -243,18 +256,18 @@
 -(void)inviteToHuddlePressed
 {
     
+
     //check if he already sent a request
     NSArray* sentRequests = [[SHCache sharedCache] sentRequests];
     for(PFObject* request in sentRequests)
     {
         [request fetchIfNeeded];
-        if([request[SHRequestTypeKey] isEqualToString:SHRequestSSInviteStudy] && [[request[SHRequestStudent2Key] objectID] isEqualToString:[self.profStudent objectId]])
+        if([request[SHRequestTypeKey] isEqualToString:SHRequestSHJoin] && [[request[SHRequestToStudentKey] objectId] isEqualToString:[self.profStudent objectId]])
         {
             [self showAlert];
             return;
         }
     }
-    
     
     SHHuddleInviteViewController *huddleInviteVC = [[SHHuddleInviteViewController alloc]initWithToStudent:self.profStudent fromStudent:[PFUser currentUser]];
     huddleInviteVC.delegate = self;

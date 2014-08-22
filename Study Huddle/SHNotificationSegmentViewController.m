@@ -482,7 +482,7 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     if([type isEqualToString:SHRequestSSInviteStudy])
     {
-        //Student 2 accepted Student 1's request to study
+        //TO STUDENT accepted From Student's request to study
         
         PFUser *fromStudent = request[SHRequestFromStudentKey];
         [fromStudent fetchIfNeeded];
@@ -495,7 +495,24 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
         notification[SHNotificationDescriptionKey] = SHSSAcceptedStudyInviteRequestTitle;
         
-        [notification saveInBackground];
+        [notification saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            NSString* channel = [NSString stringWithFormat:@"a%@",[fromStudent objectId]];
+            NSString* message = [NSString stringWithFormat:@"%@ accepted your request!!!!!1",[PFUser currentUser][SHStudentNameKey]];
+            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  message, @"alert",
+                                  @"Increment", @"badge",
+                                  notification,@"notification",
+                                  nil];
+            
+            PFPush *push = [[PFPush alloc] init];
+            [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+            [push setData:data];
+            [push sendPushInBackground];
+        }];
+        
+  
+        
+        
     
     } else if([type isEqualToString:SHRequestSHJoin])
     {
@@ -617,7 +634,21 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
         notification[SHNotificationDescriptionKey] = SHSSDeniedStudyInviteRequestTitle;
         
-        [notification saveInBackground];
+        [notification saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            NSString* channel = [NSString stringWithFormat:@"a%@",[request[SHRequestFromStudentKey] objectId]];
+            NSString* message = [NSString stringWithFormat:@"%@ is busy and cannot attend your request",[PFUser currentUser][SHStudentNameKey]];
+            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  message, @"alert",
+                                  @"Increment", @"badge",
+                                  notification,@"notification",
+                                  nil];
+            
+            PFPush *push = [[PFPush alloc] init];
+            [push setChannels:[NSArray arrayWithObjects:channel, nil]];
+            [push setData:data];
+            [push sendPushInBackground];
+        }];
+        
         
     } else if([type isEqualToString:SHRequestSHJoin])
     {

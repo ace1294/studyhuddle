@@ -60,8 +60,8 @@ NSString *sentRequestHeader = @"sentRequest";
     
     [self setHuddles:[PFUser currentUser][SHStudentHuddlesKey]];
     [self setClasses:[[[[PFUser currentUser] relationForKey:SHStudentClassesKey] query] findObjects]];
-    [self setNotifications:[PFUser currentUser][SHStudentNotificationsKey]];
-    [self setRequests:[PFUser currentUser][SHStudentRequestsKey]];
+    //[self setNotifications:[PFUser currentUser][SHStudentNotificationsKey]];
+    //[self setRequests:[PFUser currentUser][SHStudentRequestsKey]];
     
 }
 
