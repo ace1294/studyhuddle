@@ -103,7 +103,7 @@
     [request saveInBackground];
     
     
-    [self cancelAction];
+    [self.delegate continueTapped];
 }
 
 
