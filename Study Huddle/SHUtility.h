@@ -33,6 +33,6 @@
 +(void)hakySave: (PFObject*) pfobject;
 +(PFObject*)getInstanceOfPFObject: (PFObject*)obj;
 
-+ (NSArray *)objectIDsForObjects:(NSArray *)objects;
++ (NSMutableArray *)objectIDsForObjects:(NSArray *)objects;
 
 @end

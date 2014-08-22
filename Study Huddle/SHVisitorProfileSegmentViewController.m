@@ -277,6 +277,22 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
 
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"CLASSES"])
+    {
+        PFObject *class = self.classesDataArray[indexPath.row];
+        SHVisitorClassPageViewController *classVC = [[SHVisitorClassPageViewController alloc]initWithClass:class];
+        [self.navigationController pushViewController:classVC animated:YES];
+    }
+    else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
+    {
+        PFObject *huddle = self.huddlesDataArray[indexPath.row];
+        SHVisitorHuddleViewController *huddleVC = [[SHVisitorHuddleViewController alloc]initWithHuddle:huddle];
+        [self.navigationController pushViewController:huddleVC animated:YES];
+    }
+}
+
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
