@@ -287,14 +287,10 @@
             else
                 return [[self.studentData objectForKey:@"offline"] count];
         } else if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]]){
-            if(section == 0)
-                return [[self.studentData objectForKey:@"online"] count];
+            return [[self.studentData objectForKey:@"online"] count];
         } else{
-            if(section == 0)
-                return [[self.studentData objectForKey:@"offline"] count];
+            return [[self.studentData objectForKey:@"offline"] count];
         }
-        
-        
             
     }
     else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"HUDDLES"])
@@ -316,7 +312,6 @@
     {
         
     }
-    
     
     return self.currentRowsToDisplay;
 }

@@ -95,17 +95,19 @@
 {
     NSString *privacyString = [self.privacyButtons.selectedButtonObject parseClassName];
     
-    
     self.study[SHStudyStartKey] = [NSDate date];
     
     self.study[SHStudyClassesKey] = self.subjectButtons.multipleSelectedButtonsObjects;
     self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
     
-    [[SHCache sharedCache] setNewStudyLog:self.study];
-    
     self.student[SHStudentCurrentStudyLogKey] = self.study;
     [self.student addObject:self.study forKey:SHStudentStudyLogsKey];
-    [PFObject saveAll:@[self.student,self.study]];
+    
+    [self.study saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [[SHCache sharedCache] setNewStudyLog:self.study];
+        
+        [self.student saveInBackground];
+    }];
     
     [self.delegate activateStudyLog:self.study];
     

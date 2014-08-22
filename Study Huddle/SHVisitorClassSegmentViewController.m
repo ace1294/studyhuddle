@@ -159,6 +159,11 @@
     return SHStudentCellHeight;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40.0;
+}
+
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -168,8 +173,33 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.studentData objectForKey:@"both"] count];
+    if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+        if(section == 0)
+            return [[self.studentData objectForKey:@"online"] count];
+        else
+            return [[self.studentData objectForKey:@"offline"] count];
+    } else if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]])
+        return [[self.studentData objectForKey:@"online"] count];
+    else
+        return [[self.studentData objectForKey:@"offline"] count];
+    
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:0]]){
+        if(section == 0)
+            return @"Online";
+        else
+            return @"Offline";
+    }else if([self.studentOnlineStatus isEqualToNumber:[NSNumber numberWithInt:1]])
+        return @"Online";
+    else
+        return @"Offline";
+    
+    return @"Check Title";
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PFUser *studentObject;
