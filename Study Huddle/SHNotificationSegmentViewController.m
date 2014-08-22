@@ -452,14 +452,14 @@ static NSString* const RequestsDiskKey = @"requestsArray";
        PFObject* request = requestCell.request;
        NSString *type = request[SHRequestTypeKey];
        
-       PFUser *student1 = request[SHRequestStudent1Key];
+       PFUser *fromStudent = request[SHRequestFromStudentKey];
        PFObject *huddle = request[SHRequestHuddleKey];
        
        if([type isEqual:SHRequestSSInviteStudy])
        {
-           [student1 fetchIfNeeded];
+           [fromStudent fetchIfNeeded];
            
-           SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:student1];
+           SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:fromStudent];
            
            [self.navigationController pushViewController:visitorVC animated:YES];
        } else {
@@ -484,13 +484,13 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         //Student 2 accepted Student 1's request to study
         
-        PFUser *student2 = request[SHRequestStudent2Key];
-        [student2 fetchIfNeeded];
+        PFUser *fromStudent = request[SHRequestFromStudentKey];
+        [fromStudent fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
-        notification[SHNotificationToStudentKey] = request[SHRequestStudent1Key];
-        notification[SHNotificationFromStudentKey] = request[SHRequestStudent2Key];
-        notification[SHNotificationTitleKey] = student2[SHStudentNameKey];
+        notification[SHNotificationToStudentKey] = [PFUser currentUser];
+        notification[SHNotificationFromStudentKey] = fromStudent;
+        notification[SHNotificationTitleKey] = fromStudent[SHStudentNameKey];
         notification[SHNotificationTypeKey] = SHNotificationSSStudyRequestType;
         notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:TRUE];
         notification[SHNotificationDescriptionKey] = SHSSAcceptedStudyInviteRequestTitle;
@@ -503,11 +503,11 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetch];
         
-        PFUser *student1 = request[SHRequestStudent1Key];
-        [student1 fetch];
+        PFUser *fromStudent = request[SHRequestFromStudentKey];
+        [fromStudent fetch];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
-        notification[SHNotificationToStudentKey] = student1;
+        notification[SHNotificationToStudentKey] = fromStudent;
         notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
         notification[SHNotificationHuddleKey] = huddle;
         notification[SHNotificationTypeKey] = SHNotificationSHJoinRequestType;
@@ -525,12 +525,12 @@ static NSString* const RequestsDiskKey = @"requestsArray";
             
             [member fetchIfNeeded];
             memberNotification[SHNotificationToStudentKey] = member;
-            memberNotification[SHNotificationFromStudentKey] = student1;
+            memberNotification[SHNotificationFromStudentKey] = fromStudent;
             memberNotification[SHNotificationHuddleKey] = huddle;
             memberNotification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
             memberNotification[SHNotificationTypeKey] = SHNotificationNewHuddleMemberType;
             
-            NSString *description = [NSString stringWithFormat:@"%@ added to huddle", student1[SHStudentNameKey]];
+            NSString *description = [NSString stringWithFormat:@"%@ added to huddle", fromStudent[SHStudentNameKey]];
             memberNotification[SHNotificationDescriptionKey] = description;
             
             [memberNotification saveInBackground];
@@ -589,7 +589,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     [[SHCache sharedCache] removeRequest:request];
     
-    [self.segStudent removeObject:request forKey:SHStudentRequestsKey];
     [self.requestsDataArray removeObject:request];
     [request deleteInBackground];
     
@@ -607,13 +606,13 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     {
         //Student 2 denied Student 1's request to study
         
-        PFUser *student2 = request[SHRequestStudent2Key];
-        [student2 fetchIfNeeded];
+        PFUser *currentUser = [PFUser currentUser];
+        [currentUser fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
-        notification[SHNotificationToStudentKey] = request[SHRequestStudent1Key];
-        notification[SHNotificationFromStudentKey] = request[SHRequestStudent2Key];
-        notification[SHNotificationTitleKey] = student2[SHStudentNameKey];
+        notification[SHNotificationToStudentKey] = request[SHRequestFromStudentKey];
+        notification[SHNotificationFromStudentKey] = currentUser;
+        notification[SHNotificationTitleKey] = currentUser[SHStudentNameKey];
         notification[SHNotificationTypeKey] = SHNotificationSSStudyRequestType;
         notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
         notification[SHNotificationDescriptionKey] = SHSSDeniedStudyInviteRequestTitle;
@@ -627,11 +626,11 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFObject *huddle = request[SHRequestHuddleKey];
         [huddle fetchIfNeeded];
         
-        PFUser *student1 = request[SHRequestStudent1Key];
-        [student1 fetchIfNeeded];
+        PFUser *currentUser = [PFUser currentUser];
+        [currentUser fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
-        notification[SHNotificationToStudentKey] = student1;
+        notification[SHNotificationToStudentKey] = currentUser;
         notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
         notification[SHNotificationTypeKey] = SHNotificationSHJoinRequestType;
         notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
@@ -650,30 +649,30 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         PFUser *creator = huddle[SHHuddleCreatorKey];
         [creator fetchIfNeeded];
         
-        PFUser *student1 = request[SHRequestStudent1Key];
-        [student1 fetchIfNeeded];
+        PFUser *currentUser = [PFUser currentUser];
+        [currentUser fetchIfNeeded];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationToStudentKey] = creator;
-        notification[SHNotificationFromStudentKey] = student1;
+        notification[SHNotificationFromStudentKey] = currentUser;
         notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
         notification[SHNotificationTypeKey] = SHNotificationHSJoinRequestType;
         notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
         
-        NSString *description = [NSString stringWithFormat:@"%@ denied request to join huddle", student1[SHStudentNameKey]];
+        NSString *description = [NSString stringWithFormat:@"%@ denied request to join huddle", currentUser[SHStudentNameKey]];
         notification[SHNotificationDescriptionKey] = description;
         
         [notification saveInBackground];
         
-        if(request[SHRequestStudent2Key]){
+        if(request[SHRequestFromStudentKey]){
             PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
-            notification[SHNotificationToStudentKey] = request[SHRequestStudent2Key];
-            notification[SHNotificationFromStudentKey] = student1;
+            notification[SHNotificationToStudentKey] = request[SHRequestFromStudentKey];
+            notification[SHNotificationFromStudentKey] = currentUser;
             notification[SHNotificationTitleKey] = huddle[SHHuddleNameKey];
             notification[SHNotificationTypeKey] = SHNotificationHSJoinRequestType;
             notification[SHNotificationRequestAcceptedKey] = [NSNumber numberWithBool:FALSE];
             
-            NSString *description = [NSString stringWithFormat:@"%@ denied request to join huddle", student1[SHStudentNameKey]];
+            NSString *description = [NSString stringWithFormat:@"%@ denied request to join huddle", currentUser[SHStudentNameKey]];
             notification[SHNotificationDescriptionKey] = description;
             
             [notification saveInBackground];
@@ -683,10 +682,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
     [[SHCache sharedCache]removeRequest:request];
     
-    [self.segStudent removeObject:request forKey:SHStudentRequestsKey];
     [self.requestsDataArray removeObject:request];
     [request deleteInBackground];
-    
     
     self.currentRowsToDisplay--;
     [self.control setCount:[NSNumber numberWithInteger:self.currentRowsToDisplay] forSegmentAtIndex:1];

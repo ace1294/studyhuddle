@@ -11,6 +11,6 @@
 
 @interface SHStudyInviteViewController : SHModalViewController
 
-- (id)initWithFromStudent:(PFObject *)aStudent1 toStudent:(PFObject *)aStudent2;
+- (id)initWithFromStudent:(PFObject *)fromStudent toStudent:(PFObject *)toStudent;
 
 @end

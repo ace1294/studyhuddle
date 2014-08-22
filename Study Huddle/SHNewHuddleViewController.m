@@ -303,8 +303,8 @@ float classButtonsHeight;
             request[SHRequestTitleKey] = self.huddle[SHHuddleNameKey];
             request[SHRequestTypeKey] = SHRequestHSJoin;
             request[SHRequestHuddleKey] = self.huddle;
-            request[SHRequestStudent1Key] = user;
-            request[SHRequestStudent2Key] = [PFUser currentUser];
+            request[SHRequestToStudentKey] = user;
+            request[SHRequestFromStudentKey] = [PFUser currentUser];
             request[SHRequestDescriptionKey] = @"Join the new huddle!";
             
             [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
