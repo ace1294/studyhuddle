@@ -86,12 +86,9 @@ NSString *const SHStudentHuddlesKey = @"huddles";
 NSString *const SHStudentStudyLogsKey = @"study";
 NSString *const SHStudentCurrentStudyLogKey = @"lastStudy";
 NSString *const SHStudentStudyingKey = @"isStudying";
-NSString *const SHStudentRequestsKey = @"requests";
-NSString *const SHStudentNotificationsKey = @"notifications";
 NSString* const SHStudentLastStartKey = @"lastStart";
 NSString *const SHStudentHoursStudiedKey = @"hoursStudied";
 NSString* const SHStudentUnresolvedChannel = @"unresolvedChannels";
-NSString *const SHStudentSentRequestsKey = @"sentRequests";
 
 //Study
 NSString *const SHStudyClassesKey = @"classes";
@@ -121,8 +118,8 @@ NSString *const SHRequestTitleKey = @"title";
 NSString *const SHRequestSentTitleKey = @"sentTitle";
 NSString *const SHRequestHuddleKey = @"huddle";
 NSString *const SHRequestTypeKey = @"type";
-NSString *const SHRequestStudent1Key = @"student1";
-NSString *const SHRequestStudent2Key = @"student2";
+NSString *const SHRequestToStudentKey = @"toStudent";
+NSString *const SHRequestFromStudentKey = @"fromStudent";
 NSString *const SHRequestLocationKey = @"location";
 NSString *const SHRequestTimeKey = @"time";
 NSString *const SHRequestDescriptionKey = @"description";

@@ -138,6 +138,8 @@ NSString *sentRequestHeader = @"sentRequest";
     if([self.cache objectForKey:key])
         return false;
     
+    [self.huddleMembers setObject:[SHUtility objectIDsForObjects:members] forKey:[self keyForObject:huddle withHeader:huddleHeader]];
+    
     for(PFUser *user in members){
         if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
             continue;

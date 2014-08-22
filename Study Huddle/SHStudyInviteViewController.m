@@ -40,7 +40,7 @@
 #define locationY locationHeaderY+headerHeight
 #define descriptionY descriptionHeaderY+headerHeight
 
-- (id)initWithFromStudent:(PFObject *)aStudent1 toStudent:(PFObject *)aStudent2
+- (id)initWithFromStudent:(PFObject *)fromStudent toStudent:(PFObject *)toStudent
 {
     self = [super init];
     if (self) {
@@ -48,11 +48,11 @@
         [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         
         self.request = [PFObject objectWithClassName:SHRequestParseClass];
-        self.request[SHRequestTitleKey] = aStudent1[SHStudentNameKey];
-        self.request[SHRequestSentTitleKey] = aStudent2[SHStudentNameKey];
+        self.request[SHRequestTitleKey] = fromStudent[SHStudentNameKey];
+        self.request[SHRequestSentTitleKey] = toStudent[SHStudentNameKey];
         self.request[SHRequestTypeKey] = SHRequestSSInviteStudy;
-        self.request[SHRequestStudent1Key] = aStudent1;
-        self.request[SHRequestStudent2Key] = aStudent2;
+        self.request[SHRequestFromStudentKey] = fromStudent;
+        self.request[SHRequestToStudentKey] = toStudent;
         
         [self initHeaders];
         [self initContent];
@@ -172,14 +172,13 @@
     self.request[SHRequestSentDescriptionKey] = [NSString stringWithFormat:@"You requested to study at %@; %@", timeString, self.locationTextField.text];
     
     [self.request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        [[PFUser currentUser] addObject:self.request forKey:SHStudentSentRequestsKey];
         [[SHCache sharedCache] setNewSentRequest:self.request];
     }];
     
     //Set button as Invite Sent
     
     //send a pushy push as well
-    PFObject* receiver = self.request[SHRequestStudent2Key];
+    PFObject* receiver = self.request[SHRequestToStudentKey];
     [receiver fetchIfNeeded];
     NSString* channel = [NSString stringWithFormat:@"a%@",[receiver objectId]];
     NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:

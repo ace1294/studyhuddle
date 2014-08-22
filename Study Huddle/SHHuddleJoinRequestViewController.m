@@ -89,13 +89,13 @@
     
     if([self.type isEqual:SHRequestSHJoin]){
         request[SHRequestTypeKey] = SHRequestSHJoin;
-        request[SHRequestStudent1Key] = [PFUser currentUser];
-        request[SHRequestStudent2Key] = self.huddle[SHHuddleCreatorKey];
+        request[SHRequestFromStudentKey] = [PFUser currentUser];
+        request[SHRequestToStudentKey] = self.huddle[SHHuddleCreatorKey];
         request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to join the huddle", [PFUser currentUser][SHStudentNameKey]];
     } else if ([self.type isEqual:SHRequestHSJoin]){
         request[SHRequestTypeKey] = SHRequestHSJoin;
-        request[SHRequestStudent1Key] = self.requestedStudent;
-        request[SHRequestStudent2Key] = [PFUser currentUser];
+        request[SHRequestToStudentKey] = self.requestedStudent;
+        request[SHRequestFromStudentKey] = [PFUser currentUser];
         request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested you to join the huddle", [PFUser currentUser][SHStudentNameKey]];
         
     }

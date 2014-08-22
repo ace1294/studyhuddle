@@ -177,35 +177,19 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
     [[SHCache sharedCache] setStudyLogs:self.student[SHStudentStudyLogsKey]];
     
     //Notifications
-    PFQuery *notificationQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
-    [notificationQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    
-    [self.student addUniqueObjectsFromArray:[notificationQuery findObjects] forKey:SHStudentNotificationsKey];
-    
-    [[SHCache sharedCache] setNotifications:self.student[SHStudentNotificationsKey]];
+    PFQuery *notificationsQuery = [PFQuery queryWithClassName:SHNotificationParseClass];
+    [notificationsQuery whereKey:SHNotificationToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    [[SHCache sharedCache] setNotifications:[notificationsQuery findObjects]];
     
     //Requests
-    PFQuery *ssInviteStudy = [PFQuery queryWithClassName:SHRequestParseClass];
-    PFQuery *shJoin = [PFQuery queryWithClassName:SHRequestParseClass];
-    PFQuery *hsJoin = [PFQuery queryWithClassName:SHRequestParseClass];
+    PFQuery *requestsQuery = [PFQuery queryWithClassName:SHRequestParseClass];
+    [requestsQuery whereKey:SHRequestToStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    [[SHCache sharedCache] setRequests:[requestsQuery findObjects]];
     
-    [ssInviteStudy whereKey:SHRequestTypeKey equalTo:SHRequestSSInviteStudy];
-    [ssInviteStudy whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    
-    [shJoin whereKey:SHRequestTypeKey equalTo:SHRequestSHJoin];
-    [shJoin whereKey:SHRequestStudent2Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    
-    [hsJoin whereKey:SHRequestTypeKey equalTo:SHRequestHSJoin];
-    [hsJoin whereKey:SHRequestStudent1Key equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
-    
-    PFQuery *query = [PFQuery orQueryWithSubqueries:@[ssInviteStudy,shJoin,hsJoin]];
-    
-    [self.student addUniqueObjectsFromArray:[query findObjects] forKey:SHStudentRequestsKey];
-    [self.student saveInBackground];
-    
-    [[SHCache sharedCache] setRequests:self.student[SHStudentRequestsKey]];
-    
-    [[SHCache sharedCache] setSentRequests:self.student[SHStudentSentRequestsKey]];
+    //Sent Requests
+    PFQuery *sentRequestsQuery = [PFQuery queryWithClassName:SHRequestParseClass];
+    [sentRequestsQuery whereKey:SHRequestFromStudentKey equalTo:[PFObject objectWithoutDataWithClassName:SHStudentParseClass objectId:[[PFUser currentUser] objectId]]];
+    [[SHCache sharedCache] setSentRequests:[sentRequestsQuery findObjects]];
     
     
 }

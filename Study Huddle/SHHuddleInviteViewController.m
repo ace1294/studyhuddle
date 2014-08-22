@@ -123,7 +123,7 @@
     request[SHRequestHuddleKey] = selectedHuddle;
     request[SHRequestMessageKey] = self.messageTextView.text;
     request[SHRequestTypeKey] = SHRequestHSJoin;
-    request[SHRequestStudent1Key] = self.toStudent;
+    request[SHRequestToStudentKey] = self.toStudent;
     request[SHRequestDescriptionKey] = @"We want you to join our huddle";
     
     
