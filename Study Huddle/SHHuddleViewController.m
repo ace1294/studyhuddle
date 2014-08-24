@@ -98,6 +98,7 @@
     
     WYPopoverBackgroundView *appearance = [WYPopoverBackgroundView appearance];
     [appearance setTintColor:[UIColor huddleSilver]];
+    [self registerForRemovedHuddleNotification];
     
 }
 
@@ -165,6 +166,26 @@
 {
     return [self.huddles count];
 }
+
+- (void)registerForRemovedHuddleNotification
+{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateHuddleData)
+                                                 name:SHNotificationCenterReloadHuddleData
+                                               object:nil];
+}
+
+-(void)updateHuddleData
+{
+    NSLog(@"got the notification!!!!!");
+    [self.huddles removeAllObjects];
+    self.huddles = [NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]];
+    [self.tableView reloadData];
+    
+    
+}
+
 
 
 

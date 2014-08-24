@@ -9,6 +9,9 @@
 #import "SHHuddlePortraitViewController.h"
 #import "SHUtility.h"
 #import "SHConstants.h"
+#import "UIColor+HuddleColors.h"
+#import "SHAppDelegate.h"
+#import "SHCache.h"
 
 @interface SHHuddlePortraitViewController ()
 
@@ -52,6 +55,60 @@
 -(void)setHuddle: (PFObject*)huddle;
 {
     self.portraitHuddle = huddle;
+}
+
+#pragma UIAction sheet
+
+- (void) didTapProfileButton: (UIImageView*)image
+{
+    NSLog(@"Create Huddle profile tapped");
+    
+    self.imageView = image;
+    
+    //present the UIAction sheet
+    NSString *actionSheetTitle = @"What's it gonna be?"; //Action Sheet Title
+    NSString *option1 = @"Take picture"; //Action Sheet Button Titles
+    NSString *option2 = @"Choose Picture";
+    NSString *option3 = @"Leave Huddle";
+    NSString *cancelTitle = @"Cancel Button";
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]
+                                  initWithTitle:actionSheetTitle
+                                  delegate:self
+                                  cancelButtonTitle:cancelTitle
+                                  destructiveButtonTitle:nil
+                                  otherButtonTitles:option1, option2,option3, nil];
+    
+    [actionSheet showInView:[UIApplication sharedApplication].keyWindow];
+    //[actionSheet showInView:self.portraitView.owner.view];
+
+    
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+ 
+    //Get the name of the current pressed button
+    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    
+    if ([buttonTitle isEqualToString:@"Take picture"]) {
+        [self takePictureAndPutIn:self.imageView];
+    }
+    if ([buttonTitle isEqualToString:@"Choose Picture"]) {
+        NSLog(@"Choose picture called");
+        [self choosePictureAndPutIn:self.imageView];
+    }
+    if ([buttonTitle isEqualToString:@"Leave Huddle"]) {
+        [[SHCache sharedCache]removeHuddle:self.portraitHuddle];
+        [[PFUser currentUser] removeObject:self.portraitHuddle forKey:SHStudentHuddlesKey];
+        [[PFUser currentUser]save];
+        
+    }
+    if ([buttonTitle isEqualToString:@"Cancel Button"]) {
+        NSLog(@"Cancel clicked");
+    }
+    
+    
 }
 
 @end

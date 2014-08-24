@@ -230,4 +230,7 @@ NSString* const SHSettingReceiveNewThreadPostNotifications = @"receiveNewThreadP
 NSString* const SHSettingReplyToYourPostNotifications = @"receiveReplyToYourNotifications";
 NSString* const SHSettingReceiveResourceAddedNotifications = @"receiveResourceAddedNotifications";
 
+//SHNOTIFICATION CENTER
+NSString* const SHNotificationCenterReloadHuddleData = @"reloadHuddleData";
+
 
