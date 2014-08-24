@@ -565,8 +565,8 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [huddle fetch];
         
         PFUser *student1 = [PFUser currentUser];
-        [student1 addObject:huddle forKey:SHStudentHuddlesKey];
         [huddle removeObject:student1 forKey:SHHuddlePendingMembersKey];
+        [student1 addObject:huddle forKey:SHStudentHuddlesKey];
         
         [[SHCache sharedCache] setJoinedHuddle:huddle];
         

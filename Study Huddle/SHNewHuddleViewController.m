@@ -157,7 +157,7 @@ float classButtonsHeight;
     CGRect initialFrame = CGRectMake(horiBorderSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
     NSArray *classNames = [SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassShortNameKey];
     NSMutableDictionary *classObjects = [[NSMutableDictionary alloc]initWithObjects:[[SHCache sharedCache]classes] forKeys:classNames];
-    [classObjects setObject:[PFObject objectWithClassName:@"Personal"] forKey:@"Personal"];
+    [classObjects setObject:[PFObject objectWithClassName:@"Personal"] forKey:@"Personal"]; //not showing the button
     
     self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classObjects addButton:nil];
     self.huddleClassButtons.textFont = [UIFont fontWithName:@"Arial" size:12.0];
@@ -283,6 +283,8 @@ float classButtonsHeight;
 #pragma mark - Actions
 -(void)createPressed
 {
+    //??!!
+    
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;
     self.huddle[SHHuddleCreatorKey] = [PFUser currentUser];

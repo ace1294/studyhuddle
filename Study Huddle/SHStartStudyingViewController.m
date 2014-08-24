@@ -100,7 +100,6 @@
     self.study[SHStudyClassesKey] = self.subjectButtons.multipleSelectedButtonsObjects;
     self.study[SHStudyOnlineKey] = [NSNumber numberWithBool:true];
     
-    self.student[SHStudentCurrentStudyLogKey] = self.study;
     [self.student addObject:self.study forKey:SHStudentStudyLogsKey];
     
     [self.study saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

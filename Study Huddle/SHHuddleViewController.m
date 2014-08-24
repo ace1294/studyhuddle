@@ -218,9 +218,13 @@
 
 - (void)didTapInviteToStudy:(PFObject *)huddle
 {
+    SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:huddle];
     SHHuddleStartStudyingViewController *huddleStudyingVC = [[SHHuddleStartStudyingViewController alloc]initWithHuddle:huddle];
+    huddleStudyingVC.delegate = huddleVC;
     
-    [self presentPopupViewController:huddleStudyingVC animationType:MJPopupViewAnimationSlideBottomBottom];
+    [self presentPopupViewController:huddleStudyingVC animationType:MJPopupViewAnimationSlideBottomBottom dismissed:^{
+        [self.navigationController pushViewController:huddleVC animated:YES];
+    }];
 }
 
 - (void)didTapAddResource:(PFObject *)huddle

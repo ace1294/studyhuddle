@@ -300,8 +300,6 @@
 
 -(void)updateHoursStudied
 {
-    
-   
     if(self.isStudying)
     {
         NSDate* date = [NSDate date];
@@ -359,10 +357,6 @@
     {
         //the user will stop their studying session
         self.indvHuddle[SHHuddleOnlineKey] = [NSNumber numberWithBool:NO];
-        PFObject *studyLog = self.indvHuddle[SHHuddleLastStudyLogKey];
-        studyLog[SHStudyEndKey] = [NSDate date];
-        
-        [studyLog saveInBackground];
   
         [[SHCache sharedCache] setHuddleStudying:self.indvHuddle];
         [self.indvHuddle saveInBackground];
@@ -373,7 +367,6 @@
         [self.startStudyingButton setImage:[UIImage imageNamed:@"StartStudyBtn.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
          self.startStudyingLabel.text = @"START STUDYING";
-        [self.indvHuddle save];
         //return the scroll view back and clear the text
         [self.locationLabel removeFromSuperview];
         

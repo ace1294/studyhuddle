@@ -161,13 +161,13 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
     
 //    PFQuery *query = [PFQuery queryWithClassName:SHClassParseClass];
 //    NSArray *classes = [query findObjects];
-//    PFRelation *relation = [[Student currentUser] relationForKey:SHStudentClassesKey];
+//    PFRelation *relation = [[PFUser currentUser] relationForKey:SHStudentClassesKey];
 //    [relation addObject:classes[0]];
+//    [relation addObject:classes[1]];
 //    [relation addObject:classes[3]];
 //    [relation addObject:classes[4]];
-//    [relation addObject:classes[5]];
 //    
-//    [[Student currentUser]saveInBackground];
+//    [[PFUser currentUser]saveInBackground];
     
     
 

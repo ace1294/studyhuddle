@@ -107,14 +107,9 @@
     
     self.huddle[SHHuddleLocationKey] = self.locationTextField.text;
     self.huddle[SHHuddleOnlineKey] = [NSNumber numberWithBool:YES];
-    PFObject *studyLog = [PFObject objectWithClassName:SHStudyParseClass];
-    studyLog[SHStudyStartKey] = [NSDate date];
-    studyLog[SHStudyDescriptionKey] = self.locationTextField.text;
-    
-    self.huddle[SHHuddleLastStudyLogKey] = studyLog;
     
     [[SHCache sharedCache] setAttributesForHuddle:self.huddle];
-    [PFObject saveAll:@[studyLog, self.huddle]];
+    [self.huddle save];
     
     NSArray* huddleMembers = [[SHCache sharedCache] membersForHuddle:self.huddle];
     
