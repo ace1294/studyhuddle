@@ -14,9 +14,12 @@
 #import "SHHuddleJoinRequestViewController.h"
 #import "UIViewController+MJPopupViewController.h"
 #import "MBProgressHUD.h"
+#import "SHCache.h"
+#import "SHUtility.h"
 
 @interface SHStudentSearchViewController () <SHModalViewControllerDelegate>
 
+@property (strong, nonatomic) PFUser *selectedStudent;
 @property (nonatomic, strong) UISearchBar *searchedBar;
 @property (nonatomic, strong) NSMutableArray *searchResults;
 @property (nonatomic, assign) BOOL shouldReloadOnAppear;
@@ -93,6 +96,7 @@
     PFQuery *query = [PFUser query];
     query.cachePolicy =kPFCachePolicyCacheElseNetwork;
     [query whereKey:SHStudentLowerNameKey containsString:[searchText lowercaseString]];
+    [query whereKey:SHStudentNameKey notEqualTo:[PFUser currentUser][SHStudentNameKey]];
     
     NSArray *results = [query findObjects];
     
@@ -165,25 +169,33 @@
     self.searchedBar.text = @"";
     [self.searchedBar resignFirstResponder];
     
-    PFUser *selectedStudent = [PFUser object];
-    selectedStudent = [self.searchResults objectAtIndex:indexPath.row];
+    self.selectedStudent = [PFUser object];
+    self.selectedStudent = [self.searchResults objectAtIndex:indexPath.row];
     
     
 
     if ([self.type isEqual:@"NewHuddle"]) {
-        [self.delegate didAddMember:selectedStudent];
+        [self.delegate didAddMember:self.selectedStudent];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else if([self.type isEqual:@"NewMember"]){
-        [self.delegate didAddMember:selectedStudent];
         
-        SHHuddleJoinRequestViewController *joinVC = [[SHHuddleJoinRequestViewController alloc]initWithHuddle:self.huddle withType:SHRequestHSJoin];
-        joinVC.delegate = self;
-        joinVC.requestedStudent = selectedStudent;
+        NSArray *huddleMembersIDs = [SHUtility objectIDsForObjects:[[SHCache sharedCache] membersForHuddle:self.huddle]];
         
-        [self presentPopupViewController:joinVC animationType:MJPopupViewAnimationSlideBottomBottom];
-        
-        
+        if([huddleMembersIDs containsObject:[self.selectedStudent objectId]]){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Oops!"
+                                                            message: @"Member is already in huddle."
+                                                           delegate: nil cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+        } else {
+            SHHuddleJoinRequestViewController *joinVC = [[SHHuddleJoinRequestViewController alloc]initWithHuddle:self.huddle withType:SHRequestHSJoin];
+            joinVC.delegate = self;
+            joinVC.requestedStudent = self.selectedStudent;
+            
+            [self presentPopupViewController:joinVC animationType:MJPopupViewAnimationSlideBottomBottom];
+        }
     }
     
     [self.searchResults removeAllObjects];
@@ -211,6 +223,8 @@
 
 - (void)continueTapped
 {
+    [self.delegate didAddMember:self.selectedStudent];
+    
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideBottomBottom];
     
     [self dismissViewControllerAnimated:YES completion:nil];

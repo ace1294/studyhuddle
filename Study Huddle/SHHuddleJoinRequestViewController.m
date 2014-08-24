@@ -94,7 +94,7 @@
         request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to join the huddle", [PFUser currentUser][SHStudentNameKey]];
     } else if ([self.type isEqual:SHRequestHSJoin]){
         request[SHRequestToStudentKey] = self.requestedStudent;
-        [request addUniqueObject:self.requestedStudent forKey:SHHuddlePendingMembersKey];
+        [self.huddle addUniqueObject:self.requestedStudent forKey:SHHuddlePendingMembersKey];
         request[SHRequestFromStudentKey] = [PFUser currentUser];
         request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested you to join the huddle", [PFUser currentUser][SHStudentNameKey]];
         

@@ -471,7 +471,7 @@
     
     SHStudentSearchViewController *searchVC = [[SHStudentSearchViewController alloc]init];
     searchVC.type = @"NewMember";
-    searchVC.delegate = self;
+    searchVC.delegate = self.segmentController;
     searchVC.huddle = self.indvHuddle;
     
     [popoverController dismissPopoverAnimated:YES completion:^{

@@ -129,8 +129,7 @@ NSString *sentRequestHeader = @"sentRequest";
         [self setNewStudyFriend:user];
     }
     
-    for(PFUser *user in huddle[SHHuddlePendingMembersKey])
-        [self setAttributesForClassStudent:user];
+    [self setClassStudents:huddle[SHHuddlePendingMembersKey]];
     
     for(PFObject *resourceCategory in huddle[SHHuddleResourceCategoriesKey])
         [resourceCategory fetchIfNeeded];
@@ -143,20 +142,14 @@ NSString *sentRequestHeader = @"sentRequest";
     return true;
 }
 
-- (BOOL)setAttributesForHuddle:(PFObject *)huddle withMembers:(NSArray *)members
+- (BOOL)setAttributesForNewHuddle:(PFObject *)huddle
 {
     NSString *key = [self keyForObject:huddle withHeader:huddleHeader];
     
     if([self.cache objectForKey:key])
         return false;
     
-    [self.huddleMembers setObject:[SHUtility objectIDsForObjects:members] forKey:[self keyForObject:huddle withHeader:huddleHeader]];
-    
-    for(PFUser *user in members){
-        if([[user objectId] isEqual:[[PFUser currentUser]objectId]])
-            continue;
-        [self setNewStudyFriend:user];
-    }
+    [self setClassStudents:huddle[SHHuddlePendingMembersKey]];
     
     [self.cache setObject:huddle forKey:key];
     
@@ -164,7 +157,7 @@ NSString *sentRequestHeader = @"sentRequest";
 }
 
 //Saves the new huddle id to the NSUserDefaults and loads the huddles data into the cache
-- (void)setNewHuddle:(PFObject *)huddle
+- (void)setJoinedHuddle:(PFObject *)huddle
 {
     if(![self setAttributesForHuddle:huddle])
         return;
@@ -192,9 +185,9 @@ NSString *sentRequestHeader = @"sentRequest";
     
 }
 
-- (void)setNewHuddle:(PFObject *)huddle withMembers:(NSArray *)members
+- (void)setNewHuddle:(PFObject *)huddle
 {
-    if(![self setAttributesForHuddle:huddle withMembers:members])
+    if(![self setAttributesForNewHuddle:huddle])
         return;
     
     NSString *key = SHUserDefaultsHuddlesKey;
@@ -251,7 +244,7 @@ NSString *sentRequestHeader = @"sentRequest";
 
 - (NSArray *)pendingMembersForHuddle:(PFObject *)huddle
 {
-    return [NSArray arrayWithArray:[self objectsForKeys:huddle[SHHuddlePendingMembersKey] withHeader:studentHeader]];
+    return [NSArray arrayWithArray:[self objectsForKeys:[SHUtility objectIDsForObjects:huddle[SHHuddlePendingMembersKey]] withHeader:studentHeader]];
 }
 
 - (NSArray *)resourceCategoriesForHuddle:(PFObject *)huddle
@@ -286,6 +279,11 @@ NSString *sentRequestHeader = @"sentRequest";
     [self.huddleMembers setObject:currentHuddleMembers forKey:key];
     
     [self setNewStudyFriend:member];
+}
+
+- (void)setNewPendingMember:(PFUser *)member forHuddle:(PFObject *)huddle
+{
+    [self setAttributesForClassStudent:member];
 }
 
 - (void)setNewHuddleResourceCategory:(PFObject *)resourceCategory forHuddle:(PFObject *)huddle

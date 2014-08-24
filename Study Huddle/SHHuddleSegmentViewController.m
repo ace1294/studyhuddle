@@ -471,23 +471,21 @@
 }
 
 
-
-
 #pragma mark - SHStudentSearchDelgate
 
-- (void)didAddMember:(PFObject *)member
+- (void)didAddMember:(PFUser *)member
 {
-    SHHuddleJoinRequestViewController *joinRequestVC = [[SHHuddleJoinRequestViewController alloc]initWithHuddle:self.segHuddle withType:SHRequestHSJoin];
+    [[SHCache sharedCache] setNewPendingMember:member forHuddle:self.segHuddle];
+    [self.pendingMembersDataArray addObject:member];
     
-    [self presentPopupViewController:joinRequestVC animationType:MJPopupViewAnimationSlideBottomBottom];
+    [self.tableView reloadData];
+    [self.control setSelectedSegmentIndex:0];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y<0) {
+    if (scrollView.contentOffset.y<0)
         [self.parentScrollView setScrollEnabled:YES];
-    }
-    
 }
 
 -(float)getOccupatingHeight

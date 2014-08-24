@@ -283,8 +283,6 @@ float classButtonsHeight;
 #pragma mark - Actions
 -(void)createPressed
 {
-    //ADD HUDDLE TO CURRENT USERS HUDDLES ARRAY AND ADD TO THE CLASSES ARRAY OF HUDDLES
-    
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;
     self.huddle[SHHuddleCreatorKey] = [PFUser currentUser];
@@ -322,19 +320,26 @@ float classButtonsHeight;
                 [push sendPushInBackground];
 
             }];
+            
+            PFObject *huddleClass = self.huddleClassButtons.selectedButtonObject;
+            [huddleClass addObject:self.huddle forKey:SHClassHuddlesKey];
+            [huddleClass saveInBackground];
+            
+            [[PFUser currentUser] addObject:self.huddle forKey:SHStudentHuddlesKey];
+            [[PFUser currentUser] saveInBackground];
         }
         
-        [[SHCache sharedCache] setNewHuddle:self.huddle withMembers:self.huddleMembers];
+        [[SHCache sharedCache] setNewHuddle:self.huddle];
+        
+        SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:self.huddle];
+        
+        NSMutableArray* navControllers = [[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
+        [navControllers insertObject:huddleVC atIndex:navControllers.count-1];
+        self.navigationController.viewControllers = navControllers;
+        [self.navigationController popViewControllerAnimated:YES];
         
     }];
     
-    
-    SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:self.huddle];
-    
-    NSMutableArray* navControllers = [[NSMutableArray alloc]initWithArray:self.navigationController.viewControllers];
-    [navControllers insertObject:huddleVC atIndex:navControllers.count-1];
-    self.navigationController.viewControllers = navControllers;
-    [self.navigationController popViewControllerAnimated:YES];
     
     
 }

@@ -110,6 +110,7 @@ BOOL beganSearch;
     PFQuery *studentQuery = [PFUser query];
     studentQuery.cachePolicy =kPFCachePolicyCacheElseNetwork;
     [studentQuery whereKey:SHStudentLowerNameKey containsString:[searchText lowercaseString]];
+    [studentQuery whereKey:SHStudentNameKey notEqualTo:[PFUser currentUser][SHStudentNameKey]];
     
     [self.students addObjectsFromArray:[studentQuery findObjects]];
     [self.searchResults addObjectsFromArray:self.students];

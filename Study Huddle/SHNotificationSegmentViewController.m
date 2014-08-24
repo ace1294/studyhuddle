@@ -287,6 +287,55 @@ static NSString* const RequestsDiskKey = @"requestsArray";
     
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(self.control.selectedSegmentIndex == 2)
+        return;
+    
+    CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
+    
+    if([CellIdentifier isEqual:SHNotificationCellIdentifier])
+    {
+        if ([self.expandableNotificationCells containsIndex:indexPath.row]) {
+            if(selectedIndex == indexPath.row){
+                selectedIndex = -1;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                return;
+            }
+            if(selectedIndex != -1){
+                NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+                selectedIndex = (int)indexPath.row;
+                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
+            }
+            selectedIndex = (int)indexPath.row;
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        } else{
+            PFObject* notification = [self.notificationsDataArray objectAtIndex:(int)indexPath.row];
+            [notification fetchIfNeeded];
+        }
+    }
+    
+    else if([CellIdentifier isEqual:SHRequestCellIdentifier])
+    {
+        if(selectedIndex == indexPath.row)
+        {
+            selectedIndex = -1;
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            return;
+        }
+        if(selectedIndex != -1)
+        {
+            NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
+            selectedIndex = (int)indexPath.row;
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        selectedIndex = (int)indexPath.row;
+        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+    }
+    
+}
+
 #pragma mark - UITableViewDataSource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -362,52 +411,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 
     
     return nil;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    CellIdentifier = [self.segCellIdentifiers objectForKey:[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex]];
-    
-    if([CellIdentifier isEqual:SHNotificationCellIdentifier])
-    {
-        if ([self.expandableNotificationCells containsIndex:indexPath.row]) {
-            if(selectedIndex == indexPath.row){
-                selectedIndex = -1;
-                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                return;
-            }
-            if(selectedIndex != -1){
-                NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
-                selectedIndex = (int)indexPath.row;
-                [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
-            }
-            selectedIndex = (int)indexPath.row;
-            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        } else{
-            PFObject* notification = [self.notificationsDataArray objectAtIndex:(int)indexPath.row];
-            [notification fetchIfNeeded];
-        }
-    }
-    
-    else if([CellIdentifier isEqual:SHRequestCellIdentifier])
-    {
-        if(selectedIndex == indexPath.row)
-        {
-            selectedIndex = -1;
-            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            return;
-        }
-        if(selectedIndex != -1)
-        {
-            NSIndexPath *prevPath = [NSIndexPath indexPathForRow:selectedIndex inSection:0];
-            selectedIndex = (int)indexPath.row;
-            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:prevPath] withRowAnimation:UITableViewRowAnimationFade];
-        }
-        selectedIndex = (int)indexPath.row;
-        [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-    }
-    
 }
 
 
@@ -563,10 +566,11 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
         PFUser *student1 = [PFUser currentUser];
         [student1 addObject:huddle forKey:SHStudentHuddlesKey];
+        [huddle removeObject:student1 forKey:SHHuddlePendingMembersKey];
         
-        [[SHCache sharedCache] setNewHuddle:huddle];
+        [[SHCache sharedCache] setJoinedHuddle:huddle];
         
-        [student1 saveInBackground];
+        [PFObject saveAll:@[student1, huddle]]; //This isn't saving fucking shit
         
         for(PFUser *member in [[SHCache sharedCache]membersForHuddle:huddle])
         {
@@ -682,6 +686,9 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         
         PFUser *currentUser = [PFUser currentUser];
         [currentUser fetchIfNeeded];
+        
+        [huddle removeObject:currentUser forKey:SHHuddlePendingMembersKey];
+        [huddle saveInBackground];
         
         PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
         notification[SHNotificationToStudentKey] = creator;
