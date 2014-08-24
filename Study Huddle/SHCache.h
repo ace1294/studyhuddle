@@ -53,6 +53,7 @@
 - (NSArray *)studyFriends;
 - (BOOL)setAttributesForStudyFriend:(PFUser *)user;
 - (void)setNewStudyFriend:(PFUser *)user;
+- (void)removeStudyFriend:(PFObject *)user;
 - (PFUser *)objectForUser:(PFUser *)user;
 
 #pragma mark - Study

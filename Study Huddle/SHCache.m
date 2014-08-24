@@ -214,7 +214,21 @@ NSString *sentRequestHeader = @"sentRequest";
 - (void)removeHuddle:(PFObject *)huddle
 {
     NSString *key = SHUserDefaultsHuddlesKey;
+    NSString *huddleKey = [self keyForObject:huddle withHeader:huddleHeader];
     NSMutableArray *currentHuddles = [self.cache objectForKey:key];
+    
+    [self.huddleMembers removeObjectForKey:huddleKey];
+    
+    for(PFUser *user in [self objectsForKeys:[self.huddleMembers objectForKey:huddleKey] withHeader:studyFriendHeader]){
+        BOOL deleteMember = true;
+        for(NSString *membersKey in self.huddleMembers){
+            NSArray *membersHuddle = [self.huddleMembers objectForKey:membersKey];
+            if ([membersHuddle containsObject:[user objectId]])
+                deleteMember = false;
+        }
+        if(deleteMember)
+            [self removeStudyFriend:user];
+    }
     
     if (!currentHuddles)
         currentHuddles = [[NSUserDefaults standardUserDefaults] objectForKey:key];
@@ -226,7 +240,15 @@ NSString *sentRequestHeader = @"sentRequest";
     
     [[NSUserDefaults standardUserDefaults] setObject:currentHuddles forKey:key];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //SEND NOTIFICATION
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:SHNotificationCenterReloadHuddleData
+     object:self];
 }
+
+
+
 
 //Will return the entire fetched huddle
 - (PFObject *)objectForHuddle:(PFObject *)huddle
@@ -522,6 +544,25 @@ NSString *sentRequestHeader = @"sentRequest";
         [[NSUserDefaults standardUserDefaults] synchronize];
     } else
         [self.cache setObject:currentFriends forKey:key];
+    
+}
+
+- (void)removeStudyFriend:(PFObject *)user
+{
+    NSString *key = SHUserDefaultsStudyFriendsKey;
+    NSMutableArray *currentStudyFriends = [self.cache objectForKey:key];
+    
+    if (!currentStudyFriends)
+        currentStudyFriends = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    
+    [currentStudyFriends removeObject:[user objectId]];
+    [self.cache removeObjectForKey:[self keyForObject:user withHeader:studyFriendHeader]];
+    
+    [self.cache setObject:currentStudyFriends forKey:key];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:currentStudyFriends forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     
 }
 

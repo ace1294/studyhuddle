@@ -217,6 +217,9 @@ extern NSString* const SHSettingReceiveNewThreadPostNotifications;
 extern NSString* const SHSettingReplyToYourPostNotifications;
 extern NSString* const SHSettingReceiveResourceAddedNotifications;
 
+//SHNOTIFICATION CENTER
+extern NSString* const SHNotificationCenterReloadHuddleData;
+
 #define modalWidth 270
 #define textFieldHeight 30.0
 
