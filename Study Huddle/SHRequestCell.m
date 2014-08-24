@@ -45,12 +45,12 @@ BOOL expanded;
         [self.arrowButton setHidden:YES];
         
         acceptButton = [[UIButton alloc]init];
-        [acceptButton setImage:[UIImage imageNamed:@"Approve@2x.png"] forState:UIControlStateNormal];
+        [acceptButton setImage:[UIImage imageNamed:@"Approve.png"] forState:UIControlStateNormal];
         [acceptButton addTarget:self action:@selector(didTapAcceptButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.mainView addSubview:self.acceptButton];
         
         denyButton = [[UIButton alloc]init];
-        [denyButton setImage:[UIImage imageNamed:@"Deny@2x.png"] forState:UIControlStateNormal];
+        [denyButton setImage:[UIImage imageNamed:@"Deny.png"] forState:UIControlStateNormal];
         [denyButton addTarget:self action:@selector(didTapDenyButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.mainView addSubview:self.denyButton];
         

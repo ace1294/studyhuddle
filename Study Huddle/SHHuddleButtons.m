@@ -65,7 +65,7 @@ NSString *addButtonString;
         self.selectedBackgroundColor = [UIColor huddleOrange];
         self.borderColor = [UIColor colorWithWhite:.9 alpha:1];
         self.textFont = [UIFont fontWithName:@"Arial" size:12];
-        self.headerFont = [UIFont fontWithName:@"Arial-BoldMT"size:14];
+        self.headerFont = [UIFont fontWithName:@"Arial-BoldMT"size:12];
         self.addButtonPlaceHolder = @"Name";
         
         
@@ -88,9 +88,7 @@ NSString *addButtonString;
         [self expandViewForHeight:(vertViewSpacing+initialButtonY+totalButtonsHeight-initialHeight)];
     }
     
-    
 }
-
 
 - (void)initButtons
 {
@@ -106,10 +104,7 @@ NSString *addButtonString;
 
         button.tag = i;
         [button.titleLabel setFont:self.textFont];
-        [button setTitleColor:self.textColor forState:UIControlStateNormal];
-        [button setTitleColor:self.selectedTextColor forState:UIControlStateHighlighted|UIControlStateSelected];
-        [button setBackgroundImage:[UIImage imageWithColor:self.backgroundColor] forState:UIControlStateNormal];
-        [button setBackgroundImage:[UIImage imageWithColor:self.selectedBackgroundColor] forState:UIControlStateSelected|UIControlStateHighlighted];
+        [self setButtonState:button state:NO];
         [button setTitle:buttonTitle forState:UIControlStateNormal];
 
         [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -121,7 +116,6 @@ NSString *addButtonString;
         [button setTitle:@"Cancel" forState:UIControlStateSelected];
     }
     
-
     
 }
 
@@ -187,7 +181,6 @@ NSString *addButtonString;
 
     }
     
-    
     NSInteger buttonNumber = [sender tag];
 
     UIButton *pressedButton = (UIButton *)sender;
@@ -229,18 +222,23 @@ NSString *addButtonString;
         return;
     
     if(addingNewButton){
-        addingNewButton = !addingNewButton;
-        [self setButtonState:button state:NO];
-        [self expandUp:addingNewButton];
-        [self dismissAddField];
+        [self textFieldShouldReturn:self.addButtonField];
         
         return;
+        
+//        self.addButtonSet = YES;
+//        
+//        addingNewButton = NO;
+//        [self expandUp:NO];
+//        [self dismissAddField];
+//        
+//        return;
     }
     
     addingNewButton = !addingNewButton;
     
     if(!self.addButtonHeader){
-        self.addButtonHeader = [[UILabel alloc]initWithFrame:CGRectMake(initialButtonX, initialButtonY+totalButtonsHeight+vertElemSpacing, buttonWidth, buttonHeight)];
+        self.addButtonHeader = [[UILabel alloc]initWithFrame:CGRectMake(initialButtonX, initialButtonY+totalButtonsHeight+vertElemSpacing, headerWidth, headerHeight)];
         [self.addButtonHeader setFont:self.headerFont];
         [self.addButtonHeader setTextColor:self.textColor];
         [self.addButtonHeader setText:addButtonString];
@@ -259,6 +257,7 @@ NSString *addButtonString;
         
         [self.viewController.view addSubview:self.addButtonField];
     }
+    button.titleLabel.text = @"Add Category";
     [self.addButtonHeader setFrame:CGRectMake(initialButtonX, initialButtonY+totalButtonsHeight+vertElemSpacing, buttonWidth, buttonHeight)];
     [self.addButtonField setFrame:CGRectMake(initialButtonX, initialButtonY+totalButtonsHeight+buttonHeight, buttonWidth*2, buttonHeight)];
     self.addButtonHeader.hidden = NO;
@@ -311,15 +310,12 @@ NSString *addButtonString;
     
     if(textField.text.length > 0){
         self.selectedButtonObject = [PFObject objectWithClassName:textField.text];
-        [button setTitle:textField.text forState:UIControlStateNormal];
-        [button setTitle:textField.text forState:UIControlStateSelected];
+        [button setTitle:textField.text forState:UIControlStateNormal | UIControlStateSelected];
         self.addButtonSet = true;
     }
     else{
         button.selected = NO;
     }
-    
-    
     
     [self expandUp:NO];
     
@@ -328,9 +324,19 @@ NSString *addButtonString;
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
 {
+    textField.text = @"";
     
+    UIButton *button = [self.buttons objectForKey:[NSNumber numberWithInteger:[self.buttons count]-1]];
     
-    return YES;
+    [self setButtonState:button state:NO];
+    
+    [textField resignFirstResponder];
+    [self.viewController.view endEditing:YES];
+    
+    [self animateTextField: textField up: NO];
+    [self expandUp:NO];
+    
+    return NO;
 }
 
 
@@ -415,7 +421,7 @@ NSString *addButtonString;
     
 }
 
--(void) setMaskTo:(UIView*)view byRoundingCorners:(UIRectCorner)corners
+- (void)setMaskTo:(UIView*)view byRoundingCorners:(UIRectCorner)corners
 {
     UIBezierPath* rounded = [UIBezierPath bezierPathWithRoundedRect:view.bounds byRoundingCorners:corners cornerRadii:CGSizeMake(3.0, 3.0)];
         

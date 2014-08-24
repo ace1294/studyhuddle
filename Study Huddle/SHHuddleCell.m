@@ -8,7 +8,6 @@
 
 #import "SHHuddleCell.h"
 #import "UIColor+HuddleColors.h"
-#import "SHProfilePortraitViewToBeDeleted.h"
 #import "SHConstants.h"
 #import "SHUtility.h"
 #import "SHPortraitView.h"

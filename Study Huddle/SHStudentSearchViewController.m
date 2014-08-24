@@ -54,7 +54,7 @@
     
     self.searchedBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
   
-    [self.searchedBar setImage:[UIImage imageNamed:@"SearchTab@2x.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    [self.searchedBar setImage:[UIImage imageNamed:@"NavNavSearch.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     self.searchedBar.showsCancelButton = YES;
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor whiteColor]];
     self.searchedBar.barTintColor = [UIColor huddleOrange];
@@ -171,7 +171,6 @@
     
 
     if ([self.type isEqual:@"NewHuddle"]) {
-        self.navigationController.navigationBarHidden = NO;
         [self.delegate didAddMember:selectedStudent];
         [self dismissViewControllerAnimated:YES completion:nil];
     }

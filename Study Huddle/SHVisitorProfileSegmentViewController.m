@@ -24,6 +24,7 @@
 #import "SHVisitorClassPageViewController.h"
 #import "SHClassPageViewController.h"
 #import "SHUtility.h"
+#import "SHCache.h"
 
 @interface SHVisitorProfileSegmentViewController () <SHBaseCellDelegate>
 
@@ -401,7 +402,9 @@ static NSString* const HuddlesDiskKey = @"huddlesKey";
         BOOL userInHuddle = [SHUtility user:[PFUser currentUser] isInHuddle:huddleCell.huddle];
         if(userInHuddle)
         {
-            SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:huddleCell.huddle];
+            PFObject *huddle = [[SHCache sharedCache] objectForHuddle:huddleCell.huddle];
+            
+            SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:huddle];
             [self.owner.navigationController pushViewController:huddleVC animated:YES];
 
         }

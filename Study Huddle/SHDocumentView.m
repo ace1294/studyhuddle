@@ -33,7 +33,7 @@
     CGRect documentFrame = CGRectMake(self.bounds.origin.x+2.0, self.bounds.origin.y+2.0, self.bounds.size.width-4.0, self.bounds.size.height-4.0);
 
     self.documentImageView = [[PFImageView alloc] initWithFrame:documentFrame];
-    self.documentImageView.image = [UIImage imageNamed:@"newDocBlue.png"];
+    self.documentImageView.image = [UIImage imageNamed:@"AddResourceIntro.png"];
     self.documentImageView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.documentImageView];
     

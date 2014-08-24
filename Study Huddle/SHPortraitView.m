@@ -28,11 +28,11 @@
         [self addSubview:self.profileButton];
         
         if (frame.size.width < 35.0f) {
-            self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ringBehindProfPic.png"]];
+            self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OfflineRing90.png"]];
         } else if (frame.size.width < 43.0f) {
-            self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ringBehindProfPic@2x.png"]];
+            self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OfflineRing90.png"]];
         } else {
-            self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ringBehindProfPic@2x.png"]];
+            self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OfflineRing90.png"]];
         }
         
         [self addSubview:self.borderImageview];
@@ -47,13 +47,13 @@
 
 - (void)setGreen
 {
-    self.borderImageview.image = [UIImage imageNamed:@"ringOnline.png"];
+    self.borderImageview.image = [UIImage imageNamed:@"OnlineRing40.png"];
 }
 
 - (void)setCamera
 {
     //[self.borderImageview setHidden:YES];
-    self.profileImageView.image = [UIImage imageNamed:@"resourceCamera.png"];
+    self.profileImageView.image = [UIImage imageNamed:@"DefaultProfPic.png"];
 }
 
 #pragma mark - UIView

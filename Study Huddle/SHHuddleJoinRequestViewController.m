@@ -86,15 +86,15 @@
     request[SHRequestTitleKey] = self.huddle[SHHuddleNameKey];
     request[SHRequestHuddleKey] = self.huddle;
     request[SHRequestMessageKey] = self.messageTextView.text;
+    request[SHRequestTypeKey] = self.type;
     
     if([self.type isEqual:SHRequestSHJoin]){
-        request[SHRequestTypeKey] = SHRequestSHJoin;
-        request[SHRequestFromStudentKey] = [PFUser currentUser];
         request[SHRequestToStudentKey] = self.huddle[SHHuddleCreatorKey];
+        request[SHRequestFromStudentKey] = [PFUser currentUser];
         request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested to join the huddle", [PFUser currentUser][SHStudentNameKey]];
     } else if ([self.type isEqual:SHRequestHSJoin]){
-        request[SHRequestTypeKey] = SHRequestHSJoin;
         request[SHRequestToStudentKey] = self.requestedStudent;
+        [request addUniqueObject:self.requestedStudent forKey:SHHuddlePendingMembersKey];
         request[SHRequestFromStudentKey] = [PFUser currentUser];
         request[SHRequestDescriptionKey] = [NSString stringWithFormat:@"%@ requested you to join the huddle", [PFUser currentUser][SHStudentNameKey]];
         

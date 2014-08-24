@@ -23,14 +23,14 @@
     [super loadView];
     
     //Backgrounds
-    [self.signUpView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"MainBG.png"]]];
-    [self.signUpView setLogo:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]]];
+    [self.signUpView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"LaunchBackground.png"]]];
+    [self.signUpView setLogo:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"LaunchLogo.png"]]];
     
     //Custom Major Text Field
     self.majorTextField = [[UITextField alloc]init];
     
     //Exit
-    [self.signUpView.dismissButton setImage:[UIImage imageNamed:@"X_cancelbtn@2x.png"] forState:UIControlStateNormal];
+    [self.signUpView.dismissButton setImage:[UIImage imageNamed:@"Cancel.png"] forState:UIControlStateNormal];
     [self.signUpView.dismissButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.signUpView.dismissButton.layer.cornerRadius = 3;
     

@@ -84,7 +84,7 @@
         _profStudent = aStudent;
         [_profStudent refresh];
         self.title = @"Profile";
-        self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"NavProf.png"];
      
         
     }
@@ -97,7 +97,7 @@
     if(self)
     {
         self.title = @"Profile";
-        self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"NavProf.png"];
 
     }
     return self;
@@ -124,7 +124,7 @@
     //float middleHeight = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
     
     //background
-    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shBackground.png"]];
+    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"PatternBackground.png"]];
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
    
@@ -157,7 +157,7 @@
     self.startStudyingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.startStudyingButton addTarget:self action:@selector(setStudy) forControlEvents:UIControlEventTouchUpInside];
     [self.startStudyingButton setFrame:CGRectMake(leftMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
-    [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
+    [self.startStudyingButton setImage:[UIImage imageNamed:@"StartStudyBtn.png"] forState:UIControlStateNormal];
    //[self.startStudyingButton setBackgroundColor:[UIColor yellowColor]];
     self.startStudyingLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.startStudyingButton.frame.origin.x + self.startStudyingButton.frame.size.width/2 - sideLabelsWidth/2, self.startStudyingButton.frame.origin.y + self.startStudyingButton.frame.size.height + sideItemLabelsVerticalOffsetFromCircle, sideLabelsWidth, sideLabelHeight)];
     self.startStudyingLabel.text = @"START STUDYING";
@@ -167,7 +167,7 @@
     [self.view addSubview:self.startStudyingLabel];
 
     
-    UIImageView* hoursStudiedCircle = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"hoursStudying.png"]];
+    UIImageView* hoursStudiedCircle = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"HoursStudied.png"]];
     [hoursStudiedCircle setFrame:CGRectMake(rightMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
     [self.view addSubview:hoursStudiedCircle];
     
@@ -282,13 +282,13 @@
     //update the studying button
     if(self.isStudying)
     {
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
+        [self.startStudyingButton setImage:[UIImage imageNamed:@"StopStudying.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor redColor]];
         self.startStudyingLabel.text = @"STOP STUDYING";
     }
     else
     {
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
+        [self.startStudyingButton setImage:[UIImage imageNamed:@"StartStudyBtn.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
         self.startStudyingLabel.text = @"START STUDYING";
     }
@@ -306,7 +306,7 @@
         self.profStudent[@"isStudying"] = [NSNumber numberWithBool:false];
         //[self.profStudent save];
         self.isStudying =   NO;
-        [self.startStudyingButton setImage:[UIImage imageNamed:@"startStudying.png"] forState:UIControlStateNormal];
+        [self.startStudyingButton setImage:[UIImage imageNamed:@"StartStudyBtn.png"] forState:UIControlStateNormal];
         [self.startStudyingLabel setTextColor:[UIColor greenColor]];
         self.startStudyingLabel.text = @"START STUDYING";
         
@@ -414,7 +414,7 @@
 -(void)setNavigationBarItems
 {
 
-    UIImage* cogWheelImg = [UIImage imageNamed:@"cogwheel.png"];
+    UIImage* cogWheelImg = [UIImage imageNamed:@"Cogwheel.png"];
     UIBarButtonItem* settingsButton = [[UIBarButtonItem alloc]initWithImage:cogWheelImg landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(settingsPressed)];
     settingsButton.tintColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = settingsButton;
@@ -435,7 +435,7 @@
     self.profStudent[SHStudentLastStartKey] = self.lastStart;
     self.profStudent[@"isStudying"] =[NSNumber numberWithBool:true];
     self.isStudying = YES;
-    [self.startStudyingButton setImage:[UIImage imageNamed:@"stopStudying.png"] forState:UIControlStateNormal];
+    [self.startStudyingButton setImage:[UIImage imageNamed:@"StopStudying.png"] forState:UIControlStateNormal];
     [self.startStudyingLabel setTextColor:[UIColor redColor]];
     self.startStudyingLabel.text = @"STOP STUDYING";
     [PFObject saveAll:@[self.profStudent]];

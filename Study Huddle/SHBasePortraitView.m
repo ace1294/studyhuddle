@@ -50,11 +50,11 @@
     
     //set up the border
     if (frame.size.width < 35.0f) {
-        self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ringBehindProfPic@2x.png"]];
+        self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OfflineRing90.png"]];
     } else if (frame.size.width < 43.0f) {
-        self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ringBehindProfPic@2x.png"]];
+        self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OfflineRing90.png"]];
     } else {
-        self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ringBehindProfPic@2x.png"]];
+        self.borderImageview = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"OfflineRing90.png"]];
     }
     self.borderImageview.frame = self.bounds;
     [self addSubview:self.borderImageview];

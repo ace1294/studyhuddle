@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SHVisitorProfileSegmentViewController.h"
-#import "SHProfileHeaderViewController.h"
 #import "SHProfilePortraitView.h"
 
 @interface SHProfileViewController : UIViewController

@@ -129,6 +129,9 @@ NSString *sentRequestHeader = @"sentRequest";
         [self setNewStudyFriend:user];
     }
     
+    for(PFUser *user in huddle[SHHuddlePendingMembersKey])
+        [self setAttributesForClassStudent:user];
+    
     for(PFObject *resourceCategory in huddle[SHHuddleResourceCategoriesKey])
         [resourceCategory fetchIfNeeded];
     
@@ -246,6 +249,11 @@ NSString *sentRequestHeader = @"sentRequest";
     return [NSArray arrayWithArray:[self objectsForKeys:[self.huddleMembers objectForKey:huddleKey] withHeader:studyFriendHeader]];
 }
 
+- (NSArray *)pendingMembersForHuddle:(PFObject *)huddle
+{
+    return [NSArray arrayWithArray:[self objectsForKeys:huddle[SHHuddlePendingMembersKey] withHeader:studentHeader]];
+}
+
 - (NSArray *)resourceCategoriesForHuddle:(PFObject *)huddle
 {
     return [NSArray arrayWithArray:huddle[SHHuddleResourceCategoriesKey]];
@@ -266,6 +274,42 @@ NSString *sentRequestHeader = @"sentRequest";
     cachedHuddle[SHHuddleLocationKey] = huddle[SHHuddleLocationKey];
     
     [self.cache setObject:cachedHuddle forKey:key];
+}
+
+- (void)setNewHuddleMember:(PFUser *)member forHuddle:(PFObject *)huddle
+{
+    NSString *key = [self keyForObject:huddle withHeader:huddleHeader];
+    
+    NSMutableArray *currentHuddleMembers = [self.huddleMembers objectForKey:key];
+    [currentHuddleMembers addObject:member];
+    
+    [self.huddleMembers setObject:currentHuddleMembers forKey:key];
+    
+    [self setNewStudyFriend:member];
+}
+
+- (void)setNewHuddleResourceCategory:(PFObject *)resourceCategory forHuddle:(PFObject *)huddle
+{
+    PFObject *cachedHuddle = [self objectForHuddle:huddle];
+    
+    [cachedHuddle[SHHuddleResourceCategoriesKey] addObject:resourceCategory];
+}
+
+- (void)setNewHuddleChatCategory:(PFObject *)chatCategory forHuddle:(PFObject *)huddle
+{
+    PFObject *cachedHuddle = [self objectForHuddle:huddle];
+    
+    [cachedHuddle[SHHuddleChatCategoriesKey] addObject:chatCategory];
+}
+
+- (void)removeHuddleMember:(PFObject *)member fromHuddle:(PFObject *)huddle
+{
+    NSString *huddleKey = [self keyForObject:huddle withHeader:huddleHeader];
+    
+    NSMutableArray *currentMembers = [self.huddleMembers objectForKey:huddleKey];
+    [currentMembers removeObject:[member objectId]];
+    
+    [self.huddleMembers setObject:currentMembers forKey:huddleKey];
 }
 
 #pragma mark - Class

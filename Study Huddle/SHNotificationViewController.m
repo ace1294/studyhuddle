@@ -38,7 +38,7 @@
         self.studentObj = aStudent;
         
         self.title = @"Notifications";
-        self.tabBarItem.image = [UIImage imageNamed:@"notification.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"NavNotifications.png"];
         
         UIBarButtonItem *button = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh:)];
         self.navigationItem.rightBarButtonItem = button;
@@ -82,7 +82,7 @@
     self.segmentController.owner = self;
     
     [self.view addSubview:self.segmentContainer];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"shBackground.png"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"PatternBackground.png"]];
 }
 
 - (void) refresh:(id)sender

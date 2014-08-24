@@ -186,7 +186,6 @@
 
 +(BOOL)user: (PFUser*)user isInHuddle: (PFObject*)huddle
 {
-  
     NSArray* userHuddles = user[SHStudentHuddlesKey];
     for (PFObject* userHuddle in userHuddles)
         if([[huddle objectId]isEqual:[userHuddle objectId]])
@@ -196,7 +195,7 @@
 
 +(BOOL)user: (PFUser*)user isInClass: (PFObject*)classObject
 {
-    NSArray* userClasses = user[SHStudentClassesKey];
+    NSArray* userClasses = [[[user relationForKey:SHStudentClassesKey] query] findObjects];
     for (PFObject* userClass in userClasses)
         if([[classObject objectId]isEqual:[userClass objectId]])
             return true;

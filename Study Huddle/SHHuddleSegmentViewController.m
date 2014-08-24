@@ -42,6 +42,7 @@
 
 @property (strong, nonatomic) NSMutableDictionary *segmentData;
 @property (strong, nonatomic) NSMutableArray *membersDataArray;
+@property (strong, nonatomic) NSMutableArray *pendingMembersDataArray;
 
 @property (strong, nonatomic) NSMutableArray *chatCategoriesDataArray;
 
@@ -111,6 +112,7 @@
     self.tableView.dataSource = self;
     
     self.membersDataArray = [[NSMutableArray alloc]init];
+    self.pendingMembersDataArray = [[NSMutableArray alloc]init];
     self.chatCategoriesDataArray = [[NSMutableArray alloc]init];
     self.resourceCategoriesDataArray = [[NSMutableArray alloc]init];
     self.encapsulatingDataArray = [[NSMutableArray alloc]initWithObjects:self.membersDataArray, self.resourceCategoriesDataArray, self.chatCategoriesDataArray, nil];
@@ -182,6 +184,9 @@
     
     [self.membersDataArray removeAllObjects];
     [self.membersDataArray addObjectsFromArray:[[SHCache sharedCache] membersForHuddle:self.segHuddle]];
+    
+    [self.pendingMembersDataArray removeAllObjects];
+    [self.pendingMembersDataArray addObjectsFromArray:[[SHCache sharedCache] pendingMembersForHuddle:self.segHuddle]];
     
     [self.chatCategoriesDataArray removeAllObjects];
     [self.chatCategoriesDataArray addObjectsFromArray:[[SHCache sharedCache] chatCategoriessForHuddle:self.segHuddle]];
@@ -279,6 +284,12 @@
 
 #pragma mark - UITableViewDelegate Methods
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if(section == 1)
+        return 25.0;
+    return 0.0;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -312,22 +323,22 @@
     }
     else if([[self.control titleForSegmentAtIndex:self.control.selectedSegmentIndex] isEqual:@"RESOURCES"])
     {
-//        PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
-//        //NSLog(@"chatEntryObj: , %@",chatEntryObj);
-//        //SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
-//        //[self.navigationController pushViewController:chatEntryVC animated:YES];*/
-//        [chatEntryObj fetchIfNeeded];
-//        RoomView *roomView = [[RoomView alloc] initWithChatCategoryOwner:[chatEntryObj objectId]];
-//        roomView.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:roomView animated:YES];
-    }
-    else
-    {
         PFObject *category = self.resourceCategoriesDataArray[indexPath.row];
         
         SHResourceListViewController *resourceListVC = [[SHResourceListViewController alloc] initWithResourceCategory:category];
         
         [self.navigationController pushViewController:resourceListVC animated:YES];
+    }
+    else
+    {
+        //        PFObject* chatEntryObj = [(SHChatCell*)cell getChatEntryObj];
+        //        //NSLog(@"chatEntryObj: , %@",chatEntryObj);
+        //        //SHChatEntryViewController* chatEntryVC = [[SHChatEntryViewController alloc]initWithChatEntry:chatEntryObj];
+        //        //[self.navigationController pushViewController:chatEntryVC animated:YES];*/
+        //        [chatEntryObj fetchIfNeeded];
+        //        RoomView *roomView = [[RoomView alloc] initWithChatCategoryOwner:[chatEntryObj objectId]];
+        //        roomView.hidesBottomBarWhenPushed = YES;
+        //        [self.navigationController pushViewController:roomView animated:YES];
         
     }
 }
@@ -336,12 +347,27 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if(self.control.selectedSegmentIndex == 0 && [self.pendingMembersDataArray count] > 0){
+        return 2;
+    }
+    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if(section == 1)
+        return [self.pendingMembersDataArray count];
+    
     return self.currentRowsToDisplay;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if(section == 1)
+        return @"Pending Requests to Join";
+
+    return @"";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -350,7 +376,13 @@
 
     if([CellIdentifier isEqual:SHStudentCellIdentifier])
     {
-        PFUser *studentObject = [self.membersDataArray objectAtIndex:(int)indexPath.row];
+        PFUser *studentObject;
+        
+        if(indexPath.section)
+            studentObject = [self.pendingMembersDataArray objectAtIndex:(int)indexPath.row];
+        else
+            studentObject = [self.membersDataArray objectAtIndex:(int)indexPath.row];
+        
         SHStudentCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.delegate = self;
         

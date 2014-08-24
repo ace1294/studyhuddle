@@ -39,7 +39,7 @@ BOOL beganSearch;
     self = [super init];
     if (self) {
         self.title = @"Search";
-        self.tabBarItem.image = [UIImage imageNamed:@"search.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"NavSearch.png"];
         [self.searchedBar setTintColor:[UIColor huddleSilver]];
         
         self.parseClassName = @"dummy";
@@ -64,7 +64,7 @@ BOOL beganSearch;
     
     self.searchedBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 320, 45)];
     
-    [self.searchedBar setImage:[UIImage imageNamed:@"SearchTab@2x.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+    [self.searchedBar setImage:[UIImage imageNamed:@"NavNavSearch.png"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
     self.searchedBar.showsCancelButton = YES;
     [[UIBarButtonItem appearanceWhenContainedIn: [UISearchBar class], nil] setTintColor:[UIColor whiteColor]];
     self.searchedBar.barTintColor = [UIColor huddleOrange];
@@ -300,7 +300,7 @@ BOOL beganSearch;
     
     [self.searchedBar resignFirstResponder];
     
-    if(indexPath.row+1 <= [self.students count])
+    if(indexPath.section == 0)
     {
         PFUser *studentObject = [self.students objectAtIndex:(int)indexPath.row];
         [studentObject fetchIfNeeded];
@@ -309,7 +309,7 @@ BOOL beganSearch;
         
         [self.navigationController pushViewController:visitorStudentV animated:YES];
     }
-    else if(indexPath.row+1 <= [self.huddles count])
+    else if(indexPath.section == 1)
     {
         PFObject *huddleObject = [self.huddles objectAtIndex:(int)indexPath.row];
         [huddleObject fetchIfNeeded];

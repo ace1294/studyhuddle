@@ -9,7 +9,6 @@
 #import "SHStartUpViewController.h"
 #import "SHLoginViewController.h"
 #import "SHSignUpViewController.h"
-#import "SHProfileHeaderViewController.h"
 #import "SHAppDelegate.h"
 #import "UIColor+HuddleColors.h"
 #import "SHConstants.h"
@@ -20,9 +19,7 @@
 
 @interface SHStartUpViewController () <MBProgressHUDDelegate>
 
-@property SHProfileHeaderViewController* profileVC;
 
-@property UIView* profileVCContainer;
 
 
 @end
@@ -37,8 +34,8 @@
     
     //set up the background
     //Background
-    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"MainBG.png"]]];
-    UIImageView* logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"LaunchBackground.png"]]];
+    UIImageView* logo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"LaunchLogo.png"]];
     [logo setFrame:CGRectMake(self.view.frame.size.width/2-logoWidth/2 , self.view.frame.size.height/2 - logoHeight/2, logoWidth, logoHeight)];
     [self.view addSubview:logo];
     

@@ -11,6 +11,7 @@
 #import "SHConstants.h"
 #import "SHStudyInviteViewController.h"
 #import "SHNewResourceViewController.h"
+#import "SHHuddleStartStudyingViewController.h"
 #import "SHVisitorProfileViewController.h"
 #import "SHIndividualHuddleViewController.h"
 #import "UIViewController+MJPopupViewController.h"
@@ -52,14 +53,14 @@
         
         self.title = @"Huddles";
         self.navigationController.title = @"Huddles";
-        self.tabBarItem.image = [UIImage imageNamed:@"huddles.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"NavHuddle.png"];
         
         self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         [self.view addSubview:self.tableView];
         
-        UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shBackground.png"]];
+        UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PatternBackground.png"]];
         [tempImageView setFrame:self.tableView.frame];
         
         [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -216,11 +217,17 @@
 
 - (void)didTapInviteToStudy:(PFObject *)huddle
 {
+    SHHuddleStartStudyingViewController *huddleStudyingVC = [[SHHuddleStartStudyingViewController alloc]initWithHuddle:huddle];
     
+    [self presentPopupViewController:huddleStudyingVC animationType:MJPopupViewAnimationSlideBottomBottom];
 }
 
 - (void)didTapAddResource:(PFObject *)huddle
 {
+    SHNewResourceViewController *resourceVC = [[SHNewResourceViewController alloc]initWithHuddle:huddle];
+    resourceVC.delegate = self;
+    
+    [self presentPopupViewController:resourceVC animationType:MJPopupViewAnimationSlideBottomBottom];
     
 }
 

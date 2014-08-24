@@ -42,7 +42,7 @@
     if(profileImage)
         self.huddleImageView.image = [SHUtility getRoundedRectImageFromImage:profileImage onReferenceView:self.huddleImageView withCornerRadius:self.huddleImageView.frame.size.width/2];
     else
-        self.huddleImageView.image = [UIImage imageNamed:@"blankProfPic.png"];
+        self.huddleImageView.image = [UIImage imageNamed:@"DefaultProfPic.png"];
 
     [self.delegate setStudent:student];
     

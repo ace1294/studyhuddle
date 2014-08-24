@@ -24,8 +24,8 @@
     [super loadView];
     
     //Background
-    [self.logInView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"MainBG.png"]]];
-    [self.logInView setLogo:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Logo.png"]]];
+    [self.logInView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"LaunchBackground.png"]]];
+    [self.logInView setLogo:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"LaunchLogo.png"]]];
     
     //Fields
     [self.logInView.usernameField setTextColor:[UIColor huddleOrange]];

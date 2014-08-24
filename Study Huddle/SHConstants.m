@@ -64,6 +64,7 @@ NSString *const SHHuddleCreatorKey = @"creator";
 NSString *const SHHuddleNameKey = @"huddleName";
 NSString *const SHHuddleStatusKey = @"huddleStatus";
 NSString *const SHHuddleLowerName = @"lowerName";
+NSString *const SHHuddlePendingMembersKey = @"pendingMembers";
 NSString *const SHHuddleStudyKey = @"study";
 NSString *const SHHuddleResourceCategoriesKey = @"resourceCategories";
 NSString *const SHHuddleChatCategoriesKey = @"chatCategories";

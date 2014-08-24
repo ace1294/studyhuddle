@@ -7,7 +7,6 @@
 //
 
 #import "SHNewHuddleViewController.h"
-#import "SHProfilePortraitViewToBeDeleted.h"
 #import "UIColor+HuddleColors.h"
 #import "UITextField+Extend.h"
 #import "SHStudentSearchViewController.h"
@@ -289,6 +288,7 @@ float classButtonsHeight;
     self.huddle = [PFObject objectWithClassName:SHHuddleParseClass];
     self.huddle[SHHuddleNameKey] = self.huddleNameTextField.text;
     self.huddle[SHHuddleCreatorKey] = [PFUser currentUser];
+    self.huddle[SHHuddlePendingMembersKey] = self.huddleMembers;
     UIImage* huddleImage =  self.huddlePortrait.huddleImageView.image;
     NSData* imageData = UIImageJPEGRepresentation(huddleImage, 1.0f);
     PFFile *imageFile = [PFFile fileWithData:imageData];

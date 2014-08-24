@@ -247,6 +247,7 @@
     
     //POSSIBLY DO IN BACKGROUND
     
+    //Make new resource category
     if(self.categoryButtons.addButtonSet){
         [newResource save];
         

@@ -69,7 +69,7 @@
         self.classObj = aClass;
         
         self.title = @"CLASS";
-        self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"NavProf.png"];
       
         //Edit Button
         self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
@@ -114,7 +114,7 @@
     //float middleHeight = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
     
     //background
-    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shBackground.png"]];
+    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"PatternBackground.png"]];
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
     

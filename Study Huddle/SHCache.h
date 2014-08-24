@@ -26,9 +26,14 @@
 - (void)removeHuddle:(PFObject *)huddle;
 - (PFObject *)objectForHuddle:(PFObject *)huddle;
 - (NSArray *)membersForHuddle:(PFObject *)huddle;
+- (NSArray *)pendingMembersForHuddle:(PFObject *)huddle;
 - (NSArray *)resourceCategoriesForHuddle:(PFObject *)huddle;
 - (NSArray *)chatCategoriessForHuddle:(PFObject *)huddle;
 - (void)setHuddleStudying:(PFObject *)huddle;
+- (void)setNewHuddleMember:(PFUser *)member forHuddle:(PFObject *)huddle;
+- (void)setNewHuddleResourceCategory:(PFObject *)resourceCategory forHuddle:(PFObject *)huddle;
+- (void)setNewHuddleChatCategory:(PFObject *)chatCategory forHuddle:(PFObject *)huddle;
+- (void)removeHuddleMember:(PFObject *)member fromHuddle:(PFObject *)huddle;
 
 
 #pragma mark - Class

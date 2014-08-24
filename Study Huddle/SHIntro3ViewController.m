@@ -71,7 +71,7 @@
 {
     [super viewDidLoad];
     //add the background
-    UIImageView *bg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shBackground.png"]];
+    UIImageView *bg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"PatternBackground.png"]];
     [self.view addSubview:bg];
     
     //info label

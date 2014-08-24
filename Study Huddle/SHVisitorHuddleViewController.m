@@ -94,7 +94,7 @@
         self.indvHuddle = aHuddle;
         
         self.title = @"Huddle";
-        self.tabBarItem.image = [UIImage imageNamed:@"profile.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"NavProf.png"];
     
     }
     return self;
@@ -127,7 +127,7 @@
     //float middleHeight = (self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height)/2;
     
     //background
-    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shBackground.png"]];
+    UIImageView* backGroundImg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"PatternBackground.png"]];
     [backGroundImg setFrame:self.view.frame];
     [self.view addSubview:backGroundImg];
     
@@ -154,7 +154,7 @@
     self.inviteToStudyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.inviteToStudyButton addTarget:self action:@selector(inviteToStudyPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.inviteToStudyButton setFrame:CGRectMake(leftMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
-    [self.inviteToStudyButton setImage:[UIImage imageNamed:@"inviteToStudy.png"] forState:UIControlStateNormal];
+    [self.inviteToStudyButton setImage:[UIImage imageNamed:@"InviteToStudy45.png"] forState:UIControlStateNormal];
     self.inviteToStudyLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.inviteToStudyButton.frame.origin.x + self.inviteToStudyButton.frame.size.width/2 - sideLabelsWidth/2, self.inviteToStudyButton.frame.origin.y + self.inviteToStudyButton.frame.size.height + sideItemLabelsVerticalOffsetFromCircle, sideLabelsWidth, sideLabelHeight)];
     self.inviteToStudyLabel.text = @"INVITE TO STUDY";
     self.inviteToStudyLabel.textColor = [UIColor huddleOrange];

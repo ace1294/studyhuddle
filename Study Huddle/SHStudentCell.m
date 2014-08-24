@@ -8,7 +8,6 @@
 
 #import "SHStudentCell.h"
 #import "UIColor+HuddleColors.h"
-#import "SHProfilePortraitViewToBeDeleted.h"
 #import "SHUtility.h"
 #import "SHPortraitView.h"
 
@@ -62,12 +61,9 @@
 {
     _student = aStudent;
     
-    
     PFFile* imageFile = aStudent[SHStudentImageKey];
 
-    
     [self.portrait setFile:imageFile];
-    
     
     [self.titleButton setTitle:[aStudent objectForKey:SHStudentNameKey] forState:UIControlStateNormal];
     
