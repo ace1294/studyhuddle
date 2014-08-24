@@ -149,6 +149,7 @@ extern NSString* const SHNotificationSHJoinRequestType;
 extern NSString* const SHNotificationHSJoinRequestType;
 extern NSString* const SHNotificationHSStudyRequestType;
 extern NSString* const SHNotificationQuestionKey;
+extern NSString* const SHNotificationRemovedFromHuddleType;
 
 //Notification Descriptions
 extern NSString* const SHSSAcceptedStudyInviteRequestTitle;

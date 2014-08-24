@@ -49,7 +49,6 @@
     self = [super init];
     if (self) {
         self.student = aStudent;
-        self.huddles = [NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]];
         
         self.title = @"Huddles";
         self.navigationController.title = @"Huddles";
@@ -86,6 +85,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.huddles = [NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]];
     
     SHHuddleAddViewController *addVC = [[SHHuddleAddViewController alloc]init];
     [addVC.view setFrame:CGRectMake(305, 55.0, 100.0, 40.0)];

@@ -12,5 +12,6 @@
 @interface SHNewQuestionViewController : SHModalViewController
 
 - (id)initWithHuddle:(PFObject *)aHuddle;
+- (id)initWithClass:(PFObject *)aClass;
 
 @end

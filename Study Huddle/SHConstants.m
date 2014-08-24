@@ -157,6 +157,7 @@ NSString* const SHNotificationSHJoinRequestType = @"shJoinRequest";
 NSString* const SHNotificationHSJoinRequestType = @"hsJoinRequest";
 NSString* const SHNotificationHSStudyRequestType = @"hsStudyRequest";
 NSString* const SHNotificationQuestionKey = @"question";
+NSString* const SHNotificationRemovedFromHuddleType = @"removedFromHuddle";
 
 
 //SHHuddleStartStudyingViewController

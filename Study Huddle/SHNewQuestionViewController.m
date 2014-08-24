@@ -15,8 +15,10 @@
 @interface SHNewQuestionViewController () <UITextFieldDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) PFObject *huddle;
+@property (strong, nonatomic) PFObject *huddleClass;
 @property (strong, nonatomic) PFObject *chatRoom;
 @property (strong, nonatomic) PFObject *question;
+@property (strong, nonatomic) NSString *type;
 
 //Headers
 @property (strong, nonatomic) UILabel *categoryHeaderLabel;
@@ -49,7 +51,29 @@
         self.modalFrameHeight = 290.0;
         [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         
+        _type = @"huddleQuestion";
         _huddle = aHuddle;
+        self.chatRoom = [PFObject objectWithClassName:SHChatRoomClassKey];
+        self.question = [PFObject objectWithClassName:SHChatClassKey];
+        
+        [self initHeaders];
+        [self initContent];
+        
+        
+        
+    }
+    return self;
+}
+
+- (id)initWithClass:(PFObject *)aClass
+{
+    self = [super init];
+    if (self) {
+        self.modalFrameHeight = 290.0;
+        [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
+        
+        _type = @"classQuestion";
+        _huddleClass = aClass;
         self.chatRoom = [PFObject objectWithClassName:SHChatRoomClassKey];
         self.question = [PFObject objectWithClassName:SHChatClassKey];
         
@@ -105,10 +129,20 @@
 
 - (void)initContent
 {
-    
     CGRect initial = CGRectMake(horiViewSpacing, categoryY, huddleButtonWidth, huddleButtonHeight);
-    NSArray *chatCategoryNames = [SHUtility namesForObjects:[[SHCache sharedCache] chatCategoriessForHuddle:self.huddle] withKey:SHChatCategoryNameKey];
-    NSMutableDictionary *chatCategoryObjects = [[NSMutableDictionary alloc] initWithObjects:[[SHCache sharedCache] chatCategoriessForHuddle:self.huddle] forKeys:chatCategoryNames];
+    
+    NSArray *chatCategoryNames;
+    NSMutableDictionary *chatCategoryObjects;
+    
+    if([self.type isEqualToString:@"huddleQuestion"]){
+        chatCategoryNames = [SHUtility namesForObjects:[[SHCache sharedCache] chatCategoriessForHuddle:self.huddle] withKey:SHChatCategoryNameKey];
+        chatCategoryObjects = [[NSMutableDictionary alloc] initWithObjects:[[SHCache sharedCache] chatCategoriessForHuddle:self.huddle] forKeys:chatCategoryNames];
+        
+    } else {
+        chatCategoryNames = [SHUtility namesForObjects:[[SHCache sharedCache] chatCategoriessForClass:self.huddleClass] withKey:SHChatCategoryNameKey];
+        chatCategoryObjects = [[NSMutableDictionary alloc] initWithObjects:[[SHCache sharedCache] chatCategoriessForClass:self.huddleClass] forKeys:chatCategoryNames];
+    }
+    
     self.chatCategoryButtons = [[SHHuddleButtons alloc]initWithFrame:initial items:chatCategoryObjects addButton:@"Add Chat Category"];
     self.chatCategoryButtons.viewController = self;
     
@@ -184,12 +218,21 @@
         //newChatCategory[SHChatCategoryChatRoomKey] = @[self.chatRoom];
         newChatCategory[SHChatCategoryHuddleKey] = self.huddle;
         self.chatRoom[SHChatRoomChatCategoryOwnerKey] = [newChatCategory objectId];
- 
+
+        if([self.type isEqualToString:@"huddleQuestion"]){
+            [self.huddle addObject:newChatCategory forKey:SHHuddleChatCategoriesKey];
+            [PFObject saveAll:@[self.huddle,newChatCategory, self.chatRoom]];
+            
+            [[SHCache sharedCache]setNewHuddleChatCategory:newChatCategory forHuddle:self.huddle];
+        }
+        else{
+            [self.huddleClass addObject:newChatCategory forKey:SHClassChatCategoriesKey];
+            [PFObject saveAll:@[self.huddleClass,newChatCategory, self.chatRoom]];
+            
+            [[SHCache sharedCache] setNewClassChatCategory:newChatCategory forClass:self.huddleClass];
+        }
+            
         
-        
-        [self.huddle addObject:newChatCategory forKey:SHHuddleChatCategoriesKey];
-        
-        [PFObject saveAll:@[self.huddle,newChatCategory, self.chatRoom]];
     }
     else{
         PFObject *chatCategory = self.chatCategoryButtons.selectedButtonObject;

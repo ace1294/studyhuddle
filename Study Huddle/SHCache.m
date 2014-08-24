@@ -362,6 +362,9 @@ NSString *sentRequestHeader = @"sentRequest";
     for(PFObject *huddle in huddleClass[SHClassHuddlesKey]) //Probably shouldn't do this.
         [huddle fetchIfNeeded];
     
+    for(PFObject *chatCategory in huddleClass[SHClassChatCategoriesKey]) //Probably shouldn't do this.
+        [chatCategory fetchIfNeeded];
+    
     [self.cache setObject:huddleClass forKey:key];
     
     return true;
@@ -447,6 +450,20 @@ NSString *sentRequestHeader = @"sentRequest";
 - (NSArray *)chatCategoriessForClass:(PFObject *)aClass
 {
     return [NSArray arrayWithArray:aClass[SHClassChatCategoriesKey]];
+}
+
+- (void)setNewClassChatCategory:(PFObject *)chatCategory forClass:(PFObject *)huddleClass
+{
+    PFObject *cachedClass = [self objectForHuddle:huddleClass];
+    
+    [cachedClass[SHClassChatCategoriesKey] addObject:chatCategory];
+}
+
+- (void)setNewClassHuddle:(PFObject *)huddle forClass:(PFObject *)huddleClass
+{
+    PFObject *cachedClass = [self objectForHuddle:huddleClass];
+    
+    [cachedClass[SHClassHuddlesKey] addObject:huddle];
 }
 
 #pragma mark - User
@@ -617,6 +634,7 @@ NSString *sentRequestHeader = @"sentRequest";
 {
     for(PFObject *notification in notifications){
         [self setAttributesForNotification:notification];
+        [self checkNotificationForAction:notification];
     }
     
     NSString *key = SHUserDefaultsNotificationsKey;
@@ -953,6 +971,26 @@ NSString *sentRequestHeader = @"sentRequest";
     
         [self.cache removeObjectForKey:key];
     }
+}
+
+- (void)checkNotificationForAction:(PFObject *)notification
+{
+    if([notification[SHNotificationTypeKey] isEqualToString:SHNotificationSHJoinRequestType] && [notification[SHNotificationRequestAcceptedKey] boolValue] == true){
+        PFObject *newHuddle = notification[SHNotificationHuddleKey];
+        [newHuddle fetchIfNeeded];
+            
+        [[PFUser currentUser] addObject:newHuddle forKey:SHStudentHuddlesKey];
+        [[PFUser currentUser] saveInBackground];
+    }
+    if([notification[SHNotificationTypeKey] isEqualToString:SHNotificationRemovedFromHuddleType]){
+        PFObject *huddle = notification[SHNotificationHuddleKey];
+            
+        [[SHCache sharedCache] removeHuddle:huddle];
+            
+        [[PFUser currentUser] removeObject:huddle forKey:SHStudentHuddlesKey];
+        [[PFUser currentUser] saveInBackground];
+    }
+
 }
 
 

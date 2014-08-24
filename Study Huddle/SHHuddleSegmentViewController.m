@@ -136,6 +136,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:self.tableView];
     
@@ -368,6 +369,37 @@
         return @"Pending Requests to Join";
 
     return @"";
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if([[self.segHuddle[SHHuddleCreatorKey] objectId] isEqual:[[PFUser currentUser] objectId]])
+    {
+        if(self.control.selectedSegmentIndex == 0)
+            return YES;
+    }
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // &&##
+        PFObject *notification = [PFObject objectWithClassName:SHNotificationParseClass];
+        notification[SHNotificationTitleKey] = self.segHuddle[SHHuddleNameKey];
+        notification[SHNotificationTypeKey] = SHNotificationRemovedFromHuddleType;
+        notification[SHNotificationDescriptionKey] = @"You've been removed from the huddle";
+        notification[SHNotificationHuddleKey] = self.segHuddle;
+        notification[SHNotificationToStudentKey] = self.membersDataArray[indexPath.row];
+        
+        [notification saveInBackground];
+        
+        [[SHCache sharedCache] removeHuddleMember:self.membersDataArray[indexPath.row] fromHuddle:self.segHuddle];
+        [self.membersDataArray removeObjectAtIndex:indexPath.row];
+        self.currentRowsToDisplay--;
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        //[tableView reloadData];
+        
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

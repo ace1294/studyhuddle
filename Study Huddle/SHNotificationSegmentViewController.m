@@ -739,14 +739,6 @@ static NSString* const RequestsDiskKey = @"requestsArray";
         [notification fetchIfNeeded];
         if([notification[SHNotificationTypeKey] isEqualToString:SHNotificationHSStudyRequestType] || [notification[SHNotificationTypeKey] isEqualToString:SHNotificationAnswerType])
             [self.expandableNotificationCells addIndex:i];
-        
-        if([notification[SHNotificationTypeKey] isEqualToString:SHNotificationSHJoinRequestType] && [notification[SHNotificationRequestAcceptedKey] boolValue] == true){
-            PFObject *newHuddle = notification[SHNotificationHuddleKey];
-            [newHuddle fetchIfNeeded];
-            
-            [[PFUser currentUser] addObject:newHuddle forKey:SHStudentHuddlesKey];
-            [[PFUser currentUser] saveInBackground];
-        }
         i++;
     }
 }

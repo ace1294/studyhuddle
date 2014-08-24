@@ -47,6 +47,8 @@
 - (NSArray *)studentsForClass:(PFObject *)huddleClass;
 - (NSArray *)huddlesForClass:(PFObject *)huddleClass;
 - (NSArray *)chatCategoriessForClass:(PFObject *)aClass;
+- (void)setNewClassChatCategory:(PFObject *)chatCategory forClass:(PFObject *)huddleClass;
+- (void)setNewClassHuddle:(PFObject *)huddle forClass:(PFObject *)huddleClass;
 
 #pragma mark - User
 - (void)setStudyFriends:(NSArray *)friends;
