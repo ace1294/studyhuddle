@@ -22,9 +22,9 @@ CGRect initialFrame;
 
 @implementation SHModalViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
         
         self.view.clipsToBounds = YES;

@@ -238,7 +238,7 @@
     [self.navigationController pushViewController:huddleVC animated:YES];
 }
 
-- (void)didTapInviteToStudy:(PFObject *)huddle
+- (void)didTapStartStudying:(PFObject *)huddle
 {
     SHIndividualHuddleViewController *huddleVC = [[SHIndividualHuddleViewController alloc]initWithHuddle:huddle];
     SHHuddleStartStudyingViewController *huddleStudyingVC = [[SHHuddleStartStudyingViewController alloc]initWithHuddle:huddle];
@@ -260,6 +260,8 @@
 
 - (void)didTapMember:(PFUser *)member
 {
+    //*^%
+    
     SHVisitorProfileViewController *visitorVC = [[SHVisitorProfileViewController alloc]initWithStudent:member];
     
     [self.navigationController pushViewController:visitorVC animated:YES];

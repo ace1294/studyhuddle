@@ -11,6 +11,6 @@
 
 @interface SHHuddleInviteViewController : SHModalViewController
 
-- (id)initWithToStudent:(PFObject *)aToStudent fromStudent:(PFObject *)aFromStudent;
+- (id)initWithToStudent:(PFUser *)aToStudent fromStudent:(PFUser *)aFromStudent;
 
 @end

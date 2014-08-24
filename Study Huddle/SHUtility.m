@@ -57,16 +57,21 @@
 
 + (NSMutableAttributedString *)listOfClasses:(NSArray *)classObjects attributes:(NSDictionary *)attr
 {
-    PFObject *class;
+    PFObject *huddleClass;
 
     NSMutableAttributedString *listOfClasses = [[NSMutableAttributedString alloc]init];
     NSMutableAttributedString *temp;
     
     for(int i = 0; (i < 3 && i < [classObjects count]); i++)
     {
-        class = [[SHCache sharedCache] objectForClass:(PFObject *)classObjects[i]];
+        huddleClass = [[SHCache sharedCache] objectForClass:(PFObject *)classObjects[i]];
         
-        temp = [[NSMutableAttributedString alloc] initWithString:class[SHClassShortNameKey] attributes:attr];
+        if(!huddleClass){
+            huddleClass = (PFObject *)classObjects[i];
+            [huddleClass fetchIfNeeded];
+        }
+        
+        temp = [[NSMutableAttributedString alloc] initWithString:huddleClass[SHClassShortNameKey] attributes:attr];
         if (i+1<[classObjects count]) {
             [temp appendAttributedString:[[NSMutableAttributedString alloc] initWithString:@", " attributes:attr]];
         }
@@ -225,6 +230,18 @@
         [objectIDs addObject:[object objectId]];
     }
     return objectIDs;
+}
+
++ (NSMutableArray *)removeHuddlesUserIsIn:(NSMutableArray *)huddles user:(PFUser *)user
+{
+    NSMutableArray *uniqueHuddles = [NSMutableArray arrayWithArray:huddles];
+    
+    for(PFObject *huddle in huddles){
+        if([[self objectIDsForObjects:user[SHStudentHuddlesKey]] containsObject:[huddle objectId]])
+            [uniqueHuddles removeObject:huddle];
+    }
+    
+    return uniqueHuddles;
 }
 
 

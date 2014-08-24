@@ -16,6 +16,7 @@
 #import "SHHuddleInviteViewController.h"
 #import "UIViewController+MJPopupViewController.h"
 #import "SHCache.h"
+#import "SHUtility.h"
 
 
 #define profileImageWidth 100
@@ -255,8 +256,6 @@
 
 -(void)inviteToHuddlePressed
 {
-    
-
     //check if he already sent a request
     NSArray* sentRequests = [[SHCache sharedCache] sentRequests];
     for(PFObject* request in sentRequests)
@@ -269,10 +268,22 @@
         }
     }
     
-    SHHuddleInviteViewController *huddleInviteVC = [[SHHuddleInviteViewController alloc]initWithToStudent:self.profStudent fromStudent:[PFUser currentUser]];
-    huddleInviteVC.delegate = self;
+    NSArray *uniqueHuddles = [SHUtility removeHuddlesUserIsIn:[NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]] user:self.profStudent];
     
-    [self presentPopupViewController:huddleInviteVC animationType:MJPopupViewAnimationSlideBottomBottom];
+    if ([uniqueHuddles count] > 0) {
+        SHHuddleInviteViewController *huddleInviteVC = [[SHHuddleInviteViewController alloc]initWithToStudent:self.profStudent fromStudent:[PFUser currentUser]];
+        huddleInviteVC.delegate = self;
+        
+        [self presentPopupViewController:huddleInviteVC animationType:MJPopupViewAnimationSlideBottomBottom];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Wait!"
+                                                        message: @"You're already in all the same huddles."
+                                                       delegate: nil cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    
+    
 }
 
 -(void)showAlert

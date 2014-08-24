@@ -88,7 +88,7 @@
     [self.askToStudyButton.layer setBorderWidth:1.0f];
     [self.askToStudyButton.layer setBorderColor:[UIColor huddleOrange].CGColor];
     self.askToStudyButton.layer.cornerRadius = 3;
-    [self.askToStudyButton setTitle:@"Invite to Study" forState:UIControlStateNormal];
+    [self.askToStudyButton setTitle:@"Start Studying" forState:UIControlStateNormal];
     [self.askToStudyButton addTarget:self action:@selector(didTapInviteToStudyAction) forControlEvents:UIControlEventTouchUpInside];
     [self.mainView addSubview:self.askToStudyButton];
     
@@ -100,7 +100,7 @@
     [self.addResouceButton.layer setBorderWidth:1.0f];
     [self.addResouceButton.layer setBorderColor:[UIColor huddlePurple].CGColor];
     self.addResouceButton.layer.cornerRadius = 3;
-    [self.addResouceButton setTitle:@"Add Resources" forState:UIControlStateNormal];
+    [self.addResouceButton setTitle:@"Add Resource" forState:UIControlStateNormal];
     [self.addResouceButton addTarget:self action:@selector(didTapAddResourceAction) forControlEvents:UIControlEventTouchUpInside];
     [self.mainView addSubview:self.addResouceButton];
 }
@@ -150,6 +150,9 @@
         [memberPortrait setFile:member[SHStudentImageKey]];
         [memberPortrait.profileButton addTarget:self action:@selector(didTapMemberAction:) forControlEvents:UIControlEventTouchUpInside];
         memberPortrait.profileButton.tag = i;
+        if([member[SHStudentStudyingKey] boolValue] == true)
+           [memberPortrait setGreen];
+        
         [self.memberPortraits addObject:memberPortrait];
         [self.mainView addSubview:memberPortrait];
         
@@ -164,7 +167,7 @@
 
 - (void)didTapInviteToStudyAction
 {
-    [self.delegate didTapInviteToStudy:self.huddle];
+    [self.delegate didTapStartStudying:self.huddle];
 }
 
 - (void)didTapAddResourceAction

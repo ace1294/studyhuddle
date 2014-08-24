@@ -14,8 +14,8 @@
 
 @interface SHHuddleInviteViewController () <UITextViewDelegate>
 
-@property (strong, nonatomic) PFObject *student;
-@property (strong, nonatomic) PFObject *toStudent;
+@property (strong, nonatomic) PFUser *student;
+@property (strong, nonatomic) PFUser *toStudent;
 
 //Headers
 @property (strong, nonatomic) UILabel *messageHeaderLabel;
@@ -35,15 +35,15 @@
 #define messageY messageHeaderY+headerHeight
 #define huddleY huddleHeaderY+headerHeight
 
-- (id)initWithToStudent:(PFObject *)aToStudent fromStudent:(PFObject *)aFromStudent
+- (id)initWithToStudent:(PFUser *)aToStudent fromStudent:(PFUser *)aFromStudent
 {
     self = [super init];
     if (self) {
         self.modalFrameHeight = 140.0;
         [self.view setFrame:CGRectMake(0.0, 0.0, modalWidth, self.modalFrameHeight)];
         
-        self.student = aFromStudent;
-        self.toStudent = aToStudent;
+        _toStudent = aToStudent;
+        _student = aFromStudent;
         
         [self initHeaders];
         [self initContent];
@@ -56,7 +56,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
 
 - (void)initHeaders
@@ -94,8 +94,9 @@
     [self.view addSubview:self.messageTextView];
 
     CGRect initialFrame = CGRectMake(horiViewSpacing, huddleY, huddleButtonWidth, huddleButtonHeight);
-    NSArray *huddleNames = [SHUtility namesForObjects:[[SHCache sharedCache] huddles] withKey:SHHuddleNameKey];
-    NSMutableDictionary *huddleObjects = [[NSMutableDictionary alloc] initWithObjects:[[SHCache sharedCache] huddles] forKeys:huddleNames];
+    NSArray *uniqueHuddles = [SHUtility removeHuddlesUserIsIn:[NSMutableArray arrayWithArray:[[SHCache sharedCache] huddles]] user:self.toStudent];
+    NSArray *huddleNames = [SHUtility namesForObjects:uniqueHuddles withKey:SHHuddleNameKey];
+    NSMutableDictionary *huddleObjects = [[NSMutableDictionary alloc] initWithObjects:uniqueHuddles forKeys:huddleNames];
     self.huddleButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:huddleObjects addButton:nil];
     self.huddleButtons.viewController = self;
     self.huddleButtons.delegate = self;

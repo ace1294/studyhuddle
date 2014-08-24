@@ -208,7 +208,7 @@ BOOL beganSearch;
 {
     if (self.searchResults == nil) {
         return 0;
-    } else if ([self.searchResults count] == 0) {
+    } else if ([self.searchResults count] == 0 && section == 0) {
         return 1;
     } else {
         if (section == 0) {
@@ -234,6 +234,8 @@ BOOL beganSearch;
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NothingCellIdentifier];
         
         cell.textLabel.text = @"No Results Found";
+        cell.textLabel.textColor = [UIColor huddleSilver];
+        cell.textLabel.font = [UIFont fontWithName:@"Arial" size:15.0];
         
         return cell;
     }

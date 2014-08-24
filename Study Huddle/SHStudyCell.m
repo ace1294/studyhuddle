@@ -13,11 +13,9 @@
 
 @interface SHStudyCell ()
 
-
 @end
 
 @implementation SHStudyCell
-
 
 - (void)setStudy:(PFObject *)aStudy
 {

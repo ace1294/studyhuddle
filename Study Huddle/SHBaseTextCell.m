@@ -55,8 +55,8 @@
         [self.mainView addSubview:self.titleButton];
         
         self.arrowButton = [[UIButton alloc]init];
-        [self.arrowButton setImage:[UIImage imageNamed:@"AdvanceArrow.png"] forState:UIControlStateNormal];
-        [self.arrowButton setImage:[UIImage imageNamed:@"AdvanceArrow.png"] forState:UIControlStateHighlighted];
+        [self.arrowButton setImage:[UIImage imageNamed:@"Right_Pointing_Arrow@2x.png"] forState:UIControlStateNormal];
+        [self.arrowButton setImage:[UIImage imageNamed:@"Right_Pointing_Arrow@2x.png"] forState:UIControlStateHighlighted];
         [self.arrowButton setBackgroundColor:[UIColor clearColor]];
         //[arrowButton addTarget:self action:@selector(didTapArrowButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.mainView addSubview:self.arrowButton];

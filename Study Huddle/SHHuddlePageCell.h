@@ -20,7 +20,7 @@
 @protocol SHHuddlePageCellDelegate <SHBaseCellDelegate>
 @optional
 
-- (void)didTapInviteToStudy:(PFObject *)huddle;
+- (void)didTapStartStudying:(PFObject *)huddle;
 - (void)didTapAddResource:(PFObject *)huddle;
 - (void)didTapMember:(PFUser *)member;
 

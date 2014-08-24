@@ -45,9 +45,9 @@ NSString *addButtonString;
     self = [super init];
     if (self) {
         
-        self.buttonObjects = buttonDictionary;
-        self.buttons = [[NSMutableDictionary alloc] init];
-        self.multipleSelectedButtonsObjects = [[NSMutableArray alloc]init];
+        _buttonObjects = buttonDictionary;
+        _buttons = [[NSMutableDictionary alloc] init];
+        _multipleSelectedButtonsObjects = [[NSMutableArray alloc]init];
         
         initialButtonX = CGRectGetMinX(frame);
         initialButtonY = CGRectGetMinY(frame);

@@ -35,4 +35,6 @@
 
 + (NSMutableArray *)objectIDsForObjects:(NSArray *)objects;
 
++ (NSMutableArray *)removeHuddlesUserIsIn:(NSMutableArray *)huddles user:(PFUser *)user;
+
 @end
