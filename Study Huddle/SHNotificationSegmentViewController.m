@@ -152,10 +152,10 @@ static NSString* const RequestsDiskKey = @"requestsArray";
 {
     [super viewWillAppear:animated];
     
-    if ([self.segStudent username])
-    {
-        [self loadStudentData];
-    }
+//    if ([self.segStudent username])
+//    {
+//        [self loadStudentData];
+//    }
     
     self.currentRowsToDisplay = [[self.encapsulatingDataArray objectAtIndex:self.control.selectedSegmentIndex]count];
     [self.tableView reloadData];

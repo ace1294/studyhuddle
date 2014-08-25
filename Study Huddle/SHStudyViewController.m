@@ -163,6 +163,7 @@
     self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(horiViewSpacing, descriptionY, contentWidth, 200.0)];
     [self.descriptionLabel setFont:[UIFont fontWithName:@"Arial"size:14]];
     [self.descriptionLabel setTextColor:[UIColor huddleOrange]];
+    [self.descriptionLabel sizeToFit];
     [self.descriptionLabel setBackgroundColor:[UIColor clearColor]];
     [self.descriptionLabel setLineBreakMode:NSLineBreakByWordWrapping];
     self.descriptionLabel.textAlignment = NSTextAlignmentLeft;

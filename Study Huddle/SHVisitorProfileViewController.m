@@ -161,7 +161,7 @@
     self.inviteToStudyButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.inviteToStudyButton addTarget:self action:@selector(inviteToStudyPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.inviteToStudyButton setFrame:CGRectMake(leftMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
-    [self.inviteToStudyButton setImage:[UIImage imageNamed:@"InviteToStudy45.png"] forState:UIControlStateNormal];
+    [self.inviteToStudyButton setImage:[UIImage imageNamed:@"InvitetoStudy45.png"] forState:UIControlStateNormal];
     //[self.startStudyingButton setBackgroundColor:[UIColor yellowColor]];
     self.inviteToStudyLabel = [[UILabel alloc]initWithFrame:CGRectMake(self.inviteToStudyButton.frame.origin.x + self.inviteToStudyButton.frame.size.width/2 - sideLabelsWidth/2, self.inviteToStudyButton.frame.origin.y + self.inviteToStudyButton.frame.size.height + sideItemLabelsVerticalOffsetFromCircle, sideLabelsWidth, sideLabelHeight)];
     self.inviteToStudyLabel.text = @"INVITE TO STUDY";
@@ -173,7 +173,7 @@
     self.inviteToHuddleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.inviteToHuddleButton addTarget:self action:@selector(inviteToHuddlePressed) forControlEvents:UIControlEventTouchUpInside];
     [self.inviteToHuddleButton setFrame:CGRectMake(rightMidPoint, midYPoint, sideItemDiameters, sideItemDiameters)];
-    [self.inviteToHuddleButton setImage:[UIImage imageNamed:@"inviteToHuddle.png"] forState:UIControlStateNormal];
+    [self.inviteToHuddleButton setImage:[UIImage imageNamed:@"InvitetoHuddle.png"] forState:UIControlStateNormal];
 
     
     UILabel* inviteToHuddleLabel =[[UILabel alloc]initWithFrame:CGRectMake(self.inviteToHuddleButton.frame.origin.x+ self.inviteToHuddleButton.frame.size.width/2 - sideLabelsWidth/2, self.inviteToHuddleButton.frame.origin.y + self.inviteToHuddleButton.frame.size.height + sideItemLabelsVerticalOffsetFromCircle, sideLabelsWidth, sideLabelHeight)];

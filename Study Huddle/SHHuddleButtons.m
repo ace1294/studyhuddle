@@ -94,10 +94,18 @@ NSString *addButtonString;
 {
     NSString *buttonTitle;
     UIButton *button;
+    NSMutableArray *buttonKeys = [NSMutableArray arrayWithArray:[self.buttonObjects allKeys]];
+    
+    if([buttonKeys containsObject:@"Personal Huddle"]){
+        PFObject *personalObject = [buttonKeys objectAtIndex:[buttonKeys indexOfObject:@"Personal Huddle"]];
+        PFObject *lastObject = [buttonKeys objectAtIndex:[buttonKeys count]-1];
+        [buttonKeys setObject:lastObject atIndexedSubscript:[buttonKeys indexOfObject:@"Personal Huddle"]];
+        [buttonKeys setObject:personalObject atIndexedSubscript:[buttonKeys count]-1];
+    }
 
     for(int i = 0; i < [self.buttonObjects count]; i++)
     {
-        buttonTitle = [self.buttonObjects allKeys][i];
+        buttonTitle = buttonKeys[i];
         
         button = [[UIButton alloc]init];
         [self.buttons setObject:button forKey:[NSNumber numberWithInt:i]];

@@ -121,12 +121,14 @@
 
     PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
     request[SHRequestTitleKey] = selectedHuddle[SHHuddleNameKey];
+    request[SHRequestSentTitleKey] = selectedHuddle[SHHuddleNameKey];
     request[SHRequestHuddleKey] = selectedHuddle;
     request[SHRequestMessageKey] = self.messageTextView.text;
     request[SHRequestTypeKey] = SHRequestHSJoin;
     request[SHRequestToStudentKey] = self.toStudent;
     request[SHRequestFromStudentKey] = [PFUser currentUser];
     request[SHRequestDescriptionKey] = @"We want you to join our huddle";
+    request[SHRequestSentDescriptionKey] = [NSString stringWithFormat:@"You requested %@ to join the huddle.", self.toStudent[SHStudentNameKey]];
     
     
     [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

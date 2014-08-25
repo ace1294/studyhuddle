@@ -157,7 +157,7 @@ float classButtonsHeight;
     CGRect initialFrame = CGRectMake(horiBorderSpacing, huddleClassButtonY, huddleClassButtonWidth, huddleClassButtonHeight);
     NSArray *classNames = [SHUtility namesForObjects:[[SHCache sharedCache]classes] withKey:SHClassShortNameKey];
     NSMutableDictionary *classObjects = [[NSMutableDictionary alloc]initWithObjects:[[SHCache sharedCache]classes] forKeys:classNames];
-    [classObjects setObject:[PFObject objectWithClassName:@"Personal"] forKey:@"Personal"]; //not showing the button
+    [classObjects setObject:[PFObject objectWithClassName:@"Personal Huddle"] forKey:@"Personal Huddle"]; //not showing the button
     
     self.huddleClassButtons = [[SHHuddleButtons alloc] initWithFrame:initialFrame items:classObjects addButton:nil];
     self.huddleClassButtons.textFont = [UIFont fontWithName:@"Arial" size:12.0];
@@ -301,11 +301,13 @@ float classButtonsHeight;
             
             PFObject *request = [PFObject objectWithClassName:SHRequestParseClass];
             request[SHRequestTitleKey] = self.huddle[SHHuddleNameKey];
+            request[SHRequestSentTitleKey] = self.huddle[SHHuddleNameKey];
             request[SHRequestTypeKey] = SHRequestHSJoin;
             request[SHRequestHuddleKey] = self.huddle;
             request[SHRequestToStudentKey] = user;
             request[SHRequestFromStudentKey] = [PFUser currentUser];
             request[SHRequestDescriptionKey] = @"Join the new huddle!";
+            request[SHRequestSentDescriptionKey] = [NSString stringWithFormat:@"You requested %@ to join the huddle", user[SHStudentNameKey]];
             
             [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 NSString* channel = [NSString stringWithFormat:@"a%@",[user objectId]];
